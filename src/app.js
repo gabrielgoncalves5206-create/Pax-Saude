@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'3.6',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'3.7',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -20,7 +20,7 @@ const S={
 };
 (function(){const n=LS.get('nome','');if(!S.user&&n){S.user={nome:n,cel:'',deps:[]};LS.set('user',S.user)}})();
 if(!CFG.mapillary)CFG.mapillary=LS.get('mly','');
-const GEO=LS.get('geo',{});LOC.forEach(p=>{if(GEO[p.id]){p.la=GEO[p.id][0];p.lo=GEO[p.id][1];p.geo=1}});
+const GEO=LS.get('geo',{});LOC.forEach(p=>{if(GEO[p.id]&&!p.geoOk){p.la=GEO[p.id][0];p.lo=GEO[p.id][1];p.geo=1}});
 const byId=id=>LOC.find(x=>x.id===id);
 const $=id=>document.getElementById(id);
 
@@ -128,7 +128,7 @@ const gmaps=(o,d,m)=>`https://www.google.com/maps/dir/?api=1&origin=${enc(qtxt(o
 const gplace=p=>`https://www.google.com/maps/search/?api=1&query=${enc(p.n+', '+limpaEnd(p.e))}`;
 const waze=d=>d.la!=null?`https://waze.com/ul?ll=${d.la},${d.lo}&navigate=yes`:`https://waze.com/ul?q=${enc(qtxt(d))}&navigate=yes`;
 const uber=d=>`https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[formatted_address]=${enc(qtxt(d))}`+(d.la!=null?`&dropoff[latitude]=${d.la}&dropoff[longitude]=${d.lo}`:'');
-const ptFromUnit=p=>({k:'unidade',id:p.id,n:p.n,sub:p.e,e:p.e,la:p.la,lo:p.lo});
+const ptFromUnit=p=>({k:'unidade',id:p.id,n:p.n,sub:p.e,e:p.n+', '+limpaEnd(p.e),la:p.la,lo:p.lo});
 
 /* ============ MAPAS (Leaflet + OpenStreetMap/CARTO) ============ */
 let MAPAS=[];
@@ -301,8 +301,8 @@ function vLocal(){const p=byId(S.sel);if(!p)return vInicio();const d=dist(p),c=C
  ${blocoAvaliacao(p)}
  ${blocoRedes(p)}
  <div class="card"><h2 class="h3">${I.clock('#0B4F5C',20)} Horário</h2><p class="p">${esc(p.hr)}</p>${st.k==='?'&&!on?'<span class="sm mut">Horário não confirmado. Ligue antes de ir.</span>':''}</div>
- <div class="card"><h2 class="h3">${on?I.video('#0B4F5C',20)+' Como funciona':I.pin('#0B4F5C',20)+' Endereço'}</h2><p class="p">${esc(p.e)}</p>
- ${on?'':`<div class="mapwrap" style="height:13rem"><iframe title="Mapa do Google de ${esc(p.n)}" src="https://maps.google.com/maps?q=${enc(limpaEnd(p.e))}&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:0;width:100%;height:100%"></iframe></div>
+ <div class="card"><h2 class="h3">${on?I.video('#0B4F5C',20)+' Como funciona':I.pin('#0B4F5C',20)+' Endereço'}</h2><p class="p">${esc(p.e)}${p.comp?`<br><span class="sm mut">${esc(p.comp)}</span>`:''}</p>
+ ${on?'':`<div class="mapwrap" style="height:13rem"><iframe title="Mapa do Google de ${esc(p.n)}" src="https://maps.google.com/maps?q=${enc(p.n+', '+limpaEnd(p.e))}&z=17&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:0;width:100%;height:100%"></iframe></div>
  <button class="btn pri" data-act="rota" data-id="${p.id}" style="flex:none">${I.route('#fff',20)} Ver distância e transporte</button>`}</div>
  <details class="faq"><summary>Mais informações</summary>
  <div class="meta" style="margin-bottom:1rem">${p.s.map(x=>`<span class="tag gray">${esc(x)}</span>`).join('')}</div>
