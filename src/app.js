@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'4.0',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'4.1',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -251,7 +251,7 @@ function vResultados(){const f=S.flow;const online=f.modo==='online';const r=res
  return phead(itemNome(),sub)+`<section class="sec">${online?'':origemChip(true)}${controles(online)}
  ${notaOrdem()?`<p class="sm mut" style="margin:0">${esc(notaOrdem())}</p>`:''}
  ${online?`<div class="info">${I.video('#0A4B44',20)}<span>Consultas por vídeo: toque em <b>Acessar</b> para abrir o serviço ou o perfil do médico.</span></div>`:(S.showMap?`<div class="mapwrap"><div id="mapRes" class="leaf" style="height:18rem"></div></div>`:'')}
- ${r.length?`<div class="grid">${r.map(card).join('')}</div>`:'<div class="empty">Nenhum local com esses filtros. Tire um filtro para ver mais.</div>'}</section>`}
+ ${r.length?`<div class="grid">${r.slice(0,S.lim||30).map(card).join('')}</div>${r.length>(S.lim||30)?`<button class="btn" style="width:100%;margin-top:.6rem" data-act="mais">Mostrar mais (${r.length-(S.lim||30)} restantes)</button>`:''}`:'<div class="empty">Nenhum local com esses filtros. Tire um filtro para ver mais.</div>'}</section>`}
 function vBuscar(){return phead('Buscar','Digite ou fale o que precisa',false)+`<section class="sec">${buscaForm('qb','Médico, exame, local ou bairro',S.q,'q')}${origemChip(true)}
  <div class="chips" role="group" aria-label="Categoria">${[['todos','Todos']].concat(Object.keys(CATS).map(c=>[c,CATS[c].nome])).map(([k,t])=>`<button class="chip" data-act="cat" data-cat="${k}" aria-pressed="${S.cat===k}">${t}</button>`).join('')}</div>
  ${controles(false)}
@@ -495,7 +495,7 @@ function empilha(tipo){try{if(REUSE){REUSE=false;history.replaceState({pax:tipo}
 function desempilha(){if(!HOK)return;try{IGN++;history.back()}catch(e){IGN=0}}
 window.addEventListener('popstate',()=>{if(IGN>0){IGN--;return}if($('modal').innerHTML){fechar(true);return}if($('drawer').innerHTML){fecharMenu(true);return}voltarTela()});
 function snap(){return{v:S.view,sel:S.sel,pg:S.pg,flow:Object.assign({},S.flow)}}
-function ir(v){if(!VIEWS[v])v='inicio';if(S.view!==v||v==='local'||v==='pg'){HIST.push(snap());empilha('tela')}else if(REUSE){REUSE=false;try{history.replaceState({pax:'tela'},'')}catch(e){}}if(TABS.includes(v))S.navAt=v;S.view=v;render(true);try{window.scrollTo(0,0)}catch(e){}const a=$('app');if(a&&a.focus)try{a.focus({preventScroll:true})}catch(e){}}
+function ir(v){if(!VIEWS[v])v='inicio';if(S.view!==v)S.lim=30;if(S.view!==v||v==='local'||v==='pg'){HIST.push(snap());empilha('tela')}else if(REUSE){REUSE=false;try{history.replaceState({pax:'tela'},'')}catch(e){}}if(TABS.includes(v))S.navAt=v;S.view=v;render(true);try{window.scrollTo(0,0)}catch(e){}const a=$('app');if(a&&a.focus)try{a.focus({preventScroll:true})}catch(e){}}
 function irTab(v){fechar('nav');fecharMenu('nav');if(v==='novo')S.flow={tipo:null,modo:null,item:null};ir(v)}
 function voltarTela(){const s=HIST.pop();if(!s){if(S.view!=='inicio'){S.view='inicio';render(true)}return}S.view=s.v;S.sel=s.sel;S.pg=s.pg;S.flow=s.flow;if(TABS.includes(s.v))S.navAt=s.v;render(true);try{window.scrollTo(0,0)}catch(e){}}
 function voltar(){if(HIST.length&&HOK){try{history.back();return}catch(e){}}voltarTela()}
@@ -511,6 +511,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
  case'fecharMenu':fecharMenu();break;
  case'pg':abrirPg(t.dataset.v);break;
  case'abrir':abrir(id);break;
+ case'mais':{const y=window.scrollY;S.lim=(S.lim||30)+30;render();window.scrollTo(0,y);break}
  case'voltar':voltar();break;
  case'tipo':S.flow={tipo:t.dataset.v,modo:null,item:null};ir('modo');break;
  case'modo':S.flow.modo=t.dataset.v;S.flow.item=null;S.qi='';ir('itens');break;
@@ -674,6 +675,35 @@ function vAgenda(){let h=vAgendaBase();h=h.replace(/<button class="btn (pri)?" d
 VIEWS.agenda=vAgenda;
 /* compartilhar → Pax (Android): abre o lembrete já preenchido */
 (function(){try{const q=new URLSearchParams(location.search);const txt=[q.get('title'),q.get('text'),q.get('url')].filter(Boolean).join('\n');if(txt){history.replaceState(null,'',location.pathname);setTimeout(()=>abrirLembrete({msg:txt}),50)}}catch(e){}})();
+
+/* =====================================================================
+   v4.1: locais do CNES (DataSUS) – região central, carregados do Supabase
+   ===================================================================== */
+const CNES_TIPO={5:'Hospital geral',7:'Hospital especializado',62:'Hospital-dia',20:'Pronto-socorro geral',21:'Pronto-socorro especializado',73:'Pronto atendimento',4:'Policlínica',2:'Unidade Básica de Saúde (UBS)',36:'Clínica especializada',39:'Unidade de diagnóstico',75:'Serviço de telessaúde'};
+const BAIRRO_AC={'Consolacao':'Consolação','Republica':'República','Cerqueira Cesar':'Cerqueira César','Higienopolis':'Higienópolis','Se':'Sé','Paraiso':'Paraíso','Aclimacao':'Aclimação','Jardim America':'Jardim América','Pompeia':'Pompeia','Vila Pompeia':'Vila Pompeia','Bras':'Brás','Agua Branca':'Água Branca','Sumare':'Sumaré','Campos Eliseos':'Campos Elíseos','Santa Ifigenia':'Santa Ifigênia','Santa Cecilia':'Santa Cecília'};
+const ACENTO={Hosp:'Hospital',Unid:'Unidade',Ambulatorio:'Ambulatório',Cancer:'Câncer',Funcionarios:'Funcionários',Publicos:'Públicos',Publico:'Público',Clinica:'Clínica',Clinicas:'Clínicas',Medica:'Médica',Medico:'Médico',Medicos:'Médicos',Diagnostico:'Diagnóstico',Diagnosticos:'Diagnósticos',Diagnostica:'Diagnóstica',Laboratorio:'Laboratório',Laboratorios:'Laboratórios',Analises:'Análises',Saude:'Saúde',Sao:'São',Visao:'Visão',Coracao:'Coração',Policlinica:'Policlínica',Basica:'Básica',Pediatrica:'Pediátrica',Misericordia:'Misericórdia',Hospitalar:'Hospitalar',Otorrino:'Otorrino',Odontologica:'Odontológica',Assistencia:'Assistência',Ressonancia:'Ressonância',Magnetica:'Magnética',Unica:'Única',Clinico:'Clínico',Clinicos:'Clínicos',Tecnica:'Técnica',Nucleo:'Núcleo',Servico:'Serviço',Servicos:'Serviços',Imunizacao:'Imunização',Pronto:'Pronto',Urgencia:'Urgência',Emergencia:'Emergência',Especializacao:'Especialização',Patologica:'Patológica',Genetica:'Genética',Cirurgica:'Cirúrgica',Cirurgico:'Cirúrgico',Oftalmologica:'Oftalmológica',Ginecologica:'Ginecológica',Clinicas:'Clínicas',Brasilia:'Brasília',Paulistano:'Paulistano',Gastroclinica:'Gastroclínica',Cardiologica:'Cardiológica'};
+const acentua=w=>ACENTO[w]||w.replace(/acao$/,'ação').replace(/icao$/,'ição').replace(/ologica$/,'ológica').replace(/ologico$/,'ológico').replace(/ancia$/,'ância').replace(/encia$/,'ência').replace(/acoes$/,'ações');
+function nomeCnes(s){return String(s||'').replace(/[A-Za-z]+/g,acentua).replace(/\b(Ltda|Me|Eireli|S\/?A|S S|Epp)\b\.?/gi,'').replace(/\b(Ubs|Ama|Ame|Caps|Sp|Usp|Fmusp|Hc|Ps|Pa|Uti|Cdb|Sus|Dr|Dra)\b/g,w=>({Dr:'Dr.',Dra:'Dra.'})[w]||w.toUpperCase()).replace(/ (De|Da|Do|Das|Dos|E|Em) /g,m=>m.toLowerCase()).replace(/\s{2,}/g,' ').trim()}
+function telCnes(t){let d=String(t||'').replace(/\D/g,'').replace(/^0+/,'');if(d.length===8||d.length===9)d='11'+d;if(d.length<10||d.length>11)return null;return `(${d.slice(0,2)}) ${d.slice(2,d.length-4)}-${d.slice(-4)}`}
+function turnoCnes(t){t=String(t||'').toUpperCase();if(/CONTINUO|24/.test(t))return['Funcionamento contínuo, 24 horas (cadastro CNES)','24h'];if(/NOITE/.test(t))return['Manhã, tarde e noite (cadastro CNES, confirme o horário)',null];if(/MANHA E A TARDE|MANHA E TARDE/.test(t))return['Manhã e tarde (cadastro CNES, confirme o horário)',null];if(/SOMENTE A TARDE/.test(t))return['Somente à tarde (cadastro CNES)',null];if(/SOMENTE PELA MANHA|SOMENTE A MANHA/.test(t))return['Somente pela manhã (cadastro CNES)',null];return['Horário a confirmar por telefone',null]}
+function cnesParaLocal(r){const x=r.dados,cat=r.cat;if(cat==='online'||x.geoFix||x.la==null)return null;
+ const c=cat==='lab'?'laboratorio':cat==='img'?'imagem':cat==='online'?'online':[5,7,62,20,21,73].includes(x.tipo)?'hospital':'clinica';
+ const b=BAIRRO_AC[x.bairro]||x.bairro||'São Paulo';const cep=String(x.cep||'').replace(/\D/g,'');
+ const [hr,h]=turnoCnes(x.turno);const tel=telCnes(x.tel);const esp=x.esp||[],img=x.img||[];
+ const s=esp.map(k=>ESP[k]?ESP[k][0]:k).concat(img.map(k=>IMGX[k]?IMGX[k][0]:k));if(cat==='lab')s.push('Exames laboratoriais');if(cat==='online')s.push('Teleconsulta');
+ const tipo=CNES_TIPO[x.tipo]||'Estabelecimento de saúde';
+ return {id:10000000+(+x.cnes),cnes:x.cnes,fonteCnes:1,n:nomeCnes(x.nome),c,b,
+  e:cat==='online'?'Atendimento a distância (sede: '+(x.rua||'')+', '+(x.num||'')+' – '+b+')':`${nomeCnes(x.rua).replace(/^R /,'R. ').replace(/^Av /,'Av. ')}, ${x.num||'s/n'} – ${b}, São Paulo – SP${cep.length===8?', '+cep.slice(0,5)+'-'+cep.slice(5):''}`,
+  hr,h,t:tel?[tel]:[],cv:x.sus?'Atende SUS':'Particular ou convênio (confirme por telefone)',sus:x.sus?1:0,
+  d:`${tipo} registrado no CNES (Cadastro Nacional de Estabelecimentos de Saúde), nº ${x.cnes}.`+(esp.length>1||img.length?' Especialidades e exames estimados pelo nome do cadastro; confirme por telefone.':''),
+  la:c==='online'?null:x.la,lo:c==='online'?null:x.lo,f:'https://cnes.datasus.gov.br/pages/estabelecimentos/ficha/identificacao/355030'+String(x.cnes).padStart(7,'0'),
+  esp:cat==='presencial'?esp:[],img,lab:cat==='lab',on:cat==='online'?['clinica']:[],s,soc:{},fotos2:[],ordemCnes:r.ordem}}
+function cnesDuplicado(q){const GEN=/^(hospital|clinica|clinicas|centro|medico|medica|medicina|saude|diagnostico|diagnosticos|laboratorio|unidade|instituto|especialidades|integrada|servicos|paulo|paulista|imagem|analises|assistencia)$/;const nq=norm(q.n).split(/[^a-z0-9]+/).filter(w=>w.length>=5&&!GEN.test(w));return LOC.some(p=>{if(p.fonteCnes||p.la==null||q.la==null)return false;const d=km(p,q);if(d==null||d>0.08)return false;const np=norm(p.n);return nq.some(w=>np.includes(w))||norm(limpaEnd(p.e)).split(',')[0]===norm(q.e).split(',')[0]})}
+function aplicarCnes(rows){if(!Array.isArray(rows)||!rows.length)return 0;const ids=new Set(LOC.map(p=>p.id));let n=0;rows.forEach(r=>{const q=cnesParaLocal(r);if(!q||ids.has(q.id)||cnesDuplicado(q))return;LOC.push(q);ids.add(q.id);n++});return n}
+(function(){const cache=LS.get('cnes',null);if(cache&&cache.rows)aplicarCnes(cache.rows);
+ if(typeof fetch!=='function')return;if(cache&&cache.em&&Date.now()-cache.em<3*864e5)return;
+ const U='https://cckywhtpnjhlwqslmlxz.supabase.co',K='sb_publishable_yv9jTgQHXV1Diy_xPkk_eg_qSt_8roq';
+ fetch(U+'/rest/v1/pax_extra?select=cat,ordem,dados&order=ordem.asc&limit=3000',{headers:{apikey:K,Authorization:'Bearer '+K}}).then(r=>r.ok?r.json():null).then(rows=>{if(!rows||!rows.length)return;LS.set('cnes',{em:Date.now(),rows});const n=aplicarCnes(rows);if(n&&!['lembrete','perfil','pg'].includes(S.view))render()}).catch(()=>{})})();
 
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();

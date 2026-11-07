@@ -572,6 +572,36 @@ LOC.forEach(p=>{if(p.c==='online')return;
 s(9,3.9,438,'dr-consulta-lapa-sao-paulo-sp');s(63,3.8,244,'dr-consulta-butanta-sao-paulo-sp');s(64,3.6,340,'dr-consulta-pinheiros-sao-paulo');
 s(65,3.7,1016,'dr-consulta-vila-mariana-sao-paulo');s(82,3.3,159,'lavoisier-penha-de-franca-sao-paulo');
 const g2=(id,v,n)=>{const p=LOC.find(x=>x.id===id);if(p)p.g={v,n,f:'https://www.benditoguia.com.br'}};g2(69,3.7,259);g2(134,3.7,359);})();
+/* v4.1 – consultórios dos médicos conferidos no CNES (DataSUS, nov/2026) */
+(function(){const C=(id,cnes,txt,tel)=>{const p=LOC.find(x=>x.id===id);if(!p)return;p.cnes=cnes;p.d=(p.d||'')+' '+txt;if(tel&&!p.t.length)p.t=[tel+' (CNES)']};
+C(41,'5016010','Consultório registrado no CNES como Clínica Dermatológica Dr. Agnaldo Augusto Mirandez (R. Turiassu, 519 – Perdizes); outro cadastro em Av. Pacaembu, 1882.');
+C(43,'3701697','Consultório registrado no CNES na R. Albion, 178 – Lapa, manhã e tarde.');
+C(44,'3837394','Consultório registrado no CNES na R. Roma, 620 – Lapa; também atende na R. Paula Ney, 407 – Aclimação (11) 5571-5607.');
+C(47,'8079528','Consultório registrado no CNES na R. Monte Alegre, 428 – Perdizes, manhã e tarde.');
+C(48,'3203662','Atende na Clínica Médica Abensur, registrada no CNES, manhã e tarde.','(11) 3673-6750');
+C(50,'6810128','Consultório registrado no CNES na R. Domingos Rodrigues, 341 – Lapa, manhã e tarde.','(11) 3831-4333');
+C(136,'8413789','Consultório registrado no CNES como Marietta MD, manhã e tarde.');})();
+/* v4.1 – serviços nacionais de teleconsulta que atendem SP (pesquisa nov/2026; confirme preço e cobertura no próprio serviço) */
+(function(){const T=TODAS;const O=(id,n,url,d,cv,on,hr,f,extra)=>LOC.push(Object.assign({id,n,c:'online',b:'Online',e:'Atendimento a distância, para todo o Brasil (inclui SP)',hr:hr||'Confirme no app ou site',h:hr&&/24/.test(hr)?'24h':null,t:[],cv,d,url,f:f||url,site:url,on,esp:[],img:[],lab:false,s:['Teleconsulta'],soc:{},fotos2:[]},extra||{}));
+O(140,'Conexa Saúde','https://paciente.conexasaude.com.br/','Consultas por vídeo com médicos, psicólogos e nutricionistas; pronto atendimento virtual e mais de 30 especialidades agendadas.','Particular, empresas e planos parceiros',T,'Pronto atendimento virtual 24 horas','https://apps.apple.com/app/id1476749720');
+O(141,'Docway','https://apps.apple.com/br/app/docway/id1022687099','Atendimento por vídeo com clínico geral, com triagem digital; pronto atendimento adulto e pediátrico.','Em geral por planos e empresas parceiras (ex.: SulAmérica)',['clinica','pedi'],null,'https://exame.com/bussola/com-memed-sulamerica-atende-mais-de-320-mil-pacientes-totalmente-online/');
+O(142,'Rapidoc Telemedicina','https://rapidocbrasil.com.br','Assinatura mensal com clínico geral por vídeo 24 horas, consultas ilimitadas.','Assinatura mensal',['clinica'],'24 horas por vídeo','https://gust.com/companies/rapidoc-brasil');
+O(143,'Nav Dasa','https://nav.dasa.com.br','Consulta online imediata ou agendada (clínico geral e especialistas), com receitas, pedidos de exame e atestados. Suporte em SP: (11) 3298-6114.','Particular, empresas e planos parceiros',['clinica','cardio'],'24 horas, 7 dias por semana','https://cms.santander.com.br/sites/WPS/documentos/8220-telemed/23-05-04_144425_8220_telemedicina.pdf',{t:['(11) 3298-6114 (suporte)']});
+O(145,'Telavita','https://www.telavita.com.br','Saúde mental online: consultas com psiquiatras e sessões com psicólogos, para pessoas, empresas e planos.','Particular, empresas e planos parceiros',['psiq'],null,'https://www.cbinsights.com/company/vigilantes-do-sono/customers');
+O(146,'Doutor Inter','https://blog.inter.co/doutor-inter/','Pronto atendimento virtual e consultas agendadas com várias especialidades, contratado pelo app do banco Inter.','Contratação no app Inter',['clinica'],null);
+O(147,'Olá Doutor','https://apps.apple.com/br/app/id1555466010','Consulta médica online por chat, sem ligar a câmera, com mais de 2.500 médicos em mais de 30 áreas.','Particular',['clinica','psiq','uro','neuro'],'24 horas, pelo chat do app');
+O(148,'Doutor Benefícios','https://apps.apple.com/us/app/-/id6742160233','Médicos generalistas online 24 horas, em poucos segundos, com clube de descontos.','Particular',['clinica'],'24 horas','https://mwm.ai/apps/dr-benefcios/6742160233',{pr:49.9});
+O(149,'Plantão 24h','https://apps.apple.com/app/id6740766278','Consultas online com clínicos gerais, sem agendamento.','Particular',['clinica'],'24 horas, sem agendamento');
+O(150,'Vale Saúde Sempre (Vivo)','https://apps.apple.com/us/app/-/id1473828335','Assinatura com preços acessíveis em consultas presenciais ou online, exames e medicamentos; pronto atendimento online 24h.','Assinatura',['clinica'],'Pronto atendimento online 24 horas');
+O(152,'Drogaria São Paulo – Consultas Médicas Online','https://www.drogariasaopaulo.com.br/consulta-online','Consulta a distância pelo site da rede (Imed Teleatendimento): cadastro, pagamento, escolha do horário e sala virtual.','Particular',['clinica'],null);
+O(153,'Amil – Pronto Atendimento Virtual','https://www.amil.com.br','Pronto atendimento virtual 24h e consultas agendadas por telessaúde pelo app Amil Clientes.','Exclusivo para beneficiários Amil',T,'Pronto atendimento virtual 24 horas','https://medicinasa.com.br/telessaude-amil/');
+O(154,'SulAmérica – Médico na Tela','https://www.sulamerica.com.br','Plantão 24h com clínico geral ou pediatra no app SulAmérica Saúde, e teleconsultas agendadas com médicos da rede (dermatologia, psiquiatria e outras).','Exclusivo para beneficiários SulAmérica',T,'Plantão 24 horas no app','https://sulamerica.com.br/saude/mediconatela/FAQBenefici%C3%A1rio-Teleconsulta.pdf');
+O(155,'Bradesco Saúde – Saúde Digital','https://www.bradescoseguros.com.br','Videoconsulta 24 horas e outros serviços digitais para beneficiários Bradesco Saúde e Mediservice.','Exclusivo para beneficiários Bradesco Saúde/Mediservice',['clinica'],'24 horas','https://revistaapolice.com.br/?p=87503');
+O(156,'Hapvida NotreDame Intermédica – Telemedicina','https://www.hapvida.com.br','Plataforma de telemedicina para beneficiários do sistema Hapvida.','Exclusivo para beneficiários',['clinica'],null,'https://www.opovo.com.br/noticias/especialpublicitario/hapvidacoronavirus/2021/05/01/foco-no-atendimento-remoto--hapvida-inaugura-plataforma-de-telemedicina.html');
+O(157,'Unimed – Pronto Atendimento Digital','https://www.unimed.coop.br','Pronto atendimento virtual por videochamada pelo app Unimed, para casos de baixa complexidade. A disponibilidade varia conforme a sua Unimed.','Exclusivo para beneficiários Unimed',['clinica'],'24 horas (varia por Unimed)','https://unimed.coop.br/site/web/santacatarina/pa-clinica-digital');
+O(159,'Claro Telemedicina (empresas)','https://www.claro.com.br/empresas/servicos/telemedicina','Consultas por videochamada pelo app, com descontos em medicamentos e exames.','Exclusivo para clientes Claro empresas',['clinica'],null);
+O(167,'Médicos do Brasil','https://apps.apple.com/us/app/id1541395408','Aplicativo de teleconsulta criado por médicos, que conecta pacientes a médicos de várias especialidades.','Particular',['clinica'],null);
+})();
 
 </script>
 <script>
@@ -583,7 +613,7 @@ const g2=(id,v,n)=>{const p=LOC.find(x=>x.id===id);if(p)p.g={v,n,f:'https://www.
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'4.0',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'4.1',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -828,7 +858,7 @@ function vResultados(){const f=S.flow;const online=f.modo==='online';const r=res
  return phead(itemNome(),sub)+`<section class="sec">${online?'':origemChip(true)}${controles(online)}
  ${notaOrdem()?`<p class="sm mut" style="margin:0">${esc(notaOrdem())}</p>`:''}
  ${online?`<div class="info">${I.video('#0A4B44',20)}<span>Consultas por vídeo: toque em <b>Acessar</b> para abrir o serviço ou o perfil do médico.</span></div>`:(S.showMap?`<div class="mapwrap"><div id="mapRes" class="leaf" style="height:18rem"></div></div>`:'')}
- ${r.length?`<div class="grid">${r.map(card).join('')}</div>`:'<div class="empty">Nenhum local com esses filtros. Tire um filtro para ver mais.</div>'}</section>`}
+ ${r.length?`<div class="grid">${r.slice(0,S.lim||30).map(card).join('')}</div>${r.length>(S.lim||30)?`<button class="btn" style="width:100%;margin-top:.6rem" data-act="mais">Mostrar mais (${r.length-(S.lim||30)} restantes)</button>`:''}`:'<div class="empty">Nenhum local com esses filtros. Tire um filtro para ver mais.</div>'}</section>`}
 function vBuscar(){return phead('Buscar','Digite ou fale o que precisa',false)+`<section class="sec">${buscaForm('qb','Médico, exame, local ou bairro',S.q,'q')}${origemChip(true)}
  <div class="chips" role="group" aria-label="Categoria">${[['todos','Todos']].concat(Object.keys(CATS).map(c=>[c,CATS[c].nome])).map(([k,t])=>`<button class="chip" data-act="cat" data-cat="${k}" aria-pressed="${S.cat===k}">${t}</button>`).join('')}</div>
  ${controles(false)}
@@ -1072,7 +1102,7 @@ function empilha(tipo){try{if(REUSE){REUSE=false;history.replaceState({pax:tipo}
 function desempilha(){if(!HOK)return;try{IGN++;history.back()}catch(e){IGN=0}}
 window.addEventListener('popstate',()=>{if(IGN>0){IGN--;return}if($('modal').innerHTML){fechar(true);return}if($('drawer').innerHTML){fecharMenu(true);return}voltarTela()});
 function snap(){return{v:S.view,sel:S.sel,pg:S.pg,flow:Object.assign({},S.flow)}}
-function ir(v){if(!VIEWS[v])v='inicio';if(S.view!==v||v==='local'||v==='pg'){HIST.push(snap());empilha('tela')}else if(REUSE){REUSE=false;try{history.replaceState({pax:'tela'},'')}catch(e){}}if(TABS.includes(v))S.navAt=v;S.view=v;render(true);try{window.scrollTo(0,0)}catch(e){}const a=$('app');if(a&&a.focus)try{a.focus({preventScroll:true})}catch(e){}}
+function ir(v){if(!VIEWS[v])v='inicio';if(S.view!==v)S.lim=30;if(S.view!==v||v==='local'||v==='pg'){HIST.push(snap());empilha('tela')}else if(REUSE){REUSE=false;try{history.replaceState({pax:'tela'},'')}catch(e){}}if(TABS.includes(v))S.navAt=v;S.view=v;render(true);try{window.scrollTo(0,0)}catch(e){}const a=$('app');if(a&&a.focus)try{a.focus({preventScroll:true})}catch(e){}}
 function irTab(v){fechar('nav');fecharMenu('nav');if(v==='novo')S.flow={tipo:null,modo:null,item:null};ir(v)}
 function voltarTela(){const s=HIST.pop();if(!s){if(S.view!=='inicio'){S.view='inicio';render(true)}return}S.view=s.v;S.sel=s.sel;S.pg=s.pg;S.flow=s.flow;if(TABS.includes(s.v))S.navAt=s.v;render(true);try{window.scrollTo(0,0)}catch(e){}}
 function voltar(){if(HIST.length&&HOK){try{history.back();return}catch(e){}}voltarTela()}
@@ -1088,6 +1118,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
  case'fecharMenu':fecharMenu();break;
  case'pg':abrirPg(t.dataset.v);break;
  case'abrir':abrir(id);break;
+ case'mais':{const y=window.scrollY;S.lim=(S.lim||30)+30;render();window.scrollTo(0,y);break}
  case'voltar':voltar();break;
  case'tipo':S.flow={tipo:t.dataset.v,modo:null,item:null};ir('modo');break;
  case'modo':S.flow.modo=t.dataset.v;S.flow.item=null;S.qi='';ir('itens');break;
@@ -1251,6 +1282,35 @@ function vAgenda(){let h=vAgendaBase();h=h.replace(/<button class="btn (pri)?" d
 VIEWS.agenda=vAgenda;
 /* compartilhar → Pax (Android): abre o lembrete já preenchido */
 (function(){try{const q=new URLSearchParams(location.search);const txt=[q.get('title'),q.get('text'),q.get('url')].filter(Boolean).join('\n');if(txt){history.replaceState(null,'',location.pathname);setTimeout(()=>abrirLembrete({msg:txt}),50)}}catch(e){}})();
+
+/* =====================================================================
+   v4.1: locais do CNES (DataSUS) – região central, carregados do Supabase
+   ===================================================================== */
+const CNES_TIPO={5:'Hospital geral',7:'Hospital especializado',62:'Hospital-dia',20:'Pronto-socorro geral',21:'Pronto-socorro especializado',73:'Pronto atendimento',4:'Policlínica',2:'Unidade Básica de Saúde (UBS)',36:'Clínica especializada',39:'Unidade de diagnóstico',75:'Serviço de telessaúde'};
+const BAIRRO_AC={'Consolacao':'Consolação','Republica':'República','Cerqueira Cesar':'Cerqueira César','Higienopolis':'Higienópolis','Se':'Sé','Paraiso':'Paraíso','Aclimacao':'Aclimação','Jardim America':'Jardim América','Pompeia':'Pompeia','Vila Pompeia':'Vila Pompeia','Bras':'Brás','Agua Branca':'Água Branca','Sumare':'Sumaré','Campos Eliseos':'Campos Elíseos','Santa Ifigenia':'Santa Ifigênia','Santa Cecilia':'Santa Cecília'};
+const ACENTO={Hosp:'Hospital',Unid:'Unidade',Ambulatorio:'Ambulatório',Cancer:'Câncer',Funcionarios:'Funcionários',Publicos:'Públicos',Publico:'Público',Clinica:'Clínica',Clinicas:'Clínicas',Medica:'Médica',Medico:'Médico',Medicos:'Médicos',Diagnostico:'Diagnóstico',Diagnosticos:'Diagnósticos',Diagnostica:'Diagnóstica',Laboratorio:'Laboratório',Laboratorios:'Laboratórios',Analises:'Análises',Saude:'Saúde',Sao:'São',Visao:'Visão',Coracao:'Coração',Policlinica:'Policlínica',Basica:'Básica',Pediatrica:'Pediátrica',Misericordia:'Misericórdia',Hospitalar:'Hospitalar',Otorrino:'Otorrino',Odontologica:'Odontológica',Assistencia:'Assistência',Ressonancia:'Ressonância',Magnetica:'Magnética',Unica:'Única',Clinico:'Clínico',Clinicos:'Clínicos',Tecnica:'Técnica',Nucleo:'Núcleo',Servico:'Serviço',Servicos:'Serviços',Imunizacao:'Imunização',Pronto:'Pronto',Urgencia:'Urgência',Emergencia:'Emergência',Especializacao:'Especialização',Patologica:'Patológica',Genetica:'Genética',Cirurgica:'Cirúrgica',Cirurgico:'Cirúrgico',Oftalmologica:'Oftalmológica',Ginecologica:'Ginecológica',Clinicas:'Clínicas',Brasilia:'Brasília',Paulistano:'Paulistano',Gastroclinica:'Gastroclínica',Cardiologica:'Cardiológica'};
+const acentua=w=>ACENTO[w]||w.replace(/acao$/,'ação').replace(/icao$/,'ição').replace(/ologica$/,'ológica').replace(/ologico$/,'ológico').replace(/ancia$/,'ância').replace(/encia$/,'ência').replace(/acoes$/,'ações');
+function nomeCnes(s){return String(s||'').replace(/[A-Za-z]+/g,acentua).replace(/\b(Ltda|Me|Eireli|S\/?A|S S|Epp)\b\.?/gi,'').replace(/\b(Ubs|Ama|Ame|Caps|Sp|Usp|Fmusp|Hc|Ps|Pa|Uti|Cdb|Sus|Dr|Dra)\b/g,w=>({Dr:'Dr.',Dra:'Dra.'})[w]||w.toUpperCase()).replace(/ (De|Da|Do|Das|Dos|E|Em) /g,m=>m.toLowerCase()).replace(/\s{2,}/g,' ').trim()}
+function telCnes(t){let d=String(t||'').replace(/\D/g,'').replace(/^0+/,'');if(d.length===8||d.length===9)d='11'+d;if(d.length<10||d.length>11)return null;return `(${d.slice(0,2)}) ${d.slice(2,d.length-4)}-${d.slice(-4)}`}
+function turnoCnes(t){t=String(t||'').toUpperCase();if(/CONTINUO|24/.test(t))return['Funcionamento contínuo, 24 horas (cadastro CNES)','24h'];if(/NOITE/.test(t))return['Manhã, tarde e noite (cadastro CNES, confirme o horário)',null];if(/MANHA E A TARDE|MANHA E TARDE/.test(t))return['Manhã e tarde (cadastro CNES, confirme o horário)',null];if(/SOMENTE A TARDE/.test(t))return['Somente à tarde (cadastro CNES)',null];if(/SOMENTE PELA MANHA|SOMENTE A MANHA/.test(t))return['Somente pela manhã (cadastro CNES)',null];return['Horário a confirmar por telefone',null]}
+function cnesParaLocal(r){const x=r.dados,cat=r.cat;if(cat==='online'||x.geoFix||x.la==null)return null;
+ const c=cat==='lab'?'laboratorio':cat==='img'?'imagem':cat==='online'?'online':[5,7,62,20,21,73].includes(x.tipo)?'hospital':'clinica';
+ const b=BAIRRO_AC[x.bairro]||x.bairro||'São Paulo';const cep=String(x.cep||'').replace(/\D/g,'');
+ const [hr,h]=turnoCnes(x.turno);const tel=telCnes(x.tel);const esp=x.esp||[],img=x.img||[];
+ const s=esp.map(k=>ESP[k]?ESP[k][0]:k).concat(img.map(k=>IMGX[k]?IMGX[k][0]:k));if(cat==='lab')s.push('Exames laboratoriais');if(cat==='online')s.push('Teleconsulta');
+ const tipo=CNES_TIPO[x.tipo]||'Estabelecimento de saúde';
+ return {id:10000000+(+x.cnes),cnes:x.cnes,fonteCnes:1,n:nomeCnes(x.nome),c,b,
+  e:cat==='online'?'Atendimento a distância (sede: '+(x.rua||'')+', '+(x.num||'')+' – '+b+')':`${nomeCnes(x.rua).replace(/^R /,'R. ').replace(/^Av /,'Av. ')}, ${x.num||'s/n'} – ${b}, São Paulo – SP${cep.length===8?', '+cep.slice(0,5)+'-'+cep.slice(5):''}`,
+  hr,h,t:tel?[tel]:[],cv:x.sus?'Atende SUS':'Particular ou convênio (confirme por telefone)',sus:x.sus?1:0,
+  d:`${tipo} registrado no CNES (Cadastro Nacional de Estabelecimentos de Saúde), nº ${x.cnes}.`+(esp.length>1||img.length?' Especialidades e exames estimados pelo nome do cadastro; confirme por telefone.':''),
+  la:c==='online'?null:x.la,lo:c==='online'?null:x.lo,f:'https://cnes.datasus.gov.br/pages/estabelecimentos/ficha/identificacao/355030'+String(x.cnes).padStart(7,'0'),
+  esp:cat==='presencial'?esp:[],img,lab:cat==='lab',on:cat==='online'?['clinica']:[],s,soc:{},fotos2:[],ordemCnes:r.ordem}}
+function cnesDuplicado(q){const GEN=/^(hospital|clinica|clinicas|centro|medico|medica|medicina|saude|diagnostico|diagnosticos|laboratorio|unidade|instituto|especialidades|integrada|servicos|paulo|paulista|imagem|analises|assistencia)$/;const nq=norm(q.n).split(/[^a-z0-9]+/).filter(w=>w.length>=5&&!GEN.test(w));return LOC.some(p=>{if(p.fonteCnes||p.la==null||q.la==null)return false;const d=km(p,q);if(d==null||d>0.08)return false;const np=norm(p.n);return nq.some(w=>np.includes(w))||norm(limpaEnd(p.e)).split(',')[0]===norm(q.e).split(',')[0]})}
+function aplicarCnes(rows){if(!Array.isArray(rows)||!rows.length)return 0;const ids=new Set(LOC.map(p=>p.id));let n=0;rows.forEach(r=>{const q=cnesParaLocal(r);if(!q||ids.has(q.id)||cnesDuplicado(q))return;LOC.push(q);ids.add(q.id);n++});return n}
+(function(){const cache=LS.get('cnes',null);if(cache&&cache.rows)aplicarCnes(cache.rows);
+ if(typeof fetch!=='function')return;if(cache&&cache.em&&Date.now()-cache.em<3*864e5)return;
+ const U='https://cckywhtpnjhlwqslmlxz.supabase.co',K='sb_publishable_yv9jTgQHXV1Diy_xPkk_eg_qSt_8roq';
+ fetch(U+'/rest/v1/pax_extra?select=cat,ordem,dados&order=ordem.asc&limit=3000',{headers:{apikey:K,Authorization:'Bearer '+K}}).then(r=>r.ok?r.json():null).then(rows=>{if(!rows||!rows.length)return;LS.set('cnes',{em:Date.now(),rows});const n=aplicarCnes(rows);if(n&&!['lembrete','perfil','pg'].includes(S.view))render()}).catch(()=>{})})();
 
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
