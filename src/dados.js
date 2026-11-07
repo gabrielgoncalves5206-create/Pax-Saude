@@ -267,3 +267,6 @@ const REFS=[
  set([131,132,133,134,135],{wa:'551141181339',wn:'WhatsApp oficial da rede dr.consulta',site:'https://drconsulta.com',foto:'https://cdn.buttercms.com/6NI9voaS88DfxFOSK4cw',fotoRede:1});
  LOC.forEach(p=>{p.esp=p.esp||[];p.img=p.img||[];p.on=p.on||[];p.lab=!!p.lab;p.t=p.t||[];p.soc=p.soc||{};p.fotos2=p.fotos2||[];p.s=[].concat(p.esp.map(k=>ESP[k][0]),p.img.map(k=>IMGX[k][0]),p.lab?['Exames laboratoriais']:[],p.on.length?['Teleconsulta']:[]);if(!p.s.length)p.s=[p.al&&/odonto/i.test(p.al)?'Radiologia odontológica':'Pronto atendimento'];if(!p.site&&p.url)p.site=p.url});
 })();
+
+/* fotos guardadas no Supabase (nov/2026) */
+(function(){const B='https://cckywhtpnjhlwqslmlxz.supabase.co/storage/v1/object/public/pax-fotos/';'68 webp,69 webp,70 webp,71 webp,72 webp,73 webp,74 webp,101 webp,105 jpg,29 jpg,122 jpg,132 webp,133 webp,31 jpg,134 webp,135 webp,111 png,112 png,62 jpg,63 webp,64 webp,65 webp,66 webp,67 webp,23 jpg,30 jpg,131 webp,1 jpg,9 webp,10 jpg,11 jpg,14 png,16 jpg,17 png,18 webp,32 jpg,51 jpg,53 png,56 jpg'.split(',').forEach(x=>{const[i,e]=x.split(' ');const p=LOC.find(q=>q.id===+i);if(p){p.foto=B+i+'.'+e;p.fotoRede=0;p.fotoCred='Site oficial'}})})();
