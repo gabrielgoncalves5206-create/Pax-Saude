@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'3.7',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'4.0',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -76,7 +76,9 @@ const P={
  chat:'<path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8"/>',wave:'<path d="M2 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/><rect x="3" y="4" width="18" height="16" rx="3"/>',
  tube:'<path d="M9 3h6M10 3v15a2 2 0 0 0 4 0V3"/><path d="M10 12h4"/>'
 };
-const I=new Proxy({},{get:(o,k)=>(c,w,sw)=>SVG(P[k]||P.info,c,w,sw)});
+const P2={steth:'<circle cx="20" cy="12" r="2.4"/><path d="M6 3h8v6a4 4 0 0 1-8 0z"/>',flask:'<path d="M7.5 15h9L19 19a1.5 1.5 0 0 1-1.3 2H6.3A1.5 1.5 0 0 1 5 19z"/>',build:'<path d="M4 21V7l8-4 8 4v14z"/>',scan:'<rect x="3" y="4" width="18" height="16" rx="3"/>',video:'<rect x="3" y="6" width="13" height="12" rx="2"/>',tube:'<path d="M10 12h4v6a2 2 0 0 1-4 0z"/>',user:'<circle cx="12" cy="8" r="4"/>',cardio:'<path d="M12 20s-7-4.5-9-9a4.5 4.5 0 0 1 9-3 4.5 4.5 0 0 1 9 3c-2 4.5-9 9-9 9z"/>',heart:'<path d="M12 20s-7-4.5-9-9a4.5 4.5 0 0 1 9-3 4.5 4.5 0 0 1 9 3c-2 4.5-9 9-9 9z"/>',eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/>',brain:'<path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 3 3h6a3 3 0 0 0 3-3 3 3 0 0 0 2-5 3 3 0 0 0-2-5 3 3 0 0 0-3-3z"/>',baby:'<circle cx="12" cy="12" r="8"/>',female:'<circle cx="12" cy="9" r="5"/>',drop:'<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/>',dermato:'<path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"/>',chat:'<path d="M4 5h16v11H9l-5 4z"/>',wave:'<rect x="3" y="4" width="18" height="16" rx="3"/>',ambul:'<path d="M3 16V8h11v8z"/>',pin:'<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/>',cal:'<rect x="3" y="5" width="18" height="16" rx="2"/>',home:'<path d="M5 10l7-5.5 7 5.5v10H5z"/>',shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',clock:'<circle cx="12" cy="12" r="9"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2"/>',doc:'<path d="M14 3H6v18h12V7z"/>',gastro:'<path d="M6 14c0-4 3-5 3-7h6c0 2 3 2 3 5a6 6 0 0 1-12 2z"/>',ear:'<path d="M7 9a5 5 0 0 1 10 0c0 3-3 4-3 7a3 3 0 0 1-6 0z"/>',search:'<circle cx="11" cy="11" r="7"/>',gps:'<circle cx="12" cy="12" r="4"/>',info:'<circle cx="12" cy="12" r="9"/>',help:'<circle cx="12" cy="12" r="9"/>',book:'<path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/>',brief:'<rect x="3" y="7" width="18" height="13" rx="2"/>',phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',users:'<circle cx="9" cy="8" r="3.5"/>',map:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/>'};
+const SVG2=(k,c,w,sw)=>{const col=c||'currentColor';return `<svg width="${w||22}" height="${w||22}" viewBox="0 0 24 24" fill="none" stroke="${col}" stroke-width="${sw||1.9}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P2[k]&&col!=='#fff'&&col!=='#FFFFFF'?`<g fill="${col}" fill-opacity=".16" stroke="none">${P2[k]}</g>`:''}${P[k]||P.info}</svg>`};
+const I=new Proxy({},{get:(o,k)=>(c,w,sw)=>SVG2(k,c,w,sw)});
 const ICW='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#063B21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+P.wa2+'</svg>';
 const IC_ESP={clinica:'steth',cardio:'cardio',dermato:'dermato',endo:'drop',gastro:'gastro',gineco:'female',neuro:'brain',oftalmo:'eye',orto:'bone',otorrino:'ear',pedi:'baby',psiq:'chat',uro:'drop'};
 const IC_IMG={rx:'bone',us:'wave',tc:'scan',rm:'scan',mamo:'female',dens:'bone',eco:'cardio'};
@@ -107,9 +109,9 @@ function mapThumb(p,hx,hy){if(p.la==null)return`<span style="position:absolute;i
  const z=16,[x,y]=tileXY(p.la,p.lo,z),px=x*256,py=y*256;let h='';
  for(let tx=Math.floor((px-hx)/256);tx<=Math.floor((px+hx)/256);tx++)for(let ty=Math.floor((py-hy)/256);ty<=Math.floor((py+hy)/256);ty++)h+=`<img src="https://${'abcd'[(tx+ty)&3]}.basemaps.cartocdn.com/rastertiles/voyager/${z}/${tx}/${ty}.png" style="left:${Math.round(tx*256-px)}px;top:${Math.round(ty*256-py)}px" alt="" loading="lazy">`;
  return `<span class="tiles" aria-hidden="true">${h}</span><span class="pin">${PINSVG(CATS[p.c].cor)}</span>`}
-function cover(p,h){h=h||'8.5rem';const f=fotosDe(p)[0];const c=CATS[p.c];
+function coverBase(p,h){h=h||'8.5rem';const f=fotosDe(p)[0];const c=CATS[p.c];
  return `<span class="cover" data-cov="${p.id}" data-h="${h}" style="height:${h}">${mapThumb(p,340,150)}${f?`<img class="ph" src="${esc(f.u)}" alt="Foto: ${esc(p.n)}" loading="lazy" referrerpolicy="no-referrer" onerror="var s=this.parentNode.querySelector('.src');if(s)s.textContent='Mapa · OSM/CARTO';this.remove()">`:''}<span class="bdg">${esc(c.um.toUpperCase())}</span><span class="src">${f?esc(f.src):p.la!=null?'Mapa · OSM/CARTO':'Online'}</span></span>`}
-function galeria(p){const fs=fotosDe(p);const sl=fs.map(f=>`<span class="cover" style="height:15rem"><span style="position:absolute;inset:0;background:#DCE8E6"></span><img class="ph" src="${esc(f.u)}" alt="Foto ${f.rua?'de rua perto':'de'} ${esc(p.n)}" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"><a class="src" href="${esc(f.link||'#')}" target="_blank" rel="noopener">${f.rua?'Foto de rua · ':''}${esc(f.src)}</a></span>`);
+function galeriaBase(p){const fs=fotosDe(p);const sl=fs.map(f=>`<span class="cover" style="height:15rem"><span style="position:absolute;inset:0;background:#DCE8E6"></span><img class="ph" src="${esc(f.u)}" alt="Foto ${f.rua?'de rua perto':'de'} ${esc(p.n)}" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"><a class="src" href="${esc(f.link||'#')}" target="_blank" rel="noopener">${f.rua?'Foto de rua · ':''}${esc(f.src)}</a></span>`);
  if(!isOnline(p))sl.push(`<span class="cover" style="height:15rem">${mapThumb(p,420,180)}<span class="src">Mapa · © OpenStreetMap © CARTO</span></span>`);else sl.push(`<span class="cover" style="height:15rem">${mapThumb(p)}</span>`);
  return `<div class="gallery" id="galsc">${sl.join('')}</div>${sl.length>1?`<div class="dots" id="galdots">${sl.map((x,i)=>`<i class="${i?'':'on'}"></i>`).join('')}</div>`:''}`}
 function ligaGaleria(){const g=$('galsc'),d=$('galdots');if(!g||!d)return;g.addEventListener('scroll',()=>{const i=Math.round(g.scrollLeft/Math.max(1,g.clientWidth));[...d.children].forEach((x,k)=>x.classList.toggle('on',k===i))},{passive:true})}
@@ -174,7 +176,7 @@ function contatoBtns(p){let h='';
 const heartBtn=p=>{const on=S.favs.includes(p.id);return `<button class="round" data-act="fav" data-id="${p.id}" aria-label="${on?'Remover dos':'Adicionar aos'} favoritos" aria-pressed="${on}"><svg width="22" height="22" viewBox="0 0 24 24" fill="${on?'#C62E4A':'none'}" stroke="${on?'#C62E4A':'#0B4F5C'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P.heart}</svg></button>`};
 function card(p){const d=dist(p);
  return `<article class="pcard"><button class="open" data-act="abrir" data-id="${p.id}" aria-label="Ver detalhes de ${esc(p.n)}">${cover(p,'8rem')}
- <span class="bd"><span class="meta">${stTag(p)}${p.g?starTag(p):''}${p.sus?'<span class="tag blue">SUS</span>':''}${alTags(p)}</span>
+ <span class="bd"><span class="meta">${stTag(p)}${p.g?starTag(p):''}${p.sus?'<span class="tag blue">SUS</span>':''}<span class="tag gray">${p.pr?'A partir de R$ '+p.pr:p.sus?'Gratuito (SUS)':'Preço sob consulta'}</span>${alTags(p)}</span>
  <span class="nm">${esc(p.n)}</span>
  <span class="meta">${isOnline(p)?I.video('#0E6B6B',16)+esc(p.sp||'Teleconsulta por vídeo'):I.pin('#0B4F5C',16)+`<span>${esc(p.b)} · <b style="color:var(--ink)">${fkm(d)}</b>${p.sp?' · '+esc(p.sp):''}</span>`}</span></span></button>
  <div class="acts">${contatoBtns(p)}</div></article>`}
@@ -297,6 +299,7 @@ function vLocal(){const p=byId(S.sel);if(!p)return vInicio();const d=dist(p),c=C
  ${on?'':`<span class="meta">${I.pin('#0B4F5C',16)}${esc(p.b)} · <b style="color:var(--ink)">${fkm(d)}</b> de ${esc(S.origin.n)}</span>`}</div>
  ${p.al?`<div class="info warn">${I.alert('#5E3B08',20)}<span>${esc(p.al)}</span></div>`:''}
  <div class="acts">${p.t.length&&p.wa?`<button class="btn" data-act="ligar" data-id="${p.id}">${I.phone('#0B4F5C',20)} Ligar</button>`:''}${on?`<a class="btn pri" href="${esc(p.url)}" target="_blank" rel="noopener">${I.video('#fff',20)} Acessar</a>`:`<button class="btn pri" data-act="rota" data-id="${p.id}">${I.route('#fff',20)} Como chegar</button>`}${S.a11y.ler?`<button class="round" data-act="ler" aria-label="Ouvir informações">${I.speaker('#0B4F5C',22)}</button>`:''}</div>
+ ${seloCRM(p)}
  <div class="card"><h2 class="h3">${I.info('#0B4F5C',20)} Sobre</h2><p class="p">${esc(descricao(p))}</p></div>
  ${blocoAvaliacao(p)}
  ${blocoRedes(p)}
@@ -308,7 +311,7 @@ function vLocal(){const p=byId(S.sel);if(!p)return vInicio();const d=dist(p),c=C
  <div class="meta" style="margin-bottom:1rem">${p.s.map(x=>`<span class="tag gray">${esc(x)}</span>`).join('')}</div>
  ${p.t.length?p.t.map(t=>`<div class="kv"><span class="mut">Telefone</span><a href="${telHref(t)}" style="font-weight:800;text-align:right">${esc(t)}</a></div>`).join(''):''}
  <div class="kv"><span class="mut">WhatsApp</span><b style="text-align:right">${p.wa?esc(p.wn):'Não divulgado'}</b></div>
- <div class="kv"><span class="mut">Atendimento</span><b style="text-align:right">${esc(p.cv)}</b></div>${p.prt?`<div class="kv"><span class="mut">Preço</span><b style="text-align:right">${esc(p.prt)}</b></div>`:''}
+ <div class="kv"><span class="mut">Atendimento</span><b style="text-align:right">${esc(p.cv)}</b></div><div class="kv"><span class="mut">Preço</span><b style="text-align:right">${p.prt?esc(p.prt):p.sus?'Gratuito (SUS)':'Sob consulta'}</b></div>
  <p class="sm">Fonte: <a href="${esc(p.f)}" target="_blank" rel="noopener" class="lnk">${esc(p.f.replace(/^https?:\/\/(www\.)?/,'').split('/')[0])}</a> · dados de ${CFG.dataRef}. Confirme por telefone antes de ir.</p></details>
 </section></div>`}
 
@@ -358,7 +361,7 @@ async function posRota(){const o=S.origin,d=S.dest;if(!d||o.la==null)return;
   m.fitBounds(b,{padding:[30,30]})}}
 
 /* ---- agenda ---- */
-function vAgenda(){const h=S.hist;const pend=h.filter(x=>!x.ok).length;
+function vAgendaBase(){const h=S.hist;const pend=h.filter(x=>!x.ok).length;
  return phead('Minha agenda',h.length?`${pend} aguardando · ${h.length-pend} confirmados`:'Agendamentos iniciados pelo Pax',false)+`<section class="sec">${h.length?h.map((x,i)=>{const p=byId(x.id);if(!p)return'';return `<div class="card"><div class="row between"><span class="sm mut">${I.clock('#4A6066',14)} ${esc(x.data)}</span><span class="tag ${x.ok?'':'warn'}">${x.ok?'Confirmado':'Aguardando a clínica'}</span></div>
  <div class="row" style="align-items:flex-start"><span class="lic" style="background:${x.tipo==='exame'?'#E5EEFC':'#FDE8F0'}">${x.tipo==='exame'?I.flask('#1C5BA8',20):I.steth('#B02A62',20)}</span><span class="col" style="flex:1;min-width:0"><b style="font-size:1rem">${esc(p.n)}</b><span class="p">${x.tipo==='exame'?'Exame':'Consulta'}${x.item?': '+esc(x.item):''}</span>${x.pac?`<span class="sm mut">Paciente: ${esc(x.pac)}</span>`:''}</span></div>
  <div class="acts"><button class="btn ${x.ok?'':'pri'}" data-act="hok" data-i="${i}">${x.ok?'Voltar para pendente':'A clínica confirmou'}</button><button class="round wa" data-act="wa" data-id="${p.id}" aria-label="Reenviar WhatsApp">${ICW}</button><button class="round" data-act="rota" data-id="${p.id}" aria-label="Como chegar">${I.route('#0B4F5C',20)}</button><button class="round" data-act="hdel" data-i="${i}" aria-label="Apagar" style="border-color:#E8C4C6">${I.x('#B3261E',20)}</button></div></div>`}).join(''):`<div class="empty">${I.cal('#4A6066',36,1.6)}<br>Quando você abrir o WhatsApp de um local pelo Pax, o pedido aparece aqui para você acompanhar.</div>`}
@@ -454,9 +457,11 @@ function desenharWA(){const p=byId(WA.id);const seg=(k,ops)=>`<div class="seg" r
  <label class="f">Quando<select class="inp" data-live="waquando">${['hoje','amanhã','nesta semana','na próxima semana'].map(x=>`<option ${x===WA.quando?'selected':''}>${x}</option>`).join('')}</select></label>
  <label class="f">Período${seg('per',[['manha','Manhã'],['tarde','Tarde'],['qualquer','Qualquer']])}</label>
  <label class="f">Pagamento${seg('pag',[['particular','Particular'],['convenio','Convênio']])}</label>
- ${WA.pag==='convenio'?`<label class="f">Nome do plano (opcional)<input class="inp" data-live="waplano" value="${esc(WA.plano)}" placeholder="Ex.: nome do seu convênio"></label>`:''}
+ ${WA.pag==='convenio'?`<label class="f">Qual convênio? (opcional)<select class="inp" data-live="waconv"><option value="">Prefiro não dizer</option>${CONVS.map(x=>`<option ${WA.conv===x?'selected':''}>${x}</option>`).join('')}<option value="outro" ${WA.conv==='outro'?'selected':''}>Outro…</option></select></label>${WA.conv==='outro'?`<label class="f">Nome do convênio<input class="inp" data-live="waplano" value="${esc(WA.plano)}" placeholder="Digite o nome"></label>`:''}`:''}
+ ${preparoBox()}
+ ${anexosBox()}
  <div class="col" style="gap:.4rem"><div class="row between"><label for="wabubble" class="sm" style="font-weight:800;color:#33484D">Sua mensagem (pode editar)</label>${WA.custom?'<button type="button" class="lnk sm" data-act="wareset">Restaurar texto</button>':''}</div><div class="chat"><textarea id="wabubble" class="bubble" data-live="watxt" rows="9" style="width:calc(100% - 1.5rem);border:0;font:inherit;resize:vertical;outline:none;color:#111">${esc(txt)}</textarea></div><span class="sm mut">Toque no texto para mudar o que quiser antes de enviar.</span></div>
- <a class="btn wa" id="wago" href="${waUrl(p,txt)}" target="_blank" rel="noopener" data-act="wago" style="min-height:3.4rem;font-size:1.02rem;flex:none">${ICW} Abrir WhatsApp</a>
+ <a class="btn wa" id="wago" href="${waUrl(p,txt)}" target="_blank" rel="noopener" data-act="wago" style="min-height:3.4rem;font-size:1.02rem;flex:none">${ICW} ${WA.files&&WA.files.length?'1. Enviar mensagem':'Abrir WhatsApp'}</a>${WA.files&&WA.files.length?`<button type="button" class="btn wa" data-act="wafotos" style="min-height:3.4rem;flex:none">${ICW} 2. Enviar ${WA.files.length===1?'a imagem':'as '+WA.files.length+' imagens'}</button><span class="sm mut">No passo 2, escolha o WhatsApp e depois a conversa de ${esc(p.n)} (ela fica no topo).</span>`:''}
  <span class="sm mut" style="text-align:center">${esc(p.wn)} · +${p.wa.replace(/^55(\d\d)(\d+)(\d{4})$/,'55 ($1) $2-$3')}. A mensagem sai do seu WhatsApp; o Pax não envia nada sozinho.</span>`,'Agendar pelo WhatsApp')}
 function atualizaWA(){const p=byId(WA.id);const t=WA.custom?WA.txt:msgWA(p,WA);const b=$('wabubble'),a=$('wago');if(b&&!WA.custom)b.value=t;if(a)a.href=waUrl(p,t)}
 function ligar(id){const p=byId(id);abrirModal(`<div class="row between"><h2 class="h2">Ligar para ${esc(p.n)}</h2>${xBtn}</div>
@@ -559,8 +564,8 @@ document.addEventListener('input',e=>{const k=e.target.dataset.live;if(!k)return
  if(k==='q'){S.q=e.target.value;renderRes()}else if(k==='qi'){S.qi=e.target.value;renderItens()}else if(k==='pk'){PK.q=e.target.value;renderPK()}
  else if(k==='cel'){const v=fmtCel(e.target.value);if(v!==e.target.value)e.target.value=v}
  else if(k==='watxt'){const was=WA.custom;WA.custom=true;WA.txt=e.target.value;atualizaWA();if(!was){const h=document.querySelector('label[for=wabubble]');if(h&&!h.parentNode.querySelector('[data-act=wareset]'))h.insertAdjacentHTML('afterend','<button type="button" class="lnk sm" data-act="wareset">Restaurar texto</button>')}}
- else if(k==='waitem'){WA.item=e.target.value;atualizaWA()}else if(k==='wanome'){WA.nome=e.target.value.trim();WA.rel='';atualizaWA()}else if(k==='waplano'){WA.plano=e.target.value.trim();atualizaWA()}else if(k==='waquando'){WA.quando=e.target.value;atualizaWA()}});
-document.addEventListener('change',e=>{const k=e.target.dataset.live;if(k==='waitem'){WA.item=e.target.value;atualizaWA()}if(k==='waquando'){WA.quando=e.target.value;atualizaWA()}
+ else if(k==='waitem'){WA.item=e.target.value;atualizaWA();desenharWA()}else if(k==='wanome'){WA.nome=e.target.value.trim();WA.rel='';atualizaWA()}else if(k==='waplano'){WA.plano=e.target.value.trim();atualizaWA()}else if(k==='waquando'){WA.quando=e.target.value;atualizaWA()}});
+document.addEventListener('change',e=>{const k=e.target.dataset.live;if(k==='waconv'){WA.conv=e.target.value;WA.plano=WA.conv&&WA.conv!=='outro'?WA.conv:'';desenharWA();return}if(k==='waped'||k==='waguia'){anexar(k,e.target.files&&e.target.files[0]);return}if(k==='waitem'){WA.item=e.target.value;atualizaWA()}if(k==='waquando'){WA.quando=e.target.value;atualizaWA()}
  if(k==='wapac'){const i=+e.target.value;WA.pac=i;if(i>=0){const x=pacientes()[i];WA.nome=x.nome;WA.rel=x.rel}else{WA.nome='';WA.rel=''}desenharWA()}});
 document.addEventListener('submit',e=>{e.preventDefault();const f=e.target.dataset.form,F=e.target;
  if(f==='busca'){const al=F.dataset.alvo;if(al==='qi')return;S.q=F.elements.q.value;S.cat='todos';if(S.view!=='buscar')ir('buscar');else renderRes()}
@@ -570,7 +575,7 @@ document.addEventListener('submit',e=>{e.preventDefault();const f=e.target.datas
  if(f==='mly'){const tk=F.elements.tk.value.trim();if(!/^MLY\|/.test(tk)){toast('O token começa com MLY|');return}CFG.mapillary=tk;LS.set('mly',tk);FQ.length=0;LOC.forEach(p=>p._fq=0);Object.keys(FOTOS).forEach(k=>delete FOTOS[k]);LS.del('fotos3');render();toast('Fotos de rua ativadas')}
  if(f==='dep'){const nome=F.elements.nome.value.trim();if(!nome)return;S.user.deps=S.user.deps||[];S.user.deps.push({nome,par:F.elements.par.value});LS.set('user',S.user);render();toast('Dependente adicionado')}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('modal').innerHTML)fechar();else if($('drawer').innerHTML)fecharMenu()}});
-(function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
+
 
 /* ============ INSTALAR (PWA) ============ */
 let PEDIDO=null;
@@ -589,3 +594,86 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act="insta
 /* ============ FOTOS DO SUPABASE ============ */
 (function(){if(typeof fetch!=='function')return;const U='https://cckywhtpnjhlwqslmlxz.supabase.co',K='sb_publishable_yv9jTgQHXV1Diy_xPkk_eg_qSt_8roq';
  fetch(U+'/rest/v1/pax_locais?select=id,foto_url,foto_credito&foto_status=eq.ok&pessoa=eq.false',{headers:{apikey:K,Authorization:'Bearer '+K}}).then(r=>r.ok?r.json():[]).then(rs=>{let n=0;(rs||[]).forEach(x=>{const p=byId(x.id);if(p&&x.foto_url&&!p.fotoLocal){p.foto=x.foto_url;p.fotoCred=x.foto_credito;p.fotoRede=0;n++}});if(n)render()}).catch(()=>{})})();
+
+/* =====================================================================
+   ETAPA 2 (v4.0): convênio, preparo, anexos, avatares, selo CRM, lembretes
+   ===================================================================== */
+const CONVS=['Amil','Bradesco Saúde','SulAmérica','Unimed','Porto Seguro Saúde','NotreDame Intermédica','Hapvida','Prevent Senior','Care Plus','Omint','Allianz Saúde','Golden Cross','Mediservice','Seguros Unimed','Cassi','Saúde Caixa'];
+function preparoDe(nome){const n=norm(nome);for(const x of LABX)if(norm(x[0])===n)return x[2];for(const k in IMGX)if(norm(IMGX[k][0])===n)return IMGX[k][2];return''}
+function preparoBox(){if(WA.tipo!=='exame')return'';const pr=preparoDe(WA.item);return pr?`<div class="info warn">${I.info('#5E3B08',20)}<span><b>Preparo para ${esc(WA.item)}:</b> ${esc(pr)}<br><span class="sm">Confirme com o local, pode variar.</span></span></div>`:''}
+function anexosBox(){const f=WA.files||[];const it=(k,t,s)=>{const x=f.find(y=>y.k===k);return `<label class="soc" style="cursor:pointer">${x&&x.url?`<img src="${x.url}" alt="" style="width:2.9rem;height:2.9rem;border-radius:.8rem;object-fit:cover;flex:none">`:`<span class="si" style="background:var(--mint)">${I.doc('#0B4F5C',22)}</span>`}<span class="col" style="flex:1;min-width:0"><b>${t}</b><span class="sm mut ell">${x?esc(x.file.name):s}</span></span><span class="ref-bt" style="background:var(--mint)">${x?'Trocar':'Anexar'}</span><input type="file" accept="image/*,application/pdf" data-live="${k}" class="sr"></label>`};
+ return `<div class="col" style="gap:.5rem"><span class="sm" style="font-weight:800;color:#33484D">Documentos (opcional)</span>${it('waped','Pedido médico','Foto ou PDF do pedido')}${it('waguia','Guia / autorização do convênio','Foto ou PDF da guia')}${f.length?'<span class="sm mut">Você envia 1 mensagem de texto e '+f.length+(f.length>1?' imagens':' imagem')+'.</span>':''}</div>`}
+function anexar(k,file){if(!file)return;WA.files=(WA.files||[]).filter(x=>x.k!==k);let url='';try{if(/^image\//.test(file.type))url=URL.createObjectURL(file)}catch(e){}WA.files.push({k,file,url});WA.files.sort((a,b)=>a.k<b.k?1:-1);desenharWA()}
+async function enviarFotos(){const fs=(WA.files||[]).map(x=>x.file);const p=byId(WA.id);
+ try{if(navigator.canShare&&navigator.canShare({files:fs})){await navigator.share({files:fs,title:'Documentos para agendamento',text:'Documentos para o agendamento ('+(WA.nome||'paciente')+')'});toast('Pronto! Confira no WhatsApp.');return}}catch(e){if(e&&e.name==='AbortError')return}
+ toast('Este aparelho não envia imagens direto. No WhatsApp, toque no clipe 📎 e escolha as fotos.');try{window.open(waUrl(p,''),'_blank')}catch(e){}}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act="wafotos"]');if(t)enviarFotos()});
+
+/* ---- avatares ilustrados para médicos (sem foto real) ---- */
+const AVA=[['#F2C9A5','#3B2A20','#E6F4F1','short'],['#C68B59','#1F1A17','#EAF0FB','bun'],['#8D5A3B','#141110','#FCEBF1','curly'],['#F6D7BC','#B7863F','#EEF6EA','long'],['#E0AC82','#5A3A28','#FFF4DE','bald'],['#A9714B','#2B211C','#EFE9FB','side']];
+function avatar(p,s){const i=(p.id*7)%AVA.length,[pele,cab,fundo,est]=AVA[i];const fem=/^(Dra|Prof\. Dra)/.test(p.n)||/^Leticia/.test(p.n);
+ const hair={short:`<path d="M30 40c0-14 9-22 20-22s20 8 20 22c-3-6-9-9-20-9s-17 3-20 9z" fill="${cab}"/>`,bun:`<circle cx="50" cy="16" r="8" fill="${cab}"/><path d="M29 42c0-15 9-23 21-23s21 8 21 23c-4-7-11-10-21-10s-17 3-21 10z" fill="${cab}"/>`,curly:`<g fill="${cab}"><circle cx="34" cy="32" r="8"/><circle cx="44" cy="24" r="9"/><circle cx="56" cy="24" r="9"/><circle cx="66" cy="32" r="8"/><circle cx="30" cy="44" r="6"/><circle cx="70" cy="44" r="6"/></g>`,long:`<path d="M28 44c0-16 9-25 22-25s22 9 22 25v20c-4 0-6-4-6-8V44c-4-7-10-10-16-10s-12 3-16 10v12c0 4-2 8-6 8z" fill="${cab}"/>`,bald:`<path d="M31 36c2-10 9-15 19-15s17 5 19 15c-5-3-11-4-19-4s-14 1-19 4z" fill="${cab}" opacity=".55"/>`,side:`<path d="M29 41c0-15 10-23 22-23 10 0 20 7 20 20-8-2-15-6-19-11-4 7-13 11-23 14z" fill="${cab}"/>`}[fem&&(est==='short'||est==='bald'||est==='side')?'long':est];
+ return `<svg width="${s}" height="${s}" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="50" fill="${fundo}"/><path d="M18 100c2-20 15-30 32-30s30 10 32 30z" fill="#fff"/><path d="M41 70l9 14 9-14z" fill="#CFE7E3"/><path d="M38 72c-2 8-1 14 3 19M62 72c2 8 1 14-3 19" stroke="#0B4F5C" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="41" cy="92" r="3" fill="#0B4F5C"/><rect x="44" y="58" width="12" height="14" rx="5" fill="${pele}"/><ellipse cx="50" cy="44" rx="17" ry="19" fill="${pele}"/>${hair}<circle cx="44" cy="45" r="1.8" fill="#2A2A2A"/><circle cx="56" cy="45" r="1.8" fill="#2A2A2A"/><path d="M45 53c3 2.5 7 2.5 10 0" stroke="#7A3E2B" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M60 80h12v8H60z" fill="#E6F4F1"/><path d="M66 80v8M62 84h8" stroke="#14A39A" stroke-width="1.6"/></svg>`}
+const ehPessoa=p=>p.c==='medico'||(p.c==='online'&&/^(Dr|Dra|Prof)/.test(p.n))||p.id===136;
+function cover(p,h){if(!ehPessoa(p))return coverBase(p,h);h=h||'8.5rem';return `<span class="cover" data-h="${h}" style="height:${h};background:linear-gradient(135deg,#E2F4F1,#F6FBFB);display:flex;align-items:center;justify-content:center">${avatar(p,'78%')}<span class="bdg">${esc(CATS[p.c].um.toUpperCase())}</span>${p.crmOk?`<span class="src" style="background:#0B4F5C;color:#fff">✓ CRM ativo</span>`:''}</span>`}
+function galeria(p){if(!ehPessoa(p))return galeriaBase(p);return `<span class="cover" style="height:15rem;border-radius:0;background:linear-gradient(135deg,#E2F4F1,#F6FBFB);display:flex;align-items:center;justify-content:center">${avatar(p,'12rem')}<span class="src">Ilustração · foto mediante envio do médico</span></span>`}
+function seloCRM(p){if(!ehPessoa(p))return'';const num=(p.crm||'').match(/CRM-?SP\s*\d+/i);
+ if(p.crmOk)return `<div class="card" style="flex-direction:row;align-items:center;background:linear-gradient(135deg,#0B4F5C,#14A39A);color:#fff;border:0"><span style="width:3.4rem;height:3.4rem;border-radius:1rem;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex:none"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 1.8 3-.2.9 2.9 2.5 1.7-1 2.8 1 2.8-2.5 1.7-.9 2.9-3-.2L12 22l-2.4-1.8-3 .2-.9-2.9-2.5-1.7 1-2.8-1-2.8 2.5-1.7.9-2.9 3 .2z" fill="rgba(255,255,255,.15)"/><path d="M8.5 12l2.3 2.3 4.7-4.6"/></svg></span><span class="col" style="flex:1;min-width:0"><b style="font-size:1.05rem">CRM autorizado no CFM</b><span class="sm" style="opacity:.92">${esc(num?num[0].replace('CRM-SP','CRM-SP '):'')} · ativo · conferido em ${esc(p.crmOk)}</span><a class="sm" style="color:#fff;text-decoration:underline" href="https://portal.cfm.org.br/busca-medicos/" target="_blank" rel="noopener">Conferir no site do CFM</a></span></div>`;
+ return `<div class="info">${I.shield('#0A4B44',20)}<span>${num?esc(num[0]):'CRM não informado'} · ainda não conferido por nós. <a class="lnk" href="https://portal.cfm.org.br/busca-medicos/" target="_blank" rel="noopener">Consultar no CFM</a></span></div>`}
+
+/* ---- lembretes a partir da mensagem de confirmação ---- */
+const MESES=['janeiro','fevereiro','marco','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'],DIAS=['domingo','segunda','terca','quarta','quinta','sexta','sabado'];
+function lerConfirmacao(txt){const t=norm(txt);const hoje=new Date();let d=null,m;
+ if((m=t.match(/\b(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?/))){let y=m[3]?+m[3]:hoje.getFullYear();if(y<100)y+=2000;d=new Date(y,+m[2]-1,+m[1]);if(!m[3]&&d<new Date(hoje.toDateString()))d.setFullYear(y+1)}
+ else if((m=t.match(/\b(\d{1,2}) de ([a-z]+)/))&&MESES.indexOf(m[2])>=0){d=new Date(hoje.getFullYear(),MESES.indexOf(m[2]),+m[1]);if(d<new Date(hoje.toDateString()))d.setFullYear(d.getFullYear()+1)}
+ else if(/depois de amanha/.test(t)){d=new Date(hoje);d.setDate(d.getDate()+2)}else if(/amanha/.test(t)){d=new Date(hoje);d.setDate(d.getDate()+1)}else if(/\bhoje\b/.test(t))d=new Date(hoje);
+ else{const i=DIAS.findIndex(x=>new RegExp('\\b'+x).test(t));if(i>=0){d=new Date(hoje);d.setDate(d.getDate()+((i-hoje.getDay()+7)%7||7))}}
+ let hora='';if((m=t.match(/\b(?:as|a partir das|horario:?)\s*(\d{1,2})(?:[:h](\d{2}))?\s*h?/))||(m=t.match(/\b(\d{1,2})[:h](\d{2})\b/))||(m=t.match(/\b(\d{1,2})\s*h\b/)))hora=String(m[1]).padStart(2,'0')+':'+(m[2]||'00');
+ const frases=txt.split(/(?<=[.!?\n])\s*/).map(s=>s.trim()).filter(s=>/jejum|preparo|beber|bexiga|suspend|levar|traga|trazer|chegar|anteced|document|pedido|guia|carteirinh|dieta|evitar|nao (comer|tomar)|não (comer|tomar)|acompanhante|roupa/i.test(s));
+ return{data:d?d.toISOString().slice(0,10):'',hora,desc:frases.join('\n')}}
+function icsData(L){const z=n=>String(n).padStart(2,'0');const[y,mo,da]=L.data.split('-');const[h,mi]=(L.hora||'08:00').split(':');const ini=`${y}${mo}${da}T${z(h)}${z(mi)}00`;const fimD=new Date(+y,+mo-1,+da,+h+1,+mi);const fim=`${fimD.getFullYear()}${z(fimD.getMonth()+1)}${z(fimD.getDate())}T${z(fimD.getHours())}${z(fimD.getMinutes())}00`;return{ini,fim}}
+function lembreteGoogle(L){const{ini,fim}=icsData(L);return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${enc(L.titulo)}&dates=${ini}/${fim}&ctz=America/Sao_Paulo&details=${enc(L.desc+'\n\nCriado pelo Pax - Saúde')}&location=${enc(L.end)}`}
+function baixarICS(L){const{ini,fim}=icsData(L);const e=s=>String(s||'').replace(/[\\,;]/g,m=>'\\'+m).replace(/\n/g,'\\n');
+ const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Pax Saude//PT-BR','BEGIN:VEVENT','UID:pax-'+Date.now()+'@pax','DTSTAMP:'+new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z','DTSTART;TZID=America/Sao_Paulo:'+ini,'DTEND;TZID=America/Sao_Paulo:'+fim,'SUMMARY:'+e(L.titulo),'DESCRIPTION:'+e(L.desc),'LOCATION:'+e(L.end),'BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY','DESCRIPTION:'+e(L.titulo+' amanhã'),'END:VALARM','BEGIN:VALARM','TRIGGER:-PT2H','ACTION:DISPLAY','DESCRIPTION:'+e(L.titulo+' em 2 horas'),'END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+ try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='lembrete-pax.ics';document.body.appendChild(a);a.click();a.remove()}catch(err){toast('Não foi possível gerar o arquivo')}}
+S.lemb=LS.get('lemb',[]);
+function avisosPendentes(){if(typeof Notification==='undefined'||Notification.permission!=='granted')return;const ag=Date.now();let mud=false;
+ S.lemb.forEach(L=>{const t=new Date(L.data+'T'+(L.hora||'08:00')+':00-03:00').getTime();[[864e5,'amanhã'],[72e5,'em 2 horas']].forEach(([ms,q])=>{const k='av'+ms;if(!L[k]&&ag>=t-ms&&ag<t){L[k]=1;mud=true;try{navigator.serviceWorker&&navigator.serviceWorker.ready?navigator.serviceWorker.ready.then(r=>r.showNotification(L.titulo+' '+q,{body:(L.hora?L.hora+' · ':'')+L.end,icon:'icon-192.png'})):new Notification(L.titulo+' '+q)}catch(e){}}})});if(mud)LS.set('lemb',S.lemb)}
+setInterval(avisosPendentes,6e4);setTimeout(avisosPendentes,3000);
+function vLembrete(){const L=S.lembEd||{};const locs=S.hist.map(x=>byId(x.id)).filter(Boolean);
+ return phead('Criar lembrete','Cole a confirmação da clínica e o Pax preenche')+`<section class="sec">
+ <div class="info">${I.chat('#0A4B44',20)}<span>No WhatsApp, toque e segure a mensagem de confirmação › <b>Compartilhar › Pax</b>${'<br>'}ou copie e cole aqui embaixo.</span></div>
+ <label class="f">Mensagem da clínica<textarea class="inp" id="lmsg" rows="5" data-live="lmsg" style="padding:.7rem;min-height:7rem" placeholder="Ex.: Sua ressonância está confirmada para 14/11 às 9h30. Jejum de 4 horas. Trazer pedido médico.">${esc(L.msg||'')}</textarea></label>
+ <div class="card"><label class="f">Local<select class="inp" data-live="lloc"><option value="">Escolha o local</option>${[...new Set(locs.concat(L.id?[byId(L.id)]:[]))].filter(Boolean).map(p=>`<option value="${p.id}" ${L.id===p.id?'selected':''}>${esc(p.n)}</option>`).join('')}</select></label>
+ <div class="row"><label class="f" style="flex:1">Data<input class="inp" type="date" data-live="ldata" value="${esc(L.data||'')}"></label><label class="f" style="flex:1">Hora<input class="inp" type="time" data-live="lhora" value="${esc(L.hora||'')}"></label></div>
+ <label class="f">Descrição (preparo, dieta, o que levar)<textarea class="inp" rows="3" data-live="ldesc" style="padding:.7rem">${esc(L.desc||'')}</textarea></label>
+ <label class="f">Endereço<input class="inp" data-live="lend" value="${esc(L.end||'')}"></label></div>
+ ${L.data?'':'<p class="sm mut" style="margin:0">Não achei a data na mensagem? Preencha acima.</p>'}
+ <button class="btn pri" data-act="lsalvar" style="flex:none" ${L.data?'':'disabled'}>${I.cal('#fff',20)} Salvar e ativar avisos no Pax</button>
+ <div class="acts"><button class="btn" data-act="lgoogle" ${L.data?'':'disabled'}>Google Agenda</button><button class="btn" data-act="lics" ${L.data?'':'disabled'}>Calendário do celular</button></div>
+ <span class="sm mut">O Pax avisa 1 dia antes e 2 horas antes. Para avisar mesmo com o app fechado, adicione também ao calendário do celular.</span>
+ ${S.lemb.length?`<h2 class="h2">Lembretes salvos</h2>`+S.lemb.map((x,i)=>`<div class="card"><b>${esc(x.titulo)}</b><span class="sm">${esc(x.data.split('-').reverse().join('/'))}${x.hora?' às '+esc(x.hora):''} · ${esc(x.end)}</span>${x.desc?`<span class="sm mut" style="white-space:pre-wrap">${esc(x.desc)}</span>`:''}<button class="lnk sm" data-act="ldel" data-i="${i}" style="align-self:flex-start">Apagar</button></div>`).join(''):''}</section>`}
+VIEWS.lembrete=vLembrete;
+function lembDe(){const L=S.lembEd;const p=L.id?byId(L.id):null;L.titulo=(p?(p.c==='laboratorio'||p.c==='imagem'?'Exame':'Consulta')+' – '+p.n:'Consulta/Exame');if(p&&!L.endManual)L.end=p.n+', '+limpaEnd(p.e);return L}
+function abrirLembrete(o){S.lembEd=Object.assign({msg:'',data:'',hora:'',desc:'',end:'',id:null},o||{});if(S.lembEd.msg){const r=lerConfirmacao(S.lembEd.msg);Object.assign(S.lembEd,{data:r.data||S.lembEd.data,hora:r.hora||S.lembEd.hora,desc:r.desc||S.lembEd.desc})}lembDe();ir('lembrete')}
+document.addEventListener('input',e=>{const k=e.target.dataset.live;if(!k||!/^l(msg|data|hora|desc|end)$/.test(k)||!S.lembEd)return;const L=S.lembEd;
+ if(k==='lmsg'){L.msg=e.target.value;const r=lerConfirmacao(L.msg);if(r.data)L.data=r.data;if(r.hora)L.hora=r.hora;if(r.desc)L.desc=r.desc;clearTimeout(vLembrete._t);vLembrete._t=setTimeout(()=>{const pos=e.target.selectionStart;render();const t=$('lmsg');if(t){t.focus();try{t.setSelectionRange(pos,pos)}catch(x){}}},700)}
+ else if(k==='ldata')L.data=e.target.value;else if(k==='lhora')L.hora=e.target.value;else if(k==='ldesc')L.desc=e.target.value;else if(k==='lend'){L.end=e.target.value;L.endManual=1}
+ document.querySelectorAll('[data-act=lsalvar],[data-act=lgoogle],[data-act=lics]').forEach(b=>b.disabled=!L.data)});
+document.addEventListener('change',e=>{if(e.target.dataset.live==='lloc'&&S.lembEd){S.lembEd.id=+e.target.value||null;S.lembEd.endManual=0;lembDe();render()}});
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act;const L=S.lembEd;
+ if(a==='lsalvar'&&L&&L.data){lembDe();S.lemb.push({titulo:L.titulo,data:L.data,hora:L.hora,desc:L.desc,end:L.end,id:L.id});S.lemb.sort((x,y)=>(x.data+x.hora).localeCompare(y.data+y.hora));LS.set('lemb',S.lemb);
+  const ok=()=>{toast('Lembrete salvo. O Pax avisa 1 dia e 2 horas antes.');render()};if(typeof Notification!=='undefined'&&Notification.permission==='default'){Notification.requestPermission().then(ok,ok)}else ok()}
+ if(a==='lgoogle'&&L&&L.data){lembDe();window.open(lembreteGoogle(L),'_blank')}
+ if(a==='lics'&&L&&L.data){lembDe();baixarICS(L)}
+ if(a==='ldel'){S.lemb.splice(+t.dataset.i,1);LS.set('lemb',S.lemb);render()}
+ if(a==='lnovo'){const x=S.hist[+t.dataset.i];abrirLembrete(x?{id:x.id}:{})}});
+/* agenda: botão de lembrete em cada pedido */
+function vAgenda(){let h=vAgendaBase();h=h.replace(/<button class="btn (pri)?" data-act="hok" data-i="(\d+)">/g,(m,_,i)=>`<button class="btn" data-act="lnovo" data-i="${i}">${I.cal('#0B4F5C',18)} Criar lembrete</button>`+m);
+ return h.replace('<button class="btn pri" data-act="nav" data-v="novo"',`<button class="btn" data-act="lnovo" data-i="-1" style="flex:none">${I.cal('#0B4F5C',20)} Criar lembrete a partir de uma confirmação</button>\n <button class="btn pri" data-act="nav" data-v="novo"`)}
+VIEWS.agenda=vAgenda;
+/* compartilhar → Pax (Android): abre o lembrete já preenchido */
+(function(){try{const q=new URLSearchParams(location.search);const txt=[q.get('title'),q.get('text'),q.get('url')].filter(Boolean).join('\n');if(txt){history.replaceState(null,'',location.pathname);setTimeout(()=>abrirLembrete({msg:txt}),50)}}catch(e){}})();
+
+/* ============ INÍCIO ============ */
+(function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();

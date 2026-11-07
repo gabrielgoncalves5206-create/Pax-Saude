@@ -284,3 +284,8 @@ LOC.forEach(p=>{if(p.c==='online')return;
  p.e=p.e.replace('Lapa/Pompeia','Pompeia').replace(/,\s*(\d{5}-\d{3})$/,' – São Paulo – SP, $1').replace(/(São Paulo – SP)( – São Paulo – SP)+/,'$1');
  if(!/São Paulo – SP/.test(p.e))p.e=p.e.replace(/,\s*(\d{5}-\d{3})/,' – São Paulo – SP, $1');});
 (function(){const p=LOC.find(q=>q.id===1);if(p)p.e=p.e.replace('Perdizes','Pompeia');const g=LOC.find(q=>q.id===48);if(g){g.e='R. Duílio, 631 – Pompeia, São Paulo – SP'}})();
+/* v4.0 – notas do Google via Bendito Guia (consultado em nov/2026) */
+(function(){const BG='https://www.benditoguia.com.br/empresa/';const s=(id,v,n,slug)=>{const p=LOC.find(x=>x.id===id);if(p)p.g={v,n,f:BG+slug}};
+s(9,3.9,438,'dr-consulta-lapa-sao-paulo-sp');s(63,3.8,244,'dr-consulta-butanta-sao-paulo-sp');s(64,3.6,340,'dr-consulta-pinheiros-sao-paulo');
+s(65,3.7,1016,'dr-consulta-vila-mariana-sao-paulo');s(82,3.3,159,'lavoisier-penha-de-franca-sao-paulo');
+const g2=(id,v,n)=>{const p=LOC.find(x=>x.id===id);if(p)p.g={v,n,f:'https://www.benditoguia.com.br'}};g2(69,3.7,259);g2(134,3.7,359);})();
