@@ -256,6 +256,17 @@ html{font-size:93.75%}html.fs1{font-size:106.25%}html.fs2{font-size:120%}
 .hello{font-size:1.35rem}.phead h1{font-size:1.25rem}
 .short{width:5rem}.short i{width:3.1rem;height:3.1rem}
 .mini{width:13rem}
+
+/* Endereço de Referência */
+.ref{display:flex;align-items:center;gap:.7rem;width:100%;padding:.6rem .7rem;border-radius:1rem;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);color:#fff;text-align:left}
+.ref.light{background:var(--pet);border:0}
+.ref-ic{width:2.4rem;height:2.4rem;flex:none;border-radius:.8rem;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center}
+.ref-tx{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}
+.ref-lb{font-size:.72rem;font-weight:700;opacity:.85;letter-spacing:.02em}
+.ref-tx b{font-size:.98rem}.ref-sub{font-size:.78rem;opacity:.9}
+.ref-bt{flex:none;font-size:.78rem;font-weight:800;padding:.4rem .7rem;border-radius:999px;background:#fff;color:var(--pet)}
+.ref-msg{display:block;font-size:.78rem;line-height:1.35;color:inherit;opacity:.9;margin-top:-.4rem}
+.sec .ref-msg{color:var(--mut)}
 </style>
 </head>
 <body>
@@ -559,7 +570,7 @@ const REFS=[
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'3.5',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'3.6',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -732,7 +743,11 @@ function card(p){const d=dist(p);
  <span class="meta">${isOnline(p)?I.video('#0E6B6B',16)+esc(p.sp||'Teleconsulta por vídeo'):I.pin('#0B4F5C',16)+`<span>${esc(p.b)} · <b style="color:var(--ink)">${fkm(d)}</b>${p.sp?' · '+esc(p.sp):''}</span>`}</span></span></button>
  <div class="acts">${contatoBtns(p)}</div></article>`}
 function mini(p){const d=dist(p);return `<button class="mini" data-act="abrir" data-id="${p.id}">${cover(p,'7.2rem').replace('class="cover"','class="cover" style="border-radius:0"')}<span class="bd"><span class="meta">${stTag(p)}</span><b>${esc(p.n)}</b><span class="sm mut">${esc(p.b)} · ${fkm(d)}${p.g?' · ★ '+String(p.g.v).replace('.',','):''}</span></span></button>`}
-function origemChip(light){return `<button class="chip-o${light?' light':''}" data-act="picker" data-alvo="origin" aria-label="Alterar ponto de partida: ${esc(S.origin.n)}">${I.pin('#fff',16)}<span>Saindo de: <b>${esc(S.origin.n)}</b></span>${I.down('#fff',14)}</button>`}
+function origemChip(light){const o=S.origin,gps=o.k==='gps';const linha2=gps?(o.sub&&o.sub!=='GPS do aparelho'?o.sub:'Localização atual pelo GPS'):(o.sub||'');
+ return `<button class="ref${light?' light':''}" data-act="picker" data-alvo="origin" aria-label="Endereço de Referência: ${esc(o.n)}${linha2?', '+esc(linha2):''}. Toque para alterar">
+ <span class="ref-ic">${gps?I.gps('#fff',22):I.pin('#fff',22)}</span>
+ <span class="ref-tx"><span class="ref-lb">Endereço de Referência:</span><b class="ell">${esc(gps?'Você está aqui':o.n)}</b>${linha2?`<span class="ell ref-sub">${esc(linha2)}</span>`:''}</span>
+ <span class="ref-bt">Alterar</span></button>${S.gpsMsg?`<span class="ref-msg">${esc(S.gpsMsg)}</span>`:''}`}
 function buscaForm(id,ph,val,live){return `<form class="search" data-form="busca" data-alvo="${id}" role="search">${I.search('#0B4F5C',20)}<label class="sr" for="${id}">Buscar</label><input id="${id}" name="q" type="search" enterkeyhint="search" placeholder="${esc(ph)}" value="${esc(val)}" ${live?`data-live="${live}"`:''} autocomplete="off"><button type="button" class="micbtn" data-act="voz" data-alvo="${id}" aria-label="Buscar por voz">${I.mic('#fff',20)}</button></form>`}
 function phead(t,sub,voltar){return `<div class="phead">${voltar!==false?`<button class="back" data-act="voltar" aria-label="Voltar">${I.back('#0C2329',20)}</button>`:''}<div style="flex:1;min-width:0"><h1>${esc(t)}</h1>${sub?`<p>${esc(sub)}</p>`:''}</div></div>`}
 function cubo(o){return `<button class="cube ${o.cls||'plain'}" data-act="${o.act}" data-v="${o.v}"${o.k?` data-k="${o.k}"`:''}><span class="ic">${o.ic}</span><span class="tx"><span class="t">${o.t}</span><span class="d">${o.d}</span>${o.n!=null?`<span class="tag ${o.cls==='blue'?'blue':o.cls==='pink'?'off':''} n" style="${o.cls==='pink'?'background:#fff;color:#B02A62':o.cls==='blue'?'background:#fff':''}">${o.n}</span>`:''}</span>${I.chev(o.cor||'#0B4F5C',22)}<span class="bgic">${o.bg||''}</span></button>`}
@@ -760,7 +775,7 @@ function vInicio(){
  <section class="sec adv"><h2 class="h2">Agende pelo WhatsApp</h2><p class="p mut" style="margin-top:-.4rem">WhatsApp oficial. A mensagem já vai pronta.</p><div class="grid">${was.map(card).join('')}</div></section>
  <section class="sec adv"><h2 class="h2">Abertos agora, mais perto</h2>${abertos.length?`<div class="grid">${abertos.map(card).join('')}</div>`:'<div class="empty">Nenhum local com horário confirmado está aberto agora.</div>'}</section>`}
 function vNovo(){return phead('O que você quer agendar?','Toque em uma opção para seguir',false)+`<section class="sec">${cubosTipo(false)}
- <div class="info">${I.pin('#0A4B44',20)}<span>Saindo de <b>${esc(S.origin.n)}</b>. <button class="lnk" data-act="picker" data-alvo="origin">Trocar</button></span></div></section>`}
+ <div class="info">${I.pin('#0A4B44',20)}<span>Endereço de Referência: <b>${esc(S.origin.k==='gps'?'Você está aqui':S.origin.n)}</b>. <button class="lnk" data-act="picker" data-alvo="origin">Trocar</button></span></div></section>`}
 function vModo(){const f=S.flow;const c=f.tipo==='consulta';const cor=c?'#B02A62':'#1C5BA8',cls=c?'pink':'blue';
  const n=k=>k==='presencial'?LOC.filter(p=>!isOnline(p)&&p.esp.length).length:k==='online'?LOC.filter(p=>p.on.length).length:k==='lab'?LOC.filter(p=>p.lab).length:LOC.filter(p=>p.img.length).length;
  const op=c?[['presencial','Presencial','Clínica, hospital ou consultório perto de você. Veja distância, rota e horário.','build'],['online','Online','Teleconsulta e médicos por vídeo. Atendimento sem sair de casa.','video']]:[['lab','Laboratoriais','Sangue, urina, glicemia, colesterol, tireoide e outras análises.','tube'],['img','De imagem','Raio-X, ultrassom, tomografia, ressonância, mamografia e mais.','scan']];
@@ -863,7 +878,7 @@ function vLocal(){const p=byId(S.sel);if(!p)return vInicio();const d=dist(p),c=C
 
 /* ---- rota ---- */
 function vRota(){const o=S.origin,d=S.dest;
- const campo=(alvo,pt,cor,rot)=>`<button class="rt-field" data-act="picker" data-alvo="${alvo}"><span class="dot" style="background:${cor}"></span><span class="col" style="flex:1;min-width:0;text-align:left"><span class="sm mut">${rot}</span><b class="ell" style="font-size:.95rem">${pt?esc(pt.n):'Escolha o destino'}</b>${pt&&pt.sub?`<span class="sm mut ell">${esc(pt.sub)}</span>`:''}</span><span class="sm" style="font-weight:800;color:var(--pet)">Alterar</span></button>`;
+ const campo=(alvo,pt,cor,rot)=>`<button class="rt-field" data-act="picker" data-alvo="${alvo}"><span class="dot" style="background:${cor}"></span><span class="col" style="flex:1;min-width:0;text-align:left"><span class="sm mut">${rot}</span><b class="ell" style="font-size:.95rem">${pt?esc(pt.k==='gps'?'Você está aqui'+(pt.sub&&pt.sub!=='GPS do aparelho'?' – '+pt.sub:''):pt.n):'Escolha o destino'}</b>${pt&&pt.sub?`<span class="sm mut ell">${esc(pt.sub)}</span>`:''}</span><span class="sm" style="font-weight:800;color:var(--pet)">Alterar</span></button>`;
  let corpo='';
  if(!d)corpo='<div class="empty">Escolha o destino, ou toque em "Como chegar" na página de um local.</div>';
  else if(o.la==null)corpo=`<div class="info warn"><span>Ainda localizando "${esc(o.n)}". Se não encontrar, os botões abaixo abrem a rota no Google Maps a partir do texto digitado.</span></div>`+links(o,d);
@@ -883,7 +898,7 @@ function vRota(){const o=S.origin,d=S.dest;
   ${links(o,d)}
   <p class="sm mut" style="margin:0">A pé, bicicleta e carro: rota real pelas ruas (OpenStreetMap), sem considerar trânsito. Transporte público: estimativa pela estação mais próxima.</p>`}
  const du=d&&d.id&&byId(d.id);
- return phead('Como chegar','Entre e saia dos endereços quando quiser')+`<section class="sec"><div class="col" style="gap:.5rem;position:relative">${campo('origin',o,'#2563EB','Saindo de')}${campo('dest',d,'var(--pet)','Indo para')}
+ return phead('Como chegar','Entre e saia dos endereços quando quiser')+`<section class="sec"><div class="col" style="gap:.5rem;position:relative">${campo('origin',o,'#2563EB','Endereço de Referência')}${campo('dest',d,'var(--pet)','Indo para')}
  <button class="round" data-act="trocar" aria-label="Inverter partida e destino" style="position:absolute;right:-.4rem;top:50%;transform:translateY(-50%);width:2.6rem;height:2.6rem">${I.swap('#0B4F5C',20)}</button></div>
  ${du?`<div class="acts">${du.wa?`<button class="btn wa" data-act="wa" data-id="${du.id}">${ICW} WhatsApp</button>`:''}<button class="btn" data-act="abrir" data-id="${du.id}">Ver unidade</button></div>`:''}${corpo}</section>`}
 function links(o,d){return `<div class="card"><h2 class="h3">Abrir em outro app</h2><div class="acts wrap"><a class="btn pri" href="${gmaps(o,d,'transit')}" target="_blank" rel="noopener">Google Maps</a><a class="btn" href="${waze(d)}" target="_blank" rel="noopener">Waze</a><a class="btn" href="${uber(d)}" target="_blank" rel="noopener">Uber</a></div></div>`}
@@ -973,9 +988,9 @@ function abrirModal(html,label){const novo=!$('modal').innerHTML;$('modal').inne
 const xBtn=`<button class="round" data-act="fechar" aria-label="Fechar">${I.x('#0C2329',20)}</button>`;
 let PK=null;
 function picker(alvo){PK={alvo,q:''};
- abrirModal(`<div class="row between"><h2 class="h2">${alvo==='origin'?'De onde você sai?':'Para onde você vai?'}</h2>${xBtn}</div>
+ abrirModal(`<div class="row between"><h2 class="h2">${alvo==='origin'?'Endereço de Referência':'Para onde você vai?'}</h2>${xBtn}</div>
  <form class="search" data-form="livre">${I.search('#0B4F5C',20)}<label class="sr" for="pq">Endereço ou local</label><input id="pq" name="q" type="search" autocomplete="off" placeholder="Endereço, estação, bairro ou unidade" data-live="pk"><button type="button" class="micbtn" data-act="voz" data-alvo="pq" aria-label="Falar o endereço">${I.mic('#fff',20)}</button></form>
- ${alvo==='origin'&&navigator.geolocation?`<button class="lrow" data-act="gps"><span class="lic" style="background:#E5EEFC">${I.gps('#2563EB',20)}</span><span class="col" style="flex:1"><b style="font-size:.95rem">Usar minha localização</b><span class="sm mut">Pelo GPS do aparelho</span></span></button>`:''}
+ ${alvo==='origin'&&navigator.geolocation?`<button class="lrow" data-act="gps"><span class="lic" style="background:#E5EEFC">${I.gps('#2563EB',20)}</span><span class="col" style="flex:1"><b style="font-size:.95rem">Usar onde estou agora</b><span class="sm mut">Recomendado · GPS do aparelho</span></span></button>`:''}
  <div id="pkres" class="col"></div>`,'Escolher local');renderPK()}
 function renderPK(){const box=$('pkres');if(!box)return;const t=norm(PK.q);const m=x=>!t||t.split(/\s+/).every(w=>norm(x).includes(w));
  const est=EST.filter(e=>m(e.n+' '+e.l)).map(e=>({k:'ponto',id:e.id,n:e.n,sub:e.l,la:e.la,lo:e.lo,g:'Estações'}));
@@ -1101,7 +1116,9 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
  case'limpar':if(typeof confirm==='function'&&!confirm('Apagar perfil, dependentes, favoritos e agenda deste aparelho?'))break;['favs','hist','origin','nome','geo','user','a11y','fotos3'].forEach(k=>LS.del(k));S.favs=[];S.hist=[];S.user=null;S.origin=ORIGEM_PADRAO;S.a11y={fs:0,hc:false,leg:false,ler:false,simples:false,nomo:false};toast('Dados apagados');render();break;
  }});
 function copiar(v,msg){try{navigator.clipboard.writeText(v).then(()=>toast(msg),()=>toast(v))}catch(err){toast(v)}}
-function usarGPS(){if(!navigator.geolocation){toast('Localização indisponível neste navegador');return}toast('Buscando sua localização…');navigator.geolocation.getCurrentPosition(pos=>setPonto('origin',{k:'gps',n:'Minha localização',sub:'GPS do aparelho',la:pos.coords.latitude,lo:pos.coords.longitude}),()=>toast('Não foi possível usar a localização. Verifique a permissão.'),{enableHighAccuracy:true,timeout:10000})}
+function reverso(pt){fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=18&accept-language=pt-BR&lat='+pt.la+'&lon='+pt.lo).then(r=>r.ok?r.json():null).then(j=>{if(!j||!j.address||S.origin!==pt)return;const ad=j.address;const rua=[ad.road,ad.house_number].filter(Boolean).join(', ');const bairro=ad.suburb||ad.neighbourhood||ad.city_district||'';pt.sub=[rua,bairro].filter(Boolean).join(' – ')||'Localização atual pelo GPS';LS.set('origin',pt);render()}).catch(()=>{})}
+function gpsAuto(silencioso){if(!navigator.geolocation)return;navigator.geolocation.getCurrentPosition(pos=>{const pt={k:'gps',n:'Minha localização',sub:'Localização atual pelo GPS',la:pos.coords.latitude,lo:pos.coords.longitude};S.origin=pt;S.gpsMsg='';LS.set('origin',pt);S.rmode=null;render();reverso(pt)},()=>{S.gpsMsg=silencioso?'Ative a localização do aparelho para usar onde você está. Por enquanto: '+S.origin.n+'.':'';if(silencioso)render()},{enableHighAccuracy:true,timeout:12000,maximumAge:120000})}
+function usarGPS(){if(!navigator.geolocation){toast('Localização indisponível neste navegador');return}toast('Buscando sua localização…');navigator.geolocation.getCurrentPosition(pos=>{const pt={k:'gps',n:'Minha localização',sub:'Localização atual pelo GPS',la:pos.coords.latitude,lo:pos.coords.longitude};S.gpsMsg='';setPonto('origin',pt);reverso(pt)},()=>toast('Não foi possível usar a localização. Verifique a permissão.'),{enableHighAccuracy:true,timeout:10000})}
 document.addEventListener('input',e=>{const k=e.target.dataset.live;if(!k)return;
  if(k==='q'){S.q=e.target.value;renderRes()}else if(k==='qi'){S.qi=e.target.value;renderItens()}else if(k==='pk'){PK.q=e.target.value;renderPK()}
  else if(k==='cel'){const v=fmtCel(e.target.value);if(v!==e.target.value)e.target.value=v}
@@ -1117,7 +1134,7 @@ document.addEventListener('submit',e=>{e.preventDefault();const f=e.target.datas
  if(f==='mly'){const tk=F.elements.tk.value.trim();if(!/^MLY\|/.test(tk)){toast('O token começa com MLY|');return}CFG.mapillary=tk;LS.set('mly',tk);FQ.length=0;LOC.forEach(p=>p._fq=0);Object.keys(FOTOS).forEach(k=>delete FOTOS[k]);LS.del('fotos3');render();toast('Fotos de rua ativadas')}
  if(f==='dep'){const nome=F.elements.nome.value.trim();if(!nome)return;S.user.deps=S.user.deps||[];S.user.deps.push({nome,par:F.elements.par.value});LS.set('user',S.user);render();toast('Dependente adicionado')}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('modal').innerHTML)fechar();else if($('drawer').innerHTML)fecharMenu()}});
-(function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true)})();
+(function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
 
 /* ============ INSTALAR (PWA) ============ */
 let PEDIDO=null;
