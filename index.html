@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B4F5C">
+<meta name="description" content="Pax - Saúde: encontre consultas e exames em São Paulo, veja como chegar e agende pelo WhatsApp.">
+<title>Pax - Saúde</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230B4F5C'/%3E%3Cg fill='%2334C3B5'%3E%3Cpath d='M32 8c6 6 6 15 0 21-6-6-6-15 0-21z'/%3E%3Cpath d='M32 56c-6-6-6-15 0-21 6 6 6 15 0 21z'/%3E%3Cpath d='M8 32c6-6 15-6 21 0-6 6-15 6-21 0z'/%3E%3Cpath d='M56 32c-6 6-15 6-21 0 6-6 15-6 21 0z'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<style>
+:root{--pet:#0B4F5C;--pet2:#0E6470;--teal:#14A39A;--teal2:#34C3B5;--mint:#E2F4F1;--bg:#F1F6F6;--card:#FFFFFF;--ink:#0C2329;--mut:#4A6066;--line:#DAE5E5;--pk:#B02A62;--pkb:#FDE8F0;--bl:#1C5BA8;--blb:#E5EEFC;--wa:#25D366;--waink:#063B21;--red:#B3261E;--amb:#F2B33D;--r:20px;--sh:0 1px 2px rgba(12,35,41,.06),0 6px 18px rgba(12,35,41,.07)}
+html{font-size:100%}html.fs1{font-size:112.5%}html.fs2{font-size:128%}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+html.legivel body,html.legivel button,html.legivel input,html.legivel select{font-family:'Atkinson Hyperlegible','Plus Jakarta Sans',system-ui,sans-serif}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--amb);outline-offset:2px}
+img{max-width:100%}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.shell{max-width:560px;margin:0 auto;min-height:100vh;min-height:100dvh;background:var(--bg);position:relative;display:flex;flex-direction:column}
+main{flex:1;padding-bottom:calc(6.5rem + env(safe-area-inset-bottom))}
+
+/* ---------- barra superior ---------- */
+.top{position:sticky;top:0;z-index:30;display:grid;grid-template-columns:3rem 1fr 3rem;align-items:center;gap:.5rem;padding:.5rem .75rem;padding-top:calc(.5rem + env(safe-area-inset-top));background:var(--pet);color:#fff}
+.iconbtn{width:3rem;height:3rem;border-radius:1rem;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .15s}
+.iconbtn:hover{background:rgba(255,255,255,.12)}.iconbtn:active{transform:scale(.94)}
+.brand{justify-self:center;display:flex;align-items:center;gap:.55rem;font-size:1.22rem;letter-spacing:.01em;white-space:nowrap}
+.brand .mk{width:2.15rem;height:2.15rem;border-radius:.8rem;background:linear-gradient(145deg,#fff,#DDF5F1);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.brand b{font-weight:800}.brand span{font-weight:500;color:#BDEDE6}
+/* ---------- herói da tela inicial ---------- */
+.hero{background:linear-gradient(180deg,var(--pet) 0%,var(--pet2) 100%);color:#fff;padding:.4rem 1rem 1.4rem;border-radius:0 0 1.75rem 1.75rem;display:flex;flex-direction:column;gap:.85rem;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-60px;top:-40px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(52,195,181,.35),transparent 70%);pointer-events:none}
+.hello{font-size:1.45rem;font-weight:800;margin:0;line-height:1.25}.hello small{display:block;font-size:.9rem;font-weight:500;color:#BDEDE6;margin-top:.15rem}
+.chip-o{min-height:2.75rem;display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .9rem;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;font-size:.82rem;font-weight:700;text-align:left;max-width:100%;align-self:flex-start;border:1px solid rgba(255,255,255,.18)}
+.chip-o span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip-o.light{background:var(--pet);border:0}
+.search{display:flex;align-items:center;gap:.6rem;min-height:3.4rem;padding:.3rem .35rem .3rem .9rem;border-radius:1.1rem;background:#fff;border:1.5px solid var(--line);color:var(--ink);box-shadow:var(--sh);position:relative;z-index:1}
+.search input{flex:1;min-width:0;border:0;outline:none;font:inherit;font-size:1rem;background:transparent;color:var(--ink);min-height:2.6rem}
+.micbtn{width:2.75rem;height:2.75rem;flex:none;border-radius:.85rem;background:var(--teal);display:flex;align-items:center;justify-content:center}
+.micbtn.on{animation:pulse 1s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(20,163,154,.25)}}
+/* ---------- cabeçalho de página ---------- */
+.phead{display:flex;align-items:center;gap:.6rem;padding:.9rem 1rem .2rem}
+.back{width:2.9rem;height:2.9rem;flex:none;border-radius:1rem;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;box-shadow:var(--sh)}
+.phead h1{margin:0;font-size:1.35rem;line-height:1.25;font-weight:800}.phead p{margin:.1rem 0 0;font-size:.85rem;color:var(--mut)}
+/* ---------- base ---------- */
+.sec{padding:1.1rem 1rem 0;display:flex;flex-direction:column;gap:.8rem}
+.row{display:flex;align-items:center;gap:.6rem}.between{justify-content:space-between}.col{display:flex;flex-direction:column}.wrap{flex-wrap:wrap}
+.h2{margin:0;font-size:1.12rem;font-weight:800;line-height:1.3}.h3{margin:0;font-size:1rem;font-weight:800}
+.mut{color:var(--mut)}.sm{font-size:.8rem;line-height:1.35}.p{margin:0;font-size:.92rem;line-height:1.5}
+.ell{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lnk{color:var(--pet2);font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.card{display:flex;flex-direction:column;gap:.75rem;padding:1rem;border-radius:var(--r);background:var(--card);border:1px solid var(--line);box-shadow:var(--sh)}
+.tag{display:inline-flex;align-items:center;gap:.25rem;font-size:.72rem;font-weight:800;padding:.28rem .6rem;border-radius:999px;background:var(--mint);color:#0A5A50;white-space:nowrap}
+.tag.off{background:#FBE9E8;color:#8E1F18}.tag.gray{background:#EDF2F2;color:#33484D}.tag.warn{background:#FFF1D6;color:#7A4A0E}.tag.blue{background:var(--blb);color:var(--bl)}.tag.star{background:#FFF4D6;color:#7A4A0E}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;font-size:.8rem;color:var(--mut)}
+.info{display:flex;gap:.6rem;padding:.8rem .9rem;border-radius:1rem;background:var(--mint);font-size:.85rem;line-height:1.45;color:#0A4B44}
+.info.warn{background:#FFF4DE;color:#5E3B08}.info.red{background:#FBE9E8;color:#7D1B15}
+.empty{padding:1.5rem 1rem;border-radius:var(--r);background:#fff;border:1.5px dashed var(--line);text-align:center;color:var(--mut);font-size:.92rem;line-height:1.5}
+.btn{min-height:3rem;flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.45rem;padding:.55rem 1rem;border-radius:.95rem;background:#fff;border:1.5px solid var(--line);font-weight:800;font-size:.92rem;color:var(--ink);text-align:center;transition:transform .12s,box-shadow .2s,background .2s}
+.btn:active{transform:scale(.97)}
+.btn.pri{background:var(--pet);border-color:var(--pet);color:#fff}.btn.teal{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn.wa{background:var(--wa);border-color:var(--wa);color:var(--waink)}.btn.red{background:var(--red);border-color:var(--red);color:#fff}
+.btn.ghost{background:transparent}.btn.sm{min-height:2.6rem;font-size:.82rem;flex:none;padding:.4rem .8rem}
+.acts{display:flex;gap:.55rem;align-items:stretch}
+.round{width:3rem;height:3rem;flex:none;border-radius:1rem;border:1.5px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center}
+.round.wa{background:var(--wa);border-color:var(--wa)}
+/* ---------- cartões grandes (cubos) ---------- */
+.cubes{display:flex;flex-direction:column;gap:.8rem}
+.cube{position:relative;overflow:hidden;width:100%;min-height:8.2rem;display:flex;align-items:center;gap:1rem;padding:1.15rem 1.1rem;border-radius:1.6rem;text-align:left;background:#fff;border:1.5px solid var(--line);box-shadow:var(--sh);transition:transform .15s,box-shadow .2s}
+.cube:hover{box-shadow:0 10px 28px rgba(12,35,41,.12)}.cube:active{transform:scale(.985)}
+.cube .ic{width:4rem;height:4rem;flex:none;border-radius:1.25rem;display:flex;align-items:center;justify-content:center}
+.cube .tx{flex:1;display:flex;flex-direction:column;gap:.25rem;min-width:0;position:relative;z-index:1}
+.cube .t{font-size:1.5rem;font-weight:800;line-height:1.15}.cube .d{font-size:.88rem;line-height:1.4;color:var(--mut);font-weight:600}
+.cube .n{align-self:flex-start;margin-top:.2rem}
+.cube .bgic{position:absolute;right:-18px;bottom:-22px;opacity:.09;pointer-events:none}
+.cube.pink{background:var(--pkb);border-color:#F6CBDB}.cube.pink .t{color:var(--pk)}.cube.pink .ic{background:#fff}
+.cube.blue{background:var(--blb);border-color:#C9DBF7}.cube.blue .t{color:var(--bl)}.cube.blue .ic{background:#fff}
+.cube.plain .ic{background:var(--mint)}
+.cube.hero2{min-height:10rem}.cube.hero2 .t{font-size:1.75rem}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.duo .cube{flex-direction:column;align-items:flex-start;min-height:10.5rem}
+.duo .cube .t{font-size:1.45rem}
+/* ---------- atalhos ---------- */
+.hscroll{display:flex;gap:.7rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:.15rem 1rem .6rem;margin:0 -1rem;scrollbar-width:none}
+.hscroll::-webkit-scrollbar{display:none}.hscroll>*{scroll-snap-align:start;flex:none}
+.short{width:5.6rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;font-size:.76rem;font-weight:700;text-align:center;line-height:1.2}
+.short i{width:3.6rem;height:3.6rem;border-radius:1.2rem;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);box-shadow:var(--sh);transition:transform .15s}
+.short:active i{transform:scale(.92)}
+.mini{width:15rem;display:flex;flex-direction:column;border-radius:1.2rem;background:#fff;border:1px solid var(--line);overflow:hidden;box-shadow:var(--sh);text-align:left}
+.mini .bd{padding:.7rem .8rem .8rem;display:flex;flex-direction:column;gap:.3rem}
+.mini b{font-size:.9rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+/* ---------- capas, fotos e mapa-miniatura ---------- */
+.cover{position:relative;overflow:hidden;width:100%;background:#DCE8E6;display:block;border-radius:1rem}
+.cover img.ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.cover .tiles{position:absolute;left:50%;top:50%;width:0;height:0}
+.cover .tiles img{position:absolute;width:256px;height:256px;max-width:none;user-select:none}
+.cover .pin{position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+.cover .bdg{position:absolute;left:.6rem;top:.6rem;font-size:.66rem;font-weight:800;letter-spacing:.05em;background:rgba(12,35,41,.72);color:#fff;padding:.3rem .55rem;border-radius:999px;backdrop-filter:blur(4px)}
+.cover .src{position:absolute;right:.5rem;bottom:.45rem;font-size:.6rem;font-weight:700;background:rgba(255,255,255,.88);color:#33484D;padding:.15rem .4rem;border-radius:.4rem}
+.cover .st{position:absolute;left:.6rem;bottom:.6rem}
+.gallery{display:flex;gap:.5rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.gallery::-webkit-scrollbar{display:none}
+.gallery>.cover{flex:none;width:100%;scroll-snap-align:center;border-radius:0}
+.dots{display:flex;gap:.3rem;justify-content:center;position:absolute;bottom:.7rem;left:0;right:0;pointer-events:none}
+.dots i{width:.45rem;height:.45rem;border-radius:50%;background:rgba(255,255,255,.6)}.dots i.on{background:#fff;width:1.2rem;border-radius:999px}
+/* ---------- cartão de local ---------- */
+.pcard{display:flex;flex-direction:column;border-radius:var(--r);background:#fff;border:1px solid var(--line);box-shadow:var(--sh);overflow:hidden}
+.pcard .open{display:flex;flex-direction:column;text-align:left;width:100%}
+.pcard .cover{border-radius:0}
+.pcard .bd{padding:.85rem 1rem .4rem;display:flex;flex-direction:column;gap:.4rem}
+.pcard .nm{font-size:1.05rem;font-weight:800;line-height:1.3}
+.pcard .acts{padding:.5rem 1rem 1rem}
+.grid{display:flex;flex-direction:column;gap:.9rem}
+/* ---------- listas ---------- */
+.lrow{display:flex;align-items:center;gap:.75rem;padding:.85rem 0;border-bottom:1px solid #EDF2F2;width:100%;text-align:left}
+.lrow:last-child{border-bottom:0}
+.lic{width:2.75rem;height:2.75rem;flex:none;border-radius:.9rem;display:flex;align-items:center;justify-content:center;background:var(--mint)}
+.tiles2{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.tile{display:flex;flex-direction:column;gap:.45rem;padding:.95rem;border-radius:1.2rem;background:#fff;border:1.5px solid var(--line);text-align:left;box-shadow:var(--sh);transition:transform .15s;min-height:8.2rem}
+.tile:active{transform:scale(.97)}.tile.wide{grid-column:1/-1;flex-direction:row;align-items:center;min-height:6rem}
+.tile b{font-size:1rem;line-height:1.25}.tile .lic{width:2.6rem;height:2.6rem}
+/* ---------- controles ---------- */
+.seg{display:flex;gap:.3rem;padding:.3rem;border-radius:1rem;background:#E3ECEC}
+.seg button{flex:1;min-height:2.6rem;border-radius:.75rem;font-size:.8rem;font-weight:800;color:#33484D;padding:0 .4rem}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--pet);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.chips{display:flex;gap:.45rem;overflow-x:auto;scrollbar-width:none;margin:0 -1rem;padding:0 1rem}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;min-height:2.5rem;padding:0 .95rem;border-radius:999px;border:1.5px solid var(--line);background:#fff;font-size:.82rem;font-weight:700}
+.chip[aria-pressed="true"]{background:var(--pet);border-color:var(--pet);color:#fff}
+.kv{display:flex;justify-content:space-between;gap:1rem;font-size:.88rem;padding:.55rem 0;border-bottom:1px solid #EDF2F2}.kv:last-child{border-bottom:0}
+.mapwrap{border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:#E6EEEE;position:relative}
+.leaf{width:100%}
+/* ---------- avaliação e redes ---------- */
+.rate{display:flex;align-items:center;gap:.9rem}
+.rate .big{font-size:2.4rem;font-weight:800;line-height:1;color:var(--ink)}
+.stars{display:flex;gap:2px}
+.soc{display:flex;align-items:center;gap:.8rem;padding:.75rem;border-radius:1.1rem;border:1.5px solid var(--line);background:#fff;width:100%;text-align:left;transition:transform .12s}
+.soc:active{transform:scale(.98)}
+.soc .si{width:2.9rem;height:2.9rem;border-radius:.95rem;display:flex;align-items:center;justify-content:center;flex:none;color:#fff}
+.soc.hero{border:0;color:#fff;min-height:4.4rem}
+.ig{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%)}
+.fb{background:#1877F2}.li{background:#0A66C2}.yt{background:#FF0000}.site{background:var(--pet)}.gm{background:#fff;border:1.5px solid var(--line)}.dc{background:#00C3A5}
+/* ---------- rota ---------- */
+.rt-field{display:flex;align-items:center;gap:.75rem;padding:.75rem .9rem;border-radius:1rem;background:#fff;border:1.5px solid var(--line);width:100%;text-align:left;min-height:3.9rem}
+.dot{width:.85rem;height:.85rem;border-radius:50%;flex:none}
+.mode{display:flex;align-items:center;gap:.5rem;padding:.4rem;border-radius:1.1rem;background:#fff;border:1.5px solid var(--line)}
+.mode.sel{border-color:var(--pet);box-shadow:0 0 0 3px rgba(11,79,92,.12)}
+.modebtn{flex:1;display:flex;align-items:center;gap:.7rem;padding:.4rem;text-align:left;min-width:0}
+.modebtn .t{font-weight:800;font-size:1rem;color:var(--pet);white-space:nowrap}
+.gbtn{flex:none;min-height:2.6rem;padding:0 .8rem;border-radius:.8rem;border:1.5px solid var(--line);display:flex;align-items:center;font-size:.78rem;font-weight:800}
+/* ---------- navegação inferior ---------- */
+.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:560px;z-index:40;display:grid;grid-template-columns:repeat(5,1fr);align-items:end;padding:.45rem .5rem calc(.55rem + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+.nav button{display:flex;flex-direction:column;align-items:center;gap:.2rem;font-size:.7rem;font-weight:700;color:#4A6066;min-height:3.4rem}
+.nav .bub{width:3.4rem;height:2.1rem;border-radius:999px;display:flex;align-items:center;justify-content:center;transition:background .25s,transform .25s}
+.nav button[aria-current="page"]{color:var(--pet)}
+.nav button[aria-current="page"] .bub{background:var(--teal);transform:translateY(-1px)}
+.nav .plus{width:3.6rem;height:3.6rem;border-radius:1.3rem;margin-top:-1.6rem;background:linear-gradient(145deg,var(--teal),var(--pet));display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(11,79,92,.35);transition:transform .2s}
+.nav .mid:active .plus{transform:scale(.92)}
+.nav .mid[aria-current="page"] .plus{box-shadow:0 0 0 4px rgba(20,163,154,.3),0 8px 20px rgba(11,79,92,.35)}
+/* ---------- barra de ação fixa ---------- */
+.bar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(4.6rem + env(safe-area-inset-bottom));width:calc(100% - 1.5rem);max-width:536px;z-index:35;display:flex;gap:.55rem;padding:.55rem;border-radius:1.3rem;background:rgba(255,255,255,.97);border:1px solid var(--line);box-shadow:0 10px 30px rgba(12,35,41,.18)}
+.has-bar main{padding-bottom:calc(11rem + env(safe-area-inset-bottom))}
+.fab{position:fixed;right:1rem;bottom:calc(5.6rem + env(safe-area-inset-bottom));z-index:45;width:3.6rem;height:3.6rem;border-radius:50%;background:var(--amb);color:#3A2600;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.has-bar .fab{bottom:calc(10.4rem + env(safe-area-inset-bottom))}
+/* ---------- menu lateral ---------- */
+.drawer-bg{position:fixed;inset:0;z-index:60;background:rgba(6,25,29,.45);backdrop-filter:blur(3px);animation:fade .25s ease}
+.drawer{position:fixed;top:0;bottom:0;left:0;width:min(88vw,22rem);z-index:61;background:#fff;display:flex;flex-direction:column;animation:slide .32s cubic-bezier(.2,.8,.2,1);overflow-y:auto;padding-bottom:env(safe-area-inset-bottom)}
+.drawer .dh{background:linear-gradient(160deg,var(--pet),var(--pet2));color:#fff;padding:calc(1.2rem + env(safe-area-inset-top)) 1.1rem 1.2rem;display:flex;flex-direction:column;gap:.8rem}
+.drawer .it{display:flex;align-items:center;gap:.85rem;padding:.8rem 1.1rem;width:100%;text-align:left;min-height:3.6rem}
+.drawer .it:hover{background:#F3F8F8}
+.drawer .it b{font-size:.95rem;display:block}.drawer .it small{font-size:.76rem;color:var(--mut);display:block;line-height:1.3}
+.drawer .grp{font-size:.7rem;font-weight:800;letter-spacing:.08em;color:var(--mut);padding:1rem 1.1rem .3rem}
+@keyframes slide{from{transform:translateX(-100%)}to{transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+/* ---------- folhas (modais) ---------- */
+.modal-bg{position:fixed;inset:0;z-index:70;background:rgba(6,25,29,.5);display:flex;align-items:flex-end;justify-content:center;animation:fade .2s ease}
+.sheet{width:100%;max-width:560px;max-height:92vh;overflow-y:auto;background:#fff;border-radius:1.6rem 1.6rem 0 0;padding:.6rem 1.1rem calc(1.3rem + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:.85rem;animation:up .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+.grab{width:2.8rem;height:.3rem;border-radius:999px;background:#CFDADA;align-self:center}
+.f{display:flex;flex-direction:column;gap:.35rem;font-size:.82rem;font-weight:800;color:#33484D}
+.inp{min-height:3.1rem;border-radius:.9rem;border:1.5px solid var(--line);padding:0 .85rem;font:inherit;font-size:1rem;background:#fff;color:var(--ink);width:100%}
+.chat{background:#E7DED4;border-radius:1rem;padding:.8rem}
+.bubble{background:#DCF8C6;border-radius:.9rem .9rem .2rem .9rem;padding:.7rem .8rem;font-size:.88rem;line-height:1.45;white-space:pre-wrap;margin-left:1.5rem}
+.grp2{font-size:.7rem;font-weight:800;letter-spacing:.08em;color:var(--mut);padding-top:.6rem}
+.toast-w{position:fixed;left:0;right:0;bottom:calc(6rem + env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:90;pointer-events:none}
+.toast{background:var(--ink);color:#fff;padding:.75rem 1.1rem;border-radius:1rem;font-size:.88rem;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.25);animation:up .25s ease;max-width:90vw}
+details.faq{background:#fff;border:1px solid var(--line);border-radius:1rem;padding:.2rem .95rem}
+details.faq summary{cursor:pointer;font-weight:800;font-size:.95rem;padding:.8rem 0;list-style:none;display:flex;justify-content:space-between;gap:1rem}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary:after{content:"+";font-size:1.3rem;color:var(--teal);line-height:1}
+details.faq[open] summary:after{content:"–"}
+details.faq p{margin:0 0 .9rem;font-size:.9rem;line-height:1.5;color:var(--mut)}
+.sw{display:flex;align-items:center;gap:.8rem;padding:.85rem 0;border-bottom:1px solid #EDF2F2;width:100%;text-align:left}
+.sw:last-child{border-bottom:0}
+.tog{width:3.2rem;height:1.9rem;border-radius:999px;background:#C9D6D6;position:relative;flex:none;transition:background .2s}
+.tog:after{content:"";position:absolute;left:.2rem;top:.2rem;width:1.5rem;height:1.5rem;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+[aria-checked="true"] .tog{background:var(--teal)}[aria-checked="true"] .tog:after{transform:translateX(1.3rem)}
+/* ---------- transição: desfocado → em foco ---------- */
+.enter{animation:foco .38s cubic-bezier(.2,.7,.2,1)}
+@keyframes foco{from{opacity:.25;filter:blur(10px);transform:scale(.985)}to{opacity:1;filter:blur(0);transform:none}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+html.nomotion *,html.nomotion *:before,html.nomotion *:after{animation:none!important;transition:none!important}
+/* ---------- alto contraste ---------- */
+html.hc{--bg:#FFFFFF;--card:#FFFFFF;--ink:#000;--mut:#1A1A1A;--line:#000;--pet:#00323B;--pet2:#00323B;--teal:#00635C;--mint:#E8F7F5;--pk:#8A0F44;--bl:#0B3F82}
+html.hc .card,html.hc .pcard,html.hc .cube,html.hc .tile,html.hc .btn,html.hc .chip,html.hc .search,html.hc .soc{border-width:2px;border-color:#000;box-shadow:none}
+html.hc .tag{border:1.5px solid currentColor}html.hc .lnk{color:#00323B}
+html.hc .hero,html.hc .top{background:#00323B}
+/* ---------- modo simples ---------- */
+html.simples .adv{display:none!important}
+html.simples .cube{min-height:9.5rem}html.simples .cube .t{font-size:1.75rem}
+/* ---------- computador ---------- */
+@media (min-width:900px){
+ body{background:linear-gradient(180deg,#E5EFEF,#F1F6F6 320px)}
+ .shell{max-width:1180px;display:grid;grid-template-columns:15rem 1fr;grid-template-rows:auto 1fr;column-gap:1.5rem;padding:0 1.5rem}
+ .top{grid-column:1/-1;border-radius:0 0 1.4rem 1.4rem;padding:.6rem 1rem}
+ main{grid-column:2;max-width:760px;width:100%;padding-bottom:3rem}
+ .nav{position:sticky;top:5.5rem;left:auto;transform:none;bottom:auto;grid-column:1;grid-row:2;align-self:start;display:flex;flex-direction:column;align-items:stretch;gap:.3rem;padding:.8rem;border:1px solid var(--line);border-radius:1.4rem;margin-top:1.1rem;max-width:none;width:auto}
+ .nav button{flex-direction:row;justify-content:flex-start;gap:.8rem;font-size:.95rem;padding:.3rem .5rem;border-radius:1rem;min-height:3.2rem}
+ .nav button:hover{background:#F1F6F6}
+ .nav .plus{margin-top:0;width:2.6rem;height:2.6rem;border-radius:.9rem}
+ .nav .mid{order:-1;background:var(--mint);margin-bottom:.4rem}
+ .nav .bub{width:2.6rem}
+ #barbox{grid-column:2;position:sticky;bottom:1rem;max-width:760px}
+ .bar{position:static;transform:none;width:auto;max-width:none;margin:1rem 1rem 0}
+ .fab{bottom:2rem!important;right:2rem}
+ .has-bar main{padding-bottom:3rem}
+ .grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+ .hero{border-radius:1.75rem;margin-top:1.1rem}
+ .toast-w{bottom:2rem}
+ .tiles2{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="shell" id="shell">
+ <header class="top" id="top"></header>
+ <main id="app" tabindex="-1"></main>
+ <div id="barbox"></div>
+ <nav class="nav" id="nav" aria-label="Navegação principal"></nav>
+</div>
+<div id="drawer"></div>
+<div id="modal"></div>
+<div id="fab"></div>
+<div id="toast" class="toast-w" aria-live="polite"></div>
+<script>
+/* ============ DADOS (pesquisa nov/2026) ============ */
+const UTEIS=[1,2,3,4,5], SAB=[6], DOM=[0], SEGSAB=[1,2,3,4,5,6], TODOS=[0,1,2,3,4,5,6];
+const H=(d,a,f)=>({d,a,f});
+const ESP={
+ clinica:['Clínica geral','Check-up, sintomas gerais e encaminhamentos'],
+ cardio:['Cardiologia','Coração, pressão e circulação'],
+ dermato:['Dermatologia','Pele, cabelo e unhas'],
+ endo:['Endocrinologia','Hormônios, tireoide e diabetes'],
+ gastro:['Gastroenterologia','Estômago e intestino'],
+ gineco:['Ginecologia','Saúde da mulher e pré-natal'],
+ neuro:['Neurologia','Cérebro, nervos, enxaqueca'],
+ oftalmo:['Oftalmologia','Olhos e visão'],
+ orto:['Ortopedia','Ossos, músculos e articulações'],
+ otorrino:['Otorrinolaringologia','Ouvido, nariz e garganta'],
+ pedi:['Pediatria','Crianças e adolescentes'],
+ psiq:['Psiquiatria','Saúde mental'],
+ uro:['Urologia','Rins, bexiga e próstata']
+};
+const TODAS=Object.keys(ESP);
+const LABX=[
+ ['Hemograma completo','Avalia células do sangue: anemia, infecções e plaquetas.','Sem jejum'],
+ ['Glicemia em jejum','Mede o açúcar no sangue.','Jejum de 8h'],
+ ['Colesterol total e frações','HDL, LDL e colesterol total.','Jejum de 12h (confirme)'],
+ ['Triglicerídeos','Gordura no sangue, costuma vir com o colesterol.','Jejum de 12h'],
+ ['TSH e T4 livre','Avaliam o funcionamento da tireoide.','Sem jejum'],
+ ['Vitamina D','Nível de vitamina D no organismo.','Sem jejum'],
+ ['Hemoglobina glicada','Média do açúcar dos últimos 3 meses.','Sem jejum'],
+ ['Urina tipo 1','Avalia rins e infecção urinária.','Primeira urina do dia'],
+ ['Creatinina e ureia','Avaliam o funcionamento dos rins.','Sem jejum'],
+ ['Beta-hCG','Exame de sangue de gravidez.','Sem jejum']
+];
+const IMGX={
+ rx:['Raio-X','Ossos, tórax e pulmões. Rápido.','Em geral sem preparo'],
+ us:['Ultrassom','Órgãos e tecidos com ondas sonoras, sem radiação.','Depende da região (jejum ou bexiga cheia)'],
+ tc:['Tomografia','Imagens em cortes do corpo; alguns tipos usam contraste.','Pode exigir jejum e contraste'],
+ rm:['Ressonância magnética','Imagens detalhadas de tecidos, articulações e cérebro.','Sem metais no corpo; avise sobre implantes'],
+ mamo:['Mamografia','Exame das mamas para prevenção.','Sem desodorante ou talco no dia'],
+ dens:['Densitometria óssea','Mede a densidade dos ossos.','Evite cálcio 24h antes'],
+ eco:['Ecocardiograma','Ultrassom do coração.','Em geral sem preparo']
+};
+const CATS={
+ hospital:{nome:'Hospitais e PS',um:'Hospital',cor:'#8A1C22',fundo:'#F6E6E6'},
+ clinica:{nome:'Clínicas',um:'Clínica',cor:'#143D33',fundo:'#E3F1EA'},
+ medico:{nome:'Médicos',um:'Médico',cor:'#5B3C88',fundo:'#EEE8F6'},
+ laboratorio:{nome:'Laboratórios',um:'Laboratório',cor:'#1F4E7A',fundo:'#E6EEF6'},
+ imagem:{nome:'Imagem',um:'Diagnóstico por imagem',cor:'#7A4A0E',fundo:'#FBEEDC'},
+ online:{nome:'Online',um:'Teleconsulta',cor:'#0E6B6B',fundo:'#DDF2F2'}
+};
+const COM='https://commons.wikimedia.org/wiki/Special:FilePath/';
+const DRC_ESP=TODAS;
+const drc=(id,nome,b,e,la,lo,extra)=>Object.assign({id,n:'dr.consulta – '+nome,c:'clinica',b,e,hr:'Confirme no app ou site dr.consulta (a rede abre em geral de seg a sáb a partir das 6h45)',h:null,t:['(11) 4090-1510'],cv:'Particular (sem convênio)',d:'Centro médico da rede dr.consulta, com consultas em várias especialidades, coleta de exames e preços acessíveis. A agenda de cada especialidade varia por unidade.',la,lo,f:'https://drconsulta.com/centrosmedicos/lapa',esp:DRC_ESP,lab:1,img:[]},extra||{});
+const LOC=[
+{id:1,n:'Hospital São Camilo – Pompeia',c:'hospital',b:'Pompeia',e:'Av. Pompeia, 1178 – Perdizes, São Paulo – SP, 05022-001',hr:'Pronto-socorro 24 horas, todos os dias',h:'24h',t:['(11) 3677-4444','(11) 3172-6800 (agendamento)'],cv:'Convênios e particular',d:'Hospital geral de alta complexidade, inaugurado em 1960, com pronto-socorro adulto, infantil e 60+.',la:-23.5330,lo:-46.6855,f:'https://hospitalsaocamilosp.org.br/pompeia/',esp:['clinica','cardio','orto','pedi','neuro','gastro'],img:['rx','us','tc','rm'],lab:1},
+{id:2,n:'Hospital e Maternidade Metropolitano',c:'hospital',b:'Vila Romana',e:'R. Marcelina, 441 – Vila Romana, São Paulo – SP, 05046-000',hr:'Pronto-socorro 24 horas (fonte secundária)',h:'24h',t:['(11) 3677-2000'],cv:'Convênios',d:'Hospital geral tradicional da Lapa, conhecido pela maternidade.',la:-23.5290,lo:-46.6965,f:'https://www.hospitalmetropolitano.com.br/localizacao.html',esp:['gineco','pedi','clinica'],img:['rx','us']},
+{id:3,n:'Hospital Albert Sabin',c:'hospital',b:'Lapa',e:'R. Brig. Gavião Peixoto, 123 – Lapa, São Paulo – SP, 05078-000',hr:'Pronto-socorro 24 horas, todos os dias',h:'24h',t:['(11) 3838-4655'],cv:'Convênios e particular',d:'Hospital geral privado com pronto-socorro na Lapa, com acreditação ONA nível 3.',la:-23.5255,lo:-46.7020,f:'https://hasabin.com.br/',esp:['clinica','cardio']},
+{id:4,n:'Pronto Socorro Municipal da Lapa',c:'hospital',b:'Vila Hamburguesa',e:'Av. Queiroz Filho, 313 – Vila Hamburguesa, São Paulo – SP, 05319-000',hr:'24 horas, todos os dias',h:'24h',t:['(11) 4878-1701'],cv:'SUS – gratuito',sus:1,al:'Telefone de fonte secundária; catálogos mostram outro número.',d:'Pronto-socorro público de referência da região da Lapa.',la:-23.5385,lo:-46.7215,f:'https://www.hu.usp.br/urgencias-e-emergencias-24h',esp:['clinica','pedi']},
+{id:5,n:'Hospital Municipal Dr. José Soares Hungria (Pirituba)',c:'hospital',b:'Pirituba',e:'Av. Menotti Laudisio, 100 – Pirituba, São Paulo – SP, 02945-000',hr:'Emergência 24 horas',h:'24h',t:['(11) 5178-0750'],cv:'SUS – gratuito',sus:1,d:'Hospital municipal que atende Pirituba, São Domingos, Jaraguá, Perus e Anhanguera.',la:-23.4870,lo:-46.7260,f:'https://guia.agendarconsulta.com/sao-paulo/sao-paulo/hosp-mun-pirituba-jose-soares-hungria-2077450',esp:['clinica']},
+{id:6,n:'Hospital Universitário da USP (HU-USP)',c:'hospital',b:'Butantã',e:'Av. Prof. Lineu Prestes, 2565 – Cidade Universitária, São Paulo – SP, 05508-000',hr:'Pronto-socorro adulto e infantil 7h–19h; depois disso, só emergências',h:[H(TODOS,'07:00','19:00')],t:['(11) 3091-9200'],cv:'SUS – gratuito',sus:1,d:'Hospital-escola da USP, voltado à população do Butantã.',la:-23.563814,lo:-46.741215,f:'https://www.hu.usp.br/urgencias-e-emergencias-24h',esp:['clinica','pedi','gineco']},
+{id:7,n:'Pronto Atendimento Sancta Maggiore Perdizes',c:'hospital',b:'Pompeia',e:'Av. Pompeia, 1326 – Vila Pompeia, São Paulo – SP, 05022-001',hr:'Horário não confirmado',h:null,t:['(11) 3003-2442 (central)'],cv:'Exclusivo para beneficiários Prevent Senior',al:'Atende só beneficiários Prevent Senior.',d:'Pronto atendimento da rede própria da Prevent Senior.',la:-23.5345,lo:-46.6870,f:'https://www.solutudo.com.br/empresas/sp/s-paulo/hospitais/pronto-atendimento-sancta-maggiore-perdizes-10814335',esp:[]},
+{id:8,n:'Hospital Sancta Maggiore Rússia',c:'hospital',b:'Butantã',e:'Av. Prof. Francisco Morato, 1133 – Butantã, São Paulo – SP',hr:'Internação 24 horas',h:'24h',t:['(11) 4085-9396'],cv:'Exclusivo para beneficiários Prevent Senior',al:'Atende só beneficiários Prevent Senior.',d:'Hospital da rede própria Prevent Senior na Zona Oeste.',la:-23.5770,lo:-46.7150,f:'https://www.preventsenior.com.br/blog/transfer%C3%AAncia-dos-servi%C3%A7os-do-hospital-colorado-acontece-em-15-06-2026',esp:[]},
+drc(9,'Lapa','Lapa','R. John Harrison, 51 – Lapa, São Paulo – SP, 05074-080',-23.5208,-46.7050,{hr:'Seg a sáb 6h45–18h; domingo até 13h · Coleta seg a sáb 7h–17h, dom 7h–11h',h:[H(SEGSAB,'06:45','18:00'),H(DOM,'06:45','13:00')],d:'Centro médico ao lado da Estação Lapa da CPTM, com consultas em várias especialidades, coleta de exames e preços acessíveis.'}),
+{id:10,n:'Clínica Acesso Saúde – Lapa',c:'clinica',b:'Lapa',e:'Praça Prof. José Azevedo Antunes, 24 – Lapa, São Paulo – SP',hr:'Seg a sex 7h–18h; sáb 7h–13h',h:[H(UTEIS,'07:00','18:00'),H(SAB,'07:00','13:00')],t:['(11) 3588-3818'],wa:'5511938033932',wn:'Celular publicado no site da clínica',cv:'Particular',ambos:1,d:'Clínica popular que reúne consultas e exames no mesmo lugar, perto da estação.',la:-23.5215,lo:-46.7040,f:'https://www.acessosaudesp.com.br/lapa',esp:['cardio','gineco','uro','dermato','otorrino','clinica'],img:['rx','us'],lab:1},
+{id:11,n:'Centro Médico São Camilo Pompeia',c:'clinica',b:'Pompeia',e:'R. Barão do Bananal, 1086 – Pompeia, São Paulo – SP',hr:'Horário não confirmado',h:null,t:['(11) 3172-6800 (agendamento)'],cv:'Convênios e particular',d:'Centro de consultas ligado ao Hospital São Camilo Pompeia. Também agenda pelo app São Camilo.',la:-23.5320,lo:-46.6880,f:'https://hospitalsaocamilosp.org.br/pompeia/',esp:['clinica','cardio','orto','gineco','neuro','endo','gastro','uro','otorrino','dermato']},
+{id:12,n:'HAS Clínica (Hospital Albert Sabin)',c:'clinica',b:'Lapa',e:'R. Brig. Gavião Peixoto, 123 – Lapa, São Paulo – SP, 05078-000',hr:'Horário não confirmado',h:null,t:['(11) 3838-4655 (geral)','(11) 3643-1480'],cv:'Convênios e particular',d:'Ambulatório multiespecialidades anexo ao Hospital Albert Sabin.',la:-23.5256,lo:-46.7022,f:'https://www.crecisp.gov.br/corretor/convenio/1724',esp:['clinica','gineco','cardio','orto','gastro','otorrino','dermato','uro','neuro']},
+{id:13,n:'UPO Oftalmologia – Lapa',c:'clinica',b:'Lapa',e:'R. Albion, 510 – Lapa, São Paulo – SP, 05077-130',hr:'Seg a sex 8h–18h',h:[H(UTEIS,'08:00','18:00')],t:[],cv:'Não informado',d:'Clínica oftalmológica com subespecialistas: catarata, glaucoma, retina e cirurgia refrativa.',la:-23.5245,lo:-46.6965,f:'https://lp.upo.com.br/unidade/lapa/',esp:['oftalmo']},
+{id:14,n:'Credie Clínica e Cirurgia de Olhos',c:'clinica',b:'Lapa',e:'R. Roma, 620, cj. 141/143 B – Lapa, São Paulo – SP, 05050-090',hr:'Seg a sáb a partir das 8h; domingo fechado',h:null,t:['(11) 3644-3434','(11) 3644-4738'],cv:'Convênios, particular e reembolso',d:'Clínica de olhos do Dr. Marcelo Credie, no polo médico da Rua Roma.',la:-23.5262,lo:-46.6975,f:'https://www.credieolhos.com.br/contato/',esp:['oftalmo']},
+{id:15,n:'Alergo Dermatologia Integrada – Lapa',c:'clinica',b:'Lapa',e:'R. Tomé de Souza, 186 – Lapa, São Paulo – SP, 05079-000',hr:'Seg a sex 7h–18h; sáb 8h–12h (fonte secundária)',h:[H(UTEIS,'07:00','18:00'),H(SAB,'08:00','12:00')],t:['(11) 3649-0900'],cv:'Particular e planos privados',d:'Clínica de dermatologia clínica e alergologia na Lapa.',la:-23.5224,lo:-46.7026,f:'https://cliniguia.com/unidades/sao-paulo-sp/alergo-dermatologia-integrada-lapa-3114449/',esp:['dermato']},
+{id:16,n:'Instituto Osmar de Oliveira – Perdizes',c:'clinica',b:'Perdizes',e:'R. Dona Germaine Burchard, 332 – Perdizes, São Paulo – SP, 05002-061',hr:'Seg a sex 7h–20h',h:[H(UTEIS,'07:00','20:00')],t:['(11) 3873-7772'],wa:'551148587252',wn:'WhatsApp oficial do site',cv:'Não informado',d:'Clínica de ortopedia e traumatologia em Perdizes.',la:-23.5270,lo:-46.6790,f:'https://osmardeoliveira.com.br/regiao/perdizes/',esp:['orto']},
+{id:17,n:'ZD Clínicas (Grupo Zero Dor) – Perdizes',c:'clinica',b:'Água Branca',e:'Av. Francisco Matarazzo, 404, 13º andar, cj. 1302 – São Paulo – SP, 05001-000',hr:'Horário não confirmado',h:null,t:['(11) 3666-8518'],wa:'5511961791730',wn:'WhatsApp oficial – somente mensagens',cv:'Não informado',d:'Clínica especializada em tratamento da dor e reabilitação.',la:-23.5260,lo:-46.6680,f:'https://clinicaszerodor.com.br/home/contato/unidades-da-zero-dor-clinicas/contato-perdizes/',esp:['orto']},
+{id:18,n:'SUORT Clínica Integrada',c:'clinica',b:'Perdizes',e:'R. Cayowaá, 2066 – Perdizes, São Paulo – SP',hr:'Horário não confirmado',h:null,t:['(11) 3868-5566'],wa:'5511971574944',wn:'WhatsApp oficial do site',cv:'Boa parte dos planos de saúde',d:'Clínica de ortopedia (ombro e cotovelo) e fisioterapia.',la:-23.5440,lo:-46.6880,f:'https://suort.com.br/ortopedista-fisioterapia-convenio-alto-de-pinheiros-sp.php',esp:['orto']},
+{id:19,n:'Dermacenter Clínica Dermatológica',c:'clinica',b:'Pompeia',e:'Av. Prof. Alfonso Bovero, 1057, cj. 135 – Vila Pompeia, São Paulo – SP, 05019-010',hr:'Seg a sex 9h–18h (fonte secundária)',h:[H(UTEIS,'09:00','18:00')],t:['(11) 3865-9595'],cv:'Não informado',d:'Clínica dermatológica no eixo da Av. Alfonso Bovero.',la:-23.5400,lo:-46.6830,f:'https://www.apontador.com.br/local/sp/sao_paulo/clinicas_de_dermatologia/Q9E8J57M/dermacenter_clinica_dermatologica_s_s_vl_pompeia.html',esp:['dermato']},
+{id:20,n:'Hospital de Olhos City',c:'clinica',b:'Alto da Lapa',e:'R. Pio XI, 569 – Alto da Lapa, São Paulo – SP',hr:'Horário não confirmado',h:null,t:[],cv:'Não informado',d:'Serviço oftalmológico no Alto da Lapa. Contato a confirmar.',la:-23.5355,lo:-46.7115,f:'https://www.doctoralia.com.br/oftalmologista/sao-paulo/lapa',esp:['oftalmo']},
+{id:21,n:'Amo Oftalmologistas',c:'clinica',b:'Lapa',e:'R. Roma, 620 – Lapa, São Paulo – SP, 05050-090',hr:'Horário não confirmado',h:null,t:[],cv:'Não informado',d:'Clínica de olhos no edifício médico da Rua Roma.',la:-23.5263,lo:-46.6976,f:'https://www.doctoralia.com.br/oftalmologista/sao-paulo/lapa',esp:['oftalmo']},
+{id:22,n:'Centro Médico City Lapa',c:'clinica',b:'Lapa',e:'R. Albion, 619 – Lapa, São Paulo – SP, 05077-130',hr:'Horário não confirmado',h:null,t:[],cv:'Não informado',d:'Edifício de consultórios médicos na Lapa.',la:-23.5248,lo:-46.6960,f:'https://www.encontrasaopaulo.com.br/sobre/alexandre-henrique-zamboni-endocrinologista',esp:['endo']},
+{id:23,n:'Hermes Pardini – Lapa',c:'laboratorio',b:'Lapa',e:'R. Tomé de Souza, 24 – Lapa, São Paulo – SP',hr:'Atendimento seg a sex 6h–16h, sáb 6h–13h · Coleta seg a sáb 6h–12h',h:[H(UTEIS,'06:00','16:00'),H(SAB,'06:00','13:00')],t:['(11) 4020-2573'],wa:'551140202573',wn:'WhatsApp oficial: seg a sex 6h–17h, sáb 6h–13h',cv:'Não informado',d:'Unidade de coleta da rede Hermes Pardini no centro da Lapa.',la:-23.5215,lo:-46.7015,f:'https://www.hermespardini.com.br/unidades/lapa',lab:1},
+{id:24,n:'Lavoisier – Lapa I',c:'laboratorio',b:'Lapa',e:'R. Tomé de Souza, 220 – Lapa, São Paulo – SP, 05079-000',hr:'Seg a sex 6h–19h; sáb 6h–16h (fonte secundária)',h:[H(UTEIS,'06:00','19:00'),H(SAB,'06:00','16:00')],t:['(11) 3047-4488'],cv:'Convênios e particular',d:'Unidade da Lavoisier (Dasa) com coleta, exames de imagem e vacinação.',la:-23.5227,lo:-46.7030,f:'https://lavoisier.com.br/unidades/lapa-i/',lab:1,img:['us','rx']},
+{id:25,n:'Lavoisier – Lapa Catão',c:'laboratorio',b:'Vila Romana',e:'R. Catão, 301 – Vila Romana, São Paulo – SP',hr:'Horário não confirmado',h:null,t:['(11) 3047-4488'],cv:'Convênios',d:'Posto de coleta da Lavoisier na Vila Romana.',la:-23.5260,lo:-46.6990,f:'https://www.creasegurosaude.com/labortatorio-lavoisier/',lab:1},
+{id:26,n:'Delboni Auriemo – Lapa',c:'laboratorio',b:'Lapa',e:'R. Brig. Gavião Peixoto, 360 – Lapa, São Paulo – SP, 05078-000',hr:'Fontes divergem: o CNES indica seg a sex 6h–23h, sáb 6h–18h e dom 6h30–14h; catálogos mostram horário menor',h:null,t:['(11) 3049-6999'],cv:'Convênios e particular',d:'Unidade Delboni (Dasa) na principal rua comercial da Lapa.',la:-23.5265,lo:-46.7040,f:'https://guia.agendarconsulta.com/sao-paulo/sao-paulo/delboni-auriemo-med-diag-lapa-3124401',lab:1},
+{id:27,n:'Delboni Auriemo – Sumaré',c:'laboratorio',b:'Perdizes',e:'Av. Sumaré, 1500 – Perdizes, São Paulo – SP, 05016-110',hr:'Horário não confirmado',h:null,t:['(11) 3049-6999'],cv:'Convênios',d:'Unidade Delboni em Perdizes.',la:-23.5410,lo:-46.6800,f:'https://web2.humanasaude.com.br/rede-nacional/index/lista',lab:1},
+{id:28,n:'Labi Exames – Lapa',c:'laboratorio',b:'Lapa',e:'R. Nossa Senhora da Lapa, 439 – Lapa, São Paulo – SP, 05072-000',hr:'Atende manhã, tarde e noite (CNES)',h:null,t:['(11) 3003-2686'],cv:'Particular a preço reduzido',d:'Laboratório de baixo custo do grupo Dasa.',la:-23.5232677,lo:-46.7043898,f:'https://cliniguia.com/unidades/sao-paulo-sp/labi-exames-unidade-lapa-9937226/',lab:1},
+{id:29,n:'Fleury – Alto de Pinheiros (Villa-Lobos)',c:'laboratorio',b:'Alto de Pinheiros',e:'R. Castro Delgado, 188 – Alto de Pinheiros, São Paulo – SP, 05465-010',hr:'Fontes divergem; confirme por telefone',h:null,t:['(11) 3179-0822'],cv:'Convênios e particular',d:'Unidade Fleury perto do Parque Villa-Lobos.',la:-23.5490,lo:-46.7180,f:'https://www.apontador.com.br/local/sp/sao_paulo/laboratorios/XJ964QUF/laboratorio_fleury_alto_de_pinheiros.html',lab:1},
+{id:30,n:'Fleury – Sumaré',c:'laboratorio',b:'Perdizes',e:'Av. Sumaré, 1270 – Perdizes, São Paulo – SP, 05016-110',hr:'Horário não confirmado',h:null,t:['(11) 3179-0822'],cv:'Convênios e particular',d:'Unidade Fleury em Perdizes.',la:-23.5385,lo:-46.6775,f:'https://br.linkedin.com/company/fleury-medicina-e-saude',lab:1},
+{id:31,n:'Fleury – Heitor Penteado',c:'laboratorio',b:'Sumarezinho',e:'R. Heitor Penteado, 833 – Sumarezinho, São Paulo – SP',hr:'Seg a sáb 6h30–12h30 (fonte antiga; confirme se segue ativa)',h:null,t:['(11) 3179-0822'],cv:'Convênios e particular',d:'Unidade Fleury de bairro, na divisa Sumarezinho/Vila Madalena.',la:-23.5465,lo:-46.6890,f:'https://hml.fleury.com.br/noticias/mais-duas-unidades-completas-para-voce-revista-fleury-ed-38',lab:1,img:['us']},
+{id:32,n:'Fleury – Vila Leopoldina',c:'imagem',b:'Vila Leopoldina',e:'R. Carlos Weber, 624 – Vila Leopoldina, São Paulo – SP, 05303-000',hr:'Exames agendados: seg a sex 6h30–18h30, sáb 6h30–17h · Análises: seg a sex 6h30–18h, sáb 6h30–12h · Domingo fechado',h:[H(UTEIS,'06:30','18:30'),H(SAB,'06:30','17:00')],t:['(11) 3179-0822'],cv:'Convênios e particular',d:'Unidade completa do Fleury, com espaço de saúde da mulher.',la:-23.526708,lo:-46.731822,f:'https://www.fleury.com.br/unidades/vila-leopoldina',img:['rm','mamo','rx','dens','us'],lab:1},
+{id:33,n:'Dimagem Unineuro',c:'imagem',b:'Lapa',e:'R. Brig. Gavião Peixoto, 177 – Lapa, São Paulo – SP, 05078-000',hr:'Seg a sex 7h–19h; sáb 8h–13h',h:[H(UTEIS,'07:00','19:00'),H(SAB,'08:00','13:00')],t:['(11) 3834-9460'],wa:'551138349460',wn:'Telefone/WhatsApp oficial do site',cv:'Mais de 40 convênios',d:'Clínica de diagnóstico por imagem fundada em 1977, vizinha do Hospital Albert Sabin. Ressonância, tomografia e medicina nuclear.',la:-23.5258,lo:-46.7024,f:'https://www.dimagem-unineuro.com.br/',img:['rm','tc']},
+{id:34,n:'Salomão Zoppi – Alto da Lapa',c:'imagem',b:'Vila Romana',e:'R. Cerro Corá, 1044 – Vila Romana, São Paulo – SP, 05061-200',hr:'Horário não confirmado',h:null,t:['(11) 5576-7878 (central)'],cv:'Convênios',d:'Unidade de diagnóstico com foco em saúde da mulher e cardiologia.',la:-23.5380,lo:-46.7040,f:'https://salomaozoppi.com.br/unidades/alto-da-lapa/',img:['us','eco','dens','rm']},
+{id:35,n:'Lavoisier – Lapa II',c:'imagem',b:'Lapa',e:'R. Tomé de Souza, 197 – Lapa, São Paulo – SP, 05079-000',hr:'Seg a sex 6h–18h; sáb 6h–13h (fonte secundária)',h:[H(UTEIS,'06:00','18:00'),H(SAB,'06:00','13:00')],t:['(11) 3047-4488'],cv:'Convênios e particular',d:'Segunda unidade da Lavoisier na mesma rua, com exames de imagem.',la:-23.5223,lo:-46.7024,f:'https://lavoisier.com.br/unidades/lapa-ii/',img:['us','rx'],lab:1},
+{id:36,n:'HAS Medicina Diagnóstica',c:'imagem',b:'Lapa',e:'R. Brig. Gavião Peixoto, 123 – Lapa, São Paulo – SP, 05078-000',hr:'Horário não confirmado',h:null,t:['(11) 3838-4655'],cv:'Convênios e particular',d:'Serviço de diagnóstico do Hospital Albert Sabin.',la:-23.5254,lo:-46.7019,f:'https://hasabin.com.br/contato/',img:['tc','rm','us']},
+{id:37,n:'Scopp Diagnósticos – Pompeia',c:'imagem',b:'Pompeia',e:'Av. Pompéia, 1137 – Pompeia, São Paulo – SP, 05023-000',hr:'Horário não confirmado',h:null,t:[],cv:'Não informado',d:'Clínica de ressonância magnética na Av. Pompéia.',la:-23.5327,lo:-46.6852,f:'https://www.doctoralia.com.br/clinicas/scopp-diagnosticos-pompeia',img:['rm']},
+{id:38,n:'ISO Radiologia Odontológica – Lapa',c:'imagem',b:'Alto da Lapa',e:'R. Pio XI, 465 – Alto da Lapa, São Paulo – SP, 05060-000',hr:'Seg a sex 8h–18h30; sáb 8h–13h30',h:[H(UTEIS,'08:00','18:30'),H(SAB,'08:00','13:30')],t:[],cv:'Não informado',al:'Radiologia odontológica (dentes), não médica.',d:'Radiologia odontológica no Alto da Lapa.',la:-23.5345,lo:-46.7105,f:'https://www.isoradiologia.com.br/unidade/lapa/',img:[]},
+{id:39,n:'Papaiz Associados – Lapa',c:'imagem',b:'Alto da Lapa',e:'R. Pio XI, 257 – Alto da Lapa, São Paulo – SP, 05060-000',hr:'Horário não confirmado (sem atendimento em feriados)',h:null,t:[],cv:'Não informado',al:'Radiologia odontológica (dentes), não médica.',d:'Rede de radiologia odontológica com unidade no Alto da Lapa.',la:-23.5330,lo:-46.7090,f:'https://papaizassociados.com.br/unidade-lapa/',img:[]},
+{id:40,n:'Dr. Ricardo Elian Dargham',c:'medico',b:'Pompeia',sp:'Dermatologia',crm:'CRM-SP 85774',e:'R. Caraíbas, 1191 – Pompeia, São Paulo – SP, 05020-000',hr:'Horário não confirmado',h:null,t:['(11) 3864-4328'],cv:'Particular',pr:150,prt:'1ª consulta R$ 150 (Doctoralia)',d:'Dermatologista com consultório na Pompeia.',la:-23.5345,lo:-46.6900,f:'https://www.doctoralia.com.br/perfil/ricardo-dargham',esp:['dermato']},
+{id:41,n:'Dr. Agnaldo Augusto Mirandez',c:'medico',b:'Pompeia',sp:'Dermatologia',crm:'CRM-SP 45482',e:'Av. Pompeia, 2419 – Pompeia, São Paulo – SP, 05023-001',hr:'Horário não confirmado',h:null,t:['(11) 3872-3439'],cv:'Não informado',al:'Endereço diverge entre fontes (também aparece R. Turiassu, 519, cj. 25).',d:'Dermatologista na região Pompeia/Perdizes.',la:-23.5440,lo:-46.6930,f:'https://www.encontrapompeia.com.br/d/dermatologia-e-dermatologista-na-pompeia.shtml',esp:['dermato']},
+{id:42,n:'Dr. Marcelo Galiano Credie',c:'medico',b:'Lapa',sp:'Oftalmologia',crm:'CRM-SP 97758',e:'R. Roma, 620, cj. 141/143 B – Lapa, São Paulo – SP, 05050-090',hr:'Seg a sáb a partir das 8h (clínica)',h:null,t:['(11) 3644-3434'],cv:'Convênios, particular e reembolso',pr:280,prt:'Particular a partir de R$ 280',d:'Oftalmologista clínico e cirurgião.',la:-23.5262,lo:-46.6975,f:'https://www.credieolhos.com.br/',esp:['oftalmo']},
+{id:43,n:'Dr. Carlos Roberto Puleghini',c:'medico',b:'Lapa',sp:'Oftalmologia',crm:'CRM-SP 68714',e:'R. Albion, 142 – Lapa, São Paulo – SP, 05077-130',hr:'Horário não confirmado',h:null,t:['(11) 3644-6681'],cv:'Particular',pr:300,prt:'Consulta R$ 300 (Doctoralia)',al:'Número do endereço diverge (142 ou 178).',d:'Oftalmologista com consultório na Lapa.',la:-23.5238,lo:-46.6985,f:'https://www.doctoralia.com.br/carlos-puleghini/oftalmologista/sao-paulo',esp:['oftalmo']},
+{id:44,n:'Dra. Mirna Grande',c:'medico',b:'Lapa',sp:'Ginecologia e obstetrícia',crm:'CRM-SP 52060',e:'R. Roma, 620, cj. 151 – Lapa, São Paulo – SP, 05050-090',hr:'Horário não confirmado',h:null,t:['(11) 3873-1318'],cv:'Só particular',d:'Ginecologista e obstetra na Lapa.',la:-23.5262,lo:-46.6974,f:'https://www.doctoralia.com.br/mirna-grande/ginecologista/sao-paulo',esp:['gineco']},
+{id:45,n:'Dr. Alexandre Henrique Zamboni',c:'medico',b:'Lapa',sp:'Endocrinologia',crm:'CRM-SP 43845',e:'R. Albion, 619 – Lapa, São Paulo – SP, 05077-130',hr:'Terça 9h–18h (catálogo)',h:[H([2],'09:00','18:00')],t:['(11) 3832-5919'],cv:'Só particular',d:'Endocrinologista no Centro Médico City Lapa.',la:-23.5248,lo:-46.6961,f:'https://www.doctoralia.com.br/alexandre-henrique-zamboni/endocrinologista/sao-paulo',esp:['endo']},
+{id:46,n:'Dra. Renata Imperatrice',c:'medico',b:'Lapa',sp:'Dermatologia',crm:'CRM-SP 72934',e:'R. Tomé de Souza, 186 – Lapa (Alergo Dermatologia), São Paulo – SP, 05079-000',hr:'Horário não confirmado',h:null,t:['(11) 3649-0900 (clínica)'],cv:'Particular',pr:320,prt:'Consulta R$ 320 (Doctoralia)',d:'Dermatologista que atende na Alergo Dermatologia.',la:-23.5225,lo:-46.7027,f:'https://www.doctoralia.com.br/dermatologista/sao-paulo/lapa',esp:['dermato']},
+{id:47,n:'Dra. Mariana Campos Ferreira Telles',c:'medico',b:'Perdizes',sp:'Pediatria',crm:'CRM-SP 138895',e:'R. Monte Alegre, 428 – Perdizes, São Paulo – SP',hr:'Horário não confirmado',h:null,t:[],cv:'Particular',d:'Pediatra com consultório em Perdizes.',la:-23.5360,lo:-46.6720,f:'https://www.doctoralia.com.br/pediatra/sao-paulo/lapa',esp:['pedi']},
+{id:48,n:'Dr. Henry Abensur',c:'medico',b:'Pompeia',sp:'Cardiologia e ecocardiografia',crm:'CRM-SP 47815',e:'R. Duílio, 631 – Lapa/Pompeia, São Paulo – SP',hr:'Horário não confirmado',h:null,t:[],cv:'Particular',pr:450,prt:'Consulta R$ 450 (Doctoralia)',d:'Cardiologista e ecocardiografista.',la:-23.5300,lo:-46.6935,f:'https://www.doctoralia.com.br/cardiologista/sao-paulo/vila-pompeia',esp:['cardio'],img:['eco']},
+{id:49,n:'Dr. Sérgio Rowinski',c:'medico',b:'Perdizes',sp:'Ortopedia – ombro e cotovelo',crm:'CRM não encontrado',e:'R. Cayowaá, 2066 (SUORT) – Perdizes, São Paulo – SP',hr:'Horário não confirmado',h:null,t:['(11) 3868-5566'],wa:'5511971574944',wn:'WhatsApp oficial da SUORT',cv:'Diversos planos',d:'Cirurgião de ombro e cotovelo na SUORT.',la:-23.5441,lo:-46.6881,f:'https://suort.com.br/ortopedista-fisioterapia-convenio-alto-de-pinheiros-sp.php',esp:['orto']},
+{id:50,n:'Dr. David Grasso',c:'medico',b:'Lapa',sp:'Endocrinologia',crm:'CRM-SP 62702',e:'R. Domingos Rodrigues, 341, cj. 22 – Lapa, São Paulo – SP',hr:'Horário não confirmado',h:null,t:[],cv:'Particular',d:'Endocrinologista com consultório na Lapa.',la:-23.5255,lo:-46.6985,f:'https://www.doctoralia.com.br/endocrinologista/sao-paulo/lapa',esp:['endo']},
+/* ---- capital e arredores ---- */
+{id:51,n:'Hospital Israelita Albert Einstein – Morumbi',c:'hospital',b:'Morumbi',e:'Av. Albert Einstein, 627 – Morumbi, São Paulo – SP, 05652-900',hr:'Pronto atendimento 24 horas',h:'24h',t:['(11) 2151-1233'],cv:'Convênios e particular',d:'Hospital de alta complexidade, referência na América Latina, com pronto atendimento, exames e internação.',la:-23.6000,lo:-46.7153,f:'https://www.einstein.br',foto:COM+'Hospital_Albert_Einstein.jpg?width=900',esp:['clinica','cardio','orto','pedi','neuro','gastro','gineco','uro','endo'],img:['rx','us','tc','rm','mamo','dens','eco'],lab:1},
+{id:52,n:'Hospital Sírio-Libanês – Bela Vista',c:'hospital',b:'Bela Vista',e:'R. Dona Adma Jafet, 91 – Bela Vista, São Paulo – SP, 01308-050',hr:'Pronto atendimento 24 horas',h:'24h',t:['(11) 3394-0200'],cv:'Convênios e particular',d:'Hospital de referência perto da Av. Paulista, com centro diagnóstico e pronto atendimento.',la:-23.5569,lo:-46.6544,f:'https://www.hospitalsiriolibanes.org.br',esp:['clinica','cardio','orto','neuro','gastro','uro','endo','gineco'],img:['rx','us','tc','rm','mamo'],lab:1},
+{id:53,n:'Hospital Alemão Oswaldo Cruz',c:'hospital',b:'Bela Vista',e:'R. Treze de Maio, 1815 – Bela Vista, São Paulo – SP',hr:'Pronto atendimento 24 horas',h:'24h',t:['(11) 3549-1000'],cv:'Convênios e particular',d:'Hospital privado com agendamento por app e WhatsApp próprios.',la:-23.5705,lo:-46.6450,f:'https://www.hospitaloswaldocruz.org.br',esp:['clinica','cardio','orto','gastro','uro','neuro'],img:['rx','us','tc','rm','mamo']},
+{id:54,n:'Hospital Nove de Julho',c:'hospital',b:'Cerqueira César',e:'R. Peixoto Gomide, 545 – Cerqueira César, São Paulo – SP',hr:'Pronto-socorro 24 horas',h:'24h',t:['(11) 3147-8999'],cv:'Convênios e particular',d:'Hospital geral na região da Paulista.',la:-23.5575,lo:-46.6575,f:'https://www.eda.admin.ch/content/dam/countries/countries-content/brazil/pt/hospitais-em-sao-paulo_PT.pdf',esp:['clinica','cardio','orto','neuro','gastro'],img:['rx','us','tc','rm']},
+{id:55,n:'Hospital Infantil Sabará',c:'hospital',b:'Consolação',e:'Av. Angélica, 1987 – Consolação, São Paulo – SP',hr:'Pronto-socorro infantil 24 horas',h:'24h',t:['(11) 3155-2800'],cv:'Convênios e particular',d:'Hospital exclusivamente pediátrico.',la:-23.5530,lo:-46.6600,f:'https://www.hospitalinfantilsabara.org.br',esp:['pedi'],img:['rx','us']},
+{id:56,n:'Hospital São Luiz – Morumbi (Rede D’Or)',c:'hospital',b:'Morumbi',e:'R. Eng. Oscar Americano, 840 – Morumbi, São Paulo – SP',hr:'Pronto-socorro 24 horas',h:'24h',t:['(11) 3003-3230'],cv:'Convênios e particular',d:'Hospital da Rede D’Or com maternidade e pronto-socorro.',la:-23.5960,lo:-46.7180,f:'https://www.rededorsaoluiz.com.br/hospital/sao-luiz-morumbi',esp:['clinica','gineco','pedi','cardio','orto'],img:['rx','us','tc','rm']},
+{id:57,n:'BP – Beneficência Portuguesa de São Paulo',c:'hospital',b:'Bela Vista',e:'R. Maestro Cardim, 769 – Bela Vista, São Paulo – SP',hr:'Pronto-socorro 24 horas',h:'24h',t:['(11) 3505-1000'],cv:'Convênios e particular',d:'Complexo hospitalar filantrópico de alta complexidade.',la:-23.5660,lo:-46.6430,f:'https://www.bp.org.br/bp/pacientes-e-visitantes/pronto-socorro',esp:['clinica','cardio','neuro','orto','gastro','uro'],img:['rx','us','tc','rm','eco']},
+{id:58,n:'Hospital Samaritano – Higienópolis',c:'hospital',b:'Higienópolis',e:'R. Conselheiro Brotero, 1486 – Higienópolis, São Paulo – SP',hr:'Pronto-socorro 24 horas',h:'24h',t:['(11) 3281-5300'],cv:'Convênios e particular',d:'Hospital geral em Higienópolis.',la:-23.5390,lo:-46.6610,f:'https://www.eda.admin.ch/content/dam/countries/countries-content/brazil/pt/hospitais-em-sao-paulo_PT.pdf',esp:['clinica','cardio','orto','pedi','gineco'],img:['rx','us','tc','rm']},
+{id:59,n:'Hospital das Clínicas da FMUSP',c:'hospital',b:'Cerqueira César',e:'Av. Dr. Enéas Carvalho de Aguiar, 255 – Cerqueira César, São Paulo – SP',hr:'Pronto-socorro 24 horas (referenciado)',h:'24h',t:['(11) 2661-0000'],cv:'SUS – gratuito',sus:1,al:'Consultas e exames eletivos só com encaminhamento do SUS.',d:'Maior complexo hospitalar público do país, ligado à Faculdade de Medicina da USP.',la:-23.5570,lo:-46.6690,f:'https://comerciosaopaulo.com.br/?p=13996',esp:TODAS,img:['rx','us','tc','rm','mamo','dens','eco'],lab:1},
+{id:60,n:'Santa Casa de Misericórdia de São Paulo',c:'hospital',b:'Vila Buarque',e:'R. Dr. Cesário Mota Júnior, 112 – Vila Buarque, São Paulo – SP',hr:'Emergência 24 horas',h:'24h',t:['(11) 2176-7000'],cv:'SUS e convênios',sus:1,d:'Hospital filantrópico histórico, com uma das maiores emergências de porta aberta da cidade.',la:-23.5440,lo:-46.6500,f:'https://comerciosaopaulo.com.br/?p=13996',esp:['clinica','pedi','gineco','orto','neuro','cardio'],img:['rx','us','tc']},
+{id:61,n:'Instituto de Psiquiatria do HC (IPq)',c:'hospital',b:'Cerqueira César',e:'R. Dr. Ovídio Pires de Campos, 785 – Cerqueira César, São Paulo – SP',hr:'Ambulatório em horário comercial (confirmar)',h:null,t:['(11) 2661-0000 (central HC)'],cv:'SUS – gratuito',sus:1,al:'Atendimento por encaminhamento do SUS.',d:'Instituto de referência em saúde mental do Hospital das Clínicas.',la:-23.5560,lo:-46.6700,f:'https://sistemasinter.cetesb.sp.gov.br/institucional/beneficios/arquivos/exa_ressonancia_magnetica.pdf',esp:['psiq']},
+{id:62,n:'Hospital Santa Catarina – Paulista',c:'hospital',b:'Bela Vista',e:'Av. Paulista, 200 – Bela Vista, São Paulo – SP',hr:'Pronto-socorro 24 horas',h:'24h',t:[],cv:'Convênios e particular',d:'Hospital na Av. Paulista, com pronto-socorro e reabilitação cardiológica e neurológica.',la:-23.5700,lo:-46.6450,f:'https://www.quintoandar.com.br/guias/?p=443530',foto:COM+'Santa_Catarina_Hospital,_Avenida_Paulista,_S%C3%A3o_Paulo,_Brazil.jpg?width=900',esp:['clinica','cardio','orto','neuro'],img:['tc','rm','us']},
+drc(63,'Butantã','Butantã','Av. Vital Brasil, 466 – Butantã, São Paulo – SP, 05503-000',-23.5700,-46.7120),
+drc(64,'Teodoro Sampaio (Pinheiros)','Pinheiros','R. Teodoro Sampaio, 2767 – Pinheiros, São Paulo – SP',-23.5655,-46.6935),
+drc(65,'Santa Cruz (Vila Mariana)','Vila Mariana','R. Domingos de Morais, 2432 – Vila Mariana, São Paulo – SP, 04036-000',-23.5990,-46.6370),
+drc(66,'Paraíso','Paraíso','Av. Bernardino de Campos, 358 – Paraíso, São Paulo – SP, 04004-041',-23.5760,-46.6430),
+drc(67,'Jabaquara','Jabaquara','R. dos Buritis, 128 – Jabaquara, São Paulo – SP, 04321-001',-23.6460,-46.6410),
+drc(68,'Santana (Metrô Santana)','Santana','Av. Cruzeiro do Sul, 3099 – Santana, São Paulo – SP',-23.5020,-46.6250),
+drc(69,'Tucuruvi','Tucuruvi','Av. Tucuruvi, 990 – Tucuruvi, São Paulo – SP, 02304-002',-23.4800,-46.6040),
+drc(70,'República','República','R. Conselheiro Crispiniano, 155 – República, São Paulo – SP',-23.5440,-46.6390),
+drc(71,'Luz (Metrô Luz)','Luz','R. Brigadeiro Tobias, 600 – Luz, São Paulo – SP',-23.5350,-46.6340),
+drc(72,'Mooca','Mooca','Av. Paes de Barros, 75 – Mooca, São Paulo – SP',-23.5530,-46.5960),
+drc(73,'Ibirapuera','Moema','Av. Jandira, 40 (esq. Av. Ibirapuera, 2523) – Indianópolis, São Paulo – SP, 04029-200',-23.6080,-46.6650),
+drc(74,'Tatuapé (Praça Silvio Romero)','Tatuapé','Praça Silvio Romero, 12 – Tatuapé, São Paulo – SP',-23.5420,-46.5760,{img:['rm'],prt:'Ressonância de mamas R$ 624 (Doctoralia)'}),
+drc(75,'Osasco Centro','Osasco','R. Dona Primitiva Vianco, 145 – Centro, Osasco – SP',-23.5330,-46.7780),
+drc(76,'Guarulhos','Guarulhos','R. João Gonçalves, 261 – Centro, Guarulhos – SP',-23.4630,-46.5320),
+drc(77,'Santo André','Santo André','R. Senador Fláquer, 72 – Centro, Santo André – SP',-23.6560,-46.5320,{img:['rm'],prt:'Ressonância de mamas R$ 624 (Doctoralia)'}),
+drc(78,'Taboão da Serra','Taboão da Serra','Praça Nicola Vivilechio, 103, sobreloja 04 – Taboão da Serra – SP',-23.6090,-46.7580,{hr:'Seg a sex 6h45–18h; sáb 6h45–13h',h:[H(UTEIS,'06:45','18:00'),H(SAB,'06:45','13:00')]}),
+{id:79,n:'Lavoisier – Teodoro Sampaio',c:'laboratorio',b:'Pinheiros',e:'R. Teodoro Sampaio, 1926 – Pinheiros, São Paulo – SP, 05406-150',hr:'Horário não confirmado',h:null,t:['(11) 3047-4488'],cv:'Convênios e particular',d:'Unidade Lavoisier com coleta e radiologia em Pinheiros.',la:-23.5610,lo:-46.6850,f:'https://bula.com.br/medico/wagner-iared-crm-sp-73364',lab:1,img:['us','rx']},
+{id:80,n:'Lavoisier – Metrô Ana Rosa',c:'laboratorio',b:'Vila Mariana',e:'R. Rodrigo Vieira, 64, 1º andar – Vila Mariana, São Paulo – SP, 04115-060',hr:'Horário não confirmado',h:null,t:['(11) 3047-4488'],cv:'Convênios e particular',d:'Unidade Lavoisier ao lado do metrô Ana Rosa.',la:-23.5815,lo:-46.6380,f:'https://bula.com.br/medico/wagner-iared-crm-sp-73364',lab:1,img:['us','rx']},
+{id:81,n:'Lavoisier – Limão',c:'laboratorio',b:'Limão',e:'Av. Prof. Celestino Bourroul, 535 – Bairro do Limão, São Paulo – SP, 02710-000',hr:'Horário não confirmado',h:null,t:['(11) 3047-4488'],cv:'Convênios e particular',d:'Unidade Lavoisier na Zona Norte, perto da Freguesia do Ó.',la:-23.5050,lo:-46.6720,f:'https://bula.com.br/medico/wagner-iared-crm-sp-73364',lab:1,img:['us','rx']},
+{id:82,n:'Lavoisier – Penha',c:'laboratorio',b:'Penha',e:'R. Caquito, 143 – Penha, São Paulo – SP, 03607-000',hr:'Horário não confirmado',h:null,t:['(11) 3047-4488'],cv:'Convênios e particular',d:'Unidade Lavoisier na Zona Leste.',la:-23.5250,lo:-46.5420,f:'https://www.catalogo.med.br/doutor/fernando-antonio-silva-rocha-2105099.htm',lab:1},
+{id:83,n:'a+ Medicina Diagnóstica – Lapa',c:'imagem',b:'Lapa',e:'R. Barão de Jundiaí, 284 – Lapa, São Paulo – SP',hr:'Horário não confirmado',h:null,t:['(11) 3139-8000 (central)'],cv:'Convênios',al:'Telefone de lista antiga; confirme.',d:'Unidade da a+ (Grupo Fleury) na Lapa, com ressonância e outros exames de imagem.',la:-23.5240,lo:-46.7005,f:'https://www.doctoralia.com.br/clinicas/a-lapa',img:['rm','us'],lab:1},
+{id:84,n:'CDB – Centro de Diagnósticos Brasil – Jardim América',c:'imagem',b:'Jardim América',e:'Av. Brasil, 441 – Jardim América, São Paulo – SP',hr:'Horário não confirmado',h:null,t:['(11) 5908-7222'],cv:'Convênios e particular',al:'Telefone de lista antiga; confirme.',d:'Unidade da rede CDB (Alliar) com ressonância, tomografia, ultrassom e mamografia.',la:-23.5700,lo:-46.6620,f:'https://www.doctoralia.com.br/servicos-de-tratamento/ressonancia-de-mamas/santo-andre3',img:['rm','tc','us','mamo','dens','rx'],pr:790,prt:'Ressonância de mamas R$ 790 (Doctoralia)'},
+{id:85,n:'CDB – Marselhesa (Vila Clementino)',c:'imagem',b:'Vila Clementino',e:'R. Marselhesa, 500 – Vila Clementino, São Paulo – SP, 04020-060',hr:'Horário não confirmado',h:null,t:['(11) 5908-7222'],cv:'Convênios e particular',al:'Telefone de lista antiga; confirme.',d:'Unidade da rede CDB perto do metrô Santa Cruz.',la:-23.5950,lo:-46.6450,f:'https://www.doctoralia.com.br/servicos-de-tratamento/ressonancia-de-mamas/sao-paulo',img:['rm','tc','us','mamo','dens','rx']},
+{id:86,n:'CDB – Tatuapé',c:'imagem',b:'Tatuapé',e:'R. Vilela, 800 – Tatuapé, São Paulo – SP',hr:'Horário não confirmado',h:null,t:['(11) 5908-7222'],cv:'Convênios e particular',al:'Telefone de lista antiga; confirme.',d:'Unidade da rede CDB na Zona Leste.',la:-23.5420,lo:-46.5700,f:'https://www.doctoralia.com.br/servicos-de-tratamento/ressonancia-de-mamas/sao-paulo',img:['rm','tc','us','mamo','dens','rx']},
+{id:87,n:'CDB – Mooca',c:'imagem',b:'Mooca',e:'Av. Paes de Barros, 1696 – Mooca, São Paulo – SP',hr:'Horário não confirmado',h:null,t:['(11) 5908-7222'],cv:'Convênios e particular',al:'Endereço e telefone de lista antiga; confirme.',d:'Unidade da rede CDB na Mooca.',la:-23.5660,lo:-46.5900,f:'https://sistemasinter.cetesb.sp.gov.br/institucional/beneficios/arquivos/exa_ressonancia_magnetica.pdf',img:['rm','tc','us','mamo','rx']},
+/* ---- online ---- */
+{id:101,n:'dr.consulta Online',c:'online',b:'Online',e:'Atendimento por vídeo (SP capital, região metropolitana e ABC)',hr:'Agendamento pelo app ou site dr.consulta',h:null,t:['(11) 4090-1510'],cv:'Particular (cartão dr.consulta tem benefícios)',d:'Consultas por vídeo em mais de 30 especialidades. Receitas e atestados ficam no app. Retorno em 30 dias sem custo quando o médico pede.',url:'https://drconsulta.com/conteudo/perguntasfrequente/',f:'https://drconsulta.com/conteudo/perguntasfrequente/',on:TODAS},
+{id:102,n:'Einstein Conecta',c:'online',b:'Online',e:'Pronto atendimento por vídeo (app ou conecta.einstein.br)',hr:'24 horas, todos os dias, sem agendamento',h:'24h',t:['(11) 2151-7690 (suporte)'],cv:'Particular ou por benefício de seguros e bancos',al:'Para casos de baixa complexidade. Não pede exames; em casos graves orienta ir ao PS.',d:'Orientação médica por vídeo com médicos do Hospital Israelita Albert Einstein, com receita digital.',url:'https://conecta.einstein.br',f:'https://cms.santander.com.br/sites/WPS/documentos/einstein-manual/23-04-27_164651_einstein_conecta_manual_v6_revisado.pdf',on:['clinica','pedi']},
+{id:103,n:'Telemedicina Rede D’Or',c:'online',b:'Online',e:'Teleconsulta agendada pelo site da Rede D’Or',hr:'Com agendamento',h:null,t:['(11) 3003-3230'],cv:'Convênios e particular',d:'Consulta por vídeo com clínica médica, pediatria e cardiologia, com link enviado por e-mail.',url:'https://www.rededorsaoluiz.com.br/noticias/artigo/telemedicina-na-rede-dor',f:'https://www.rededorsaoluiz.com.br/noticias/artigo/telemedicina-na-rede-dor',on:['clinica','pedi','cardio']},
+{id:104,n:'Saúde Digital SP (app e-saúdeSP)',c:'online',b:'Online',e:'App e-saúdeSP da Prefeitura de São Paulo',hr:'Pronto Saúde Digital: 24 horas, todos os dias',h:'24h',t:[],cv:'SUS – gratuito',sus:1,d:'Teleconsulta gratuita do SUS municipal. O Pronto Saúde Digital atende casos não urgentes com clínico geral, 24h.',url:'https://prefeitura.sp.gov.br/web/saude/w/prefeitura-lanca-o-programa-saude-digital-sp-para-ampliar-acesso-a-teleconsultas',f:'https://prefeitura.sp.gov.br/web/saude/w/prefeitura-lanca-o-programa-saude-digital-sp-para-ampliar-acesso-a-teleconsultas',on:['clinica']},
+{id:105,n:'Telemedicina Morsch',c:'online',b:'Online',e:'Marketplace de teleconsultas',hr:'Conforme a agenda de cada médico',h:null,t:[],cv:'Particular',d:'Busque médicos por especialidade, valor e agenda. Receitas e atestados chegam por WhatsApp ou e-mail.',url:'https://telemedicinamorsch.com.br/teleconsulta-medica',f:'https://telemedicinamorsch.com.br/teleconsulta-medica',on:TODAS},
+{id:106,n:'Doctoralia – Teleconsulta em SP',c:'online',b:'Online',e:'Diretório de médicos que atendem por vídeo',hr:'Conforme a agenda de cada médico',h:null,t:[],cv:'Particular (alguns aceitam convênio)',prt:'Clínico geral a partir de cerca de R$ 60',d:'Lista médicos de SP com teleconsulta, preço e agenda online de cada um.',url:'https://www.doctoralia.com.br/servicos-de-tratamento/consulta-por-telemedicina-particular/sao-paulo',f:'https://www.doctoralia.com.br/servicos-de-tratamento/consulta-por-telemedicina-particular/sao-paulo',on:TODAS},
+{id:107,n:'Dra. Uelra Rita Lourenço',c:'online',b:'Online',sp:'Cardiologia e clínica geral',crm:'CRM-SP 88881',e:'Teleconsulta (perfil Doctoralia)',hr:'Conforme agenda',h:null,t:[],cv:'Particular',pr:120,prt:'Teleconsulta R$ 120 (Doctoralia)',d:'Cardiologista e clínica geral que atende por vídeo.',url:'https://www.doctoralia.com.br/doencas/anormalidades/sao-paulo',f:'https://www.doctoralia.com.br/doencas/anormalidades/sao-paulo',on:['cardio','clinica'],med:1},
+{id:108,n:'Dra. Karen Vargas Lutfi Rebechi',c:'online',b:'Online',sp:'Dermatologia',crm:'CRM-SP 210854',e:'Teleconsulta · presencial na Clínica pra Gente, R. Dr. Albuquerque Lins, 597',hr:'Conforme agenda',h:null,t:[],cv:'Particular',pr:285,prt:'Teleconsulta a partir de R$ 285 (Doctoralia)',d:'Dermatologista com consulta por vídeo ou presencial.',url:'https://www.doctoralia.com.br/doencas/esclerema-neonatal/santo-andre3',f:'https://www.doctoralia.com.br/doencas/esclerema-neonatal/santo-andre3',on:['dermato'],med:1},
+{id:109,n:'Prof. Dra. Maria Marta Martins',c:'online',b:'Online',sp:'Mastologia e ginecologia',crm:'CRM-SP 90434',e:'Teleconsulta · consultório R. Duarte de Azevedo, 284, cj. 28 – Santana',hr:'Conforme agenda',h:null,t:[],cv:'Particular',pr:400,prt:'Teleconsulta R$ 400 (Doctoralia)',d:'Mastologista e ginecologista que atende por vídeo.',url:'https://www.doctoralia.com.br/mastologista/paraiso2/pinheiros24',f:'https://www.doctoralia.com.br/mastologista/paraiso2/pinheiros24',on:['gineco'],med:1},
+{id:110,n:'Dra. Nicole Rosenthal',c:'online',b:'Online',sp:'Psiquiatria',crm:'CRM no perfil Doctoralia',e:'Teleconsulta particular (perfil Doctoralia)',hr:'Conforme agenda',h:null,t:[],cv:'Particular',d:'Psiquiatra com consulta por vídeo.',url:'https://www.doctoralia.com.br/servicos-de-tratamento/consulta-por-telemedicina-particular/sao-paulo',f:'https://www.doctoralia.com.br/servicos-de-tratamento/consulta-por-telemedicina-particular/sao-paulo',on:['psiq'],med:1}
+];
+LOC.forEach(p=>{p.esp=p.esp||[];p.img=p.img||[];p.on=p.on||[];p.lab=!!p.lab;p.t=p.t||[];p.s=[].concat(p.esp.map(k=>ESP[k][0]),p.img.map(k=>IMGX[k][0]),p.lab?['Exames laboratoriais']:[],p.on.length?['Teleconsulta']:[]);if(!p.s.length)p.s=[p.al&&/odonto/i.test(p.al)?'Radiologia odontológica':'Pronto atendimento'];});
+const EST=[
+ {id:'e1',n:'Estação Lapa',l:'Trem · Linhas 7-Rubi e 8-Diamante',la:-23.5203,lo:-46.7040},
+ {id:'e2',n:'Estação Água Branca',l:'Trem · Linha 7-Rubi',la:-23.5184,lo:-46.6852},
+ {id:'e3',n:'Estação Palmeiras-Barra Funda',l:'Metrô Linha 3-Vermelha · Trem Linhas 7 e 8',la:-23.5254,lo:-46.6670},
+ {id:'e4',n:'Estação Domingos de Moraes',l:'Trem · Linha 8-Diamante',la:-23.5275,lo:-46.7130},
+ {id:'e5',n:'Estação Imperatriz Leopoldina',l:'Trem · Linha 8-Diamante',la:-23.5302,lo:-46.7262},
+ {id:'e6',n:'Estação Pirituba',l:'Trem · Linha 7-Rubi',la:-23.4886,lo:-46.7272},
+ {id:'e7',n:'Estação Vila Madalena',l:'Metrô · Linha 2-Verde',la:-23.5466,lo:-46.6911},
+ {id:'e8',n:'Estação Sumaré',l:'Metrô · Linha 2-Verde',la:-23.5505,lo:-46.6779},
+ {id:'e9',n:'Estação Pinheiros',l:'Metrô Linha 4-Amarela · Trem Linha 9-Esmeralda',la:-23.5672,lo:-46.7016},
+ {id:'e10',n:'Estação Butantã',l:'Metrô · Linha 4-Amarela',la:-23.5718,lo:-46.7083},
+ {id:'e11',n:'Estação Paulista / Consolação',l:'Metrô · Linhas 4-Amarela e 2-Verde',la:-23.5555,lo:-46.6620},
+ {id:'e12',n:'Estação Sé',l:'Metrô · Linhas 1-Azul e 3-Vermelha',la:-23.5503,lo:-46.6339},
+ {id:'e13',n:'Estação Luz',l:'Metrô Linhas 1 e 4 · Trem',la:-23.5348,lo:-46.6350},
+ {id:'e14',n:'Estação Santana',l:'Metrô · Linha 1-Azul',la:-23.5025,lo:-46.6250},
+ {id:'e15',n:'Estação Tatuapé',l:'Metrô Linha 3-Vermelha · Trem',la:-23.5403,lo:-46.5765},
+ {id:'e16',n:'Estação Santa Cruz',l:'Metrô · Linhas 1-Azul e 5-Lilás',la:-23.5990,lo:-46.6370},
+ {id:'e17',n:'Estação Paraíso',l:'Metrô · Linhas 1-Azul e 2-Verde',la:-23.5760,lo:-46.6410},
+ {id:'e18',n:'Estação Jabaquara',l:'Metrô · Linha 1-Azul',la:-23.6460,lo:-46.6410},
+ {id:'e19',n:'Estação Morumbi (Linha 4)',l:'Metrô · Linha 4-Amarela',la:-23.5870,lo:-46.7230},
+ {id:'e20',n:'Estação Osasco',l:'Trem · Linhas 8 e 9',la:-23.5280,lo:-46.7760}
+];
+const REFS=[
+ {id:'r1',n:'Largo da Lapa',l:'Lapa',la:-23.5225,lo:-46.7035},
+ {id:'r2',n:'Mercado da Lapa',l:'Lapa',la:-23.5212,lo:-46.7010},
+ {id:'r3',n:'Alto da Lapa',l:'Bairro',la:-23.5350,lo:-46.7100},
+ {id:'r4',n:'Vila Romana',l:'Bairro',la:-23.5280,lo:-46.6950},
+ {id:'r5',n:'Vila Leopoldina',l:'Bairro',la:-23.5300,lo:-46.7300},
+ {id:'r6',n:'Pompeia',l:'Bairro',la:-23.5330,lo:-46.6860},
+ {id:'r7',n:'Perdizes',l:'Bairro',la:-23.5380,lo:-46.6750},
+ {id:'r8',n:'Água Branca',l:'Bairro',la:-23.5230,lo:-46.6800},
+ {id:'r9',n:'Barra Funda',l:'Bairro',la:-23.5230,lo:-46.6650},
+ {id:'r10',n:'Pinheiros',l:'Bairro',la:-23.5640,lo:-46.6920},
+ {id:'r11',n:'Butantã',l:'Bairro',la:-23.5720,lo:-46.7080},
+ {id:'r12',n:'Pirituba',l:'Bairro',la:-23.4880,lo:-46.7250},
+ {id:'r13',n:'Freguesia do Ó',l:'Bairro',la:-23.4990,lo:-46.6950},
+ {id:'r14',n:'Avenida Paulista (MASP)',l:'Bela Vista',la:-23.5614,lo:-46.6559},
+ {id:'r15',n:'Centro (Praça da Sé)',l:'Sé',la:-23.5503,lo:-46.6339},
+ {id:'r16',n:'Santana',l:'Zona Norte',la:-23.5020,lo:-46.6250},
+ {id:'r17',n:'Tatuapé',l:'Zona Leste',la:-23.5400,lo:-46.5770},
+ {id:'r18',n:'Vila Mariana',l:'Zona Sul',la:-23.5890,lo:-46.6350},
+ {id:'r19',n:'Morumbi',l:'Zona Sul',la:-23.5950,lo:-46.7200},
+ {id:'r20',n:'Osasco (centro)',l:'Região metropolitana',la:-23.5320,lo:-46.7790},
+ {id:'r21',n:'Guarulhos (centro)',l:'Região metropolitana',la:-23.4630,lo:-46.5330},
+ {id:'r22',n:'Santo André (centro)',l:'ABC',la:-23.6560,lo:-46.5320},
+ {id:'r23',n:'Allianz Parque',l:'Água Branca',la:-23.5275,lo:-46.6785},
+ {id:'r24',n:'Cidade Universitária (USP)',l:'Butantã',la:-23.5600,lo:-46.7310}
+];
+
+/* ============ ENRIQUECIMENTO v3 (nov/2026): só capital, WhatsApp, redes, fotos ============ */
+(function(){
+ for(const id of [75,76,77,78]){const i=LOC.findIndex(p=>p.id===id);if(i>=0)LOC.splice(i,1)}
+ const set=(ids,o)=>ids.forEach(id=>{const p=LOC.find(x=>x.id===id);if(p)Object.assign(p,typeof o==='function'?o(p):o)});
+ const IG=u=>'https://www.instagram.com/'+u+'/',FB=u=>'https://www.facebook.com/'+u,LI=u=>'https://www.linkedin.com/'+u,YT=u=>'https://www.youtube.com/'+u;
+ const DRC=[9,63,64,65,66,67,68,69,70,71,72,73,74];
+ set(DRC,{wa:'551141181339',wn:'WhatsApp oficial da rede dr.consulta',site:'https://drconsulta.com',foto:'https://cdn.buttercms.com/6NI9voaS88DfxFOSK4cw',fotoRede:1});
+ set([3,12,36],{wa:'551138384655',wn:'WhatsApp oficial do Hospital Albert Sabin',site:'https://hasabin.com.br',soc:{ig:IG('hospital_albertsabin'),fb:FB('hasabin.lapa'),li:LI('company/hospital-albert-sabin')}});
+ set([1,11],{site:'https://hospitalsaocamilosp.org.br',soc:{ig:IG('hospitalsaocamilosp'),fb:FB('hospitalsaocamilosp'),li:LI('company/hospitalsaocamilosp'),yt:YT('user/RedeSaoCamiloSP')}});
+ set([10],{site:'https://www.acessosaudesp.com.br',soc:{ig:IG('acessosaudesp'),fb:FB('acessosaudesp')},wn:'WhatsApp oficial da clínica',foto:'https://static.wixstatic.com/media/088e65_1f3272fe5b7d4d84b8035e1c4334405b~mv2.jpg/v1/fill/w_640,h_480,q_90/088e65_1f3272fe5b7d4d84b8035e1c4334405b~mv2.jpg'});
+ set([24,25,35,79,80,81,82],{wa:'551130474488',wn:'WhatsApp oficial Lavoisier',site:'https://lavoisier.com.br',soc:{ig:IG('lavoisierlab'),fb:FB('lavoisierlab')}});
+ set([26,27],{wa:'551130496999',wn:'WhatsApp oficial Delboni',site:'https://www.delboni.com.br',soc:{ig:IG('delbonimedicinadiagnostica'),fb:FB('delbonimedicinadiagnostica')}});
+ set([29,30,31,32],{site:'https://www.fleury.com.br',soc:{ig:IG('fleury'),yt:YT('fleurymedicinaesaude')}});
+ set([32],{foto:'https://d3unpzxgfygi8m.cloudfront.net/Vila_Leopoldina_fachada_d3ec3fc8ff.jpg',fotos2:['https://d3unpzxgfygi8m.cloudfront.net/Vila_Leopoldina_029_4e10db30d7.jpg']});
+ set([30],{c:'imagem',foto:'https://d3unpzxgfygi8m.cloudfront.net/Sumare_fachada_873325ab54.jpg',fotos2:['https://d3unpzxgfygi8m.cloudfront.net/Sumare_001_bea3bdd9ee.jpg','https://d3unpzxgfygi8m.cloudfront.net/Sumare_002_13612b948d.jpg'],hr:'Exames agendados: seg a sex 7h–18h30, sáb e dom 6h30–12h30 · Análises clínicas: seg a sex 6h30–18h, sáb 6h30–12h, dom 6h30–12h30',h:[{d:[1,2,3,4,5],a:'06:30',f:'18:30'},{d:[6],a:'06:30',f:'12:30'},{d:[0],a:'06:30',f:'12:30'}],img:['rm','us','dens','mamo'],d:'Unidade Fleury em Perdizes com ressonância, ultrassom, densitometria, mamografia e análises clínicas.',f:'https://www.fleury.com.br/unidades/sumare'});
+ set([52],{site:'https://www.hospitalsiriolibanes.org.br',soc:{ig:IG('hsiriolibanes'),fb:FB('siriolibanes'),li:LI('company/siriolibanes'),yt:YT('channel/UCYlaF2S8zWK7ntqw2vEP8qw')}});
+ set([53],{wa:'551135491000',wn:'WhatsApp oficial de agendamento (seg a sex 8h–18h)',site:'https://www.hospitaloswaldocruz.org.br',foto:'https://www.hospitaloswaldocruz.org.br/wp-content/uploads/2023/04/hospital-paulista.png',soc:{ig:IG('hospitalalemaooswaldocruz'),fb:FB('HospitalAlemaoOswaldoCruz'),li:LI('company/958423'),yt:YT('user/HospitalOswaldoCruz')}});
+ set([56,103],{wa:'552121012658',wn:'WhatsApp oficial da Rede D’Or (assistente Dora)',site:'https://www.rededorsaoluiz.com.br',soc:{ig:IG('rededor_oficial'),fb:FB('rededor'),li:LI('company/rededor-saoluiz')}});
+ set([56],{foto:'https://wp.rededorsaoluiz.com.br/sao-luiz-morumbi/wp-content/uploads/sites/33/2024/10/SaoLuizMorumbi-scaled-e1753806519288.jpg'});
+ set([57],{site:'https://www.bp.org.br',soc:{ig:IG('bporgbr'),fb:FB('bporgbr'),li:LI('company/bporgbr'),yt:YT('user/BeneficenciaSP')}});
+ set([14],{site:'https://www.credieolhos.com.br',soc:{ig:IG('credie.oftalmologia'),fb:FB('credieolhos')}});
+ set([42],{site:'https://www.credieolhos.com.br',soc:{ig:IG('dr.marcelocredie'),fb:FB('credieolhos')}});
+ set([16],{site:'https://osmardeoliveira.com.br',foto:'https://osmardeoliveira.com.br/wp-content/uploads/2024/05/fachada-osmar-oliveira.jpg',soc:{ig:IG('institutoosmardeoliveira'),fb:FB('InstitutoOsmardeOliveiraOficial'),yt:YT('channel/UC_HlT3OI_UhS5Ko_O_BI4uQ')}});
+ set([18,49],{site:'https://suort.com.br',foto:'https://suort.com.br/images/servicos/fachada-suort-clinica-integrada-perdizes-sp.webp',fotos2:['https://suort.com.br/images/about/img-1.jpg','https://suort.com.br/images/about/img-2.jpg'],soc:{ig:IG('clinicasuort'),fb:FB('clinicasuort')}});
+ set([17],{site:'https://clinicaszerodor.com.br',soc:{ig:IG('zdclinicas'),fb:FB('zdclinicas'),yt:YT('@zdclinicas')}});
+ set([33],{site:'https://www.dimagem-unineuro.com.br'});
+ set([23],{site:'https://www.hermespardini.com.br',foto:'https://api-site.hermespardini.com.br/uploads/img_highlight_desktop_2c1d11cd2f.jpg',fotoRede:1});
+ set([65],{g:{v:3.7,n:1016}});set([63],{g:{v:3.8,n:244}});set([67],{g:{v:3.9,n:375}});set([51],{g:{v:4.8,n:null},site:'https://www.einstein.br'});
+ const GF='https://comerciosaopaulo.com.br/?p=13996';
+ [[51,4.8],[52,4.7],[53,4.6],[54,4.3],[57,4.5],[111,4.5],[62,4.6],[58,4.4]].forEach(([id,v])=>set([id],{g:{v,n:null,f:GF}}));
+ const H2=(d,a,f)=>({d,a,f});const IGd=IG('delbonimedicinadiagnostica');
+ const novos=[
+ {id:111,n:'HCor – Hospital do Coração',c:'hospital',b:'Paraíso',e:'R. Desembargador Eliseu Guilherme, 147 – Paraíso, São Paulo – SP, 04004-030',hr:'Pronto-socorro 24 horas',h:'24h',t:['(11) 3053-6611 (geral)','(11) 3889-9944 (pronto-socorro)','(11) 3889-3939 (agendamento)'],wa:'551138893939',wn:'WhatsApp oficial de agendamento',cv:'Convênios e particular',d:'Hospital de referência em cardiologia, com pronto-socorro especializado em infarto, insuficiência cardíaca e AVC.',la:-23.5745,lo:-46.6440,f:'https://www.hcor.com.br',site:'https://www.hcor.com.br',soc:{ig:IG('hcoroficial'),fb:FB('HCor.Oficial'),li:LI('company/hcor'),yt:YT('channel/UC7tOeqLpmCejyymIyZlrWNQ')},esp:['cardio','clinica','neuro','endo'],img:['eco','tc','rm','us','rx'],lab:1},
+ {id:112,n:'HCor Diagnóstico – Cidade Jardim',c:'imagem',b:'Jardim Paulistano',e:'Av. Cidade Jardim, 350, 2º andar – Jardim Paulistano, São Paulo – SP',hr:'Horário não confirmado',h:null,t:['(11) 3889-3939 (agendamento)'],wa:'551138893939',wn:'WhatsApp oficial de agendamento HCor',cv:'Convênios e particular',d:'Unidade de diagnóstico por imagem do HCor.',la:-23.5850,lo:-46.6800,f:'https://socesp.org.br/revista/assets/upload/revista/52120751589383194pdfSUPLEMENTO-DA-REVISTA-SOCESP-V25-N4.pdf',site:'https://www.hcor.com.br',soc:{ig:IG('hcoroficial'),fb:FB('HCor.Oficial')},img:['rm','tc','us','eco']},
+ {id:113,n:'A.C.Camargo Cancer Center',c:'hospital',b:'Liberdade',e:'R. Prof. Antônio Prudente, 211 – Liberdade, São Paulo – SP, 01509-010',hr:'Atendimento oncológico; confirme horários por telefone',h:null,t:['(11) 2189-5000'],cv:'Convênios, particular e SUS (referenciado)',d:'Centro de referência no diagnóstico e tratamento do câncer, desde 1953.',la:-23.5665,lo:-46.6375,f:'https://www.saopaulo.sp.leg.br/mulheres/?p=1532',site:'https://accamargo.org.br',esp:['clinica'],img:['tc','rm','mamo','us']},
+ {id:114,n:'Hospital Leforte – Liberdade',c:'hospital',b:'Liberdade',e:'R. Galvão Bueno, 257 – Liberdade, São Paulo – SP',hr:'Pronto-socorro (confirme o horário)',h:null,t:['(11) 3345-2000'],cv:'Convênios e particular',d:'Hospital geral na Liberdade, perto do metrô.',la:-23.5590,lo:-46.6340,f:'https://www.unimed.coop.br/site/pt/web/unimedfesp/alteracao-na-rede-prestadora-de-sao-paulo-oswaldo-cruz',esp:['clinica','orto','cardio'],img:['rx','us','tc']},
+ {id:115,n:'Hospital Santa Cruz',c:'hospital',b:'Vila Mariana',e:'R. Santa Cruz, 398 – Vila Mariana, São Paulo – SP',hr:'Pronto-socorro (confirme o horário)',h:null,t:['(11) 5080-2000'],cv:'Convênios e particular',d:'Hospital geral na Vila Mariana.',la:-23.5935,lo:-46.6380,f:'https://www.unimed.coop.br/site/pt/web/unimedfesp/alteracao-na-rede-prestadora-de-sao-paulo-oswaldo-cruz',esp:['clinica','orto','cardio','gineco'],img:['rx','us','tc']},
+ {id:116,n:'Hospital Sepaco',c:'hospital',b:'Vila Mariana',e:'R. Vergueiro, 4210 – Vila Mariana, São Paulo – SP',hr:'Pronto-socorro (confirme o horário)',h:null,t:['(11) 2182-4444'],cv:'Convênios e particular',d:'Hospital geral na Rua Vergueiro.',la:-23.5935,lo:-46.6305,f:'https://www.unimed.coop.br/site/pt/web/unimedfesp/alteracao-na-rede-prestadora-de-sao-paulo-oswaldo-cruz',esp:['clinica','orto','pedi','gineco'],img:['rx','us','tc']},
+ {id:117,n:'Pérola Byington – Centro de Referência da Saúde da Mulher',c:'hospital',b:'Bela Vista',e:'Av. Brig. Luís Antônio, 683 – Bela Vista, São Paulo – SP',hr:'Horário não confirmado',h:null,t:['(11) 3242-3433'],cv:'SUS – gratuito',sus:1,al:'Atendimento pelo SUS, em geral por encaminhamento.',d:'Referência estadual em saúde da mulher, incluindo prevenção e tratamento do câncer de mama.',la:-23.5530,lo:-46.6430,f:'https://www.saopaulo.sp.leg.br/mulheres/?p=1532',esp:['gineco'],img:['mamo','us']},
+ {id:118,n:'ICESP – Instituto do Câncer do Estado de São Paulo',c:'hospital',b:'Cerqueira César',e:'Av. Dr. Arnaldo, 251 – Cerqueira César, São Paulo – SP',hr:'Horário não confirmado',h:null,t:['(11) 3893-2000'],cv:'SUS – gratuito',sus:1,al:'Atendimento pelo SUS por encaminhamento.',d:'Hospital público de referência em oncologia, ligado ao HC-FMUSP.',la:-23.5555,lo:-46.6700,f:'https://www.saopaulo.sp.leg.br/mulheres/?p=1532',esp:['clinica'],img:['tc','rm','mamo']},
+ {id:119,n:'Hospital São Paulo (Unifesp)',c:'hospital',b:'Vila Clementino',e:'R. Botucatu, 740 – Vila Clementino, São Paulo – SP',hr:'Pronto-socorro do SUS (confirme o fluxo)',h:null,t:['(11) 3396-0600'],cv:'SUS – gratuito',sus:1,al:'Ambulatórios por encaminhamento do SUS.',d:'Hospital universitário da Escola Paulista de Medicina (Unifesp).',la:-23.5985,lo:-46.6450,f:'https://www.saopaulo.sp.leg.br/mulheres/?p=1532',esp:Object.keys(ESP),img:['rx','us','tc','rm']},
+ {id:120,n:'Delboni Auriemo – Augusta',c:'laboratorio',b:'Cerqueira César',e:'R. Augusta, 1828 – Cerqueira César, São Paulo – SP, 01412-000',hr:'Horário não confirmado',h:null,t:['(11) 3049-6999'],wa:'551130496999',wn:'WhatsApp oficial Delboni',cv:'Convênios e particular',d:'Unidade Delboni perto da Av. Paulista e do metrô.',la:-23.5605,lo:-46.6640,f:'https://www.delboni.com.br/unidades',site:'https://www.delboni.com.br',soc:{ig:IGd,fb:FB('delbonimedicinadiagnostica')},lab:1},
+ {id:121,n:'Delboni Auriemo – Alto de Pinheiros',c:'laboratorio',b:'Alto de Pinheiros',e:'R. Capepuxis, 429 – Alto de Pinheiros, São Paulo – SP, 05452-030',hr:'Horário não confirmado',h:null,t:['(11) 3049-6999'],wa:'551130496999',wn:'WhatsApp oficial Delboni',cv:'Convênios e particular',d:'Unidade Delboni com estacionamento, perto do trem.',la:-23.5440,lo:-46.7150,f:'https://www.delboni.com.br/unidades',site:'https://www.delboni.com.br',soc:{ig:IGd,fb:FB('delbonimedicinadiagnostica')},lab:1},
+ {id:122,n:'Fleury – Brasil II',c:'imagem',b:'Jardim Paulista',e:'Av. Brasil, 1891 – Jardim Paulista, São Paulo – SP, 01431-001',hr:'Horário não confirmado',h:null,t:['(11) 3179-0822'],cv:'Convênios e particular',d:'Unidade Fleury na Av. Brasil com radiologia e saúde da mulher.',la:-23.5760,lo:-46.6760,f:'https://bula.com.br/medico/giselle-crm-sp-78666',site:'https://www.fleury.com.br',soc:{ig:IG('fleury'),yt:YT('fleurymedicinaesaude')},img:['rm','us','mamo'],lab:1},
+ {id:123,n:'CURA – Jardins',c:'imagem',b:'Jardins',e:'Av. Brig. Luís Antônio, 4417 – Jardins, São Paulo – SP',hr:'Horário não confirmado',h:null,t:[],cv:'Convênios e particular',pr:2009,prt:'Ressonância de mamas R$ 2.009 (Doctoralia)',d:'Centro de diagnóstico por imagem nos Jardins.',la:-23.5790,lo:-46.6640,f:'https://www.doctoralia.com.br/servicos-de-tratamento/ressonancia-de-mamas/santo-andre3',img:['rm']},
+ {id:124,n:'Alliar CDB – Ana Rosa',c:'imagem',b:'Vila Mariana',e:'Av. Conselheiro Rodrigues Alves, 300 – Vila Mariana, São Paulo – SP',hr:'Horário não confirmado',h:null,t:[],cv:'Convênios e particular',pr:1009,prt:'Ressonância de mamas R$ 1.009 (Doctoralia)',d:'Unidade da rede CDB (Alliar) perto do metrô Ana Rosa.',la:-23.5835,lo:-46.6375,f:'https://www.doctoralia.com.br/servicos-de-tratamento/ressonancia-de-mamas/sao-paulo',img:['rm','us','tc','mamo']},
+ {id:125,n:'Sírio-Libanês – Unidade Brasil (Jardins)',c:'clinica',b:'Jardim América',e:'Av. Brasil, 915 – Jardim América, São Paulo – SP',hr:'Horário não confirmado',h:null,t:['(11) 3394-0200'],cv:'Convênios e particular',d:'Unidade do Sírio-Libanês nos Jardins, com consultórios e centro de diagnóstico.',la:-23.5735,lo:-46.6690,f:'https://bula.com.br/index.php/estabelecimento/dr-sao-paulo-5698359',site:'https://www.hospitalsiriolibanes.org.br',soc:{ig:IG('hsiriolibanes'),fb:FB('siriolibanes'),li:LI('company/siriolibanes')},esp:['clinica','cardio','endo','gastro','neuro','orto','gineco'],img:['us','rx','mamo']},
+ {id:126,n:'Sírio-Libanês – Unidade Itaim',c:'clinica',b:'Itaim Bibi',e:'R. Joaquim Floriano, 533 – Itaim Bibi, São Paulo – SP, 04534-011',hr:'Horário não confirmado',h:null,t:['(11) 3394-0200'],cv:'Convênios e particular',d:'Unidade com centro diagnóstico, check-up e hospital-dia.',la:-23.5840,lo:-46.6770,f:'https://bula.com.br/medico/bruno-zacchi-crm-sp-87252',site:'https://www.hospitalsiriolibanes.org.br',soc:{ig:IG('hsiriolibanes'),fb:FB('siriolibanes')},esp:['clinica','cardio','uro'],img:['us','tc','rm','mamo','dens']},
+ {id:127,n:'Clinovi – Paulista',c:'clinica',b:'Bela Vista',e:'Av. Paulista, 1048 – Bela Vista, São Paulo – SP',hr:'Horário não confirmado',h:null,t:[],cv:'Não informado',d:'Clínica na Av. Paulista com consultas de clínica médica e geriatria.',la:-23.5640,lo:-46.6540,f:'https://www.doctoralia.com.br/especialista-em-clinica-medica/sao-paulo/liberdade',esp:['clinica']},
+ {id:128,n:'Centros de Excelência em Medicina',c:'clinica',b:'Higienópolis',e:'R. Mato Grosso, 306, cj. 1502 – Higienópolis, São Paulo – SP',hr:'Horário não confirmado',h:null,t:[],cv:'Não informado',d:'Centro com cerca de 30 especialidades cadastradas no CNES.',la:-23.5450,lo:-46.6600,f:'https://bula.com.br/index.php/estabelecimento/dr-sao-paulo-5698359',esp:['clinica','cardio','endo','gastro','neuro','orto','otorrino','dermato','uro']},
+ {id:129,n:'IRB Prime Care',c:'clinica',b:'Centro',e:'R. Boa Vista, 99, 6º andar – Centro, São Paulo – SP',hr:'Horário não confirmado',h:null,t:[],cv:'Particular',pr:210,prt:'Dermatologia R$ 210 (Doctoralia)',d:'Clínica no Centro com dermatologia, psiquiatria e clínica médica.',la:-23.5455,lo:-46.6330,f:'https://www.doctoralia.com.br/doencas/esclerema-neonatal/santo-andre3',esp:['dermato','psiq','clinica']},
+ {id:130,n:'Clínica pra Gente',c:'clinica',b:'Higienópolis',e:'R. Dr. Albuquerque Lins, 597 – Higienópolis, São Paulo – SP',hr:'Horário não confirmado',h:null,t:[],cv:'Particular',pr:285,prt:'Dermatologia R$ 285 (Doctoralia)',d:'Clínica de dermatologia em Higienópolis.',la:-23.5390,lo:-46.6560,f:'https://www.doctoralia.com.br/doencas/esclerema-neonatal/santo-andre3',esp:['dermato']},
+ drc(131,'General Glicério','Liberdade','R. General Glicério, 346 – Liberdade, São Paulo – SP',-23.5540,-46.6290),
+ drc(132,'Largo Treze','Santo Amaro','R. Barão do Rio Branco, 184 – Santo Amaro, São Paulo – SP',-23.6530,-46.7100),
+ drc(133,'Tatuapé (Shopping Metrô Tatuapé)','Tatuapé','R. Domingos Agostin, 91 – Tatuapé, São Paulo – SP',-23.5405,-46.5760),
+ drc(134,'Itaquera (Shopping Metrô Itaquera)','Itaquera','Av. José Pinheiro Borges, s/n – Itaquera, São Paulo – SP',-23.5420,-46.4710),
+ drc(135,'SP Market','Jurubatuba','Av. das Nações Unidas, 22540 (Shopping SP Market) – São Paulo – SP',-23.6750,-46.7000),
+ {id:136,n:'Leticia Alves Antunes',c:'medico',b:'Cerqueira César',sp:'Clínica médica',crm:'CRM no perfil Doctoralia',e:'R. Cristiano Viana, 328 – Cerqueira César, São Paulo – SP',hr:'Horário não confirmado',h:null,t:[],cv:'Particular',pr:350,prt:'Consulta R$ 350 (Doctoralia)',d:'Médica de clínica geral perto da Av. Rebouças.',la:-23.5560,lo:-46.6740,f:'https://www.doctoralia.com.br/especialista-em-clinica-medica/sao-paulo/liberdade',esp:['clinica']},
+ {id:137,n:'Instituto de Infectologia Emílio Ribas',c:'hospital',b:'Cerqueira César',e:'Av. Dr. Arnaldo, 165 – Cerqueira César, São Paulo – SP, 01246-900',hr:'Pronto-socorro de infectologia 24 horas (SUS)',h:'24h',t:['(11) 3896-1200'],cv:'SUS – gratuito',sus:1,al:'Atendimento pelo SUS.',d:'Referência estadual em doenças infecciosas, perto do metrô Clínicas.',la:-23.5545,lo:-46.6690,f:'https://www.saopaulo.sp.gov.br',esp:['clinica'],img:['rx','tc']}
+ ];
+ novos.filter(p=>!p._rm).forEach(p=>LOC.push(p));
+ set([131,132,133,134,135],{wa:'551141181339',wn:'WhatsApp oficial da rede dr.consulta',site:'https://drconsulta.com',foto:'https://cdn.buttercms.com/6NI9voaS88DfxFOSK4cw',fotoRede:1});
+ LOC.forEach(p=>{p.esp=p.esp||[];p.img=p.img||[];p.on=p.on||[];p.lab=!!p.lab;p.t=p.t||[];p.soc=p.soc||{};p.fotos2=p.fotos2||[];p.s=[].concat(p.esp.map(k=>ESP[k][0]),p.img.map(k=>IMGX[k][0]),p.lab?['Exames laboratoriais']:[],p.on.length?['Teleconsulta']:[]);if(!p.s.length)p.s=[p.al&&/odonto/i.test(p.al)?'Radiologia odontológica':'Pronto atendimento'];if(!p.site&&p.url)p.site=p.url});
+})();
+
+</script>
+<script>
+/* =====================================================================
+   Pax - Saúde · v3.0 (nov/2026)
+   App de página única: dados em dados.js, sem servidor.
+   Serviços gratuitos: OpenStreetMap/CARTO (mapas), Nominatim (endereços),
+   OSRM (rotas), Mapillary e Wikimedia Commons (fotos), Google Maps (links).
+   ===================================================================== */
+const CFG={
+ mapillary:'', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'3.0',dataRef:'nov/2026'
+};
+
+/* ============ ESTADO ============ */
+const LS={get(k,d){try{const v=localStorage.getItem('pax2_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('pax2_'+k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem('pax2_'+k)}catch(e){}}};
+const ORIGEM_PADRAO={k:'ponto',id:'r14',n:'Avenida Paulista (MASP)',sub:'Bela Vista',la:-23.5614,lo:-46.6559};
+const S={
+ view:'inicio',pg:null,origin:LS.get('origin',ORIGEM_PADRAO),dest:null,sel:null,flow:{tipo:null,modo:null,item:null},
+ q:'',qi:'',cat:'todos',sort:'perto',fOpen:false,fWa:false,fConv:false,fSus:false,f24:false,map:true,
+ favs:LS.get('favs',[]),hist:LS.get('hist',[]),rmode:null,rmap:'osm',
+ user:LS.get('user',null),a11y:Object.assign({fs:0,hc:false,leg:false,ler:false,simples:false,nomo:false},LS.get('a11y',{}))
+};
+(function(){const n=LS.get('nome','');if(!S.user&&n){S.user={nome:n,cel:'',deps:[]};LS.set('user',S.user)}})();
+if(!CFG.mapillary)CFG.mapillary=LS.get('mly','');
+const GEO=LS.get('geo',{});LOC.forEach(p=>{if(GEO[p.id]){p.la=GEO[p.id][0];p.lo=GEO[p.id][1];p.geo=1}});
+const byId=id=>LOC.find(x=>x.id===id);
+const $=id=>document.getElementById(id);
+
+/* ============ UTILIDADES ============ */
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=s=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const enc=encodeURIComponent;
+function km(a,b){if(!a||!b||a.la==null||b.la==null)return null;const R=6371,r=x=>x*Math.PI/180;const dLa=r(b.la-a.la),dLo=r(b.lo-a.lo);const h=Math.sin(dLa/2)**2+Math.cos(r(a.la))*Math.cos(r(b.la))*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(h))}
+const fkm=d=>d==null?'—':(d<1?Math.round(d*100)*10+' m':d.toFixed(1).replace('.',',')+' km');
+const fmin=m=>{m=Math.max(1,Math.round(m));return m<60?m+' min':Math.floor(m/60)+'h'+String(m%60).padStart(2,'0')};
+const telHref=t=>'tel:+55'+t.replace(/\s*\([^)]*\)\s*$/,'').replace(/[^\d]/g,'');
+function agoraSP(){const s=new Date().toLocaleString('en-US',{timeZone:'America/Sao_Paulo',hour12:false,weekday:'short',hour:'2-digit',minute:'2-digit'});const m=s.match(/(\w+),?\s+(\d+):(\d+)/);const dias={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};return m?{d:dias[m[1]],min:(+m[2]%24)*60+(+m[3])}:{d:new Date().getDay(),min:new Date().getHours()*60+new Date().getMinutes()}}
+const toMin=s=>{const[a,b]=s.split(':');return +a*60+ +b};
+function status(p){if(p.h==='24h')return{k:'aberto',t:'Aberto 24h'};if(!Array.isArray(p.h))return{k:'?',t:p.c==='online'?'Online':'Horário a confirmar'};const n=agoraSP();for(const r of p.h){if(r.d.includes(n.d)&&n.min>=toMin(r.a)&&n.min<toMin(r.f))return{k:'aberto',t:'Aberto · fecha '+r.f.replace(':00','h').replace(':','h')}}return{k:'fechado',t:'Fechado agora'}}
+const isOnline=p=>p.c==='online';
+const dist=p=>isOnline(p)?null:km(S.origin,p);
+const nota=p=>p.g?p.g.v:0;
+function toast(t){const el=$('toast');el.innerHTML=`<div class="toast" role="status">${esc(t)}</div>`;clearTimeout(toast._t);toast._t=setTimeout(()=>el.innerHTML='',2800)}
+const primeiroNome=()=>S.user&&S.user.nome?S.user.nome.trim().split(/\s+/)[0]:'';
+const fmtCel=v=>{const d=String(v||'').replace(/\D/g,'').slice(0,11);if(d.length<=2)return d?'('+d:'';if(d.length<=7)return `(${d.slice(0,2)}) ${d.slice(2)}`;return `(${d.slice(0,2)}) ${d.slice(2,d.length-4)}-${d.slice(-4)}`};
+
+/* ============ ÍCONES ============ */
+const SVG=(p,c,w,sw)=>`<svg width="${w||22}" height="${w||22}" viewBox="0 0 24 24" fill="none" stroke="${c||'currentColor'}" stroke-width="${sw||2}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+const P={
+ menu:'<path d="M4 7h16M4 12h16M4 17h10"/>',home:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',
+ cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>',
+ mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/>',pin:'<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+ back:'<path d="M15 18l-6-6 6-6"/>',chev:'<path d="M9 6l6 6-6 6"/>',down:'<path d="M6 9l6 6 6-6"/>',plus:'<path d="M12 5v14M5 12h14"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',
+ route:'<circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/>',
+ phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',
+ share:'<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/>',
+ gps:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>',swap:'<path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"/>',
+ speaker:'<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/>',aa:'<path d="M3 18l4.5-12L12 18M4.7 14h5.6"/><path d="M14 18l3-8 3 8M15 15.5h4"/>',
+ alert:'<path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17.5v.01"/>',help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6M12 17v.01"/>',
+ mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+ doc:'<path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/>',
+ book:'<path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-6a3 3 0 0 0-3 3"/><path d="M20 4v14h-7"/>',brief:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 12h18"/>',
+ users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5"/><circle cx="17" cy="9" r="2.8"/><path d="M17 14.5c2.4.2 4 1.8 4.5 4.5"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',map:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
+ video:'<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/>',build:'<path d="M4 21V7l8-4 8 4v14"/><path d="M9 21v-5h6v5"/><path d="M12 7v5M9.5 9.5h5"/>',
+ flask:'<path d="M9 3h6"/><path d="M10 3v6L5 19a1.5 1.5 0 0 0 1.3 2h11.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M7.5 15h9"/>',
+ scan:'<rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="12" cy="12" r="4"/><path d="M12 8v8"/>',
+ steth:'<path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M10 13v3a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="12" r="2"/>',
+ ambul:'<path d="M3 16V8h11v8M14 11h4l3 3v2h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/><path d="M8.5 9.5v4M6.5 11.5h4"/>',
+ wa2:'<path d="M4 20l1.3-3.9A8 8 0 1 1 8 18.7z"/><path d="M9.2 8.8c.2 2.8 3 5.6 5.9 5.9l1.1-1.3-1.8-.9-.8.7c-1.1-.5-1.9-1.3-2.4-2.4l.7-.8-.9-1.8z"/>',
+ heart:'<path d="M12 20s-7-4.5-9-9a4.5 4.5 0 0 1 9-3 4.5 4.5 0 0 1 9 3c-2 4.5-9 9-9 9z"/>',gift:'<path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/>',
+ cardio:'<path d="M12 20s-7-4.5-9-9a4.5 4.5 0 0 1 9-3 4.5 4.5 0 0 1 9 3c-.4.9-1 1.8-1.7 2.6"/><path d="M3 12h4l2-3 3 6 2-3h7"/>',
+ dermato:'<path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"/><path d="M18 15l.9 2.1 2.1.9-2.1.9L18 21l-.9-2.1L15 18l2.1-.9z"/>',
+ drop:'<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/>',gastro:'<path d="M9 3v4c0 2-3 3-3 7a6 6 0 0 0 12 0c0-3-3-3-3-5V3"/>',
+ female:'<circle cx="12" cy="9" r="5"/><path d="M12 14v7M9 18h6"/>',brain:'<path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 3 3h1V4z"/><path d="M15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-3 3h-1V4z"/>',
+ eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',bone:'<path d="M7 17L17 7"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="18.5" cy="5.5" r="2"/><circle cx="4" cy="15.5" r="1.5"/><circle cx="8.5" cy="20" r="1.5"/><circle cx="15.5" cy="4" r="1.5"/><circle cx="20" cy="8.5" r="1.5"/>',
+ ear:'<path d="M7 9a5 5 0 0 1 10 0c0 3-3 4-3 7a3 3 0 0 1-6 0"/><path d="M10 9a2 2 0 0 1 4 0"/>',baby:'<circle cx="12" cy="12" r="8"/><path d="M9 14a3 3 0 0 0 6 0"/><path d="M9.5 10v.01M14.5 10v.01"/>',
+ chat:'<path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8"/>',wave:'<path d="M2 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/><rect x="3" y="4" width="18" height="16" rx="3"/>',
+ tube:'<path d="M9 3h6M10 3v15a2 2 0 0 0 4 0V3"/><path d="M10 12h4"/>'
+};
+const I=new Proxy({},{get:(o,k)=>(c,w,sw)=>SVG(P[k]||P.info,c,w,sw)});
+const ICW='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#063B21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+P.wa2+'</svg>';
+const IC_ESP={clinica:'steth',cardio:'cardio',dermato:'dermato',endo:'drop',gastro:'gastro',gineco:'female',neuro:'brain',oftalmo:'eye',orto:'bone',otorrino:'ear',pedi:'baby',psiq:'chat',uro:'drop'};
+const IC_IMG={rx:'bone',us:'wave',tc:'scan',rm:'scan',mamo:'female',dens:'bone',eco:'cardio'};
+const IC_CAT={hospital:'build',clinica:'steth',medico:'user',laboratorio:'flask',imagem:'scan',online:'video'};
+const LOGO=(s,c1,c2)=>{c1=c1||'#0B4F5C';c2=c2||'#14A39A';return `<svg width="${s}" height="${s}" viewBox="0 0 64 64" aria-hidden="true"><path fill="${c2}" d="M32 5c7.5 7.5 7.5 18 0 25.5-7.5-7.5-7.5-18 0-25.5z"/><path fill="${c1}" d="M32 59c-7.5-7.5-7.5-18 0-25.5 7.5 7.5 7.5 18 0 25.5z"/><path fill="${c1}" d="M5 32c7.5-7.5 18-7.5 25.5 0-7.5 7.5-18 7.5-25.5 0z"/><path fill="${c2}" d="M59 32c-7.5 7.5-18 7.5-25.5 0 7.5-7.5 18-7.5 25.5 0z"/><g stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity=".75"><path d="M32 10v15M32 39v15M10 32h15M39 32h15"/></g><circle cx="32" cy="32" r="3.4" fill="${c2}"/></svg>`};
+const PINSVG=c=>`<svg width="30" height="38" viewBox="0 0 30 38" aria-hidden="true"><path d="M15 37s13-12.3 13-22A13 13 0 0 0 2 15c0 9.7 13 22 13 22z" fill="${c}" stroke="#fff" stroke-width="2.5"/><circle cx="15" cy="15" r="5" fill="#fff"/></svg>`;
+const STAR=(f,s)=>`<svg width="${s||18}" height="${s||18}" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="sg${Math.round(f*100)}"><stop offset="${f*100}%" stop-color="#F4B400"/><stop offset="${f*100}%" stop-color="#E3E8E8"/></linearGradient></defs><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" fill="url(#sg${Math.round(f*100)})"/></svg>`;
+const estrelas=(v,s)=>`<span class="stars" aria-hidden="true">${[1,2,3,4,5].map(i=>STAR(Math.max(0,Math.min(1,v-i+1)),s)).join('')}</span>`;
+
+/* ============ FOTOS (site oficial → Mapillary → Wikimedia Commons → miniatura do mapa) ============ */
+const FOTOS=LS.get('fotos3',{});
+function fonteFoto(p,u){if(/wikimedia/.test(u))return'Wikimedia Commons';if(p.fotoRede)return'Imagem da rede';return'Site oficial'}
+function fotosDe(p){const a=[];if(p.foto)a.push({u:p.foto,src:fonteFoto(p,p.foto),link:p.site||p.f});(p.fotos2||[]).forEach(u=>a.push({u,src:fonteFoto(p,u),link:p.site||p.f}));(FOTOS[p.id]||[]).forEach(x=>a.push(x));return a}
+const FQ=[];let FQrun=0;
+function pedirFotos(p){if(!p||isOnline(p)||p.la==null||FOTOS[p.id]||p._fq)return;p._fq=1;FQ.push(p);bombaFQ()}
+function bombaFQ(){while(FQrun<2&&FQ.length){const p=FQ.shift();FQrun++;buscaFotos(p).catch(()=>{}).then(()=>{FQrun--;bombaFQ()})}}
+async function buscaFotos(p){const out=[];let ok=false;if(typeof fetch!=='function')return;
+ if(CFG.mapillary){try{const d=.00055;const r=await fetch(`https://graph.mapillary.com/images?access_token=${enc(CFG.mapillary)}&fields=id,thumb_1024_url,captured_at&bbox=${p.lo-d},${p.la-d},${p.lo+d},${p.la+d}&limit=6`);if(r.ok){ok=true;const j=await r.json();(j.data||[]).filter(x=>x.thumb_1024_url).sort((a,b)=>(b.captured_at||0)-(a.captured_at||0)).slice(0,3).forEach(x=>out.push({u:x.thumb_1024_url,src:'Mapillary',link:'https://www.mapillary.com/app/?pKey='+x.id,rua:1}))}}catch(e){}}
+ try{const r=await fetch(`https://commons.wikimedia.org/w/api.php?action=query&generator=geosearch&ggscoord=${p.la}%7C${p.lo}&ggsradius=120&ggslimit=10&ggsnamespace=6&prop=imageinfo&iiprop=url&iiurlwidth=900&format=json&origin=*`);if(r.ok){ok=true;const j=await r.json();const pg=j.query&&j.query.pages?Object.values(j.query.pages):[];pg.filter(x=>/\.(jpe?g|png|webp)$/i.test(x.title)&&!/map|mapa|logo|bandeira|flag/i.test(x.title)&&x.imageinfo&&x.imageinfo[0]).sort((a,b)=>(a.index||0)-(b.index||0)).slice(0,3).forEach(x=>out.push({u:x.imageinfo[0].thumburl||x.imageinfo[0].url,src:'Wikimedia Commons',link:x.imageinfo[0].descriptionurl}))}}catch(e){}
+ if(ok){FOTOS[p.id]=out;LS.set('fotos3',FOTOS)}else p._fq=0;
+ if(out.length)atualizaCapas(p)}
+function atualizaCapas(p){document.querySelectorAll(`[data-cov="${p.id}"]`).forEach(el=>{el.outerHTML=cover(p,el.dataset.h)});if(S.view==='local'&&S.sel===p.id){const g=$('gal');if(g){g.innerHTML=galeria(p);ligaGaleria()}}observar()}
+let IO=null;
+function observar(){if(typeof IntersectionObserver==='undefined')return;if(!IO)IO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){IO.unobserve(e.target);const p=byId(+e.target.dataset.cov);if(p&&!p.foto)pedirFotos(p)}}),{rootMargin:'250px'});document.querySelectorAll('[data-cov]').forEach(el=>IO.observe(el))}
+/* miniatura de mapa (OpenStreetMap/CARTO) centrada no endereço */
+function tileXY(la,lo,z){const n=2**z;const r=la*Math.PI/180;return[(lo+180)/360*n,(1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*n]}
+function mapThumb(p,hx,hy){if(p.la==null)return`<span style="position:absolute;inset:0;background:linear-gradient(135deg,${CATS[p.c].cor},#0B4F5C);display:flex;align-items:center;justify-content:center">${I[IC_CAT[p.c]]('#fff',54,1.6)}</span>`;
+ const z=16,[x,y]=tileXY(p.la,p.lo,z),px=x*256,py=y*256;let h='';
+ for(let tx=Math.floor((px-hx)/256);tx<=Math.floor((px+hx)/256);tx++)for(let ty=Math.floor((py-hy)/256);ty<=Math.floor((py+hy)/256);ty++)h+=`<img src="https://${'abcd'[(tx+ty)&3]}.basemaps.cartocdn.com/rastertiles/voyager/${z}/${tx}/${ty}.png" style="left:${Math.round(tx*256-px)}px;top:${Math.round(ty*256-py)}px" alt="" loading="lazy">`;
+ return `<span class="tiles" aria-hidden="true">${h}</span><span class="pin">${PINSVG(CATS[p.c].cor)}</span>`}
+function cover(p,h){h=h||'8.5rem';const f=fotosDe(p)[0];const c=CATS[p.c];
+ return `<span class="cover" data-cov="${p.id}" data-h="${h}" style="height:${h}">${mapThumb(p,340,150)}${f?`<img class="ph" src="${esc(f.u)}" alt="Foto: ${esc(p.n)}" loading="lazy" referrerpolicy="no-referrer" onerror="var s=this.parentNode.querySelector('.src');if(s)s.textContent='Mapa · OSM/CARTO';this.remove()">`:''}<span class="bdg">${esc(c.um.toUpperCase())}</span><span class="src">${f?esc(f.src):p.la!=null?'Mapa · OSM/CARTO':'Online'}</span></span>`}
+function galeria(p){const fs=fotosDe(p);const sl=fs.map(f=>`<span class="cover" style="height:15rem"><span style="position:absolute;inset:0;background:#DCE8E6"></span><img class="ph" src="${esc(f.u)}" alt="Foto ${f.rua?'de rua perto':'de'} ${esc(p.n)}" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"><a class="src" href="${esc(f.link||'#')}" target="_blank" rel="noopener">${f.rua?'Foto de rua · ':''}${esc(f.src)}</a></span>`);
+ if(!isOnline(p))sl.push(`<span class="cover" style="height:15rem">${mapThumb(p,420,180)}<span class="src">Mapa · © OpenStreetMap © CARTO</span></span>`);else sl.push(`<span class="cover" style="height:15rem">${mapThumb(p)}</span>`);
+ return `<div class="gallery" id="galsc">${sl.join('')}</div>${sl.length>1?`<div class="dots" id="galdots">${sl.map((x,i)=>`<i class="${i?'':'on'}"></i>`).join('')}</div>`:''}`}
+function ligaGaleria(){const g=$('galsc'),d=$('galdots');if(!g||!d)return;g.addEventListener('scroll',()=>{const i=Math.round(g.scrollLeft/Math.max(1,g.clientWidth));[...d.children].forEach((x,k)=>x.classList.toggle('on',k===i))},{passive:true})}
+
+/* ============ GEOLOCALIZAÇÃO E ROTAS (serviços gratuitos) ============ */
+const limpaEnd=e=>e.replace(/\(.*?\)/g,'').replace(/,?\s*(cj\.|conj\.|sala|andar|\d+º andar|1º andar|sobreloja)[^–,]*/gi,'').replace(/\s*–\s*/g,', ').replace(/\s+/g,' ').trim();
+let geoFila=Promise.resolve();
+function geocode(q){return geoFila=geoFila.then(()=>new Promise(r=>setTimeout(r,1100))).then(()=>fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=br&accept-language=pt-BR&q='+enc(q)).then(r=>r.ok?r.json():[]).then(j=>j&&j[0]?{la:+j[0].lat,lo:+j[0].lon,nome:j[0].display_name}:null).catch(()=>null))}
+async function refinar(p){if(!p||p.geo||isOnline(p))return p;p.geo=1;const g=await geocode(limpaEnd(p.e));if(g&&km(p,g)<3){p.la=g.la;p.lo=g.lo;GEO[p.id]=[g.la,g.lo];LS.set('geo',GEO)}return p}
+const ROTAS={};
+async function osrm(perfil,o,d){const k=[perfil,o.la,o.lo,d.la,d.lo].join();if(ROTAS[k])return ROTAS[k];
+ try{const r=await fetch(`https://routing.openstreetmap.de/routed-${perfil}/route/v1/driving/${o.lo},${o.la};${d.lo},${d.la}?overview=full&geometries=geojson`);if(!r.ok)throw 0;const j=await r.json();const x=j.routes&&j.routes[0];if(!x)throw 0;return ROTAS[k]={km:x.distance/1000,min:x.duration/60,geo:x.geometry.coordinates.map(c=>[c[1],c[0]])}}catch(e){return null}}
+function estMaisProx(pt){let best=null,bd=1e9;for(const e of EST){const d=km(pt,e);if(d<bd){bd=d;best=e}}return{e:best,d:bd}}
+function qtxt(pt){if(!pt)return'';if(pt.k==='unidade')return pt.e;if(pt.k==='gps'||pt.k==='geo')return pt.la+','+pt.lo;return pt.n+', São Paulo - SP'}
+const gmaps=(o,d,m)=>`https://www.google.com/maps/dir/?api=1&origin=${enc(qtxt(o))}&destination=${enc(qtxt(d))}&travelmode=${m}`;
+const gplace=p=>`https://www.google.com/maps/search/?api=1&query=${enc(p.n+', '+limpaEnd(p.e))}`;
+const waze=d=>d.la!=null?`https://waze.com/ul?ll=${d.la},${d.lo}&navigate=yes`:`https://waze.com/ul?q=${enc(qtxt(d))}&navigate=yes`;
+const uber=d=>`https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[formatted_address]=${enc(qtxt(d))}`+(d.la!=null?`&dropoff[latitude]=${d.la}&dropoff[longitude]=${d.lo}`:'');
+const ptFromUnit=p=>({k:'unidade',id:p.id,n:p.n,sub:p.e,e:p.e,la:p.la,lo:p.lo});
+
+/* ============ MAPAS (Leaflet + OpenStreetMap/CARTO) ============ */
+let MAPAS=[];
+function matarMapas(){MAPAS.forEach(m=>{try{m.remove()}catch(e){}});MAPAS=[]}
+function novoMapa(id){const el=$(id);if(!el)return null;if(typeof window.L==='undefined'||!window.L.map){el.innerHTML='<div class="empty">O mapa precisa de internet para carregar. Use os botões do Google Maps.</div>';return null}
+ const m=window.L.map(el,{zoomControl:true,attributionControl:true,scrollWheelZoom:false});
+ window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap · © CARTO'}).addTo(m);MAPAS.push(m);return m}
+function pinOrigem(m){if(!m||S.origin.la==null)return;window.L.circleMarker([S.origin.la,S.origin.lo],{radius:9,color:'#fff',weight:3,fillColor:'#2563EB',fillOpacity:1}).addTo(m).bindTooltip('Você: '+S.origin.n)}
+function mapaResultados(id,lista){const m=novoMapa(id);if(!m)return;const b=[];pinOrigem(m);if(S.origin.la!=null)b.push([S.origin.la,S.origin.lo]);
+ lista.filter(p=>p.la!=null).slice(0,60).forEach(p=>{const mk=window.L.circleMarker([p.la,p.lo],{radius:8,color:'#fff',weight:2,fillColor:CATS[p.c].cor,fillOpacity:1}).addTo(m);mk.bindTooltip(p.n);mk.on('click',()=>abrir(p.id));b.push([p.la,p.lo])});
+ if(b.length>1)m.fitBounds(b.slice(0,12),{padding:[28,28],maxZoom:15});else if(b.length)m.setView(b[0],15);else m.setView([-23.56,-46.66],13)}
+
+/* ============ WHATSAPP ============ */
+function msgWA(p,o){
+ const per={manha:'pela manhã',tarde:'à tarde',qualquer:'em qualquer horário'}[o.per];
+ const pag=o.pag==='convenio'?('convênio'+(o.plano?' ('+o.plano+')':'')):'particular';
+ const quem=(o.nome||'[nome do paciente]')+(o.rel?' ('+o.rel+')':'');
+ if(o.tipo==='exame')return `Olá, ${p.n}! Encontrei vocês pelo app Pax - Saúde e gostaria de agendar o exame: ${o.item}.\n\nPaciente: ${quem}\nPreferência: ${per}, ${o.quando}\nPagamento: ${pag}\n\nPreciso de algum preparo? Quais horários vocês têm disponíveis?`;
+ return `Olá, ${p.n}! Encontrei vocês pelo app Pax - Saúde e gostaria de agendar uma consulta${o.item?' de '+o.item:''}${o.online?' online (por vídeo)':''}.\n\nPaciente: ${quem}\nPreferência: ${per}, ${o.quando}\nPagamento: ${pag}\n\nQuais horários vocês têm disponíveis?`}
+const waUrl=(p,t)=>'https://wa.me/'+p.wa+'?text='+enc(t);
+function opcoesItem(p,tipo){if(tipo==='exame'){const a=p.img.map(k=>IMGX[k][0]);if(p.lab)LABX.forEach(x=>a.push(x[0]));return a.length?a:['Exames']}const a=p.esp.map(k=>ESP[k][0]);return a.length?a:(p.sp?[p.sp]:['Clínica geral'])}
+
+/* ============ VOZ (busca e leitura) ============ */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const TTS=typeof window.speechSynthesis!=='undefined';
+function falar(t){if(!TTS){toast('Leitura em voz alta indisponível neste navegador');return}try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='pt-BR';u.rate=.95;speechSynthesis.speak(u)}catch(e){}}
+function lerTela(){if(S.view==='local'){const p=byId(S.sel);if(p){const st=status(p);return falar(`${p.n}. ${CATS[p.c].um}. ${st.t}. ${isOnline(p)?'':'Endereço: '+limpaEnd(p.e)+'. Distância: '+fkm(dist(p)).replace(',',' vírgula ')+'.'} Horário: ${p.hr}. ${p.t.length?'Telefone: '+p.t[0].replace(/\s*\(.*\)$/,'')+'.':''} ${p.wa?'Tem WhatsApp para agendar.':''} ${p.g?'Nota no Google: '+String(p.g.v).replace('.',' vírgula ')+' de 5.':''}`)}}
+ const el=$('app');falar((el.innerText||el.textContent||'').replace(/\s+/g,' ').slice(0,1400))}
+function voz(alvo){if(!SR){toast('Busca por voz indisponível neste navegador');return}try{const r=new SR();r.lang='pt-BR';r.interimResults=false;const b=document.querySelector(`[data-act="voz"][data-alvo="${alvo}"],[data-act="vozglobal"]`);if(b)b.classList.add('on');toast('Pode falar…');
+ r.onresult=e=>{const t=e.results[0][0].transcript;if(alvo==='global'){S.q=t;S.cat='todos';irTab('buscar');return}const el=$(alvo);if(el){el.value=t;el.dispatchEvent(new Event('input',{bubbles:true}));if(alvo==='qh'){S.q=t;S.cat='todos';irTab('buscar')}}};
+ r.onend=()=>document.querySelectorAll('.on').forEach(x=>x.classList.remove('on'));r.onerror=()=>toast('Não consegui ouvir. Verifique a permissão do microfone.');r.start()}catch(e){toast('Busca por voz indisponível neste navegador')}}
+
+/* ============ COMPONENTES ============ */
+function stTag(p){const s=status(p);return `<span class="tag ${s.k==='aberto'?'':s.k==='fechado'?'off':'gray'}">${s.k==='aberto'?'● ':''}${esc(s.t)}</span>`}
+const starTag=p=>p.g?`<span class="tag star">★ ${String(p.g.v).replace('.',',')} Google</span>`:'';
+function alTags(p){let h='';if(p.al&&/Prevent/.test(p.al))h+='<span class="tag warn">Só Prevent Senior</span>';if(p.al&&/odontol/i.test(p.al))h+='<span class="tag warn">Odontológica</span>';return h}
+function contatoBtns(p){let h='';
+ if(p.wa)h+=`<button class="btn wa" data-act="wa" data-id="${p.id}">${ICW} WhatsApp</button>`;
+ else if(p.t.length)h+=`<button class="btn" data-act="ligar" data-id="${p.id}">${I.phone('#0B4F5C',20)} Ligar</button>`;
+ if(isOnline(p))h+=`<a class="btn pri" href="${esc(p.url)}" target="_blank" rel="noopener">${I.video('#fff',20)} Acessar</a>`;
+ else h+=`<button class="btn pri" data-act="rota" data-id="${p.id}">${I.route('#fff',20)} Rota</button>`;
+ return h}
+const heartBtn=p=>{const on=S.favs.includes(p.id);return `<button class="round" data-act="fav" data-id="${p.id}" aria-label="${on?'Remover dos':'Adicionar aos'} favoritos" aria-pressed="${on}"><svg width="22" height="22" viewBox="0 0 24 24" fill="${on?'#C62E4A':'none'}" stroke="${on?'#C62E4A':'#0B4F5C'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P.heart}</svg></button>`};
+function card(p){const d=dist(p);
+ return `<article class="pcard"><button class="open" data-act="abrir" data-id="${p.id}" aria-label="Ver detalhes de ${esc(p.n)}">${cover(p,'8.5rem')}
+ <span class="bd"><span class="meta">${stTag(p)}${starTag(p)}${p.sus?'<span class="tag blue">SUS</span>':''}${p.pr?`<span class="tag gray">R$ ${p.pr}</span>`:''}${alTags(p)}</span>
+ <span class="nm">${esc(p.n)}</span>
+ <span class="meta">${isOnline(p)?I.video('#0E6B6B',16)+esc(p.sp||'Teleconsulta por vídeo'):I.pin('#0B4F5C',16)+`<span>${esc(p.b)} · <b style="color:var(--ink)">${fkm(d)}</b>${p.sp?' · '+esc(p.sp):''}</span>`}</span></span></button>
+ <div class="acts">${contatoBtns(p)}${heartBtn(p)}</div></article>`}
+function mini(p){const d=dist(p);return `<button class="mini" data-act="abrir" data-id="${p.id}">${cover(p,'7.2rem').replace('class="cover"','class="cover" style="border-radius:0"')}<span class="bd"><span class="meta">${stTag(p)}</span><b>${esc(p.n)}</b><span class="sm mut">${esc(p.b)} · ${fkm(d)}${p.g?' · ★ '+String(p.g.v).replace('.',','):''}</span></span></button>`}
+function origemChip(light){return `<button class="chip-o${light?' light':''}" data-act="picker" data-alvo="origin" aria-label="Alterar ponto de partida: ${esc(S.origin.n)}">${I.pin('#fff',16)}<span>Saindo de: <b>${esc(S.origin.n)}</b></span>${I.down('#fff',14)}</button>`}
+function buscaForm(id,ph,val,live){return `<form class="search" data-form="busca" data-alvo="${id}" role="search">${I.search('#0B4F5C',20)}<label class="sr" for="${id}">Buscar</label><input id="${id}" name="q" type="search" enterkeyhint="search" placeholder="${esc(ph)}" value="${esc(val)}" ${live?`data-live="${live}"`:''} autocomplete="off"><button type="button" class="micbtn" data-act="voz" data-alvo="${id}" aria-label="Buscar por voz">${I.mic('#fff',20)}</button></form>`}
+function phead(t,sub,voltar){return `<div class="phead">${voltar!==false?`<button class="back" data-act="voltar" aria-label="Voltar">${I.back('#0C2329',20)}</button>`:''}<div style="flex:1;min-width:0"><h1>${esc(t)}</h1>${sub?`<p>${esc(sub)}</p>`:''}</div></div>`}
+function cubo(o){return `<button class="cube ${o.cls||'plain'}" data-act="${o.act}" data-v="${o.v}"${o.k?` data-k="${o.k}"`:''}><span class="ic">${o.ic}</span><span class="tx"><span class="t">${o.t}</span><span class="d">${o.d}</span>${o.n!=null?`<span class="tag ${o.cls==='blue'?'blue':o.cls==='pink'?'off':''} n" style="${o.cls==='pink'?'background:#fff;color:#B02A62':o.cls==='blue'?'background:#fff':''}">${o.n}</span>`:''}</span>${I.chev(o.cor||'#0B4F5C',22)}<span class="bgic">${o.bg||''}</span></button>`}
+const nConsultas=()=>LOC.filter(p=>p.esp.length||p.on.length).length,nExames=()=>LOC.filter(p=>p.lab||p.img.length).length;
+function cubosTipo(duo){const a=cubo({cls:'pink',act:'tipo',v:'consulta',ic:I.steth('#B02A62',34),t:'Consultas',d:'Presencial perto de você ou online por vídeo',n:nConsultas()+' locais e serviços',cor:'#B02A62',bg:I.steth('#B02A62',150,1.4)}),
+ b=cubo({cls:'blue',act:'tipo',v:'exame',ic:I.flask('#1C5BA8',34),t:'Exames',d:'Laboratoriais (sangue, urina) ou de imagem',n:nExames()+' locais',cor:'#1C5BA8',bg:I.flask('#1C5BA8',150,1.4)});
+ return duo?`<div class="duo">${a}${b}</div>`:`<div class="cubes">${a.replace('class="cube pink"','class="cube pink hero2"')}${b.replace('class="cube blue"','class="cube blue hero2"')}</div>`}
+
+/* ============ TELAS ============ */
+let BAR='';
+function vInicio(){
+ const near=a=>a.sort((x,y)=>(dist(x)??1e9)-(dist(y)??1e9));
+ const ps=near(LOC.filter(p=>p.c==='hospital'&&p.h==='24h'&&!/Exclusivo/i.test(p.cv)&&!(p.al&&/Prevent/.test(p.al)))).slice(0,3);
+ const dest=near(LOC.filter(p=>!isOnline(p)&&(p.foto||p.g))).slice(0,8);
+ const was=near(LOC.filter(p=>p.wa&&!isOnline(p))).slice(0,4);
+ const abertos=near(LOC.filter(p=>!isOnline(p)&&status(p).k==='aberto'&&p.h!=='24h')).slice(0,4);
+ const n=primeiroNome();
+ const at=[['ps','Pronto-socorro 24h','ambul','#B3261E'],['tele','Consulta por vídeo','video','#0E6B6B'],['wa','Com WhatsApp','wa2','#128C4A'],['gps','Perto de mim','gps','#2563EB'],['sus','SUS gratuito','shield','#1C5BA8'],['favs','Favoritos','heart','#C62E4A'],['emerg','Emergência','alert','#B3261E']];
+ return `<section class="hero"><h1 class="hello">${n?'Olá, '+esc(n)+'!':'Olá!'} <small>Como podemos cuidar de você hoje?</small></h1>${origemChip()}${buscaForm('qh','Especialidade, exame, local ou bairro','')}</section>
+ <section class="sec">${cubosTipo(true)}</section>
+ <section class="sec adv"><h2 class="h2">Atalhos</h2><div class="hscroll">${at.map(([k,t,ic,c])=>`<button class="short" data-act="atalho" data-k="${k}"><i>${I[ic](c,26)}</i>${t}</button>`).join('')}</div></section>
+ <section class="sec"><a class="info red" href="tel:192" style="align-items:center">${I.ambul('#B3261E',28)}<span style="flex:1"><b>Emergência? Ligue 192 (SAMU)</b><br>Bombeiros: 193 · Não espere agendar.</span>${I.phone('#B3261E',22)}</a></section>
+ <section class="sec adv"><div class="row between"><h2 class="h2">Destaques perto de você</h2><button class="lnk sm" data-act="nav" data-v="buscar">Ver todos</button></div><div class="hscroll">${dest.map(mini).join('')}</div></section>
+ <section class="sec"><h2 class="h2">Pronto-socorro 24h mais perto</h2><div class="card" style="padding:.2rem 1rem">${ps.map(p=>`<div class="lrow"><span class="lic" style="background:#FBE9E8">${I.build('#B3261E',20)}</span><button data-act="abrir" data-id="${p.id}" class="col" style="flex:1;text-align:left;min-width:0"><b style="font-size:.95rem">${esc(p.n)}</b><span class="sm mut">${esc(p.cv)} · ${fkm(dist(p))}</span></button><button class="round" data-act="rota" data-id="${p.id}" aria-label="Como chegar a ${esc(p.n)}">${I.route('#0B4F5C',20)}</button></div>`).join('')}</div></section>
+ <section class="sec adv"><h2 class="h2">Agende pelo WhatsApp</h2><p class="p mut" style="margin-top:-.4rem">WhatsApp oficial. A mensagem já vai pronta.</p><div class="grid">${was.map(card).join('')}</div></section>
+ <section class="sec adv"><h2 class="h2">Abertos agora, mais perto</h2>${abertos.length?`<div class="grid">${abertos.map(card).join('')}</div>`:'<div class="empty">Nenhum local com horário confirmado está aberto agora.</div>'}</section>`}
+function vNovo(){return phead('O que você quer agendar?','Toque em uma opção para seguir',false)+`<section class="sec">${cubosTipo(false)}
+ <div class="info">${I.pin('#0A4B44',20)}<span>Saindo de <b>${esc(S.origin.n)}</b>. <button class="lnk" data-act="picker" data-alvo="origin">Trocar</button></span></div></section>`}
+function vModo(){const f=S.flow;const c=f.tipo==='consulta';const cor=c?'#B02A62':'#1C5BA8',cls=c?'pink':'blue';
+ const n=k=>k==='presencial'?LOC.filter(p=>!isOnline(p)&&p.esp.length).length:k==='online'?LOC.filter(p=>p.on.length).length:k==='lab'?LOC.filter(p=>p.lab).length:LOC.filter(p=>p.img.length).length;
+ const op=c?[['presencial','Presencial','Clínica, hospital ou consultório perto de você. Veja distância, rota e horário.','build'],['online','Online','Teleconsulta e médicos por vídeo. Atendimento sem sair de casa.','video']]:[['lab','Laboratoriais','Sangue, urina, glicemia, colesterol, tireoide e outras análises.','tube'],['img','De imagem','Raio-X, ultrassom, tomografia, ressonância, mamografia e mais.','scan']];
+ return phead(c?'Consultas':'Exames',c?'Como prefere ser atendido?':'Que tipo de exame?')+`<section class="sec"><div class="cubes">${op.map(([k,t,d,ic])=>cubo({cls,act:'modo',v:k,ic:I[ic](cor,34),t,d,n:n(k)+(n(k)===1?' local':' locais'),cor,bg:I[ic](cor,150,1.4)}).replace('class="cube','class="cube hero2')).join('')}</div>
+ <div class="card adv"><h2 class="h3">Como funciona</h2>${[['1','Escolha '+(c?'a especialidade':'o exame')],['2','Compare distância, horário e nota'],['3','Agende pelo WhatsApp ou ligue']].map(([a,b])=>`<div class="row"><span class="lic" style="width:2rem;height:2rem;border-radius:50%;font-weight:800;color:${cor};background:${c?'#FDE8F0':'#E5EEFC'}">${a}</span><span class="p">${b}</span></div>`).join('')}</div></section>`}
+const ORD_ESP=['clinica','cardio','gineco','pedi','dermato','orto','oftalmo','gastro','endo','neuro','otorrino','psiq','uro'];
+function itensLista(){const f=S.flow;
+ if(f.modo==='lab')return LABX.map((x,i)=>({k:'lab'+i,t:x[0],s:x[1],p:x[2],ic:'tube',n:LOC.filter(p=>p.lab).length}));
+ if(f.modo==='img')return Object.keys(IMGX).map(k=>({k,t:IMGX[k][0],s:IMGX[k][1],p:IMGX[k][2],ic:IC_IMG[k]||'scan',n:LOC.filter(p=>p.img.includes(k)).length}));
+ return ORD_ESP.filter(k=>ESP[k]).concat(Object.keys(ESP).filter(k=>!ORD_ESP.includes(k))).map(k=>({k,t:ESP[k][0],s:ESP[k][1],ic:IC_ESP[k]||'steth',n:LOC.filter(p=>f.modo==='online'?p.on.includes(k):(!isOnline(p)&&p.esp.includes(k))).length}))}
+function vItens(){const f=S.flow;const tit=f.modo==='presencial'?'Consulta presencial':f.modo==='online'?'Consulta online':f.modo==='lab'?'Exames laboratoriais':'Exames de imagem';
+ return phead(tit,f.tipo==='consulta'?'Escolha a especialidade':'Escolha o exame')+`<section class="sec">${buscaForm('qi',f.tipo==='consulta'?'Especialidade ou sintoma':'Nome do exame',S.qi,'qi')}<div id="itens" class="tiles2"></div></section>`}
+function renderItens(){const box=$('itens');if(!box)return;const t=norm(S.qi);const f=S.flow;const c=f.tipo==='consulta',cor=c?'#B02A62':'#1C5BA8',bg=c?'#FDE8F0':'#E5EEFC';
+ const r=itensLista().filter(x=>!t||norm(x.t+' '+x.s).includes(t));
+ box.innerHTML=r.length?r.map((x,i)=>`<button class="tile${i===0&&!t?' wide':''}" data-act="item" data-k="${x.k}"><span class="lic" style="background:${bg}">${I[x.ic](cor,22)}</span><span class="col" style="gap:.25rem;flex:1;min-width:0"><b>${esc(x.t)}</b><span class="sm mut">${esc(x.s)}${x.p&&i===0?' · Preparo: '+esc(x.p):''}</span><span class="sm" style="font-weight:800;color:${cor}">${x.n} ${x.n===1?'local':'locais'}</span></span></button>`).join(''):'<div class="empty" style="grid-column:1/-1">Nada encontrado. Tente outra palavra.</div>'}
+function itemNome(){const f=S.flow;if(!f.item)return'';if(f.modo==='lab')return LABX[+f.item.slice(3)][0];if(f.modo==='img')return IMGX[f.item][0];return ESP[f.item][0]}
+function resultadosFlow(){const f=S.flow;let r;
+ if(f.modo==='online')r=LOC.filter(p=>p.on.includes(f.item));
+ else if(f.modo==='presencial')r=LOC.filter(p=>!isOnline(p)&&p.esp.includes(f.item));
+ else if(f.modo==='lab')r=LOC.filter(p=>p.lab);
+ else r=LOC.filter(p=>p.img.includes(f.item));
+ return ordenar(filtrosAplic(r))}
+function filtrosAplic(r){return r.filter(p=>{if(S.fWa&&!p.wa)return false;if(S.fOpen&&status(p).k!=='aberto')return false;if(S.fConv&&!/conv|plano/i.test(p.cv))return false;if(S.fSus&&!p.sus)return false;if(S.f24&&p.h!=='24h')return false;return true})}
+function ordenar(r){const D=p=>dist(p)??1e9;
+ if(S.sort==='perto')r.sort((a,b)=>(isOnline(a)-isOnline(b))||D(a)-D(b));
+ else if(S.sort==='preco')r.sort((a,b)=>(a.pr||1e9)-(b.pr||1e9)||D(a)-D(b));
+ else if(S.sort==='nota')r.sort((a,b)=>nota(b)-nota(a)||D(a)-D(b));
+ else r.sort((a,b)=>a.n.localeCompare(b.n,'pt'));return r}
+function controles(online){return `<div class="seg" role="group" aria-label="Ordenar">${[['perto',online?'Recomendados':'Mais perto'],['preco','Melhor preço'],['nota','Melhor avaliação']].map(([k,t])=>`<button data-act="sort" data-k="${k}" aria-pressed="${S.sort===k}">${t}</button>`).join('')}</div>
+ <div class="chips adv" role="group" aria-label="Filtros">${[['fOpen','Aberto agora'],['f24','24 horas'],['fWa','Com WhatsApp'],['fConv','Aceita convênio'],['fSus','SUS']].map(([k,t])=>`<button class="chip" data-act="tg" data-k="${k}" aria-pressed="${S[k]}">${t}</button>`).join('')}</div>`}
+function notaOrdem(){if(S.sort==='preco')return'Só alguns locais publicam preço; os demais aparecem depois, por distância.';if(S.sort==='nota')return'Pela nota do Google Maps (pesquisada em '+CFG.dataRef+') onde encontramos; os demais aparecem depois, por distância.';return''}
+function vResultados(){const f=S.flow;const online=f.modo==='online';const r=resultadosFlow();
+ const sub=(f.modo==='presencial'?'Presencial':f.modo==='online'?'Online':f.modo==='lab'?'Laboratorial':'Imagem')+' · '+r.length+' '+(r.length===1?'opção':'opções');
+ return phead(itemNome(),sub)+`<section class="sec">${online?'':origemChip(true)}${controles(online)}
+ ${notaOrdem()?`<p class="sm mut" style="margin:0">${esc(notaOrdem())}</p>`:''}
+ ${online?`<div class="info">${I.video('#0A4B44',20)}<span>Consultas por vídeo: toque em <b>Acessar</b> para abrir o serviço ou o perfil do médico.</span></div>`:`<div class="mapwrap adv"><div id="mapRes" class="leaf" style="height:16rem"></div></div>`}
+ ${r.length?`<div class="grid">${r.map(card).join('')}</div>`:'<div class="empty">Nenhum local com esses filtros. Tire um filtro para ver mais.</div>'}</section>`}
+function vBuscar(){return phead('Buscar','Hospitais, clínicas, médicos, laboratórios e imagem',false)+`<section class="sec">${origemChip(true)}${buscaForm('qb','Nome, especialidade, exame ou bairro',S.q,'q')}
+ <div class="chips" role="group" aria-label="Categoria">${[['todos','Todos']].concat(Object.keys(CATS).map(c=>[c,CATS[c].nome])).map(([k,t])=>`<button class="chip" data-act="cat" data-cat="${k}" aria-pressed="${S.cat===k}">${t}</button>`).join('')}</div>
+ ${controles(false)}
+ <div class="seg adv" role="group" aria-label="Visualização"><button data-act="vis" data-k="mapa" aria-pressed="${S.map}">${I.map('currentColor',16)} Mapa + lista</button><button data-act="vis" data-k="lista" aria-pressed="${!S.map}">Só lista</button></div>
+ <div id="resumo"></div>${S.map?'<div class="mapwrap adv"><div id="mapBusca" class="leaf" style="height:17rem"></div></div>':''}<div id="res" class="grid"></div></section>`}
+function filtrarBusca(){const t=norm(S.q);let r=LOC.filter(p=>{if(S.cat!=='todos'&&p.c!==S.cat)return false;if(t){const hay=norm([p.n,p.b,p.e,p.sp,p.s.join(' '),CATS[p.c].nome].join(' '));if(!t.split(/\s+/).every(w=>hay.includes(w)))return false}return true});return ordenar(filtrosAplic(r))}
+function renderRes(){const box=$('res');if(!box)return;const r=filtrarBusca();
+ $('resumo').innerHTML=`<p class="sm mut" style="margin:0"><b style="color:var(--ink)">${r.length} ${r.length===1?'local':'locais'}</b>${notaOrdem()?' · '+esc(notaOrdem()):''}</p>`;
+ box.innerHTML=r.length?r.slice(0,40).map(card).join('')+(r.length>40?`<p class="sm mut">Mostrando 40 de ${r.length}. Refine a busca.</p>`:''):'<div class="empty">Nada encontrado. Tente outra palavra ou tire um filtro.</div>';
+ if(S.map&&$('mapBusca')){matarMapas();mapaResultados('mapBusca',r.filter(p=>!isOnline(p)))}observar()}
+
+/* ---- página do local ---- */
+const REDES={ig:['Instagram','ig','<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><path d="M17.3 6.7v.01"/>'],fb:['Facebook','fb','<path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8.5a.5.5 0 0 1 .5-.5z"/>'],li:['LinkedIn','li','<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10.5v6M8 7.5v.01M12 16.5v-3.5a2 2 0 0 1 4 0v3.5M12 10.5v6"/>'],yt:['YouTube','yt','<rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10 9.5v5l4.5-2.5z"/>']};
+const handle=u=>{try{const x=new URL(u).pathname.replace(/^\/|\/$/g,'').replace(/^(company|user|channel)\//,'');return x?(/^@/.test(x)?x:'@'+x):''}catch(e){return''}};
+function blocoRedes(p){const ks=Object.keys(p.soc||{}).filter(k=>REDES[k]&&p.soc[k]);let h='';
+ if(ks.length===1){const k=ks[0],R=REDES[k];h+=`<a class="soc hero ${R[1]}" href="${esc(p.soc[k])}" target="_blank" rel="noopener"><span class="si" style="background:rgba(255,255,255,.2)">${SVG(R[2],'#fff',26)}</span><span class="col" style="flex:1;min-width:0"><b>${R[0]} oficial</b><span class="sm ell" style="opacity:.9">${esc(handle(p.soc[k]))}</span></span>${I.chev('#fff',20)}</a>`}
+ else ks.forEach(k=>{const R=REDES[k];h+=`<a class="soc" href="${esc(p.soc[k])}" target="_blank" rel="noopener"><span class="si ${R[1]}">${SVG(R[2],'#fff',22)}</span><span class="col" style="flex:1;min-width:0"><b>${R[0]}</b><span class="sm mut ell">${esc(handle(p.soc[k]))}</span></span>${I.chev('#4A6066',18)}</a>`});
+ if(p.site)h+=`<a class="soc" href="${esc(p.site)}" target="_blank" rel="noopener"><span class="si site">${SVG('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>','#fff',22)}</span><span class="col" style="flex:1;min-width:0"><b>Site oficial</b><span class="sm mut ell">${esc(p.site.replace(/^https?:\/\/(www\.)?/,'').replace(/\/$/,''))}</span></span>${I.chev('#4A6066',18)}</a>`;
+ if(/doctoralia/.test(p.f||''))h+=`<a class="soc" href="${esc(p.f)}" target="_blank" rel="noopener"><span class="si dc">${I.steth('#fff',22)}</span><span class="col" style="flex:1"><b>Doctoralia</b><span class="sm mut">Perfil, preços e agenda</span></span>${I.chev('#4A6066',18)}</a>`;
+ if(!isOnline(p))h+=`<a class="soc" href="${gplace(p)}" target="_blank" rel="noopener"><span class="si gm">${PINSVG('#EA4335').replace('width="30" height="38"','width="20" height="26"')}</span><span class="col" style="flex:1"><b>Google Maps</b><span class="sm mut">Fotos, avaliações e horários</span></span>${I.chev('#4A6066',18)}</a>`;
+ return `<div class="card"><div class="row between"><h2 class="h3">Redes sociais e links</h2>${ks.length?'':'<span class="tag gray">Sem rede oficial</span>'}</div>${ks.length?'':'<p class="sm mut" style="margin:-.3rem 0 0">Não encontramos rede social oficial deste local. Veja os links abaixo.</p>'}<div class="col" style="gap:.5rem">${h}</div></div>`}
+function blocoAvaliacao(p){const g=p.g;
+ return `<div class="card"><h2 class="h3">Avaliação ⭐</h2>${g?`<div class="rate"><span class="big">${String(g.v).replace('.',',')}</span><span class="col" style="gap:.2rem">${estrelas(g.v,20)}<span class="sm mut">${g.n?g.n.toLocaleString('pt-BR')+' avaliações · ':''}Google Maps · consultado em ${CFG.dataRef}${g.f?` (<a class="lnk" href="${esc(g.f)}" target="_blank" rel="noopener">fonte</a>)`:''}</span></span></div>`:`<p class="p mut">Ainda não registramos a nota deste local. Veja a nota atualizada no Google Maps.</p>`}
+ <div class="acts wrap"><a class="btn" href="${gplace(p)}" target="_blank" rel="noopener">${I.search('#0B4F5C',18)} Ver avaliações</a><a class="btn teal" href="${gplace(p)}" target="_blank" rel="noopener">★ Avaliar no Google Maps</a></div>
+ <span class="sm mut">As avaliações são feitas e atualizadas no próprio Google Maps. Lá, toque em <b>Avaliações</b> › <b>Escrever avaliação</b>.</span></div>`}
+function vLocal(){const p=byId(S.sel);if(!p)return vInicio();const d=dist(p),c=CATS[p.c],st=status(p),on=isOnline(p);
+ BAR=`<div class="bar">${p.wa?`<button class="btn wa" data-act="wa" data-id="${p.id}" style="font-size:1rem">${ICW} Agendar pelo WhatsApp</button>`:on?`<a class="btn pri" href="${esc(p.url)}" target="_blank" rel="noopener">${I.video('#fff',20)} Agendar no serviço</a>`:p.t.length?`<button class="btn pri" data-act="ligar" data-id="${p.id}">${I.phone('#fff',20)} Ligar para agendar</button>`:`<button class="btn pri" data-act="rota" data-id="${p.id}">Ver como chegar</button>`}</div>`;
+ return `<div style="position:relative" id="gal">${galeria(p)}</div>
+ <div style="position:relative;margin-top:-1.6rem;border-radius:1.6rem 1.6rem 0 0;background:var(--bg);z-index:2">
+ <div class="row" style="position:absolute;top:-4.6rem;left:1rem;right:1rem;justify-content:space-between;pointer-events:none"><button class="back" data-act="voltar" aria-label="Voltar" style="pointer-events:auto">${I.back('#0C2329',20)}</button><span class="row" style="pointer-events:auto"><button class="back" data-act="compart" data-id="${p.id}" aria-label="Compartilhar">${I.share('#0C2329',20)}</button>${heartBtn(p).replace('class="round"','class="back"')}</span></div>
+ <section class="sec" style="padding-top:1.2rem"><div class="col" style="gap:.5rem"><div class="meta"><span class="tag" style="background:${c.fundo};color:${c.cor}">${I[IC_CAT[p.c]](c.cor,14)} ${esc(c.um)}</span>${stTag(p)}${starTag(p)}${p.sus?'<span class="tag blue">SUS – gratuito</span>':''}</div>
+ <h1 style="margin:0;font-size:1.6rem;line-height:1.2;font-weight:800">${esc(p.n)}</h1>${p.sp?`<span style="font-size:.95rem;font-weight:700">${esc(p.sp)}${p.crm?` · <span class="mut" style="font-weight:600">${esc(p.crm)}</span>`:''}</span>`:''}
+ ${on?'':`<span class="meta">${I.pin('#0B4F5C',16)}${esc(p.b)} · <b style="color:var(--ink)">${fkm(d)}</b> de ${esc(S.origin.n)}</span>`}</div>
+ ${p.al?`<div class="info warn">${I.alert('#5E3B08',20)}<span>${esc(p.al)}</span></div>`:''}
+ <div class="acts">${p.t.length?`<button class="btn" data-act="ligar" data-id="${p.id}">${I.phone('#0B4F5C',20)} Ligar</button>`:''}${on?`<a class="btn pri" href="${esc(p.url)}" target="_blank" rel="noopener">${I.video('#fff',20)} Acessar</a>`:`<button class="btn pri" data-act="rota" data-id="${p.id}">${I.route('#fff',20)} Como chegar</button>`}${S.a11y.ler?`<button class="round" data-act="ler" aria-label="Ouvir informações">${I.speaker('#0B4F5C',22)}</button>`:''}</div>
+ ${blocoRedes(p)}
+ ${blocoAvaliacao(p)}
+ ${on?'':`<div class="card"><div class="row between"><h2 class="h3">Mapa</h2><a class="lnk sm" href="${gplace(p)}" target="_blank" rel="noopener">Abrir no Google Maps</a></div>
+ <div class="mapwrap" style="height:14.5rem"><iframe title="Mapa do Google de ${esc(p.n)}" src="https://maps.google.com/maps?q=${enc(limpaEnd(p.e))}&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:0;width:100%;height:100%"></iframe></div>
+ <span class="sm mut">${p.geo&&GEO[p.id]?'Endereço confirmado no OpenStreetMap.':'Confirmando a posição exata pelo endereço…'}</span></div>`}
+ <div class="card"><h2 class="h3">Sobre</h2><p class="p">${esc(p.d)}</p><div class="meta">${p.s.map(x=>`<span class="tag gray">${esc(x)}</span>`).join('')}</div></div>
+ <div class="card"><h2 class="h3">${on?'Como funciona':'Endereço'}</h2><p class="p">${esc(p.e)}</p>
+ ${on?'':`<button class="rt-field" data-act="rota" data-id="${p.id}">${I.route('#0B4F5C',22)}<span class="col" style="flex:1"><b style="font-size:.95rem">Distância e transporte</b><span class="sm mut">Saindo de ${esc(S.origin.n)}</span></span>${I.chev('#0B4F5C',20)}</button>`}</div>
+ <div class="card"><h2 class="h3">Horário de funcionamento</h2><p class="p">${esc(p.hr)}</p><span class="sm mut">${st.k==='?'&&!on?'Não foi possível confirmar o horário em fonte oficial. Ligue antes de ir.':'Status calculado pelo horário de Brasília.'}</span></div>
+ <div class="card"><h2 class="h3">Contato e pagamento</h2><div>
+ ${p.t.length?p.t.map(t=>`<div class="kv"><span class="mut">Telefone</span><a href="${telHref(t)}" style="font-weight:800;text-align:right">${esc(t)}</a></div>`).join(''):'<div class="kv"><span class="mut">Telefone</span><span>Não encontrado</span></div>'}
+ <div class="kv"><span class="mut">WhatsApp</span><b style="text-align:right">${p.wa?esc(p.wn):'Não divulgado'}</b></div>
+ <div class="kv"><span class="mut">Atendimento</span><b style="text-align:right">${esc(p.cv)}</b></div>${p.prt?`<div class="kv"><span class="mut">Preço</span><b style="text-align:right">${esc(p.prt)}</b></div>`:''}</div></div>
+ <p class="sm mut" style="margin:0">Fonte: <a href="${esc(p.f)}" target="_blank" rel="noopener" class="lnk">${esc(p.f.replace(/^https?:\/\/(www\.)?/,'').split('/')[0])}</a> · dados de ${CFG.dataRef}. Confirme por telefone antes de ir.</p></section></div>`}
+
+/* ---- rota ---- */
+function vRota(){const o=S.origin,d=S.dest;
+ const campo=(alvo,pt,cor,rot)=>`<button class="rt-field" data-act="picker" data-alvo="${alvo}"><span class="dot" style="background:${cor}"></span><span class="col" style="flex:1;min-width:0;text-align:left"><span class="sm mut">${rot}</span><b class="ell" style="font-size:.95rem">${pt?esc(pt.n):'Escolha o destino'}</b>${pt&&pt.sub?`<span class="sm mut ell">${esc(pt.sub)}</span>`:''}</span><span class="sm" style="font-weight:800;color:var(--pet)">Alterar</span></button>`;
+ let corpo='';
+ if(!d)corpo='<div class="empty">Escolha o destino, ou toque em "Como chegar" na página de um local.</div>';
+ else if(o.la==null)corpo=`<div class="info warn"><span>Ainda localizando "${esc(o.n)}". Se não encontrar, os botões abaixo abrem a rota no Google Maps a partir do texto digitado.</span></div>`+links(o,d);
+ else{const k=km(o,d);const so=estMaisProx(o),sd=estMaisProx(d);
+  const modos=[['foot','A pé','<circle cx="13" cy="4" r="2"/><path d="M10 21l2-6 3 3v3M9 12l3-4 3 3 3 1M12 8l-2 5"/>','walking'],['bike','Bicicleta','<circle cx="6" cy="17" r="3.5"/><circle cx="18" cy="17" r="3.5"/><path d="M6 17l4-8h5l3 8M10 9l-1-3H7M14 9l1-3h2"/>','bicycling'],['car','Carro, táxi ou app','<path d="M5 16l1.5-5a2 2 0 0 1 2-1.5h7a2 2 0 0 1 2 1.5L19 16"/><rect x="3" y="16" width="18" height="4" rx="1"/>','driving']];
+  const tp=so.e.id===sd.e.id||k<1.2?null:so.d*1.3/4.8*60+km(so.e,sd.e)*1.4/28*60+10+sd.d*1.3/4.8*60;
+  corpo=`<div class="card" style="flex-direction:row;align-items:center"><span class="col" style="flex:1"><span class="sm mut">Distância</span><b style="font-size:1.7rem;color:var(--pet)" id="rKm">${fkm(k)}</b><span class="sm mut" id="rKmSub">em linha reta · calculando rota real…</span></span></div>
+  <div class="seg" role="group" aria-label="Mapa">${[['osm','Mapa da rota'],['google','Google Maps']].map(([x,t])=>`<button data-act="rmap" data-k="${x}" aria-pressed="${S.rmap===x}">${t}</button>`).join('')}</div>
+  <div class="mapwrap" style="height:17rem">${S.rmap==='google'?`<iframe title="Rota no Google Maps" src="https://maps.google.com/maps?saddr=${enc(qtxt(o))}&daddr=${enc(qtxt(d))}&output=embed" style="border:0;width:100%;height:100%" loading="lazy"></iframe>`:'<div id="mapRota" class="leaf" style="height:17rem"></div>'}</div>
+  <h2 class="h2">Meios de transporte</h2>
+  ${modos.map(([pf,t,ic,gm])=>`<div class="mode ${S.rmode===pf?'sel':''}"><button class="modebtn" data-act="rmode" data-k="${pf}" aria-pressed="${S.rmode===pf}"><span class="lic">${SVG(ic,'#0B4F5C',24)}</span><span class="col" style="flex:1;gap:.1rem;text-align:left"><b style="font-size:.95rem">${t}</b><span class="sm mut" id="rs_${pf}">calculando…</span></span><span class="t" id="rt_${pf}">…</span></button><a class="gbtn" href="${gmaps(o,d,gm)}" target="_blank" rel="noopener" aria-label="Abrir ${t} no Google Maps">Google</a></div>`).join('')}
+  <div class="mode"><span class="modebtn"><span class="lic">${SVG('<rect x="5" y="3" width="14" height="15" rx="3"/><path d="M5 11h14M8 21l2-3M16 21l-2-3"/>','#0B4F5C',24)}</span><span class="col" style="flex:1;gap:.1rem"><b style="font-size:.95rem">Trem, metrô ou ônibus</b><span class="sm mut">${tp==null?'Perto demais: vale ir a pé':esc(so.e.n)+' → '+esc(sd.e.n)}</span></span><span class="t">${tp==null?'—':'~'+fmin(tp)}</span></span><a class="gbtn" href="${gmaps(o,d,'transit')}" target="_blank" rel="noopener">Google</a></div>
+  <div class="card adv"><h2 class="h3">Estações mais próximas</h2>
+  <div class="lrow"><span class="dot" style="background:#2563EB"></span><span class="col" style="flex:1"><b style="font-size:.9rem">${esc(so.e.n)}</b><span class="sm mut">${esc(so.e.l)}</span></span><span class="sm" style="font-weight:800">${fkm(so.d)} da partida</span></div>
+  <div class="lrow"><span class="dot" style="background:var(--pet)"></span><span class="col" style="flex:1"><b style="font-size:.9rem">${esc(sd.e.n)}</b><span class="sm mut">${esc(sd.e.l)}</span></span><span class="sm" style="font-weight:800">${fkm(sd.d)} do destino</span></div>
+  <span class="sm mut">Linhas e ônibus exatos, com horário em tempo real: botão "Google" do transporte público.</span></div>
+  ${links(o,d)}
+  <p class="sm mut" style="margin:0">A pé, bicicleta e carro: rota real pelas ruas (OpenStreetMap), sem considerar trânsito. Transporte público: estimativa pela estação mais próxima.</p>`}
+ const du=d&&d.id&&byId(d.id);
+ return phead('Como chegar','Entre e saia dos endereços quando quiser')+`<section class="sec"><div class="col" style="gap:.5rem;position:relative">${campo('origin',o,'#2563EB','Saindo de')}${campo('dest',d,'var(--pet)','Indo para')}
+ <button class="round" data-act="trocar" aria-label="Inverter partida e destino" style="position:absolute;right:-.4rem;top:50%;transform:translateY(-50%);width:2.6rem;height:2.6rem">${I.swap('#0B4F5C',20)}</button></div>
+ ${du?`<div class="acts">${du.wa?`<button class="btn wa" data-act="wa" data-id="${du.id}">${ICW} WhatsApp</button>`:''}<button class="btn" data-act="abrir" data-id="${du.id}">Ver unidade</button></div>`:''}${corpo}</section>`}
+function links(o,d){return `<div class="card"><h2 class="h3">Abrir em outro app</h2><div class="acts wrap"><a class="btn pri" href="${gmaps(o,d,'transit')}" target="_blank" rel="noopener">Google Maps</a><a class="btn" href="${waze(d)}" target="_blank" rel="noopener">Waze</a><a class="btn" href="${uber(d)}" target="_blank" rel="noopener">Uber</a></div></div>`}
+async function posRota(){const o=S.origin,d=S.dest;if(!d||o.la==null)return;
+ if(d.k==='unidade'){const p=byId(d.id);const la=p.la;await refinar(p);if(S.view!=='rota'||S.dest!==d)return;if(p.la!==la){d.la=p.la;d.lo=p.lo}}
+ const res={};await Promise.all(['foot','bike','car'].map(async pf=>{res[pf]=await osrm(pf,o,d)}));
+ if(S.view!=='rota'||S.dest!==d)return;
+ if(!S.rmode)S.rmode=(res.foot&&res.foot.km<2.5)?'foot':'car';
+ ['foot','bike','car'].forEach(pf=>{const r=res[pf],ts=$('rt_'+pf),ss=$('rs_'+pf);if(!ts)return;
+  if(r){ts.textContent=fmin(pf==='bike'?r.km/13*60:r.min);ss.textContent=fkm(r.km)+' pelas ruas'+(pf==='car'?' · sem trânsito':'')}
+  else{const k=km(o,d)*1.3;ts.textContent='~'+fmin(pf==='foot'?k/4.8*60:pf==='bike'?k/13*60:k*1.08/20*60+5);ss.textContent='estimativa (rota indisponível)'}});
+ document.querySelectorAll('.mode').forEach(el=>el.classList.toggle('sel',!!el.querySelector(`[data-k="${S.rmode}"]`)));
+ const best=res[S.rmode]||res.car||res.foot;const kmEl=$('rKm'),sub=$('rKmSub');
+ if(best&&kmEl){kmEl.textContent=fkm(best.km);sub.textContent='pelas ruas · '+(S.rmode==='foot'?'a pé':S.rmode==='bike'?'de bicicleta':'de carro')}
+ else if(sub)sub.textContent='em linha reta (rota real indisponível agora)';
+ if(S.rmap==='osm'){matarMapas();const m=novoMapa('mapRota');if(!m)return;const b=[[o.la,o.lo],[d.la,d.lo]];
+  window.L.circleMarker([o.la,o.lo],{radius:9,color:'#fff',weight:3,fillColor:'#2563EB',fillOpacity:1}).addTo(m).bindTooltip('Partida');
+  window.L.circleMarker([d.la,d.lo],{radius:10,color:'#fff',weight:3,fillColor:'#0B4F5C',fillOpacity:1}).addTo(m).bindTooltip(d.n);
+  const r=res[S.rmode];if(r){window.L.polyline(r.geo,{color:'#0B4F5C',weight:5,opacity:.85}).addTo(m);r.geo.forEach(x=>b.push(x))}else window.L.polyline(b,{color:'#0B4F5C',weight:3,dashArray:'6 8'}).addTo(m);
+  [estMaisProx(o).e,estMaisProx(d).e].forEach(e=>window.L.circleMarker([e.la,e.lo],{radius:6,color:'#7A4A0E',weight:2,fillColor:'#F2B33D',fillOpacity:1}).addTo(m).bindTooltip(e.n));
+  m.fitBounds(b,{padding:[30,30]})}}
+
+/* ---- agenda ---- */
+function vAgenda(){const h=S.hist;const pend=h.filter(x=>!x.ok).length;
+ return phead('Minha agenda',h.length?`${pend} aguardando · ${h.length-pend} confirmados`:'Agendamentos iniciados pelo Pax',false)+`<section class="sec">${h.length?h.map((x,i)=>{const p=byId(x.id);if(!p)return'';return `<div class="card"><div class="row between"><span class="sm mut">${I.clock('#4A6066',14)} ${esc(x.data)}</span><span class="tag ${x.ok?'':'warn'}">${x.ok?'Confirmado':'Aguardando a clínica'}</span></div>
+ <div class="row" style="align-items:flex-start"><span class="lic" style="background:${x.tipo==='exame'?'#E5EEFC':'#FDE8F0'}">${x.tipo==='exame'?I.flask('#1C5BA8',20):I.steth('#B02A62',20)}</span><span class="col" style="flex:1;min-width:0"><b style="font-size:1rem">${esc(p.n)}</b><span class="p">${x.tipo==='exame'?'Exame':'Consulta'}${x.item?': '+esc(x.item):''}</span>${x.pac?`<span class="sm mut">Paciente: ${esc(x.pac)}</span>`:''}</span></div>
+ <div class="acts"><button class="btn ${x.ok?'':'pri'}" data-act="hok" data-i="${i}">${x.ok?'Voltar para pendente':'A clínica confirmou'}</button><button class="round wa" data-act="wa" data-id="${p.id}" aria-label="Reenviar WhatsApp">${ICW}</button><button class="round" data-act="rota" data-id="${p.id}" aria-label="Como chegar">${I.route('#0B4F5C',20)}</button><button class="round" data-act="hdel" data-i="${i}" aria-label="Apagar" style="border-color:#E8C4C6">${I.x('#B3261E',20)}</button></div></div>`}).join(''):`<div class="empty">${I.cal('#4A6066',36,1.6)}<br>Quando você abrir o WhatsApp de um local pelo Pax, o pedido aparece aqui para você acompanhar.</div>`}
+ <button class="btn pri" data-act="nav" data-v="novo" style="flex:none">${I.plus('#fff',20)} Novo agendamento</button></section>`}
+
+/* ---- perfil, login e dependentes ---- */
+const PARENT=['Filho(a)','Pai','Mãe','Cônjuge','Avô / Avó','Irmão(ã)','Outro'];
+function vPerfil(){const u=S.user;const favs=S.favs.map(byId).filter(Boolean);
+ const login=`<form class="card" data-form="login"><div class="row"><span class="lic" style="width:3.2rem;height:3.2rem">${LOGO(30)}</span><span class="col"><h2 class="h2">${u?'Editar perfil':'Crie seu perfil'}</h2><span class="sm mut">Leva 20 segundos. Seus dados ficam só neste aparelho.</span></span></div>
+ <label class="f">Nome completo<input class="inp" name="nome" required autocomplete="name" value="${esc(u?u.nome:'')}" placeholder="Ex.: Maria da Silva"></label>
+ <label class="f">Celular (WhatsApp)<input class="inp" name="cel" type="tel" inputmode="numeric" autocomplete="tel-national" data-live="cel" value="${esc(u?u.cel:'')}" placeholder="(11) 90000-0000"></label>
+ ${u?'':`<label class="row sm" style="align-items:flex-start;gap:.6rem;font-weight:600"><input type="checkbox" name="ok" required style="width:1.4rem;height:1.4rem;flex:none;margin-top:.1rem"><span>Li e aceito os <button type="button" class="lnk" data-act="pg" data-v="termos">Termos de Uso</button> e a <button type="button" class="lnk" data-act="pg" data-v="privacidade">Política de Privacidade</button>.</span></label>`}
+ <div class="acts"><button class="btn pri" type="submit">${u?'Salvar':'Criar perfil'}</button>${u?'<button class="btn" type="button" data-act="cancelaEd">Cancelar</button>':''}</div></form>`;
+ const perfil=u&&!S.editando?`<div class="card" style="flex-direction:row;align-items:center"><span class="lic" style="width:3.6rem;height:3.6rem;border-radius:50%;background:var(--pet);color:#fff;font-weight:800;font-size:1.2rem">${esc(u.nome.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase())}</span><span class="col" style="flex:1;min-width:0"><b style="font-size:1.1rem">${esc(u.nome)}</b><span class="sm mut">${esc(u.cel||'Celular não informado')}</span></span><button class="btn sm" data-act="editar">Editar</button></div>
+ <div class="card"><div class="row between"><h2 class="h3">Dependentes (${(u.deps||[]).length})</h2></div>
+ ${(u.deps||[]).map((x,i)=>`<div class="lrow"><span class="lic">${I.user('#0B4F5C',20)}</span><span class="col" style="flex:1"><b style="font-size:.95rem">${esc(x.nome)}</b><span class="sm mut">${esc(x.par)}</span></span><button class="round" data-act="depdel" data-i="${i}" aria-label="Remover ${esc(x.nome)}">${I.x('#B3261E',18)}</button></div>`).join('')||'<p class="sm mut" style="margin:0">Adicione filhos, pais ou outras pessoas que você agenda. Eles aparecem na mensagem do WhatsApp.</p>'}
+ <form data-form="dep" class="col" style="gap:.6rem"><div class="row wrap"><input class="inp" name="nome" required placeholder="Nome do dependente" style="flex:2;min-width:10rem"><select class="inp" name="par" style="flex:1;min-width:8rem">${PARENT.map(x=>`<option>${x}</option>`).join('')}</select></div><button class="btn" type="submit">${I.plus('#0B4F5C',18)} Adicionar dependente</button></form></div>`:login;
+ return phead('Perfil',u?'Seus dados ficam só neste aparelho':'Entre para agendar mais rápido',false)+`<section class="sec">${perfil}
+ <div class="card" style="padding:.2rem 1rem">
+ <button class="lrow" data-act="picker" data-alvo="origin"><span class="lic">${I.pin('#0B4F5C',20)}</span><span class="col" style="flex:1;min-width:0"><b style="font-size:.95rem">Ponto de partida</b><span class="sm mut ell">${esc(S.origin.n)}</span></span>${I.chev('#4A6066',18)}</button>
+ <button class="lrow" data-act="pg" data-v="acess"><span class="lic">${I.aa('#0B4F5C',20)}</span><span class="col" style="flex:1"><b style="font-size:.95rem">Acessibilidade</b><span class="sm mut">Letra grande, contraste, voz e modo simples</span></span>${I.chev('#4A6066',18)}</button>
+ <button class="lrow" data-act="pg" data-v="privacidade"><span class="lic">${I.shield('#0B4F5C',20)}</span><span class="col" style="flex:1"><b style="font-size:.95rem">Privacidade (LGPD)</b><span class="sm mut">Como tratamos seus dados</span></span>${I.chev('#4A6066',18)}</button></div>
+ <h2 class="h2">Favoritos (${favs.length})</h2>${favs.length?`<div class="grid">${favs.map(card).join('')}</div>`:'<div class="empty">Toque no coração de um local para guardá-lo aqui.</div>'}
+ <button class="btn" data-act="limpar" style="flex:none;border-color:#B3261E;color:#B3261E">Apagar todos os meus dados deste aparelho</button></section>`}
+
+/* ---- páginas do menu ---- */
+const TOG=(k,t,s)=>`<button class="sw" role="switch" aria-checked="${!!S.a11y[k]}" data-act="a11y" data-k="${k}"><span class="col" style="flex:1"><b style="font-size:.98rem">${t}</b><span class="sm mut">${s}</span></span><span class="tog" aria-hidden="true"></span></button>`;
+const FAQ=[['O Pax marca a consulta por mim?','Não. O Pax encontra o local e abre o WhatsApp oficial com a mensagem pronta. Você envia, e a clínica responde com os horários. Onde não há WhatsApp oficial, mostramos o telefone.'],['O Pax é gratuito?','Sim. O app é gratuito para pacientes. Os preços que aparecem são das clínicas, quando publicados.'],['Como sei se o local está aberto?','Calculamos pelo horário de Brasília com o horário publicado pelo local. Quando não conseguimos confirmar, aparece "Horário a confirmar": ligue antes de ir.'],['De onde vêm as notas ⭐?','Do Google Maps, pesquisadas em '+CFG.dataRef+'. Para ver a nota atual ou avaliar, use o botão "Avaliar no Google Maps".'],['Como calculo a rota?','Na página do local, toque em "Como chegar". Você pode trocar o ponto de partida e o destino quando quiser e abrir no Google Maps, Waze ou Uber.'],['Posso agendar para meu filho ou meus pais?','Sim. Cadastre dependentes no Perfil. Na hora do WhatsApp, escolha quem é o paciente.'],['Meus dados vão para algum servidor?','Não. Nome, celular, dependentes, favoritos e agenda ficam só neste aparelho. Você pode apagar tudo no Perfil.'],['Encontrei um dado errado. Como aviso?','Use "Fale conosco" no menu. Clínicas podem pedir correção em "Para clínicas e médicos".']];
+const PGS={
+ acess:['Acessibilidade','Para idosos, pessoas com deficiência e para todos',()=>`<div class="card"><h2 class="h3">Tamanho da letra</h2><div class="seg" role="group" aria-label="Tamanho da letra">${[[0,'A','Normal'],[1,'A+','Grande'],[2,'A++','Muito grande']].map(([v,t,l])=>`<button data-act="fs" data-v="${v}" aria-pressed="${S.a11y.fs===v}" aria-label="${l}" style="font-size:${1+v*.2}rem">${t}</button>`).join('')}</div></div>
+ <div class="card" style="padding:.2rem 1rem">${TOG('hc','Alto contraste','Cores mais fortes e bordas pretas')}${TOG('leg','Letra de leitura fácil','Fonte Atkinson Hyperlegible, feita para baixa visão')}${TOG('ler','Leitura em voz alta','Mostra o botão amarelo que lê a tela')}${TOG('simples','Modo simples','Só o essencial, botões maiores')}${TOG('nomo','Reduzir animações','Desliga efeitos de movimento')}</div>
+ <div class="card"><h2 class="h3">Busca por voz</h2><p class="p">${SR?'Disponível: toque no microfone no topo de qualquer tela ou dentro das buscas e diga, por exemplo, "cardiologista" ou "hemograma".':'Este navegador não oferece busca por voz. No Android, use o Google Chrome.'}</p>${TTS?`<button class="btn" data-act="testevoz" style="flex:none">${I.speaker('#0B4F5C',20)} Ouvir um exemplo</button>`:''}</div>`],
+ ajuda:['Ajuda','Perguntas frequentes',()=>FAQ.map(([q,a])=>`<details class="faq"><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')],
+ contato:['Fale conosco','Dúvidas, sugestões e correções',()=>`<div class="card"><p class="p">Fale com a equipe do Pax - Saúde. Respondemos em dias úteis.</p><div class="kv"><span class="mut">Empresa</span><b>${esc(CFG.empresa)}</b></div><div class="kv"><span class="mut">E-mail</span><b>${esc(CFG.email)}</b></div><a class="btn pri" href="mailto:${/@/.test(CFG.email)?CFG.email:''}?subject=${enc('Pax - Saúde: contato')}">${I.mail('#fff',20)} Escrever e-mail</a></div><div class="info warn">${I.alert('#5E3B08',20)}<span>O Pax não faz atendimento médico. Em emergência, ligue 192.</span></div>`],
+ clinicas:['Para clínicas e médicos','Apareça no Pax ou corrija seus dados',()=>`<div class="card"><h2 class="h3">Seu local já pode estar aqui</h2><p class="p">Listamos ${LOC.length} locais em São Paulo com dados públicos. Para corrigir endereço, horário, WhatsApp oficial, fotos ou redes sociais, fale com a gente.</p>${['Cadastro gratuito na versão atual','Botão de WhatsApp com mensagem pronta','Rota, mapa e nota do Google Maps'].map(t=>`<div class="row">${I.shield('#14A39A',20)}<span class="p">${t}</span></div>`).join('')}<a class="btn pri" href="mailto:${/@/.test(CFG.email)?CFG.email:''}?subject=${enc('Pax - Saúde: cadastro de clínica')}">${I.brief('#fff',20)} Pedir cadastro ou correção</a></div>`],
+ termos:['Termos de Uso','Versão preliminar · '+CFG.dataRef,()=>`<div class="card"><p class="p sm mut">Rascunho para revisão jurídica. Empresa responsável: ${esc(CFG.empresa)}.</p>${[['1. O que é o Pax','O Pax - Saúde é um guia que ajuda a encontrar consultas e exames, ver como chegar e iniciar o agendamento pelo WhatsApp ou telefone do próprio local.'],['2. O que o Pax não faz','O Pax não presta serviço médico, não marca consultas em nome do usuário, não garante vagas, preços ou horários e não substitui orientação médica. Em emergência, ligue 192.'],['3. Informações dos locais','Os dados vêm de fontes públicas (sites oficiais, CNES, catálogos) e podem mudar. Confirme com o local antes de ir.'],['4. Links externos','WhatsApp, Google Maps, Waze, Uber, redes sociais e serviços de teleconsulta têm termos próprios.'],['5. Uso adequado','Não use o Pax para enviar mensagens falsas ou abusivas aos locais.'],['6. Alterações','Estes termos podem mudar; a data da versão fica no topo.']].map(([t,x])=>`<h2 class="h3">${t}</h2><p class="p">${x}</p>`).join('')}</div>`],
+ privacidade:['Política de Privacidade','Lei Geral de Proteção de Dados (LGPD)',()=>`<div class="card"><p class="p sm mut">Rascunho para revisão jurídica. Controlador: ${esc(CFG.empresa)} · contato: ${esc(CFG.email)}.</p>${[['Dados que você informa','Nome, celular, dependentes (nome e parentesco), ponto de partida, favoritos e histórico de pedidos.'],['Onde ficam','Somente no armazenamento deste navegador (localStorage). O Pax não envia esses dados para servidor próprio.'],['Serviços externos','Para mapas, endereços, rotas e fotos, o navegador consulta OpenStreetMap/CARTO, Nominatim, OSRM, Mapillary, Wikimedia Commons e Google Maps. Esses serviços recebem o seu endereço IP e as coordenadas pesquisadas. A localização por GPS só é usada se você permitir.'],['WhatsApp','A mensagem só sai quando você toca em enviar no seu WhatsApp.'],['Seus direitos (art. 18 da LGPD)','Acessar, corrigir e apagar seus dados. Você pode editar o perfil ou apagar tudo em Perfil › Apagar meus dados.'],['Dados de saúde','O Pax não pede diagnóstico nem histórico médico. O nome do exame ou especialidade escolhido fica só no seu aparelho.']].map(([t,x])=>`<h2 class="h3">${t}</h2><p class="p">${x}</p>`).join('')}</div>`],
+ emergencia:['Emergência','Ligue agora. Não espere agendar.',()=>`${[['192','SAMU','Ambulância e urgência médica','#B3261E'],['193','Bombeiros','Acidentes, resgate e incêndio','#B3261E'],['190','Polícia Militar','Violência e segurança','#0B4F5C'],['188','CVV','Apoio emocional, 24 horas, gratuito','#0B4F5C'],['136','Disque Saúde','Informações do SUS','#0B4F5C']].map(([n,t,s,c])=>`<a class="card" href="tel:${n}" style="flex-direction:row;align-items:center"><span class="lic" style="width:3.6rem;height:3.6rem;background:${c};color:#fff;font-weight:800;font-size:1.25rem">${n}</span><span class="col" style="flex:1"><b style="font-size:1.05rem">${t}</b><span class="sm mut">${s}</span></span>${I.phone(c,24)}</a>`).join('')}<button class="btn" data-act="atalho" data-k="ps" style="flex:none">${I.build('#0B4F5C',20)} Ver pronto-socorro 24h perto</button>`],
+ sobre:['Sobre o Pax','Consultas e exames em São Paulo',()=>`<div class="card" style="align-items:center;text-align:center">${LOGO(72)}<h2 class="h2">Pax - Saúde</h2><p class="p mut">Versão ${CFG.versao} · ${CFG.dataRef}</p><p class="p">Pax quer dizer paz. Nosso objetivo é tirar a ansiedade de encontrar onde se cuidar: achar o local certo, saber como chegar e começar o agendamento em poucos toques.</p></div><div class="card"><b>${LOC.length} locais e serviços na cidade de São Paulo</b><div class="meta">${Object.keys(CATS).map(c=>`<span class="tag" style="background:${CATS[c].fundo};color:${CATS[c].cor}">${CATS[c].nome}: ${LOC.filter(p=>p.c===c).length}</span>`).join('')}</div><span class="p">Foco na Avenida Paulista e arredores, sem deixar de fora a Lapa. Cada especialidade e cada tipo de exame tem pelo menos 3 opções.</span></div>`],
+ fontes:['Fontes e créditos','De onde vêm os dados, mapas e fotos',()=>{const comFoto=LOC.filter(p=>p.foto).length;return `<div class="card"><h2 class="h3">Dados dos locais</h2><p class="p">Pesquisa de ${CFG.dataRef} em sites oficiais, CNES, Doctoralia e catálogos médicos. Cada local mostra a fonte. WhatsApp só aparece onde é oficial (${LOC.filter(p=>p.wa).length} locais).</p></div>
+ <div class="card"><h2 class="h3">Mapas e rotas</h2><p class="p">Mapas: © OpenStreetMap e © CARTO. Endereços: Nominatim (OpenStreetMap). Rotas: OSRM. Links: Google Maps, Waze e Uber.</p></div>
+ <div class="card"><h2 class="h3">Fotos</h2><p class="p">${comFoto} locais têm foto do site oficial. Os demais recebem, ao abrir, fotos de rua do Mapillary (CC BY-SA) e imagens da Wikimedia Commons próximas ao endereço; sem foto, mostramos a miniatura do mapa do local. Toque no crédito da foto para ver o autor e a licença.</p></div>
+ <div class="card"><h2 class="h3">Notas ⭐</h2><p class="p">Notas do Google Maps pesquisadas em ${CFG.dataRef} (${LOC.filter(p=>p.g).length} locais até agora). Avaliações são feitas no próprio Google Maps.</p></div>
+ <form class="card" data-form="mly"><h2 class="h3">Fotos de rua (Mapillary)</h2><p class="sm mut" style="margin:0">${CFG.mapillary?'Ativo neste aparelho.':'Desativado. Cole o token de cliente do Mapillary (começa com MLY|) para ativar as fotos de rua.'}</p><div class="row"><input class="inp" name="tk" placeholder="MLY|..." autocomplete="off" style="flex:1"><button class="btn sm pri" type="submit">Salvar</button></div></form>
+ <div class="info">${I.info('#0A4B44',20)}<span>Hospital Sorocabana (Lapa) não aparece: está fechado, com reabertura prevista para 2027.</span></div>`}]
+};
+function vPg(){const g=PGS[S.pg]||PGS.sobre;return phead(g[0],g[1])+`<section class="sec">${g[2]()}</section>`}
+
+/* ============ MENU LATERAL ============ */
+function abrirMenu(){const u=S.user;const it=(v,ic,t,s,cor)=>`<button class="it" data-act="pg" data-v="${v}"><span class="lic" style="${cor?`background:${cor==='#B3261E'?'#FBE9E8':'var(--mint)'}`:''}">${I[ic](cor||'#0B4F5C',20)}</span><span style="flex:1"><b${cor==='#B3261E'?' style="color:#B3261E"':''}>${t}</b><small>${s}</small></span></button>`;
+ $('drawer').innerHTML=`<div class="drawer-bg" data-act="fecharMenu"></div><nav class="drawer" role="dialog" aria-modal="true" aria-label="Menu"><div class="dh"><div class="row between"><span class="row">${LOGO(34,'#fff','#34C3B5')}<span style="font-size:1.2rem"><b>Pax</b> - Saúde</span></span><button class="iconbtn" data-act="fecharMenu" aria-label="Fechar menu">${I.x('#fff',22)}</button></div>
+ <button class="row" data-act="nav" data-v="perfil" style="color:#fff;text-align:left"><span class="lic" style="background:rgba(255,255,255,.15)">${I.user('#fff',20)}</span><span class="col"><b>${u?esc(u.nome):'Entrar / criar perfil'}</b><span class="sm" style="opacity:.85">${u?'Perfil e dependentes':'Nome, celular e dependentes'}</span></span></button></div>
+ <span class="grp">AJUDA</span>${it('emergencia','ambul','Emergência','192 SAMU · 193 Bombeiros','#B3261E')}${it('acess','aa','Acessibilidade','Letra grande, contraste e voz')}${it('ajuda','help','Ajuda','Perguntas frequentes')}${it('contato','mail','Fale conosco','Dúvidas e correções')}
+ <span class="grp">PAX</span>${it('clinicas','brief','Para clínicas e médicos','Apareça ou corrija seus dados')}${it('sobre','info','Sobre o Pax','Missão e números')}${it('fontes','book','Fontes e créditos','Dados, mapas e fotos')}
+ <span class="grp">TERMOS E PRIVACIDADE</span>${it('termos','doc','Termos de Uso','Regras de uso do app')}${it('privacidade','shield','Política de Privacidade','LGPD e seus dados')}
+ <p class="sm mut" style="padding:1rem 1.1rem">© 2026 ${esc(CFG.empresa)} · versão ${CFG.versao}</p></nav>`;
+ empilha('menu');const b=document.querySelector('.drawer .iconbtn');if(b)b.focus()}
+function fecharMenu(m){if(!$('drawer').innerHTML)return;$('drawer').innerHTML='';if(m==='nav')REUSE=true;else if(m!==true)desempilha()}
+
+/* ============ MODAIS ============ */
+function fechar(m){if(!$('modal').innerHTML)return;$('modal').innerHTML='';if(m==='nav')REUSE=true;else if(m!==true)desempilha()}
+function abrirModal(html,label){const novo=!$('modal').innerHTML;$('modal').innerHTML=`<div class="modal-bg" data-act="fechar-bg"><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(label)}"><span class="grab"></span>${html}</div></div>`;if(novo)empilha('modal');const f=document.querySelector('.sheet input:not([type=checkbox]),.sheet select');if(f&&!f.value)f.focus()}
+const xBtn=`<button class="round" data-act="fechar" aria-label="Fechar">${I.x('#0C2329',20)}</button>`;
+let PK=null;
+function picker(alvo){PK={alvo,q:''};
+ abrirModal(`<div class="row between"><h2 class="h2">${alvo==='origin'?'De onde você sai?':'Para onde você vai?'}</h2>${xBtn}</div>
+ <form class="search" data-form="livre">${I.search('#0B4F5C',20)}<label class="sr" for="pq">Endereço ou local</label><input id="pq" name="q" type="search" autocomplete="off" placeholder="Endereço, estação, bairro ou unidade" data-live="pk"><button type="button" class="micbtn" data-act="voz" data-alvo="pq" aria-label="Falar o endereço">${I.mic('#fff',20)}</button></form>
+ ${alvo==='origin'&&navigator.geolocation?`<button class="lrow" data-act="gps"><span class="lic" style="background:#E5EEFC">${I.gps('#2563EB',20)}</span><span class="col" style="flex:1"><b style="font-size:.95rem">Usar minha localização</b><span class="sm mut">Pelo GPS do aparelho</span></span></button>`:''}
+ <div id="pkres" class="col"></div>`,'Escolher local');renderPK()}
+function renderPK(){const box=$('pkres');if(!box)return;const t=norm(PK.q);const m=x=>!t||t.split(/\s+/).every(w=>norm(x).includes(w));
+ const est=EST.filter(e=>m(e.n+' '+e.l)).map(e=>({k:'ponto',id:e.id,n:e.n,sub:e.l,la:e.la,lo:e.lo,g:'Estações'}));
+ const ref=REFS.filter(e=>m(e.n+' '+e.l)).map(e=>({k:'ponto',id:e.id,n:e.n,sub:e.l,la:e.la,lo:e.lo,g:'Bairros e referências'}));
+ const un=LOC.filter(p=>!isOnline(p)&&m(p.n+' '+p.e+' '+p.b)).map(p=>Object.assign(ptFromUnit(p),{g:'Unidades de saúde'}));
+ const grupos=PK.alvo==='dest'?[un,est,ref]:[ref,est,un];let h='';
+ if(PK.q.trim())h+=`<button class="lrow" data-act="pklivre">${I.pin('#0B4F5C',20)}<span class="col" style="flex:1"><b style="font-size:.95rem">Buscar o endereço "${esc(PK.q.trim())}"</b><span class="sm mut">O Pax localiza no mapa (OpenStreetMap)</span></span></button>`;
+ PK.items=[];grupos.forEach(g=>{if(!g.length)return;h+=`<span class="grp2">${esc(g[0].g.toUpperCase())}</span>`;g.slice(0,t?20:6).forEach(it=>{const i=PK.items.push(it)-1;h+=`<button class="lrow" data-act="pkpick" data-i="${i}"><span class="dot" style="background:${it.k==='unidade'?CATS[byId(it.id).c].cor:'#F2B33D'}"></span><span class="col" style="flex:1;min-width:0"><b style="font-size:.92rem">${esc(it.n)}</b><span class="sm mut ell">${esc(it.sub)}</span></span></button>`})});
+ box.innerHTML=h||'<div class="empty">Nada na lista. Toque em "Buscar o endereço".</div>'}
+function setPonto(alvo,pt){if(alvo==='origin'){S.origin=pt;LS.set('origin',pt)}else S.dest=pt;S.rmode=null;fechar();render();toast((alvo==='origin'?'Partida: ':'Destino: ')+pt.n)}
+async function pontoLivre(alvo,txt){const pt={k:'geo',n:txt,sub:'Localizando…',la:null,lo:null};setPonto(alvo,pt);const g=await geocode(/s(ã|a)o paulo|sp\b/i.test(txt)?txt:txt+', São Paulo');
+ if(g){pt.la=g.la;pt.lo=g.lo;pt.sub=g.nome.split(',').slice(0,3).join(',');if(alvo==='origin')LS.set('origin',pt);toast('Endereço localizado');render()}else{pt.sub='Não encontrado no mapa: a rota usa o texto no Google Maps';pt.k='livre';render();toast('Não achei esse endereço no mapa')}}
+let WA=null;
+function pacientes(){const u=S.user;const a=[];if(u&&u.nome)a.push({nome:u.nome,rel:''});((u&&u.deps)||[]).forEach(d=>a.push({nome:d.nome,rel:d.par}));return a}
+function compor(id){const p=byId(id);if(!p||!p.wa)return;const f=S.flow;
+ const tipo=f.tipo&&((f.tipo==='exame'&&(p.lab||p.img.length))||(f.tipo==='consulta'&&p.esp.length))?f.tipo:(['laboratorio','imagem'].includes(p.c)?'exame':'consulta');
+ const ops=opcoesItem(p,tipo);const nm=itemNome();const pc=pacientes()[0];
+ WA={id,tipo,item:nm&&ops.includes(nm)?nm:ops[0],per:'manha',pag:/conv|plano/i.test(p.cv)&&!/particular/i.test(p.cv)?'convenio':'particular',plano:'',nome:pc?pc.nome:'',rel:'',pac:0,quando:'nesta semana',online:f.modo==='online'};desenharWA()}
+function desenharWA(){const p=byId(WA.id);const seg=(k,ops)=>`<div class="seg" role="group">${ops.map(([v,t])=>`<button type="button" data-act="waset" data-k="${k}" data-v="${v}" aria-pressed="${WA[k]===v}">${t}</button>`).join('')}</div>`;const txt=msgWA(p,WA);const pcs=pacientes();
+ abrirModal(`<div class="row" style="gap:.75rem"><span class="round wa" style="width:3.2rem;height:3.2rem;border-radius:50%">${ICW}</span><span class="col" style="flex:1;min-width:0"><h2 class="h2">Agendar pelo WhatsApp</h2><span class="sm mut ell">${esc(p.n)}</span></span>${xBtn}</div>
+ <label class="f">Quero agendar${seg('tipo',[['consulta','Consulta'],['exame','Exame']])}</label>
+ <label class="f">${WA.tipo==='exame'?'Exame':'Especialidade'}<select class="inp" data-live="waitem">${opcoesItem(p,WA.tipo).map(x=>`<option ${x===WA.item?'selected':''}>${esc(x)}</option>`).join('')}</select></label>
+ ${pcs.length?`<label class="f">Paciente<select class="inp" data-live="wapac">${pcs.map((x,i)=>`<option value="${i}" ${WA.pac===i?'selected':''}>${esc(x.nome)}${x.rel?' · '+esc(x.rel):' (você)'}</option>`).join('')}<option value="-1" ${WA.pac===-1?'selected':''}>Outra pessoa</option></select></label>`:''}
+ ${!pcs.length||WA.pac===-1?`<label class="f">Nome do paciente<input class="inp" data-live="wanome" value="${esc(WA.pac===-1?WA.nome:WA.nome)}" placeholder="Nome completo" autocomplete="name"></label>`:''}
+ <label class="f">Quando<select class="inp" data-live="waquando">${['hoje','amanhã','nesta semana','na próxima semana'].map(x=>`<option ${x===WA.quando?'selected':''}>${x}</option>`).join('')}</select></label>
+ <label class="f">Período${seg('per',[['manha','Manhã'],['tarde','Tarde'],['qualquer','Qualquer']])}</label>
+ <label class="f">Pagamento${seg('pag',[['particular','Particular'],['convenio','Convênio']])}</label>
+ ${WA.pag==='convenio'?`<label class="f">Nome do plano (opcional)<input class="inp" data-live="waplano" value="${esc(WA.plano)}" placeholder="Ex.: nome do seu convênio"></label>`:''}
+ <div class="col" style="gap:.4rem"><span class="sm" style="font-weight:800;color:#33484D">Mensagem que vai pronta</span><div class="chat"><div class="bubble" id="wabubble">${esc(txt)}</div></div></div>
+ <a class="btn wa" id="wago" href="${waUrl(p,txt)}" target="_blank" rel="noopener" data-act="wago" style="min-height:3.4rem;font-size:1.02rem;flex:none">${ICW} Abrir WhatsApp</a>
+ <span class="sm mut" style="text-align:center">${esc(p.wn)} · +${p.wa.replace(/^55(\d\d)(\d+)(\d{4})$/,'55 ($1) $2-$3')}. A mensagem sai do seu WhatsApp; o Pax não envia nada sozinho.</span>`,'Agendar pelo WhatsApp')}
+function atualizaWA(){const p=byId(WA.id);const t=msgWA(p,WA);const b=$('wabubble'),a=$('wago');if(b)b.textContent=t;if(a)a.href=waUrl(p,t)}
+function ligar(id){const p=byId(id);abrirModal(`<div class="row between"><h2 class="h2">Ligar para ${esc(p.n)}</h2>${xBtn}</div>
+ ${p.t.map(t=>`<div class="card" style="flex-direction:row;align-items:center"><span class="col" style="flex:1;min-width:0"><b style="font-size:1.15rem">${esc(t)}</b><span class="sm mut">${esc(p.hr)}</span></span><a class="btn pri" href="${telHref(t)}" style="flex:none">${I.phone('#fff',18)} Ligar</a><button class="btn" data-act="copiar" data-v="${esc(t.replace(/\s*\([^)]*\)\s*$/,''))}" style="flex:none">Copiar</button></div>`).join('')}`,'Ligar')}
+
+/* ============ RENDER E NAVEGAÇÃO ============ */
+const VIEWS={inicio:vInicio,novo:vNovo,modo:vModo,itens:vItens,resultados:vResultados,buscar:vBuscar,local:vLocal,rota:vRota,agenda:vAgenda,perfil:vPerfil,pg:vPg};
+const TABS=['inicio','buscar','novo','agenda','perfil'];
+let HIST=[];
+function topBar(){$('top').innerHTML=`<button class="iconbtn" data-act="menu" aria-label="Abrir menu">${I.menu('#fff',26)}</button><button class="brand" data-act="nav" data-v="inicio" aria-label="Pax - Saúde, ir para o início"><span class="mk">${LOGO(26)}</span><span><b>Pax</b><span> - Saúde</span></span></button>${SR?`<button class="iconbtn" data-act="vozglobal" aria-label="Buscar por voz">${I.mic('#fff',24)}</button>`:`<button class="iconbtn" data-act="pg" data-v="acess" aria-label="Acessibilidade">${I.aa('#fff',24)}</button>`}`}
+function navBar(){const it=[['inicio','Início','home'],['buscar','Buscar','search'],['novo','Agendar',null],['agenda','Agenda','cal'],['perfil','Perfil','user']];
+ const v=S.view;const at=['novo','modo','itens','resultados'].includes(v)?'novo':['local','rota','pg'].includes(v)?S.navAt||'inicio':v;const pend=S.hist.filter(x=>!x.ok).length;
+ $('nav').innerHTML=it.map(([k,t,ic])=>{const on=at===k;
+  if(!ic)return `<button class="mid" data-act="nav" data-v="novo" ${on?'aria-current="page"':''}><span class="plus">${I.plus('#fff',28,2.4)}</span><span>${t}</span></button>`;
+  return `<button data-act="nav" data-v="${k}" ${on?'aria-current="page"':''}><span class="bub" style="position:relative">${I[ic](on?'#FFFFFF':'#4A6066',22)}${k==='agenda'&&pend?`<span style="position:absolute;top:-2px;right:8px;min-width:1.1rem;height:1.1rem;border-radius:999px;background:#B3261E;color:#fff;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center">${pend}</span>`:''}</span><span>${t}</span></button>`}).join('')}
+function aplicaA11y(){const h=document.documentElement,a=S.a11y;h.classList.toggle('fs1',a.fs===1);h.classList.toggle('fs2',a.fs===2);h.classList.toggle('hc',!!a.hc);h.classList.toggle('legivel',!!a.leg);h.classList.toggle('simples',!!a.simples);h.classList.toggle('nomotion',!!a.nomo);
+ $('fab').innerHTML=a.ler?`<button class="fab" data-act="ler" aria-label="Ouvir esta tela">${I.speaker('#3A2600',26)}</button>`:''}
+function render(anim){matarMapas();BAR='';const v=S.view,app=$('app');
+ app.innerHTML=(VIEWS[v]||vInicio)();$('barbox').innerHTML=BAR;document.body.classList.toggle('has-bar',!!BAR);
+ topBar();navBar();aplicaA11y();
+ if(anim){app.classList.remove('enter');void app.offsetWidth;app.classList.add('enter')}
+ if(v==='buscar')renderRes();
+ if(v==='itens')renderItens();
+ if(v==='resultados'&&S.flow.modo!=='online')mapaResultados('mapRes',resultadosFlow().filter(p=>!isOnline(p)));
+ if(v==='rota')posRota();
+ if(v==='local'){const p=byId(S.sel);ligaGaleria();if(p){pedirFotos(p);if(!p.geo&&!isOnline(p)){const la=p.la;refinar(p).then(()=>{if(S.view==='local'&&S.sel===p.id&&p.la!==la)render()})}}}
+ observar()}
+/* histórico: botão "voltar" do Android e do navegador */
+let IGN=0,HOK=true,REUSE=false;
+function empilha(tipo){try{if(REUSE){REUSE=false;history.replaceState({pax:tipo},'')}else history.pushState({pax:tipo},'')}catch(e){HOK=false}}
+function desempilha(){if(!HOK)return;try{IGN++;history.back()}catch(e){IGN=0}}
+window.addEventListener('popstate',()=>{if(IGN>0){IGN--;return}if($('modal').innerHTML){fechar(true);return}if($('drawer').innerHTML){fecharMenu(true);return}voltarTela()});
+function snap(){return{v:S.view,sel:S.sel,pg:S.pg,flow:Object.assign({},S.flow)}}
+function ir(v){if(!VIEWS[v])v='inicio';if(S.view!==v||v==='local'||v==='pg'){HIST.push(snap());empilha('tela')}else if(REUSE){REUSE=false;try{history.replaceState({pax:'tela'},'')}catch(e){}}if(TABS.includes(v))S.navAt=v;S.view=v;render(true);try{window.scrollTo(0,0)}catch(e){}const a=$('app');if(a&&a.focus)try{a.focus({preventScroll:true})}catch(e){}}
+function irTab(v){fechar('nav');fecharMenu('nav');if(v==='novo')S.flow={tipo:null,modo:null,item:null};ir(v)}
+function voltarTela(){const s=HIST.pop();if(!s){if(S.view!=='inicio'){S.view='inicio';render(true)}return}S.view=s.v;S.sel=s.sel;S.pg=s.pg;S.flow=s.flow;if(TABS.includes(s.v))S.navAt=s.v;render(true);try{window.scrollTo(0,0)}catch(e){}}
+function voltar(){if(HIST.length&&HOK){try{history.back();return}catch(e){}}voltarTela()}
+function abrir(id){S.sel=id;fechar('nav');fecharMenu('nav');ir('local')}
+function abrirPg(k){fecharMenu('nav');fechar('nav');S.pg=k;ir('pg')}
+
+/* ============ EVENTOS ============ */
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act,id=+t.dataset.id;
+ if(a==='fechar-bg'){if(e.target===t)fechar();return}
+ switch(a){
+ case'nav':irTab(t.dataset.v);break;
+ case'menu':abrirMenu();break;
+ case'fecharMenu':fecharMenu();break;
+ case'pg':abrirPg(t.dataset.v);break;
+ case'abrir':abrir(id);break;
+ case'voltar':voltar();break;
+ case'tipo':S.flow={tipo:t.dataset.v,modo:null,item:null};ir('modo');break;
+ case'modo':S.flow.modo=t.dataset.v;S.flow.item=null;S.qi='';ir('itens');break;
+ case'item':S.flow.item=t.dataset.k;S.sort='perto';S.fWa=S.fOpen=S.fConv=S.fSus=S.f24=false;ir('resultados');break;
+ case'atalho':{const k=t.dataset.k;if(k!=='gps'&&k!=='emerg'){fecharMenu('nav');fechar('nav')}S.fWa=S.fOpen=S.fConv=S.fSus=S.f24=false;S.q='';S.cat='todos';S.sort='perto';
+  if(k==='ps'){S.cat='hospital';S.f24=true;ir('buscar')}else if(k==='wa'){S.fWa=true;ir('buscar')}else if(k==='sus'){S.fSus=true;ir('buscar')}
+  else if(k==='tele'){S.flow={tipo:'consulta',modo:'online',item:null};S.qi='';ir('itens')}else if(k==='favs')ir('perfil');else if(k==='emerg')abrirPg('emergencia');
+  else if(k==='gps')usarGPS();break}
+ case'cat':S.cat=t.dataset.cat;render();break;
+ case'tg':S[t.dataset.k]=!S[t.dataset.k];render();break;
+ case'sort':S.sort=t.dataset.k;render();break;
+ case'vis':S.map=t.dataset.k==='mapa';render();break;
+ case'rmap':S.rmap=t.dataset.k;render();break;
+ case'rmode':S.rmode=t.dataset.k;render();break;
+ case'fav':{const i=S.favs.indexOf(id);if(i>=0)S.favs.splice(i,1);else S.favs.push(id);LS.set('favs',S.favs);render();toast(i>=0?'Removido dos favoritos':'Salvo nos favoritos');break}
+ case'rota':S.dest=ptFromUnit(byId(id));S.rmode=null;fechar('nav');ir('rota');break;
+ case'trocar':if(S.dest){const o=S.origin;S.origin=S.dest;S.dest=o;S.rmode=null;LS.set('origin',S.origin);render()}break;
+ case'picker':picker(t.dataset.alvo);break;
+ case'pkpick':setPonto(PK.alvo,PK.items[+t.dataset.i]);break;
+ case'pklivre':pontoLivre(PK.alvo,PK.q.trim());break;
+ case'gps':usarGPS();break;
+ case'voz':voz(t.dataset.alvo);break;
+ case'vozglobal':voz('global');break;
+ case'ler':lerTela();break;
+ case'testevoz':falar('Olá! Eu sou o Pax. Posso ler as informações dos locais para você.');break;
+ case'compart':{const p=byId(id);const txt=`${p.n} — ${isOnline(p)?p.url:limpaEnd(p.e)} (via Pax - Saúde)`;const url=isOnline(p)?p.url:gplace(p);
+  if(navigator.share)navigator.share({title:p.n,text:txt,url}).catch(()=>{});else copiar(txt+' '+url,'Link copiado');break}
+ case'wa':compor(id);break;
+ case'waset':WA[t.dataset.k]=t.dataset.v;if(t.dataset.k==='tipo')WA.item=opcoesItem(byId(WA.id),WA.tipo)[0];desenharWA();break;
+ case'wago':{const p=byId(WA.id);S.hist.unshift({id:p.id,tipo:WA.tipo,item:WA.item,pac:WA.nome,data:new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}),ok:false});S.hist=S.hist.slice(0,40);LS.set('hist',S.hist);setTimeout(()=>{fechar();navBar();toast('Acompanhe em Agenda')},300);break}
+ case'ligar':ligar(id);break;
+ case'copiar':copiar(t.dataset.v,'Número copiado');break;
+ case'fechar':fechar();break;
+ case'hok':S.hist[+t.dataset.i].ok=!S.hist[+t.dataset.i].ok;LS.set('hist',S.hist);render();break;
+ case'hdel':S.hist.splice(+t.dataset.i,1);LS.set('hist',S.hist);render();break;
+ case'editar':S.editando=true;render();break;
+ case'cancelaEd':S.editando=false;render();break;
+ case'depdel':S.user.deps.splice(+t.dataset.i,1);LS.set('user',S.user);render();break;
+ case'fs':S.a11y.fs=+t.dataset.v;LS.set('a11y',S.a11y);render();break;
+ case'a11y':{const k=t.dataset.k;S.a11y[k]=!S.a11y[k];LS.set('a11y',S.a11y);render();if(k==='ler'&&S.a11y.ler)falar('Leitura em voz alta ativada. Toque no botão amarelo para ouvir a tela.');break}
+ case'limpar':if(typeof confirm==='function'&&!confirm('Apagar perfil, dependentes, favoritos e agenda deste aparelho?'))break;['favs','hist','origin','nome','geo','user','a11y','fotos3'].forEach(k=>LS.del(k));S.favs=[];S.hist=[];S.user=null;S.origin=ORIGEM_PADRAO;S.a11y={fs:0,hc:false,leg:false,ler:false,simples:false,nomo:false};toast('Dados apagados');render();break;
+ }});
+function copiar(v,msg){try{navigator.clipboard.writeText(v).then(()=>toast(msg),()=>toast(v))}catch(err){toast(v)}}
+function usarGPS(){if(!navigator.geolocation){toast('Localização indisponível neste navegador');return}toast('Buscando sua localização…');navigator.geolocation.getCurrentPosition(pos=>setPonto('origin',{k:'gps',n:'Minha localização',sub:'GPS do aparelho',la:pos.coords.latitude,lo:pos.coords.longitude}),()=>toast('Não foi possível usar a localização. Verifique a permissão.'),{enableHighAccuracy:true,timeout:10000})}
+document.addEventListener('input',e=>{const k=e.target.dataset.live;if(!k)return;
+ if(k==='q'){S.q=e.target.value;renderRes()}else if(k==='qi'){S.qi=e.target.value;renderItens()}else if(k==='pk'){PK.q=e.target.value;renderPK()}
+ else if(k==='cel'){const v=fmtCel(e.target.value);if(v!==e.target.value)e.target.value=v}
+ else if(k==='waitem'){WA.item=e.target.value;atualizaWA()}else if(k==='wanome'){WA.nome=e.target.value.trim();WA.rel='';atualizaWA()}else if(k==='waplano'){WA.plano=e.target.value.trim();atualizaWA()}else if(k==='waquando'){WA.quando=e.target.value;atualizaWA()}});
+document.addEventListener('change',e=>{const k=e.target.dataset.live;if(k==='waitem'){WA.item=e.target.value;atualizaWA()}if(k==='waquando'){WA.quando=e.target.value;atualizaWA()}
+ if(k==='wapac'){const i=+e.target.value;WA.pac=i;if(i>=0){const x=pacientes()[i];WA.nome=x.nome;WA.rel=x.rel}else{WA.nome='';WA.rel=''}desenharWA()}});
+document.addEventListener('submit',e=>{e.preventDefault();const f=e.target.dataset.form,F=e.target;
+ if(f==='busca'){const al=F.dataset.alvo;if(al==='qi')return;S.q=F.elements.q.value;S.cat='todos';if(S.view!=='buscar')ir('buscar');else renderRes()}
+ if(f==='livre'){if(PK.q.trim())pontoLivre(PK.alvo,PK.q.trim());else if(PK.items&&PK.items[0])setPonto(PK.alvo,PK.items[0])}
+ if(f==='login'){const nome=F.elements.nome.value.trim().replace(/\s+/g,' ');if(nome.length<2){toast('Digite seu nome');return}const cel=fmtCel(F.elements.cel.value);if(cel&&cel.replace(/\D/g,'').length<10){toast('Confira o celular com DDD');return}
+  const novo=!S.user;S.user=Object.assign({deps:[]},S.user||{},{nome,cel});S.editando=false;LS.set('user',S.user);render();toast(novo?'Perfil criado. Bem-vindo(a), '+primeiroNome()+'!':'Perfil salvo')}
+ if(f==='mly'){const tk=F.elements.tk.value.trim();if(!/^MLY\|/.test(tk)){toast('O token começa com MLY|');return}CFG.mapillary=tk;LS.set('mly',tk);FQ.length=0;LOC.forEach(p=>p._fq=0);Object.keys(FOTOS).forEach(k=>delete FOTOS[k]);LS.del('fotos3');render();toast('Fotos de rua ativadas')}
+ if(f==='dep'){const nome=F.elements.nome.value.trim();if(!nome)return;S.user.deps=S.user.deps||[];S.user.deps.push({nome,par:F.elements.par.value});LS.set('user',S.user);render();toast('Dependente adicionado')}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('modal').innerHTML)fechar();else if($('drawer').innerHTML)fecharMenu()}});
+(function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true)})();
+
+</script>
+</body>
+</html>
