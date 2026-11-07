@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'3.2',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'3.3',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -393,6 +393,7 @@ function vPg(){const g=PGS[S.pg]||PGS.sobre;return phead(g[0],g[1])+`<section cl
 function abrirMenu(){const u=S.user;const it=(v,ic,t,s,cor)=>`<button class="it" data-act="pg" data-v="${v}"><span class="lic" style="${cor?`background:${cor==='#B3261E'?'#FBE9E8':'var(--mint)'}`:''}">${I[ic](cor||'#0B4F5C',20)}</span><span style="flex:1"><b${cor==='#B3261E'?' style="color:#B3261E"':''}>${t}</b><small>${s}</small></span></button>`;
  $('drawer').innerHTML=`<div class="drawer-bg" data-act="fecharMenu"></div><nav class="drawer" role="dialog" aria-modal="true" aria-label="Menu"><div class="dh"><div class="row between"><span class="row">${LOGO(34,'#fff','#34C3B5')}<span style="font-size:1.2rem"><b>Pax</b> - Saúde</span></span><button class="iconbtn" data-act="fecharMenu" aria-label="Fechar menu">${I.x('#fff',22)}</button></div>
  <button class="row" data-act="nav" data-v="perfil" style="color:#fff;text-align:left"><span class="lic" style="background:rgba(255,255,255,.15)">${I.user('#fff',20)}</span><span class="col"><b>${u?esc(u.nome):'Entrar / criar perfil'}</b><span class="sm" style="opacity:.85">${u?'Perfil e dependentes':'Nome, celular e dependentes'}</span></span></button></div>
+ <span class="grp">APP</span><button class="it" data-act="pg" data-v="instalar"><span class="lic">${I.plus('#0B4F5C',20)}</span><span style="flex:1"><b>Instalar o app</b><small>Android, iPhone e computador</small></span></button>
  <span class="grp">AJUDA</span>${it('emergencia','ambul','Emergência','192 SAMU · 193 Bombeiros','#B3261E')}${it('acess','aa','Acessibilidade','Letra grande, contraste e voz')}${it('ajuda','help','Ajuda','Perguntas frequentes')}${it('contato','mail','Fale conosco','Dúvidas e correções')}
  <span class="grp">PAX</span>${it('clinicas','brief','Para clínicas e médicos','Apareça ou corrija seus dados')}${it('sobre','info','Sobre o Pax','Missão e números')}${it('fontes','book','Fontes e créditos','Dados, mapas e fotos')}
  <span class="grp">TERMOS E PRIVACIDADE</span>${it('termos','doc','Termos de Uso','Regras de uso do app')}${it('privacidade','shield','Política de Privacidade','LGPD e seus dados')}
@@ -549,3 +550,17 @@ document.addEventListener('submit',e=>{e.preventDefault();const f=e.target.datas
  if(f==='dep'){const nome=F.elements.nome.value.trim();if(!nome)return;S.user.deps=S.user.deps||[];S.user.deps.push({nome,par:F.elements.par.value});LS.set('user',S.user);render();toast('Dependente adicionado')}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('modal').innerHTML)fechar();else if($('drawer').innerHTML)fecharMenu()}});
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true)})();
+
+/* ============ INSTALAR (PWA) ============ */
+let PEDIDO=null;
+try{if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js')}catch(e){}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();PEDIDO=e});
+const ehIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent||'');
+const instalado=()=>{try{return matchMedia('(display-mode: standalone)').matches||navigator.standalone}catch(e){return false}};
+PGS.instalar=['Instalar o app','No celular ou no computador',()=>instalado()?'<div class="info">Você já está usando o app instalado.</div>':`
+ ${PEDIDO?`<button class="btn pri" data-act="instalar" style="flex:none">${I.plus('#fff',20)} Instalar agora</button>`:''}
+ <div class="card"><h2 class="h3">Android (Chrome)</h2><p class="p">Toque nos 3 pontinhos ⋮ no canto de cima e escolha <b>Instalar app</b> ou <b>Adicionar à tela inicial</b>.</p></div>
+ <div class="card"><h2 class="h3">iPhone e iPad (Safari)</h2><p class="p">Toque em <b>Compartilhar</b> (quadrado com seta) e depois em <b>Adicionar à Tela de Início</b>.</p></div>
+ <div class="card"><h2 class="h3">Computador (Chrome ou Edge)</h2><p class="p">Clique no ícone de instalar na barra de endereço, à direita, ou no menu ⋮ › <b>Transmitir, salvar e compartilhar</b> › <b>Instalar página como app</b>.</p></div>
+ <p class="sm mut">O app instalado abre em tela cheia, ganha ícone próprio e guarda a última versão para abrir mais rápido.</p>`];
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act="instalar"]');if(t&&PEDIDO){PEDIDO.prompt();PEDIDO.userChoice.finally(()=>{PEDIDO=null;render()})}});
