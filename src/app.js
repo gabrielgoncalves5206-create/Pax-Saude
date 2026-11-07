@@ -5,7 +5,7 @@
    OSRM (rotas), Mapillary e Wikimedia Commons (fotos), Google Maps (links).
    ===================================================================== */
 const CFG={
- mapillary:'', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
+ mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
  empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'3.0',dataRef:'nov/2026'
 };
 
