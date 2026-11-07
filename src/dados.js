@@ -270,3 +270,8 @@ const REFS=[
 
 /* fotos guardadas no Supabase (nov/2026) */
 (function(){const B='https://cckywhtpnjhlwqslmlxz.supabase.co/storage/v1/object/public/pax-fotos/';'68 webp,69 webp,70 webp,71 webp,72 webp,73 webp,74 webp,101 webp,105 jpg,29 jpg,122 jpg,132 webp,133 webp,31 jpg,134 webp,135 webp,111 png,112 png,62 jpg,63 webp,64 webp,65 webp,66 webp,67 webp,23 jpg,30 jpg,131 webp,1 jpg,9 webp,10 jpg,11 jpg,14 png,16 jpg,17 png,18 webp,32 jpg,51 jpg,53 png,56 jpg'.split(',').forEach(x=>{const[i,e]=x.split(' ');const p=LOC.find(q=>q.id===+i);if(p){p.foto=B+i+'.'+e;p.fotoRede=0;p.fotoCred='Site oficial'}})})();
+
+/* fotos enviadas pela equipe Pax (nov/2026), ampliadas */
+'1,2,3,4,5,6,8,12,15,19,20,24,25,26,27,28,33,34,35,36,37,38,39,52,54,55,57,58,59,60,61,79,80,81,82,83,84,85,86,87,102,103,104,106,113,114,115,116,117,118,119,120,121,123,124,125,126,127,128,129,130,137'.split(',').forEach(i=>{const p=LOC.find(q=>q.id===+i);if(p){p.foto='fotos/'+i+'.jpg';p.fotoLocal=1;p.fotoRede=0;p.fotoCred='Foto: equipe Pax'}});
+(function(){const p=LOC.find(q=>q.id===114);if(p){p.e='R. Barão de Iguape, 209 – Liberdade, São Paulo – SP, 01507-000';p.f='https://sistemasinter.cetesb.sp.gov.br/institucional/beneficios/arquivos/eme_ps_infantil.pdf';p.la=-23.5592;p.lo=-46.6345;p.geo=0}
+ const s=LOC.find(q=>q.id===7);if(s){Object.assign(s,{n:'Pronto Atendimento Sancta Maggiore – Jardim Paulista',b:'Jardim Paulista',e:'Av. Brig. Luís Antônio, 4312 – Jardim Paulista, São Paulo – SP, 01402-002',la:-23.5795,lo:-46.6628,geo:0,f:'https://angels-initiative.com/content/unidade-pronto-atendimento-sancta-maggiore-sp'});delete s.foto;s.fotoLocal=0}})();
