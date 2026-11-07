@@ -550,7 +550,7 @@ const REFS=[
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'3.3',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'3.4',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -632,7 +632,7 @@ const estrelas=(v,s)=>`<span class="stars" aria-hidden="true">${[1,2,3,4,5].map(
 
 /* ============ FOTOS (site oficial → Mapillary → Wikimedia Commons → miniatura do mapa) ============ */
 const FOTOS=LS.get('fotos3',{});
-function fonteFoto(p,u){if(/wikimedia/.test(u))return'Wikimedia Commons';if(p.fotoRede)return'Imagem da rede';return'Site oficial'}
+function fonteFoto(p,u){if(p.fotoCred&&u===p.foto)return p.fotoCred;if(/wikimedia/.test(u))return'Wikimedia Commons';if(p.fotoRede)return'Imagem da rede';return'Site oficial'}
 function fotosDe(p){const a=[];if(p.foto)a.push({u:p.foto,src:fonteFoto(p,p.foto),link:p.site||p.f});(p.fotos2||[]).forEach(u=>a.push({u,src:fonteFoto(p,u),link:p.site||p.f}));(FOTOS[p.id]||[]).forEach(x=>a.push(x));return a}
 const FQ=[];let FQrun=0;
 function pedirFotos(p){if(!p||isOnline(p)||p.la==null||FOTOS[p.id]||p._fq)return;p._fq=1;FQ.push(p);bombaFQ()}
@@ -1108,6 +1108,10 @@ PGS.instalar=['Instalar o app','No celular ou no computador',()=>instalado()?'<d
  <div class="card"><h2 class="h3">Computador (Chrome ou Edge)</h2><p class="p">Clique no ícone de instalar na barra de endereço, à direita, ou no menu ⋮ › <b>Transmitir, salvar e compartilhar</b> › <b>Instalar página como app</b>.</p></div>
  <p class="sm mut">O app instalado abre em tela cheia, ganha ícone próprio e guarda a última versão para abrir mais rápido.</p>`];
 document.addEventListener('click',e=>{const t=e.target.closest('[data-act="instalar"]');if(t&&PEDIDO){PEDIDO.prompt();PEDIDO.userChoice.finally(()=>{PEDIDO=null;render()})}});
+
+/* ============ FOTOS DO SUPABASE ============ */
+(function(){if(typeof fetch!=='function')return;const U='https://cckywhtpnjhlwqslmlxz.supabase.co',K='sb_publishable_yv9jTgQHXV1Diy_xPkk_eg_qSt_8roq';
+ fetch(U+'/rest/v1/pax_locais?select=id,foto_url,foto_credito&foto_status=eq.ok&pessoa=eq.false',{headers:{apikey:K,Authorization:'Bearer '+K}}).then(r=>r.ok?r.json():[]).then(rs=>{let n=0;(rs||[]).forEach(x=>{const p=byId(x.id);if(p&&x.foto_url){p.foto=x.foto_url;p.fotoCred=x.foto_credito;p.fotoRede=0;n++}});if(n)render()}).catch(()=>{})})();
 
 </script>
 </body>
