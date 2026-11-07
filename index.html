@@ -235,6 +235,28 @@ html.simples .cube{min-height:9.5rem}html.simples .cube .t{font-size:1.75rem}
  .toast-w{bottom:2rem}
  .tiles2{grid-template-columns:repeat(3,1fr)}
 }
+
+/* ===== v3.1: interface mais simples, maior e com mais espaço ===== */
+html{font-size:106.25%}html.fs1{font-size:118.75%}html.fs2{font-size:134%}
+.sec{padding:1.5rem 1.15rem 0;gap:1.05rem}
+.card{padding:1.2rem;gap:.9rem;border-radius:1.4rem}
+.btn{min-height:3.5rem;font-size:1rem;border-radius:1.1rem}
+.p{font-size:1rem;line-height:1.6}.h2{font-size:1.3rem}.h3{font-size:1.08rem;display:flex;align-items:center;gap:.5rem}
+.hero{padding:1rem 1.15rem 1.8rem;gap:1.1rem}.hello{font-size:1.65rem}
+.search{min-height:3.8rem}.search input{font-size:1.05rem}
+.cube{min-height:9.2rem;padding:1.35rem 1.25rem}.cube .t{font-size:1.65rem}.cube .d{font-size:.95rem}
+.cube.hero2{min-height:10.5rem}.cube.hero2 .t{font-size:1.85rem}
+.pcard{border-radius:1.4rem}.pcard .bd{padding:1rem 1.15rem .5rem;gap:.5rem}.pcard .nm{font-size:1.15rem}.pcard .acts{padding:.6rem 1.15rem 1.15rem}
+.grid{gap:1.15rem}
+.meta{font-size:.88rem}.tag{font-size:.78rem;padding:.32rem .7rem}
+.tile.wide{min-height:5.4rem;padding:1.1rem}.tile b{font-size:1.1rem}
+.seg button{min-height:3rem;font-size:.9rem}
+.chip{min-height:2.9rem;font-size:.9rem}
+.info.big{padding:1.1rem;font-size:.95rem;align-items:center;border-radius:1.2rem}
+.info.big b{font-size:1.1rem}
+details.faq summary{padding:1.05rem 0;font-size:1.05rem}
+.nav button{font-size:.76rem}
+.phead{padding:1.2rem 1.15rem .2rem}.phead h1{font-size:1.5rem}
 </style>
 </head>
 <body>
@@ -479,6 +501,9 @@ const REFS=[
  set([33],{site:'https://www.dimagem-unineuro.com.br'});
  set([23],{site:'https://www.hermespardini.com.br',foto:'https://api-site.hermespardini.com.br/uploads/img_highlight_desktop_2c1d11cd2f.jpg',fotoRede:1});
  set([65],{g:{v:3.7,n:1016}});set([63],{g:{v:3.8,n:244}});set([67],{g:{v:3.9,n:375}});set([51],{g:{v:4.8,n:null},site:'https://www.einstein.br'});
+ set([29,30,31,32,122],{wa:'551131790822',wn:'WhatsApp da central Fleury'});
+ set([52,125,126],{wa:'5511992563778',wn:'WhatsApp oficial do Sírio-Libanês (menu de atendimento)'});
+ set([101],{foto:'https://cdn.buttercms.com/6NI9voaS88DfxFOSK4cw',fotoRede:1,wa:'551141181339',wn:'WhatsApp oficial da rede dr.consulta'});
  const GF='https://comerciosaopaulo.com.br/?p=13996';
  [[51,4.8],[52,4.7],[53,4.6],[54,4.3],[57,4.5],[111,4.5],[62,4.6],[58,4.4]].forEach(([id,v])=>set([id],{g:{v,n:null,f:GF}}));
  const H2=(d,a,f)=>({d,a,f});const IGd=IG('delbonimedicinadiagnostica');
@@ -525,8 +550,8 @@ const REFS=[
    OSRM (rotas), Mapillary e Wikimedia Commons (fotos), Google Maps (links).
    ===================================================================== */
 const CFG={
- mapillary:'', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'3.0',dataRef:'nov/2026'
+ mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'3.1',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -614,7 +639,7 @@ const FQ=[];let FQrun=0;
 function pedirFotos(p){if(!p||isOnline(p)||p.la==null||FOTOS[p.id]||p._fq)return;p._fq=1;FQ.push(p);bombaFQ()}
 function bombaFQ(){while(FQrun<2&&FQ.length){const p=FQ.shift();FQrun++;buscaFotos(p).catch(()=>{}).then(()=>{FQrun--;bombaFQ()})}}
 async function buscaFotos(p){const out=[];let ok=false;if(typeof fetch!=='function')return;
- if(CFG.mapillary){try{const d=.00055;const r=await fetch(`https://graph.mapillary.com/images?access_token=${enc(CFG.mapillary)}&fields=id,thumb_1024_url,captured_at&bbox=${p.lo-d},${p.la-d},${p.lo+d},${p.la+d}&limit=6`);if(r.ok){ok=true;const j=await r.json();(j.data||[]).filter(x=>x.thumb_1024_url).sort((a,b)=>(b.captured_at||0)-(a.captured_at||0)).slice(0,3).forEach(x=>out.push({u:x.thumb_1024_url,src:'Mapillary',link:'https://www.mapillary.com/app/?pKey='+x.id,rua:1}))}}catch(e){}}
+ if(CFG.mapillary){for(const d of [.0005,.0013]){if(out.length)break;try{const r=await fetch(`https://graph.mapillary.com/images?access_token=${enc(CFG.mapillary)}&fields=id,thumb_1024_url,captured_at,geometry&bbox=${p.lo-d},${p.la-d},${p.lo+d},${p.la+d}&limit=6`);if(r.ok){ok=true;const j=await r.json();(j.data||[]).filter(x=>x.thumb_1024_url).sort((a,b)=>{const g=x=>x.geometry&&x.geometry.coordinates?km(p,{la:x.geometry.coordinates[1],lo:x.geometry.coordinates[0]}):1;return g(a)-g(b)}).slice(0,3).forEach(x=>out.push({u:x.thumb_1024_url,src:'Mapillary',link:'https://www.mapillary.com/app/?pKey='+x.id,rua:1}))}}catch(e){}}}
  try{const r=await fetch(`https://commons.wikimedia.org/w/api.php?action=query&generator=geosearch&ggscoord=${p.la}%7C${p.lo}&ggsradius=120&ggslimit=10&ggsnamespace=6&prop=imageinfo&iiprop=url&iiurlwidth=900&format=json&origin=*`);if(r.ok){ok=true;const j=await r.json();const pg=j.query&&j.query.pages?Object.values(j.query.pages):[];pg.filter(x=>/\.(jpe?g|png|webp)$/i.test(x.title)&&!/map|mapa|logo|bandeira|flag/i.test(x.title)&&x.imageinfo&&x.imageinfo[0]).sort((a,b)=>(a.index||0)-(b.index||0)).slice(0,3).forEach(x=>out.push({u:x.imageinfo[0].thumburl||x.imageinfo[0].url,src:'Wikimedia Commons',link:x.imageinfo[0].descriptionurl}))}}catch(e){}
  if(ok){FOTOS[p.id]=out;LS.set('fotos3',FOTOS)}else p._fq=0;
  if(out.length)atualizaCapas(p)}
@@ -693,11 +718,11 @@ function contatoBtns(p){let h='';
  return h}
 const heartBtn=p=>{const on=S.favs.includes(p.id);return `<button class="round" data-act="fav" data-id="${p.id}" aria-label="${on?'Remover dos':'Adicionar aos'} favoritos" aria-pressed="${on}"><svg width="22" height="22" viewBox="0 0 24 24" fill="${on?'#C62E4A':'none'}" stroke="${on?'#C62E4A':'#0B4F5C'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P.heart}</svg></button>`};
 function card(p){const d=dist(p);
- return `<article class="pcard"><button class="open" data-act="abrir" data-id="${p.id}" aria-label="Ver detalhes de ${esc(p.n)}">${cover(p,'8.5rem')}
- <span class="bd"><span class="meta">${stTag(p)}${starTag(p)}${p.sus?'<span class="tag blue">SUS</span>':''}${p.pr?`<span class="tag gray">R$ ${p.pr}</span>`:''}${alTags(p)}</span>
+ return `<article class="pcard"><button class="open" data-act="abrir" data-id="${p.id}" aria-label="Ver detalhes de ${esc(p.n)}">${cover(p,'10.5rem')}
+ <span class="bd"><span class="meta">${stTag(p)}${p.g?starTag(p):''}${p.sus?'<span class="tag blue">SUS</span>':''}${alTags(p)}</span>
  <span class="nm">${esc(p.n)}</span>
  <span class="meta">${isOnline(p)?I.video('#0E6B6B',16)+esc(p.sp||'Teleconsulta por vídeo'):I.pin('#0B4F5C',16)+`<span>${esc(p.b)} · <b style="color:var(--ink)">${fkm(d)}</b>${p.sp?' · '+esc(p.sp):''}</span>`}</span></span></button>
- <div class="acts">${contatoBtns(p)}${heartBtn(p)}</div></article>`}
+ <div class="acts">${contatoBtns(p)}</div></article>`}
 function mini(p){const d=dist(p);return `<button class="mini" data-act="abrir" data-id="${p.id}">${cover(p,'7.2rem').replace('class="cover"','class="cover" style="border-radius:0"')}<span class="bd"><span class="meta">${stTag(p)}</span><b>${esc(p.n)}</b><span class="sm mut">${esc(p.b)} · ${fkm(d)}${p.g?' · ★ '+String(p.g.v).replace('.',','):''}</span></span></button>`}
 function origemChip(light){return `<button class="chip-o${light?' light':''}" data-act="picker" data-alvo="origin" aria-label="Alterar ponto de partida: ${esc(S.origin.n)}">${I.pin('#fff',16)}<span>Saindo de: <b>${esc(S.origin.n)}</b></span>${I.down('#fff',14)}</button>`}
 function buscaForm(id,ph,val,live){return `<form class="search" data-form="busca" data-alvo="${id}" role="search">${I.search('#0B4F5C',20)}<label class="sr" for="${id}">Buscar</label><input id="${id}" name="q" type="search" enterkeyhint="search" placeholder="${esc(ph)}" value="${esc(val)}" ${live?`data-live="${live}"`:''} autocomplete="off"><button type="button" class="micbtn" data-act="voz" data-alvo="${id}" aria-label="Buscar por voz">${I.mic('#fff',20)}</button></form>`}
@@ -712,37 +737,30 @@ function cubosTipo(duo){const a=cubo({cls:'pink',act:'tipo',v:'consulta',ic:I.st
 let BAR='';
 function vInicio(){
  const near=a=>a.sort((x,y)=>(dist(x)??1e9)-(dist(y)??1e9));
- const ps=near(LOC.filter(p=>p.c==='hospital'&&p.h==='24h'&&!/Exclusivo/i.test(p.cv)&&!(p.al&&/Prevent/.test(p.al)))).slice(0,3);
- const dest=near(LOC.filter(p=>!isOnline(p)&&(p.foto||p.g))).slice(0,8);
- const was=near(LOC.filter(p=>p.wa&&!isOnline(p))).slice(0,4);
- const abertos=near(LOC.filter(p=>!isOnline(p)&&status(p).k==='aberto'&&p.h!=='24h')).slice(0,4);
+ const perto=near(LOC.filter(p=>!isOnline(p)&&!(p.al&&/Prevent|odontol/i.test(p.al)))).slice(0,3);
  const n=primeiroNome();
- const at=[['ps','Pronto-socorro 24h','ambul','#B3261E'],['tele','Consulta por vídeo','video','#0E6B6B'],['wa','Com WhatsApp','wa2','#128C4A'],['gps','Perto de mim','gps','#2563EB'],['sus','SUS gratuito','shield','#1C5BA8'],['favs','Favoritos','heart','#C62E4A'],['emerg','Emergência','alert','#B3261E']];
- return `<section class="hero"><h1 class="hello">${n?'Olá, '+esc(n)+'!':'Olá!'} <small>Como podemos cuidar de você hoje?</small></h1>${origemChip()}${buscaForm('qh','Especialidade, exame, local ou bairro','')}</section>
- <section class="sec">${cubosTipo(true)}</section>
- <section class="sec adv"><h2 class="h2">Atalhos</h2><div class="hscroll">${at.map(([k,t,ic,c])=>`<button class="short" data-act="atalho" data-k="${k}"><i>${I[ic](c,26)}</i>${t}</button>`).join('')}</div></section>
- <section class="sec"><a class="info red" href="tel:192" style="align-items:center">${I.ambul('#B3261E',28)}<span style="flex:1"><b>Emergência? Ligue 192 (SAMU)</b><br>Bombeiros: 193 · Não espere agendar.</span>${I.phone('#B3261E',22)}</a></section>
- <section class="sec adv"><div class="row between"><h2 class="h2">Destaques perto de você</h2><button class="lnk sm" data-act="nav" data-v="buscar">Ver todos</button></div><div class="hscroll">${dest.map(mini).join('')}</div></section>
- <section class="sec"><h2 class="h2">Pronto-socorro 24h mais perto</h2><div class="card" style="padding:.2rem 1rem">${ps.map(p=>`<div class="lrow"><span class="lic" style="background:#FBE9E8">${I.build('#B3261E',20)}</span><button data-act="abrir" data-id="${p.id}" class="col" style="flex:1;text-align:left;min-width:0"><b style="font-size:.95rem">${esc(p.n)}</b><span class="sm mut">${esc(p.cv)} · ${fkm(dist(p))}</span></button><button class="round" data-act="rota" data-id="${p.id}" aria-label="Como chegar a ${esc(p.n)}">${I.route('#0B4F5C',20)}</button></div>`).join('')}</div></section>
- <section class="sec adv"><h2 class="h2">Agende pelo WhatsApp</h2><p class="p mut" style="margin-top:-.4rem">WhatsApp oficial. A mensagem já vai pronta.</p><div class="grid">${was.map(card).join('')}</div></section>
- <section class="sec adv"><h2 class="h2">Abertos agora, mais perto</h2>${abertos.length?`<div class="grid">${abertos.map(card).join('')}</div>`:'<div class="empty">Nenhum local com horário confirmado está aberto agora.</div>'}</section>`}
+ return `<section class="hero"><h1 class="hello">${n?'Olá, '+esc(n)+'!':'Olá!'} <small>O que você precisa hoje?</small></h1>${buscaForm('qh','Buscar médico, exame ou local','')}${origemChip()}</section>
+ <section class="sec">${cubosTipo(false)}</section>
+ <section class="sec"><a class="info red big" href="tel:192">${I.ambul('#B3261E',32)}<span style="flex:1"><b>Emergência? Ligue 192</b><br>SAMU · atendimento imediato</span>${I.phone('#B3261E',26)}</a></section>
+ <section class="sec"><h2 class="h2">Perto de você</h2><div class="grid">${perto.map(card).join('')}</div>
+ <button class="btn" data-act="nav" data-v="buscar" style="flex:none">${I.search('#0B4F5C',20)} Ver todos os locais</button></section>`}
 function vNovo(){return phead('O que você quer agendar?','Toque em uma opção para seguir',false)+`<section class="sec">${cubosTipo(false)}
  <div class="info">${I.pin('#0A4B44',20)}<span>Saindo de <b>${esc(S.origin.n)}</b>. <button class="lnk" data-act="picker" data-alvo="origin">Trocar</button></span></div></section>`}
 function vModo(){const f=S.flow;const c=f.tipo==='consulta';const cor=c?'#B02A62':'#1C5BA8',cls=c?'pink':'blue';
  const n=k=>k==='presencial'?LOC.filter(p=>!isOnline(p)&&p.esp.length).length:k==='online'?LOC.filter(p=>p.on.length).length:k==='lab'?LOC.filter(p=>p.lab).length:LOC.filter(p=>p.img.length).length;
  const op=c?[['presencial','Presencial','Clínica, hospital ou consultório perto de você. Veja distância, rota e horário.','build'],['online','Online','Teleconsulta e médicos por vídeo. Atendimento sem sair de casa.','video']]:[['lab','Laboratoriais','Sangue, urina, glicemia, colesterol, tireoide e outras análises.','tube'],['img','De imagem','Raio-X, ultrassom, tomografia, ressonância, mamografia e mais.','scan']];
  return phead(c?'Consultas':'Exames',c?'Como prefere ser atendido?':'Que tipo de exame?')+`<section class="sec"><div class="cubes">${op.map(([k,t,d,ic])=>cubo({cls,act:'modo',v:k,ic:I[ic](cor,34),t,d,n:n(k)+(n(k)===1?' local':' locais'),cor,bg:I[ic](cor,150,1.4)}).replace('class="cube','class="cube hero2')).join('')}</div>
- <div class="card adv"><h2 class="h3">Como funciona</h2>${[['1','Escolha '+(c?'a especialidade':'o exame')],['2','Compare distância, horário e nota'],['3','Agende pelo WhatsApp ou ligue']].map(([a,b])=>`<div class="row"><span class="lic" style="width:2rem;height:2rem;border-radius:50%;font-weight:800;color:${cor};background:${c?'#FDE8F0':'#E5EEFC'}">${a}</span><span class="p">${b}</span></div>`).join('')}</div></section>`}
+ <div class="card adv" hidden><h2 class="h3">Como funciona</h2>${[['1','Escolha '+(c?'a especialidade':'o exame')],['2','Compare distância, horário e nota'],['3','Agende pelo WhatsApp ou ligue']].map(([a,b])=>`<div class="row"><span class="lic" style="width:2rem;height:2rem;border-radius:50%;font-weight:800;color:${cor};background:${c?'#FDE8F0':'#E5EEFC'}">${a}</span><span class="p">${b}</span></div>`).join('')}</div></section>`}
 const ORD_ESP=['clinica','cardio','gineco','pedi','dermato','orto','oftalmo','gastro','endo','neuro','otorrino','psiq','uro'];
 function itensLista(){const f=S.flow;
  if(f.modo==='lab')return LABX.map((x,i)=>({k:'lab'+i,t:x[0],s:x[1],p:x[2],ic:'tube',n:LOC.filter(p=>p.lab).length}));
  if(f.modo==='img')return Object.keys(IMGX).map(k=>({k,t:IMGX[k][0],s:IMGX[k][1],p:IMGX[k][2],ic:IC_IMG[k]||'scan',n:LOC.filter(p=>p.img.includes(k)).length}));
  return ORD_ESP.filter(k=>ESP[k]).concat(Object.keys(ESP).filter(k=>!ORD_ESP.includes(k))).map(k=>({k,t:ESP[k][0],s:ESP[k][1],ic:IC_ESP[k]||'steth',n:LOC.filter(p=>f.modo==='online'?p.on.includes(k):(!isOnline(p)&&p.esp.includes(k))).length}))}
 function vItens(){const f=S.flow;const tit=f.modo==='presencial'?'Consulta presencial':f.modo==='online'?'Consulta online':f.modo==='lab'?'Exames laboratoriais':'Exames de imagem';
- return phead(tit,f.tipo==='consulta'?'Escolha a especialidade':'Escolha o exame')+`<section class="sec">${buscaForm('qi',f.tipo==='consulta'?'Especialidade ou sintoma':'Nome do exame',S.qi,'qi')}<div id="itens" class="tiles2"></div></section>`}
+ return phead(tit,f.tipo==='consulta'?'Escolha a especialidade':'Escolha o exame')+`<section class="sec">${buscaForm('qi',f.tipo==='consulta'?'Especialidade ou sintoma':'Nome do exame',S.qi,'qi')}<div id="itens" class="cubes"></div></section>`}
 function renderItens(){const box=$('itens');if(!box)return;const t=norm(S.qi);const f=S.flow;const c=f.tipo==='consulta',cor=c?'#B02A62':'#1C5BA8',bg=c?'#FDE8F0':'#E5EEFC';
  const r=itensLista().filter(x=>!t||norm(x.t+' '+x.s).includes(t));
- box.innerHTML=r.length?r.map((x,i)=>`<button class="tile${i===0&&!t?' wide':''}" data-act="item" data-k="${x.k}"><span class="lic" style="background:${bg}">${I[x.ic](cor,22)}</span><span class="col" style="gap:.25rem;flex:1;min-width:0"><b>${esc(x.t)}</b><span class="sm mut">${esc(x.s)}${x.p&&i===0?' · Preparo: '+esc(x.p):''}</span><span class="sm" style="font-weight:800;color:${cor}">${x.n} ${x.n===1?'local':'locais'}</span></span></button>`).join(''):'<div class="empty" style="grid-column:1/-1">Nada encontrado. Tente outra palavra.</div>'}
+ box.innerHTML=r.length?r.map((x,i)=>`<button class="tile wide" data-act="item" data-k="${x.k}"><span class="lic" style="background:${bg}">${I[x.ic](cor,22)}</span><span class="col" style="gap:.25rem;flex:1;min-width:0"><b>${esc(x.t)}</b><span class="sm mut">${esc(x.s)}</span><span class="sm" style="font-weight:800;color:${cor}">${x.n} ${x.n===1?'local':'locais'}</span></span></button>`).join(''):'<div class="empty" style="grid-column:1/-1">Nada encontrado. Tente outra palavra.</div>'}
 function itemNome(){const f=S.flow;if(!f.item)return'';if(f.modo==='lab')return LABX[+f.item.slice(3)][0];if(f.modo==='img')return IMGX[f.item][0];return ESP[f.item][0]}
 function resultadosFlow(){const f=S.flow;let r;
  if(f.modo==='online')r=LOC.filter(p=>p.on.includes(f.item));
@@ -756,25 +774,25 @@ function ordenar(r){const D=p=>dist(p)??1e9;
  else if(S.sort==='preco')r.sort((a,b)=>(a.pr||1e9)-(b.pr||1e9)||D(a)-D(b));
  else if(S.sort==='nota')r.sort((a,b)=>nota(b)-nota(a)||D(a)-D(b));
  else r.sort((a,b)=>a.n.localeCompare(b.n,'pt'));return r}
-function controles(online){return `<div class="seg" role="group" aria-label="Ordenar">${[['perto',online?'Recomendados':'Mais perto'],['preco','Melhor preço'],['nota','Melhor avaliação']].map(([k,t])=>`<button data-act="sort" data-k="${k}" aria-pressed="${S.sort===k}">${t}</button>`).join('')}</div>
- <div class="chips adv" role="group" aria-label="Filtros">${[['fOpen','Aberto agora'],['f24','24 horas'],['fWa','Com WhatsApp'],['fConv','Aceita convênio'],['fSus','SUS']].map(([k,t])=>`<button class="chip" data-act="tg" data-k="${k}" aria-pressed="${S[k]}">${t}</button>`).join('')}</div>`}
+function controles(online){const nf=['fOpen','f24','fWa','fConv','fSus'].filter(k=>S[k]).length;return `<div class="seg" role="group" aria-label="Ordenar">${[['perto',online?'Recomendados':'Mais perto'],['preco','Menor preço'],['nota','Melhor nota']].map(([k,t])=>`<button data-act="sort" data-k="${k}" aria-pressed="${S.sort===k}">${t}</button>`).join('')}</div>
+ <div class="row"><button class="btn" data-act="showF" aria-expanded="${!!S.showF}">${SVG('<path d="M4 6h16M7 12h10M10 18h4"/>','#0B4F5C',20)} Filtros${nf?' ('+nf+')':''}</button>${online?'':`<button class="btn" data-act="showMap" aria-expanded="${!!S.showMap}">${I.map('#0B4F5C',20)} ${S.showMap?'Esconder mapa':'Ver no mapa'}</button>`}</div>
+ ${S.showF?`<div class="chips" role="group" aria-label="Filtros">`:'<div hidden>'}${[['fOpen','Aberto agora'],['f24','24 horas'],['fWa','Com WhatsApp'],['fConv','Aceita convênio'],['fSus','SUS']].map(([k,t])=>`<button class="chip" data-act="tg" data-k="${k}" aria-pressed="${S[k]}">${t}</button>`).join('')}</div>`}
 function notaOrdem(){if(S.sort==='preco')return'Só alguns locais publicam preço; os demais aparecem depois, por distância.';if(S.sort==='nota')return'Pela nota do Google Maps (pesquisada em '+CFG.dataRef+') onde encontramos; os demais aparecem depois, por distância.';return''}
 function vResultados(){const f=S.flow;const online=f.modo==='online';const r=resultadosFlow();
  const sub=(f.modo==='presencial'?'Presencial':f.modo==='online'?'Online':f.modo==='lab'?'Laboratorial':'Imagem')+' · '+r.length+' '+(r.length===1?'opção':'opções');
  return phead(itemNome(),sub)+`<section class="sec">${online?'':origemChip(true)}${controles(online)}
  ${notaOrdem()?`<p class="sm mut" style="margin:0">${esc(notaOrdem())}</p>`:''}
- ${online?`<div class="info">${I.video('#0A4B44',20)}<span>Consultas por vídeo: toque em <b>Acessar</b> para abrir o serviço ou o perfil do médico.</span></div>`:`<div class="mapwrap adv"><div id="mapRes" class="leaf" style="height:16rem"></div></div>`}
+ ${online?`<div class="info">${I.video('#0A4B44',20)}<span>Consultas por vídeo: toque em <b>Acessar</b> para abrir o serviço ou o perfil do médico.</span></div>`:(S.showMap?`<div class="mapwrap"><div id="mapRes" class="leaf" style="height:18rem"></div></div>`:'')}
  ${r.length?`<div class="grid">${r.map(card).join('')}</div>`:'<div class="empty">Nenhum local com esses filtros. Tire um filtro para ver mais.</div>'}</section>`}
-function vBuscar(){return phead('Buscar','Hospitais, clínicas, médicos, laboratórios e imagem',false)+`<section class="sec">${origemChip(true)}${buscaForm('qb','Nome, especialidade, exame ou bairro',S.q,'q')}
+function vBuscar(){return phead('Buscar','Digite ou fale o que precisa',false)+`<section class="sec">${buscaForm('qb','Médico, exame, local ou bairro',S.q,'q')}${origemChip(true)}
  <div class="chips" role="group" aria-label="Categoria">${[['todos','Todos']].concat(Object.keys(CATS).map(c=>[c,CATS[c].nome])).map(([k,t])=>`<button class="chip" data-act="cat" data-cat="${k}" aria-pressed="${S.cat===k}">${t}</button>`).join('')}</div>
  ${controles(false)}
- <div class="seg adv" role="group" aria-label="Visualização"><button data-act="vis" data-k="mapa" aria-pressed="${S.map}">${I.map('currentColor',16)} Mapa + lista</button><button data-act="vis" data-k="lista" aria-pressed="${!S.map}">Só lista</button></div>
- <div id="resumo"></div>${S.map?'<div class="mapwrap adv"><div id="mapBusca" class="leaf" style="height:17rem"></div></div>':''}<div id="res" class="grid"></div></section>`}
+ <div id="resumo"></div>${S.showMap?'<div class="mapwrap"><div id="mapBusca" class="leaf" style="height:18rem"></div></div>':''}<div id="res" class="grid"></div></section>`}
 function filtrarBusca(){const t=norm(S.q);let r=LOC.filter(p=>{if(S.cat!=='todos'&&p.c!==S.cat)return false;if(t){const hay=norm([p.n,p.b,p.e,p.sp,p.s.join(' '),CATS[p.c].nome].join(' '));if(!t.split(/\s+/).every(w=>hay.includes(w)))return false}return true});return ordenar(filtrosAplic(r))}
 function renderRes(){const box=$('res');if(!box)return;const r=filtrarBusca();
  $('resumo').innerHTML=`<p class="sm mut" style="margin:0"><b style="color:var(--ink)">${r.length} ${r.length===1?'local':'locais'}</b>${notaOrdem()?' · '+esc(notaOrdem()):''}</p>`;
- box.innerHTML=r.length?r.slice(0,40).map(card).join('')+(r.length>40?`<p class="sm mut">Mostrando 40 de ${r.length}. Refine a busca.</p>`:''):'<div class="empty">Nada encontrado. Tente outra palavra ou tire um filtro.</div>';
- if(S.map&&$('mapBusca')){matarMapas();mapaResultados('mapBusca',r.filter(p=>!isOnline(p)))}observar()}
+ box.innerHTML=r.length?r.slice(0,30).map(card).join('')+(r.length>30?`<p class="sm mut">Mostrando 30 de ${r.length}. Refine a busca.</p>`:''):'<div class="empty">Nada encontrado. Tente outra palavra ou tire um filtro.</div>';
+ if(S.showMap&&$('mapBusca')){matarMapas();mapaResultados('mapBusca',r.filter(p=>!isOnline(p)))}observar()}
 
 /* ---- página do local ---- */
 const REDES={ig:['Instagram','ig','<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><path d="M17.3 6.7v.01"/>'],fb:['Facebook','fb','<path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8.5a.5.5 0 0 1 .5-.5z"/>'],li:['LinkedIn','li','<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10.5v6M8 7.5v.01M12 16.5v-3.5a2 2 0 0 1 4 0v3.5M12 10.5v6"/>'],yt:['YouTube','yt','<rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10 9.5v5l4.5-2.5z"/>']};
@@ -784,12 +802,12 @@ function blocoRedes(p){const ks=Object.keys(p.soc||{}).filter(k=>REDES[k]&&p.soc
  else ks.forEach(k=>{const R=REDES[k];h+=`<a class="soc" href="${esc(p.soc[k])}" target="_blank" rel="noopener"><span class="si ${R[1]}">${SVG(R[2],'#fff',22)}</span><span class="col" style="flex:1;min-width:0"><b>${R[0]}</b><span class="sm mut ell">${esc(handle(p.soc[k]))}</span></span>${I.chev('#4A6066',18)}</a>`});
  if(p.site)h+=`<a class="soc" href="${esc(p.site)}" target="_blank" rel="noopener"><span class="si site">${SVG('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>','#fff',22)}</span><span class="col" style="flex:1;min-width:0"><b>Site oficial</b><span class="sm mut ell">${esc(p.site.replace(/^https?:\/\/(www\.)?/,'').replace(/\/$/,''))}</span></span>${I.chev('#4A6066',18)}</a>`;
  if(/doctoralia/.test(p.f||''))h+=`<a class="soc" href="${esc(p.f)}" target="_blank" rel="noopener"><span class="si dc">${I.steth('#fff',22)}</span><span class="col" style="flex:1"><b>Doctoralia</b><span class="sm mut">Perfil, preços e agenda</span></span>${I.chev('#4A6066',18)}</a>`;
- if(!isOnline(p))h+=`<a class="soc" href="${gplace(p)}" target="_blank" rel="noopener"><span class="si gm">${PINSVG('#EA4335').replace('width="30" height="38"','width="20" height="26"')}</span><span class="col" style="flex:1"><b>Google Maps</b><span class="sm mut">Fotos, avaliações e horários</span></span>${I.chev('#4A6066',18)}</a>`;
+ if(false)h+=`<a class="soc" href="${gplace(p)}" target="_blank" rel="noopener"><span class="si gm">${PINSVG('#EA4335').replace('width="30" height="38"','width="20" height="26"')}</span><span class="col" style="flex:1"><b>Google Maps</b><span class="sm mut">Fotos, avaliações e horários</span></span>${I.chev('#4A6066',18)}</a>`;
  return `<div class="card"><div class="row between"><h2 class="h3">Redes sociais e links</h2>${ks.length?'':'<span class="tag gray">Sem rede oficial</span>'}</div>${ks.length?'':'<p class="sm mut" style="margin:-.3rem 0 0">Não encontramos rede social oficial deste local. Veja os links abaixo.</p>'}<div class="col" style="gap:.5rem">${h}</div></div>`}
 function blocoAvaliacao(p){const g=p.g;
  return `<div class="card"><h2 class="h3">Avaliação ⭐</h2>${g?`<div class="rate"><span class="big">${String(g.v).replace('.',',')}</span><span class="col" style="gap:.2rem">${estrelas(g.v,20)}<span class="sm mut">${g.n?g.n.toLocaleString('pt-BR')+' avaliações · ':''}Google Maps · consultado em ${CFG.dataRef}${g.f?` (<a class="lnk" href="${esc(g.f)}" target="_blank" rel="noopener">fonte</a>)`:''}</span></span></div>`:`<p class="p mut">Ainda não registramos a nota deste local. Veja a nota atualizada no Google Maps.</p>`}
- <div class="acts wrap"><a class="btn" href="${gplace(p)}" target="_blank" rel="noopener">${I.search('#0B4F5C',18)} Ver avaliações</a><a class="btn teal" href="${gplace(p)}" target="_blank" rel="noopener">★ Avaliar no Google Maps</a></div>
- <span class="sm mut">As avaliações são feitas e atualizadas no próprio Google Maps. Lá, toque em <b>Avaliações</b> › <b>Escrever avaliação</b>.</span></div>`}
+ <a class="btn teal" href="${gplace(p)}" target="_blank" rel="noopener" style="flex:none">★ Ver e avaliar no Google Maps</a>
+ </div>`}
 function vLocal(){const p=byId(S.sel);if(!p)return vInicio();const d=dist(p),c=CATS[p.c],st=status(p),on=isOnline(p);
  BAR=`<div class="bar">${p.wa?`<button class="btn wa" data-act="wa" data-id="${p.id}" style="font-size:1rem">${ICW} Agendar pelo WhatsApp</button>`:on?`<a class="btn pri" href="${esc(p.url)}" target="_blank" rel="noopener">${I.video('#fff',20)} Agendar no serviço</a>`:p.t.length?`<button class="btn pri" data-act="ligar" data-id="${p.id}">${I.phone('#fff',20)} Ligar para agendar</button>`:`<button class="btn pri" data-act="rota" data-id="${p.id}">Ver como chegar</button>`}</div>`;
  return `<div style="position:relative" id="gal">${galeria(p)}</div>
@@ -799,21 +817,20 @@ function vLocal(){const p=byId(S.sel);if(!p)return vInicio();const d=dist(p),c=C
  <h1 style="margin:0;font-size:1.6rem;line-height:1.2;font-weight:800">${esc(p.n)}</h1>${p.sp?`<span style="font-size:.95rem;font-weight:700">${esc(p.sp)}${p.crm?` · <span class="mut" style="font-weight:600">${esc(p.crm)}</span>`:''}</span>`:''}
  ${on?'':`<span class="meta">${I.pin('#0B4F5C',16)}${esc(p.b)} · <b style="color:var(--ink)">${fkm(d)}</b> de ${esc(S.origin.n)}</span>`}</div>
  ${p.al?`<div class="info warn">${I.alert('#5E3B08',20)}<span>${esc(p.al)}</span></div>`:''}
- <div class="acts">${p.t.length?`<button class="btn" data-act="ligar" data-id="${p.id}">${I.phone('#0B4F5C',20)} Ligar</button>`:''}${on?`<a class="btn pri" href="${esc(p.url)}" target="_blank" rel="noopener">${I.video('#fff',20)} Acessar</a>`:`<button class="btn pri" data-act="rota" data-id="${p.id}">${I.route('#fff',20)} Como chegar</button>`}${S.a11y.ler?`<button class="round" data-act="ler" aria-label="Ouvir informações">${I.speaker('#0B4F5C',22)}</button>`:''}</div>
- ${blocoRedes(p)}
+ <div class="acts">${p.t.length&&p.wa?`<button class="btn" data-act="ligar" data-id="${p.id}">${I.phone('#0B4F5C',20)} Ligar</button>`:''}${on?`<a class="btn pri" href="${esc(p.url)}" target="_blank" rel="noopener">${I.video('#fff',20)} Acessar</a>`:`<button class="btn pri" data-act="rota" data-id="${p.id}">${I.route('#fff',20)} Como chegar</button>`}${S.a11y.ler?`<button class="round" data-act="ler" aria-label="Ouvir informações">${I.speaker('#0B4F5C',22)}</button>`:''}</div>
  ${blocoAvaliacao(p)}
- ${on?'':`<div class="card"><div class="row between"><h2 class="h3">Mapa</h2><a class="lnk sm" href="${gplace(p)}" target="_blank" rel="noopener">Abrir no Google Maps</a></div>
- <div class="mapwrap" style="height:14.5rem"><iframe title="Mapa do Google de ${esc(p.n)}" src="https://maps.google.com/maps?q=${enc(limpaEnd(p.e))}&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:0;width:100%;height:100%"></iframe></div>
- <span class="sm mut">${p.geo&&GEO[p.id]?'Endereço confirmado no OpenStreetMap.':'Confirmando a posição exata pelo endereço…'}</span></div>`}
- <div class="card"><h2 class="h3">Sobre</h2><p class="p">${esc(p.d)}</p><div class="meta">${p.s.map(x=>`<span class="tag gray">${esc(x)}</span>`).join('')}</div></div>
- <div class="card"><h2 class="h3">${on?'Como funciona':'Endereço'}</h2><p class="p">${esc(p.e)}</p>
- ${on?'':`<button class="rt-field" data-act="rota" data-id="${p.id}">${I.route('#0B4F5C',22)}<span class="col" style="flex:1"><b style="font-size:.95rem">Distância e transporte</b><span class="sm mut">Saindo de ${esc(S.origin.n)}</span></span>${I.chev('#0B4F5C',20)}</button>`}</div>
- <div class="card"><h2 class="h3">Horário de funcionamento</h2><p class="p">${esc(p.hr)}</p><span class="sm mut">${st.k==='?'&&!on?'Não foi possível confirmar o horário em fonte oficial. Ligue antes de ir.':'Status calculado pelo horário de Brasília.'}</span></div>
- <div class="card"><h2 class="h3">Contato e pagamento</h2><div>
- ${p.t.length?p.t.map(t=>`<div class="kv"><span class="mut">Telefone</span><a href="${telHref(t)}" style="font-weight:800;text-align:right">${esc(t)}</a></div>`).join(''):'<div class="kv"><span class="mut">Telefone</span><span>Não encontrado</span></div>'}
+ ${blocoRedes(p)}
+ <div class="card"><h2 class="h3">${I.clock('#0B4F5C',20)} Horário</h2><p class="p">${esc(p.hr)}</p>${st.k==='?'&&!on?'<span class="sm mut">Horário não confirmado. Ligue antes de ir.</span>':''}</div>
+ <div class="card"><h2 class="h3">${on?I.video('#0B4F5C',20)+' Como funciona':I.pin('#0B4F5C',20)+' Endereço'}</h2><p class="p">${esc(p.e)}</p>
+ ${on?'':`<div class="mapwrap" style="height:13rem"><iframe title="Mapa do Google de ${esc(p.n)}" src="https://maps.google.com/maps?q=${enc(limpaEnd(p.e))}&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:0;width:100%;height:100%"></iframe></div>
+ <button class="btn pri" data-act="rota" data-id="${p.id}" style="flex:none">${I.route('#fff',20)} Ver distância e transporte</button>`}</div>
+ <details class="faq"><summary>Mais informações</summary>
+ <p>${esc(p.d)}</p><div class="meta" style="margin-bottom:1rem">${p.s.map(x=>`<span class="tag gray">${esc(x)}</span>`).join('')}</div>
+ ${p.t.length?p.t.map(t=>`<div class="kv"><span class="mut">Telefone</span><a href="${telHref(t)}" style="font-weight:800;text-align:right">${esc(t)}</a></div>`).join(''):''}
  <div class="kv"><span class="mut">WhatsApp</span><b style="text-align:right">${p.wa?esc(p.wn):'Não divulgado'}</b></div>
- <div class="kv"><span class="mut">Atendimento</span><b style="text-align:right">${esc(p.cv)}</b></div>${p.prt?`<div class="kv"><span class="mut">Preço</span><b style="text-align:right">${esc(p.prt)}</b></div>`:''}</div></div>
- <p class="sm mut" style="margin:0">Fonte: <a href="${esc(p.f)}" target="_blank" rel="noopener" class="lnk">${esc(p.f.replace(/^https?:\/\/(www\.)?/,'').split('/')[0])}</a> · dados de ${CFG.dataRef}. Confirme por telefone antes de ir.</p></section></div>`}
+ <div class="kv"><span class="mut">Atendimento</span><b style="text-align:right">${esc(p.cv)}</b></div>${p.prt?`<div class="kv"><span class="mut">Preço</span><b style="text-align:right">${esc(p.prt)}</b></div>`:''}
+ <p class="sm">Fonte: <a href="${esc(p.f)}" target="_blank" rel="noopener" class="lnk">${esc(p.f.replace(/^https?:\/\/(www\.)?/,'').split('/')[0])}</a> · dados de ${CFG.dataRef}. Confirme por telefone antes de ir.</p></details>
+</section></div>`}
 
 /* ---- rota ---- */
 function vRota(){const o=S.origin,d=S.dest;
@@ -896,7 +913,7 @@ const PGS={
  <div class="card"><h2 class="h3">Busca por voz</h2><p class="p">${SR?'Disponível: toque no microfone no topo de qualquer tela ou dentro das buscas e diga, por exemplo, "cardiologista" ou "hemograma".':'Este navegador não oferece busca por voz. No Android, use o Google Chrome.'}</p>${TTS?`<button class="btn" data-act="testevoz" style="flex:none">${I.speaker('#0B4F5C',20)} Ouvir um exemplo</button>`:''}</div>`],
  ajuda:['Ajuda','Perguntas frequentes',()=>FAQ.map(([q,a])=>`<details class="faq"><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')],
  contato:['Fale conosco','Dúvidas, sugestões e correções',()=>`<div class="card"><p class="p">Fale com a equipe do Pax - Saúde. Respondemos em dias úteis.</p><div class="kv"><span class="mut">Empresa</span><b>${esc(CFG.empresa)}</b></div><div class="kv"><span class="mut">E-mail</span><b>${esc(CFG.email)}</b></div><a class="btn pri" href="mailto:${/@/.test(CFG.email)?CFG.email:''}?subject=${enc('Pax - Saúde: contato')}">${I.mail('#fff',20)} Escrever e-mail</a></div><div class="info warn">${I.alert('#5E3B08',20)}<span>O Pax não faz atendimento médico. Em emergência, ligue 192.</span></div>`],
- clinicas:['Para clínicas e médicos','Apareça no Pax ou corrija seus dados',()=>`<div class="card"><h2 class="h3">Seu local já pode estar aqui</h2><p class="p">Listamos ${LOC.length} locais em São Paulo com dados públicos. Para corrigir endereço, horário, WhatsApp oficial, fotos ou redes sociais, fale com a gente.</p>${['Cadastro gratuito na versão atual','Botão de WhatsApp com mensagem pronta','Rota, mapa e nota do Google Maps'].map(t=>`<div class="row">${I.shield('#14A39A',20)}<span class="p">${t}</span></div>`).join('')}<a class="btn pri" href="mailto:${/@/.test(CFG.email)?CFG.email:''}?subject=${enc('Pax - Saúde: cadastro de clínica')}">${I.brief('#fff',20)} Pedir cadastro ou correção</a></div>`],
+ clinicas:['Para clínicas e médicos','Apareça no Pax ou corrija seus dados',()=>`<div class="card"><h2 class="h3">Seu local já pode estar aqui</h2><p class="p">Listamos ${LOC.length} locais em São Paulo com dados públicos. Para corrigir endereço, horário, WhatsApp oficial, fotos ou redes sociais, fale com a gente.</p>${['Cadastro gratuito na versão atual','Botão de WhatsApp com mensagem pronta','Rota, mapa e nota do Google Maps','Médicos: envie sua foto profissional para aparecer no perfil'].map(t=>`<div class="row">${I.shield('#14A39A',20)}<span class="p">${t}</span></div>`).join('')}<a class="btn pri" href="mailto:${/@/.test(CFG.email)?CFG.email:''}?subject=${enc('Pax - Saúde: cadastro de clínica')}">${I.brief('#fff',20)} Pedir cadastro ou correção</a></div>`],
  termos:['Termos de Uso','Versão preliminar · '+CFG.dataRef,()=>`<div class="card"><p class="p sm mut">Rascunho para revisão jurídica. Empresa responsável: ${esc(CFG.empresa)}.</p>${[['1. O que é o Pax','O Pax - Saúde é um guia que ajuda a encontrar consultas e exames, ver como chegar e iniciar o agendamento pelo WhatsApp ou telefone do próprio local.'],['2. O que o Pax não faz','O Pax não presta serviço médico, não marca consultas em nome do usuário, não garante vagas, preços ou horários e não substitui orientação médica. Em emergência, ligue 192.'],['3. Informações dos locais','Os dados vêm de fontes públicas (sites oficiais, CNES, catálogos) e podem mudar. Confirme com o local antes de ir.'],['4. Links externos','WhatsApp, Google Maps, Waze, Uber, redes sociais e serviços de teleconsulta têm termos próprios.'],['5. Uso adequado','Não use o Pax para enviar mensagens falsas ou abusivas aos locais.'],['6. Alterações','Estes termos podem mudar; a data da versão fica no topo.']].map(([t,x])=>`<h2 class="h3">${t}</h2><p class="p">${x}</p>`).join('')}</div>`],
  privacidade:['Política de Privacidade','Lei Geral de Proteção de Dados (LGPD)',()=>`<div class="card"><p class="p sm mut">Rascunho para revisão jurídica. Controlador: ${esc(CFG.empresa)} · contato: ${esc(CFG.email)}.</p>${[['Dados que você informa','Nome, celular, dependentes (nome e parentesco), ponto de partida, favoritos e histórico de pedidos.'],['Onde ficam','Somente no armazenamento deste navegador (localStorage). O Pax não envia esses dados para servidor próprio.'],['Serviços externos','Para mapas, endereços, rotas e fotos, o navegador consulta OpenStreetMap/CARTO, Nominatim, OSRM, Mapillary, Wikimedia Commons e Google Maps. Esses serviços recebem o seu endereço IP e as coordenadas pesquisadas. A localização por GPS só é usada se você permitir.'],['WhatsApp','A mensagem só sai quando você toca em enviar no seu WhatsApp.'],['Seus direitos (art. 18 da LGPD)','Acessar, corrigir e apagar seus dados. Você pode editar o perfil ou apagar tudo em Perfil › Apagar meus dados.'],['Dados de saúde','O Pax não pede diagnóstico nem histórico médico. O nome do exame ou especialidade escolhido fica só no seu aparelho.']].map(([t,x])=>`<h2 class="h3">${t}</h2><p class="p">${x}</p>`).join('')}</div>`],
  emergencia:['Emergência','Ligue agora. Não espere agendar.',()=>`${[['192','SAMU','Ambulância e urgência médica','#B3261E'],['193','Bombeiros','Acidentes, resgate e incêndio','#B3261E'],['190','Polícia Militar','Violência e segurança','#0B4F5C'],['188','CVV','Apoio emocional, 24 horas, gratuito','#0B4F5C'],['136','Disque Saúde','Informações do SUS','#0B4F5C']].map(([n,t,s,c])=>`<a class="card" href="tel:${n}" style="flex-direction:row;align-items:center"><span class="lic" style="width:3.6rem;height:3.6rem;background:${c};color:#fff;font-weight:800;font-size:1.25rem">${n}</span><span class="col" style="flex:1"><b style="font-size:1.05rem">${t}</b><span class="sm mut">${s}</span></span>${I.phone(c,24)}</a>`).join('')}<button class="btn" data-act="atalho" data-k="ps" style="flex:none">${I.build('#0B4F5C',20)} Ver pronto-socorro 24h perto</button>`],
@@ -983,7 +1000,7 @@ function render(anim){matarMapas();BAR='';const v=S.view,app=$('app');
  if(anim){app.classList.remove('enter');void app.offsetWidth;app.classList.add('enter')}
  if(v==='buscar')renderRes();
  if(v==='itens')renderItens();
- if(v==='resultados'&&S.flow.modo!=='online')mapaResultados('mapRes',resultadosFlow().filter(p=>!isOnline(p)));
+ if(v==='resultados'&&S.flow.modo!=='online'&&S.showMap)mapaResultados('mapRes',resultadosFlow().filter(p=>!isOnline(p)));
  if(v==='rota')posRota();
  if(v==='local'){const p=byId(S.sel);ligaGaleria();if(p){pedirFotos(p);if(!p.geo&&!isOnline(p)){const la=p.la;refinar(p).then(()=>{if(S.view==='local'&&S.sel===p.id&&p.la!==la)render()})}}}
  observar()}
@@ -1021,6 +1038,8 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
  case'tg':S[t.dataset.k]=!S[t.dataset.k];render();break;
  case'sort':S.sort=t.dataset.k;render();break;
  case'vis':S.map=t.dataset.k==='mapa';render();break;
+ case'showF':S.showF=!S.showF;render();break;
+ case'showMap':S.showMap=!S.showMap;render();break;
  case'rmap':S.rmap=t.dataset.k;render();break;
  case'rmode':S.rmode=t.dataset.k;render();break;
  case'fav':{const i=S.favs.indexOf(id);if(i>=0)S.favs.splice(i,1);else S.favs.push(id);LS.set('favs',S.favs);render();toast(i>=0?'Removido dos favoritos':'Salvo nos favoritos');break}

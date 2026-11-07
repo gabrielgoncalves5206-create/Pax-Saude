@@ -228,6 +228,9 @@ const REFS=[
  set([33],{site:'https://www.dimagem-unineuro.com.br'});
  set([23],{site:'https://www.hermespardini.com.br',foto:'https://api-site.hermespardini.com.br/uploads/img_highlight_desktop_2c1d11cd2f.jpg',fotoRede:1});
  set([65],{g:{v:3.7,n:1016}});set([63],{g:{v:3.8,n:244}});set([67],{g:{v:3.9,n:375}});set([51],{g:{v:4.8,n:null},site:'https://www.einstein.br'});
+ set([29,30,31,32,122],{wa:'551131790822',wn:'WhatsApp da central Fleury'});
+ set([52,125,126],{wa:'5511992563778',wn:'WhatsApp oficial do Sírio-Libanês (menu de atendimento)'});
+ set([101],{foto:'https://cdn.buttercms.com/6NI9voaS88DfxFOSK4cw',fotoRede:1,wa:'551141181339',wn:'WhatsApp oficial da rede dr.consulta'});
  const GF='https://comerciosaopaulo.com.br/?p=13996';
  [[51,4.8],[52,4.7],[53,4.6],[54,4.3],[57,4.5],[111,4.5],[62,4.6],[58,4.4]].forEach(([id,v])=>set([id],{g:{v,n:null,f:GF}}));
  const H2=(d,a,f)=>({d,a,f});const IGd=IG('delbonimedicinadiagnostica');
