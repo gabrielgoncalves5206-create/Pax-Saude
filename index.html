@@ -1637,11 +1637,11 @@ card=function(p){const h=_card(p);return inclusivoDe(p).length?h.replace('<span 
 mini=function(p){const h=_mini(p);return inclusivoDe(p).length?h.replace('<span class="bdg">','<span class="incl-dot pin" title="Atendimento inclusivo" aria-label="Atendimento inclusivo"></span><span class="bdg">'):h};
 
 /* ---------- Notas do Google (gravadas pela função pax-google no Supabase) ---------- */
-function aplicarGoogle(p,x){if(!p||x.google_nota==null)return;const d=x.google_atualizado?new Date(x.google_atualizado).toLocaleDateString('pt-BR',{month:'short',year:'numeric'}).replace('.',''):'';
+function aplicarGoogle(p,x){if(!p)return;if(x.google_place_id)p.gid=x.google_place_id;if(x.google_nota==null)return;const d=x.google_atualizado?new Date(x.google_atualizado).toLocaleDateString('pt-BR',{month:'short',year:'numeric'}).replace('.',''):'';
  p.g={v:+x.google_nota,n:x.google_qtd||0,d,f:x.google_place_id?'https://www.google.com/maps/place/?q=place_id:'+x.google_place_id:undefined};if(x.google_place_id)p.gid=x.google_place_id}
 (function(){if(typeof fetch!=='function')return;
- fetch(SBU+'/rest/v1/pax_locais?select=id,google_place_id,google_nota,google_qtd,google_atualizado&google_nota=not.is.null',{headers:SBH}).then(r=>r.ok?r.json():[]).then(rs=>{(rs||[]).forEach(x=>aplicarGoogle(byId(+x.id),x))}).catch(()=>{});
- fetch(SBU+'/rest/v1/pax_extra?select=cnes,google_place_id,google_nota,google_qtd,google_atualizado&google_nota=not.is.null&limit=5000',{headers:SBH}).then(r=>r.ok?r.json():[]).then(rs=>{const t=()=>{(rs||[]).forEach(x=>aplicarGoogle(byId(10000000+(+x.cnes)),x))};t();setTimeout(t,8000)}).catch(()=>{})})();
+ fetch(SBU+'/rest/v1/pax_locais?select=id,google_place_id,google_nota,google_qtd,google_atualizado&google_place_id=not.is.null',{headers:SBH}).then(r=>r.ok?r.json():[]).then(rs=>{(rs||[]).forEach(x=>aplicarGoogle(byId(+x.id),x))}).catch(()=>{});
+ fetch(SBU+'/rest/v1/pax_extra?select=cnes,google_place_id,google_nota,google_qtd,google_atualizado&google_place_id=not.is.null&limit=5000',{headers:SBH}).then(r=>r.ok?r.json():[]).then(rs=>{const t=()=>{(rs||[]).forEach(x=>aplicarGoogle(byId(10000000+(+x.cnes)),x))};t();setTimeout(t,8000)}).catch(()=>{})})();
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
 
