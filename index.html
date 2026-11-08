@@ -1649,8 +1649,8 @@ function aplicarGoogle(p,x){if(!p)return;if(x.google_place_id)p.gid=x.google_pla
  fetch(SBU+'/rest/v1/pax_extra?select=cnes,google_place_id,google_nota,google_qtd,google_atualizado&google_place_id=not.is.null&limit=5000',{headers:SBH}).then(r=>r.ok?r.json():[]).then(rs=>{const t=()=>{(rs||[]).forEach(x=>aplicarGoogle(byId(10000000+(+x.cnes)),x))};t();setTimeout(t,8000)}).catch(()=>{})})();
 /* Botões Google Maps e Uber logo após a imagem (só links, sem cota) */
 function ptDe(p){return {k:'unidade',id:p.id,n:p.n,e:p.e,la:p.la,lo:p.lo}}
-function btnGmaps(href){return `<a class="btn-gm" href="${href}" target="_blank" rel="noopener"><svg width="18" height="22" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 0C5.4 0 0 5.3 0 11.9 0 20.8 12 30 12 30s12-9.2 12-18.1C24 5.3 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="4.6" fill="#fff"/></svg>Google Maps</a>`}
-function btnUber(href){return `<a class="btn-uber" href="${href}" target="_blank" rel="noopener">Uber</a>`}
+function btnGmaps(href){return `<a class="btn-gm" href="${href}" target="_blank" rel="noopener" aria-label="Abrir no Google Maps"><img src="img/gmaps.png" alt="Google Maps" style="height:1.35rem;width:auto"></a>`}
+function btnUber(href){return `<a class="btn-uber" href="${href}" target="_blank" rel="noopener" aria-label="Chamar um Uber"><img src="img/uber.png" alt="Uber" style="height:1.15rem;width:auto"></a>`}
 function botoesMapa(p){if(isOnline(p)||p.la==null)return'';return `<div class="mapbtns">${btnGmaps(gplace(p))}${btnUber(uber(ptDe(p)))}</div>`}
 const _vLocal3=VIEWS.local;VIEWS.local=()=>{const h=_vLocal3();const p=byId(S.sel);if(!p)return h;const k='<section class="sec" style="padding-top:1.2rem">';return h.replace(k,k+botoesMapa(p))};
 /* ============ INÍCIO ============ */
