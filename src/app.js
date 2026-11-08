@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'4.2',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'4.3',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -205,7 +205,7 @@ function vInicio(){
  const n=primeiroNome();
  const at=[['ps','Pronto-socorro 24h','ambul','#B3261E'],['tele','Consulta por vídeo','video','#0E6B6B'],['wa','Com WhatsApp','wa2','#128C4A'],['gps','Perto de mim','gps','#2563EB'],['sus','SUS gratuito','shield','#1C5BA8'],['favs','Favoritos','heart','#C62E4A'],['emerg','Emergência','alert','#B3261E']];
  return `<section class="hero"><h1 class="hello">${n?'Olá, '+esc(n)+'!':'Olá!'} <small>O que você precisa hoje?</small></h1>${origemChip()}${buscaForm('qh','Especialidade, exame, local ou bairro','')}</section>
- <section class="sec">${cubosTipo(true)}</section>
+ <section class="sec">${filtrosRapidos()}${cubosTipo(true)}</section>
  <section class="sec adv"><h2 class="h2">Atalhos</h2><div class="hscroll">${at.map(([k,t,ic,c])=>`<button class="short" data-act="atalho" data-k="${k}"><i>${I[ic](c,26)}</i>${t}</button>`).join('')}</div></section>
  <section class="sec"><a class="info red" href="tel:192" style="align-items:center">${I.ambul('#B3261E',28)}<span style="flex:1"><b>Emergência? Ligue 192 (SAMU)</b><br>Bombeiros: 193 · Não espere agendar.</span>${I.phone('#B3261E',22)}</a></section>
  <section class="sec adv"><div class="row between"><h2 class="h2">Destaques perto de você</h2><button class="lnk sm" data-act="nav" data-v="buscar">Ver todos</button></div><div class="hscroll">${dest.map(mini).join('')}</div></section>
@@ -248,7 +248,7 @@ function controles(online){const nf=['fOpen','f24','fWa','fConv','fSus'].filter(
 function notaOrdem(){if(S.sort==='preco')return'Só alguns locais publicam preço; os demais aparecem depois, por distância.';if(S.sort==='nota')return'Pela nota do Google Maps (pesquisada em '+CFG.dataRef+') onde encontramos; os demais aparecem depois, por distância.';return''}
 function vResultados(){const f=S.flow;const online=f.modo==='online';const r=resultadosFlow();
  const sub=(f.modo==='presencial'?'Presencial':f.modo==='online'?'Online':f.modo==='lab'?'Laboratorial':'Imagem')+' · '+r.length+' '+(r.length===1?'opção':'opções');
- return phead(itemNome(),sub)+`<section class="sec">${online?'':origemChip(true)}${controles(online)}
+ return phead(itemNome(),sub)+`<section class="sec">${online?'':origemBloco()}${controles(online)}
  ${notaOrdem()?`<p class="sm mut" style="margin:0">${esc(notaOrdem())}</p>`:''}
  ${online?`<div class="info">${I.video('#0A4B44',20)}<span>Consultas por vídeo: toque em <b>Acessar</b> para abrir o serviço ou o perfil do médico.</span></div>`:(S.showMap?`<div class="mapwrap"><div id="mapRes" class="leaf" style="height:18rem"></div></div>`:'')}
  ${r.length?`<div class="grid">${r.slice(0,S.lim||30).map(card).join('')}</div>${r.length>(S.lim||30)?`<button class="btn" style="width:100%;margin-top:.6rem" data-act="mais">Mostrar mais (${r.length-(S.lim||30)} restantes)</button>`:''}`:'<div class="empty">Nenhum local com esses filtros. Tire um filtro para ver mais.</div>'}</section>`}
@@ -450,6 +450,7 @@ function compor(id){const p=byId(id);if(!p||!p.wa)return;const f=S.flow;
  WA={custom:false,txt:'',id,tipo,item:nm&&ops.includes(nm)?nm:ops[0],per:'manha',pag:/conv|plano/i.test(p.cv)&&!/particular/i.test(p.cv)?'convenio':'particular',plano:'',nome:pc?pc.nome:'',rel:'',pac:0,quando:'nesta semana',online:f.modo==='online'};desenharWA()}
 function desenharWA(){const p=byId(WA.id);const seg=(k,ops)=>`<div class="seg" role="group">${ops.map(([v,t])=>`<button type="button" data-act="waset" data-k="${k}" data-v="${v}" aria-pressed="${WA[k]===v}">${t}</button>`).join('')}</div>`;const txt=WA.custom?WA.txt:msgWA(p,WA);const pcs=pacientes();
  abrirModal(`<div class="row" style="gap:.75rem"><span class="round wa" style="width:3.2rem;height:3.2rem;border-radius:50%">${ICW}</span><span class="col" style="flex:1;min-width:0"><h2 class="h2">Agendar pelo WhatsApp</h2><span class="sm mut ell">${esc(p.n)}</span></span>${xBtn}</div>
+ ${mapaWAHtml()}
  <label class="f">Quero agendar${seg('tipo',[['consulta','Consulta'],['exame','Exame']])}</label>
  <label class="f">${WA.tipo==='exame'?'Exame':'Especialidade'}<select class="inp" data-live="waitem">${opcoesItem(p,WA.tipo).map(x=>`<option ${x===WA.item?'selected':''}>${esc(x)}</option>`).join('')}</select></label>
  ${pcs.length?`<label class="f">Paciente<select class="inp" data-live="wapac">${pcs.map((x,i)=>`<option value="${i}" ${WA.pac===i?'selected':''}>${esc(x.nome)}${x.rel?' · '+esc(x.rel):' (você)'}</option>`).join('')}<option value="-1" ${WA.pac===-1?'selected':''}>Outra pessoa</option></select></label>`:''}
@@ -461,8 +462,8 @@ function desenharWA(){const p=byId(WA.id);const seg=(k,ops)=>`<div class="seg" r
  ${preparoBox()}
  ${anexosBox()}
  <div class="col" style="gap:.4rem"><div class="row between"><label for="wabubble" class="sm" style="font-weight:800;color:#33484D">Sua mensagem (pode editar)</label>${WA.custom?'<button type="button" class="lnk sm" data-act="wareset">Restaurar texto</button>':''}</div><div class="chat"><textarea id="wabubble" class="bubble" data-live="watxt" rows="9" style="width:calc(100% - 1.5rem);border:0;font:inherit;resize:vertical;outline:none;color:#111">${esc(txt)}</textarea></div><span class="sm mut">Toque no texto para mudar o que quiser antes de enviar.</span></div>
- <a class="btn wa" id="wago" href="${waUrl(p,txt)}" target="_blank" rel="noopener" data-act="wago" style="min-height:3.4rem;font-size:1.02rem;flex:none">${ICW} ${WA.files&&WA.files.length?'1. Enviar mensagem':'Abrir WhatsApp'}</a>${WA.files&&WA.files.length?`<button type="button" class="btn wa" data-act="wafotos" style="min-height:3.4rem;flex:none">${ICW} 2. Enviar ${WA.files.length===1?'a imagem':'as '+WA.files.length+' imagens'}</button><span class="sm mut">No passo 2, escolha o WhatsApp e depois a conversa de ${esc(p.n)} (ela fica no topo).</span>`:''}
- <span class="sm mut" style="text-align:center">${esc(p.wn)} · +${p.wa.replace(/^55(\d\d)(\d+)(\d{4})$/,'55 ($1) $2-$3')}. A mensagem sai do seu WhatsApp; o Pax não envia nada sozinho.</span>`,'Agendar pelo WhatsApp')}
+ ${WA.files&&WA.files.length?`<button type="button" class="btn wa" data-act="waenviar" style="min-height:3.4rem;font-size:1.02rem;flex:none">${ICW} ${rotuloEnvio()}</button><span class="sm mut">Escolha o WhatsApp e depois a conversa de ${esc(p.n)}. O texto também fica copiado, caso precise colar.</span><a id="wago" hidden href="${waUrl(p,txt)}"></a>`:`<a class="btn wa" id="wago" href="${waUrl(p,txt)}" target="_blank" rel="noopener" data-act="wago" style="min-height:3.4rem;font-size:1.02rem;flex:none">${ICW} Abrir WhatsApp</a>`}
+ <span class="sm mut" style="text-align:center">${esc(p.wn)} · +${p.wa.replace(/^55(\d\d)(\d+)(\d{4})$/,'55 ($1) $2-$3')}. A mensagem sai do seu WhatsApp; o Pax não envia nada sozinho.</span>`,'Agendar pelo WhatsApp');setTimeout(mapaWA,80)}
 function atualizaWA(){const p=byId(WA.id);const t=WA.custom?WA.txt:msgWA(p,WA);const b=$('wabubble'),a=$('wago');if(b&&!WA.custom)b.value=t;if(a)a.href=waUrl(p,t)}
 function ligar(id){const p=byId(id);abrirModal(`<div class="row between"><h2 class="h2">Ligar para ${esc(p.n)}</h2>${xBtn}</div>
  ${p.t.map(t=>`<div class="card" style="flex-direction:row;align-items:center"><span class="col" style="flex:1;min-width:0"><b style="font-size:1.15rem">${esc(t)}</b><span class="sm mut">${esc(p.hr)}</span></span><a class="btn pri" href="${telHref(t)}" style="flex:none">${I.phone('#fff',18)} Ligar</a><button class="btn" data-act="copiar" data-v="${esc(t.replace(/\s*\([^)]*\)\s*$/,''))}" style="flex:none">Copiar</button></div>`).join('')}`,'Ligar')}
@@ -700,10 +701,112 @@ function cnesParaLocal(r){const x=r.dados,cat=r.cat;if(cat==='online'||x.geoFix|
   esp:cat==='presencial'?esp:[],img,lab:cat==='lab',on:cat==='online'?['clinica']:[],s,soc:{},fotos2:[],ordemCnes:r.ordem}}
 function cnesDuplicado(q){const GEN=/^(hospital|clinica|clinicas|centro|medico|medica|medicina|saude|diagnostico|diagnosticos|laboratorio|unidade|instituto|especialidades|integrada|servicos|paulo|paulista|imagem|analises|assistencia)$/;const nq=norm(q.n).split(/[^a-z0-9]+/).filter(w=>w.length>=5&&!GEN.test(w));return LOC.some(p=>{if(p.fonteCnes||p.la==null||q.la==null)return false;const d=km(p,q);if(d==null||d>0.08)return false;const np=norm(p.n);return nq.some(w=>np.includes(w))||norm(limpaEnd(p.e)).split(',')[0]===norm(q.e).split(',')[0]})}
 function aplicarCnes(rows){if(!Array.isArray(rows)||!rows.length)return 0;const ids=new Set(LOC.map(p=>p.id));let n=0;rows.forEach(r=>{const q=cnesParaLocal(r);if(!q||ids.has(q.id)||cnesDuplicado(q))return;LOC.push(q);ids.add(q.id);n++});return n}
-(function(){const cache=LS.get('cnes',null);if(cache&&cache.rows)aplicarCnes(cache.rows);
+(function(){LS.del('cnes');const cache=LS.get('cnes2',null);if(cache&&cache.rows)aplicarCnes(cache.rows);
  if(typeof fetch!=='function')return;if(cache&&cache.em&&Date.now()-cache.em<3*864e5)return;
  const U='https://cckywhtpnjhlwqslmlxz.supabase.co',K='sb_publishable_yv9jTgQHXV1Diy_xPkk_eg_qSt_8roq';
- fetch(U+'/rest/v1/pax_extra?select=cat,ordem,dados&order=ordem.asc&limit=3000',{headers:{apikey:K,Authorization:'Bearer '+K}}).then(r=>r.ok?r.json():null).then(rows=>{if(!rows||!rows.length)return;LS.set('cnes',{em:Date.now(),rows});const n=aplicarCnes(rows);if(n&&!['lembrete','perfil','pg'].includes(S.view))render()}).catch(()=>{})})();
+ (async()=>{try{let rows=[],de=0;for(;;){const r=await fetch(U+'/rest/v1/pax_extra?select=cat,ordem,dados&order=ordem.asc,cnes.asc&offset='+de+'&limit=1000',{headers:{apikey:K,Authorization:'Bearer '+K}});if(!r.ok)break;const pg=await r.json();rows=rows.concat(pg);if(pg.length<1000)break;de+=1000}
+ if(!rows.length)return;LS.set('cnes2',{em:Date.now(),rows});const n=aplicarCnes(rows);if(n&&!['lembrete','perfil','pg'].includes(S.view)&&!document.querySelector('#modal .sheet'))render()}catch(e){}})()})();
 
+/* =====================================================================
+   v4.3: sintomas, voz em todos os campos, filtros rápidos, mapa no WhatsApp,
+   endereço nos resultados, envio único com anexos, modo leitura por toque
+   ===================================================================== */
+/* ---------- Busca por sintoma ---------- */
+const SINTOMAS=[
+ ['pele|mancha|acne|espinha|coceira|cabelo|unha|verruga|pinta|micose|caspa|vermelhidao na pele|ferida','dermato'],
+ ['peito|coracao|palpitac|pressao alta|hipertens|falta de ar|desmaio|batimento','cardio'],
+ ['joelho|costas|coluna|ombro|tornozelo|quadril|fratura|torci|torcao|osso|lombar|tendin|punho|cotovelo|dor no pe|dor nas pernas','orto'],
+ ['olho|vista|visao|enxerg|oculos|lente|catarata|embacad','oftalmo'],
+ ['ouvido|zumbido|garganta|nariz|sinusite|rinite|rouquidao|amigdal|surdez|escutar','otorrino'],
+ ['estomago|azia|gastrite|refluxo|intestin|diarreia|prisao de ventre|figado|barriga|enjoo|vomit','gastro'],
+ ['menstrua|gravidez|gravida|gestante|pre natal|prenatal|mama|seio|anticoncep|corrimento|utero|ovario|menopausa|preventivo|papanicolau','gineco'],
+ ['dor de cabeca|enxaqueca|tontura|formigamento|convuls|memoria|esquec|tremor|avc|derrame','neuro'],
+ ['ansiedade|depressao|insonia|panico|estresse|tristeza|humor|dormir|tdah','psiq'],
+ ['tireoide|diabetes|glicose|obesidade|emagrec|hormonio|colesterol|engordar|peso','endo'],
+ ['urina|xixi|prostata|rins|rim |calculo|pedra no rim|bexiga|erecao','uro'],
+ ['crianca|bebe|meu filho|minha filha|infantil','pedi'],
+ ['febre|gripe|resfriado|tosse|dor no corpo|mal estar|check up|checkup|rotina|cansaco|fraqueza','clinica']];
+function sintomaPara(t){t=' '+norm(t).replace(/[^a-z0-9 ]/g,' ')+' ';if(t.trim().length<3)return[];const r=[];for(const[re,k]of SINTOMAS)if(new RegExp(re).test(t)&&!r.includes(k))r.push(k);return r}
+function renderItens(){const box=$('itens');if(!box)return;const t=norm(S.qi);const f=S.flow;const c=f.tipo==='consulta',cor=c?'#B02A62':'#1C5BA8',bg=c?'#FDE8F0':'#E5EEFC';
+ const sug=c?sintomaPara(S.qi):[];const todos=itensLista();
+ let r=todos.filter(x=>!t||norm(x.t+' '+x.s).includes(t)||sug.includes(x.k));
+ r.sort((a,b)=>(sug.includes(b.k)?1:0)-(sug.includes(a.k)?1:0));
+ const aviso=sug.length?`<div class="info" style="grid-column:1/-1">${I.info('#0A4B44',20)}<span>Pelo que você descreveu (“${esc(S.qi.trim())}”), procure: <b>${sug.map(k=>esc(ESP[k][0])).join(', ')}</b>. Em caso de dor forte, falta de ar ou sangramento, procure um pronto-socorro.</span></div>`:'';
+ box.innerHTML=aviso+(r.length?r.map(x=>`<button class="tile wide" data-act="item" data-k="${x.k}"${sug.includes(x.k)?' style="border-color:'+cor+';box-shadow:0 0 0 2px '+cor+'33"':''}><span class="lic" style="background:${bg}">${I[x.ic](cor,22)}</span><span class="col" style="gap:.25rem;flex:1;min-width:0"><b>${esc(x.t)}${sug.includes(x.k)?' <span class="tag" style="background:'+bg+';color:'+cor+'">Indicado</span>':''}</b><span class="sm mut">${esc(x.s)}</span><span class="sm" style="font-weight:800;color:${cor}">${x.n} ${x.n===1?'local':'locais'}</span></span></button>`).join(''):'<div class="empty" style="grid-column:1/-1">Nada encontrado. Tente falar ou escrever o que está sentindo, por exemplo “dor no joelho”.</div>')}
+
+/* ---------- Microfone em todos os campos de texto ---------- */
+let MICN=0;
+function micsEverywhere(){document.querySelectorAll('input[type=text],input[type=search],input:not([type]),input[type=email],textarea').forEach(el=>{
+ if(el.dataset.mic||el.closest('.search')||el.type==='hidden')return;el.dataset.mic='1';if(!SR)return;if(!el.id)el.id='campo'+(++MICN);
+ const b=document.createElement('button');b.type='button';b.className='micmini';b.dataset.act='vozc';b.dataset.alvo=el.id;b.setAttribute('aria-label','Falar em vez de digitar');b.innerHTML=I.mic('#fff',18);
+ const w=document.createElement('span');w.className='micwrap';el.parentNode.insertBefore(w,el);w.appendChild(el);w.appendChild(b)})}
+function vozCampo(id){if(!SR){toast('Voz indisponível neste navegador');return}const el=$(id);if(!el)return;try{const r=new SR();r.lang='pt-BR';r.interimResults=false;const b=document.querySelector(`[data-act="vozc"][data-alvo="${id}"]`);if(b)b.classList.add('on');toast('Pode falar…');
+ r.onresult=e=>{const t=e.results[0][0].transcript;el.value=el.tagName==='TEXTAREA'&&el.value.trim()?el.value.replace(/\s*$/,' ')+t:t;el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))};
+ r.onend=()=>{if(b)b.classList.remove('on')};r.onerror=()=>{if(b)b.classList.remove('on');toast('Não consegui ouvir. Tente de novo.')};r.start()}catch(e){toast('Não foi possível usar o microfone')}}
+try{new MutationObserver(()=>{micsEverywhere()}).observe(document.body,{childList:true,subtree:true})}catch(e){}
+
+/* ---------- Filtros rápidos acima de Consultas e Exames ---------- */
+function filtrosRapidos(){const it=[['gpsnow','Perto de mim',S.origin.k==='gps'],['fOpen','Aberto agora',S.fOpen],['f24','24 horas',S.f24],['fConv','Convênio',S.fConv],['fSus','SUS',S.fSus],['fWa','WhatsApp',S.fWa]];
+ return `<div class="fchips" role="group" aria-label="Filtros rápidos">${it.map(([k,t,on])=>`<button class="fchip" ${k==='gpsnow'?'data-act="gpsnow"':`data-act="tg" data-k="${k}"`} aria-pressed="${!!on}">${on?'✓ ':''}${t}</button>`).join('')}</div>`}
+
+/* ---------- Endereço nos resultados (editável) ---------- */
+function origemBloco(){const o=S.origin;if(o.k==='gps'||o.k==='geo'||o.id!=='r14')return origemChip(true);
+ return `<form class="card refform" data-form="refend"><label for="refq" class="sm" style="font-weight:800;color:#0A4B44">Endereço de Referência: de onde você vai sair?</label>
+ <div class="row" style="gap:.5rem"><input id="refq" class="inp" name="q" placeholder="Rua, número ou CEP" autocomplete="street-address" style="flex:1;min-width:0"><button class="btn pri" style="flex:none">Usar</button></div>
+ <button type="button" class="lnk sm" data-act="gpsnow">Usar minha localização atual</button><span class="sm mut">Agora calculando a partir de: ${esc(o.n)}.</span></form>`}
+async function usarEndereco(q){q=(q||'').trim();if(!q)return;toast('Procurando endereço…');const g=await geocode(/s(ã|a)o paulo/i.test(q)?q:q+', São Paulo - SP');
+ if(!g){toast('Não encontrei esse endereço. Tente com número ou CEP.');return}
+ S.origin={k:'geo',n:q,sub:(g.nome||'').split(',').slice(1,3).join(',').trim(),la:g.la,lo:g.lo};LS.set('origin',S.origin);render();toast('Endereço de Referência atualizado')}
+document.addEventListener('submit',e=>{const F=e.target;if(F.dataset&&F.dataset.form==='refend'){e.preventDefault();usarEndereco(F.elements.q.value)}},true);
+
+/* ---------- Mapa só antes de agendar pelo WhatsApp ---------- */
+let MAPAWA=null;
+function mapaWA(){const el=$('wamap');if(!el)return;try{if(MAPAWA)MAPAWA.remove()}catch(e){}MAPAWA=null;const p=byId(WA.id);if(!p||p.la==null){el.remove();return}
+ if(typeof window.L==='undefined'||!window.L.map){el.innerHTML='<div class="empty">O mapa precisa de internet.</div>';return}
+ const m=window.L.map(el,{zoomControl:false,attributionControl:true,scrollWheelZoom:false,dragging:true});MAPAWA=m;
+ window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap · © CARTO'}).addTo(m);
+ window.L.circleMarker([p.la,p.lo],{radius:10,color:'#fff',weight:3,fillColor:'#128C4A',fillOpacity:1}).addTo(m).bindTooltip(p.n,{permanent:false});
+ const b=[[p.la,p.lo]];if(S.origin.la!=null){window.L.circleMarker([S.origin.la,S.origin.lo],{radius:8,color:'#fff',weight:3,fillColor:'#2563EB',fillOpacity:1}).addTo(m).bindTooltip('Você');b.push([S.origin.la,S.origin.lo])}
+ if(b.length>1)m.fitBounds(b,{padding:[24,24],maxZoom:16});else m.setView(b[0],15)}
+function mapaWAHtml(){const p=byId(WA.id);if(!p||p.la==null||isOnline(p))return'';const d=dist(p);
+ return `<div class="col" style="gap:.35rem"><div id="wamap" class="leaf" style="height:11rem;border-radius:1rem" aria-label="Mapa do local"></div><div class="row between sm"><span class="mut ell" style="min-width:0">${esc(limpaEnd(p.e))}</span><span style="flex:none;font-weight:800">${d!=null?fkm(d)+' de você':''}</span></div><button type="button" class="btn" data-act="rota" data-id="${p.id}" style="flex:none">${I.route('#0B4F5C',20)} Como chegar</button></div>`}
+
+/* ---------- Envio único: mensagem + pedido + guia ---------- */
+function rotuloEnvio(){const ks=(WA.files||[]).map(x=>x.k);const a=[];if(ks.includes('waped'))a.push('Pedido Médico');if(ks.includes('waguia'))a.push('Guia');return 'Enviar mensagem com anexo de '+a.join(' e ')}
+async function enviarTudo(){const p=byId(WA.id);const txt=WA.custom?WA.txt:msgWA(p,WA);const fs=(WA.files||[]).map(x=>x.file);
+ try{if(navigator.clipboard)await navigator.clipboard.writeText(txt)}catch(e){}
+ try{if(navigator.canShare&&navigator.canShare({files:fs,text:txt})){await navigator.share({files:fs,text:txt});registrarEnvio();toast('Pronto! Confira a conversa no WhatsApp.');return}}catch(e){if(e&&e.name==='AbortError')return}
+ toast('Este aparelho não anexa direto. Abrimos o WhatsApp com a mensagem; toque no clipe 📎 para anexar.');try{window.open(waUrl(p,txt),'_blank')}catch(e){}registrarEnvio()}
+function registrarEnvio(){const p=byId(WA.id);S.hist.unshift({id:p.id,tipo:WA.tipo,item:WA.item,pac:WA.nome,data:new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}),ok:false});S.hist=S.hist.slice(0,40);LS.set('hist',S.hist);setTimeout(()=>{fechar();navBar()},300)}
+
+/* ---------- Voz mais natural ---------- */
+let VOZ=null;
+function escolherVoz(){if(!TTS)return;const vs=speechSynthesis.getVoices().filter(v=>/^pt[-_]BR/i.test(v.lang)||/portugu[eê]s.*brasil/i.test(v.name));if(!vs.length)return;
+ const pr=[/natural|neural|online/i,/google/i,/francisca|thalita|antonio|luciana|felipe/i];for(const re of pr){const v=vs.find(x=>re.test(x.name));if(v){VOZ=v;return}}VOZ=vs.find(v=>!v.localService)||vs[0]}
+if(TTS){escolherVoz();try{speechSynthesis.addEventListener('voiceschanged',escolherVoz)}catch(e){}}
+function falar(t){if(!TTS){toast('Leitura em voz alta indisponível neste navegador');return}try{speechSynthesis.cancel();if(!VOZ)escolherVoz();
+ String(t).split(/(?<=[.!?])\s+/).filter(Boolean).forEach(fr=>{const u=new SpeechSynthesisUtterance(fr);u.lang='pt-BR';if(VOZ)u.voice=VOZ;u.rate=1;u.pitch=1.05;speechSynthesis.speak(u)})}catch(e){}}
+function simples(t){return String(t||'').replace(/\s+/g,' ').replace(/[•·|]/g,', ').replace(/\bR\.\s/g,'Rua ').replace(/\bAv\.\s/g,'Avenida ').replace(/\bDr\.\s/g,'Doutor ').replace(/\bDra\.\s/g,'Doutora ').replace(/\bcj\.\s?/gi,'conjunto ')
+ .replace(/R\$\s?([\d.,]+)/g,'$1 reais').replace(/(\d+),(\d)\s?km/g,'$1 vírgula $2 quilômetros').replace(/(\d+)\s?km\b/g,'$1 quilômetros').replace(/(\d+)\s?m\b/g,'$1 metros').replace(/\bSUS\b/g,'S U S').replace(/\bCRM\b/g,'C R M').replace(/[✓★☆⭐📎]/g,'').replace(/\s*,\s*,/g,',').trim()}
+
+/* ---------- Modo leitura: toque no que quer ouvir ---------- */
+S.lendo=false;
+function lerTela(){S.lendo=!S.lendo;document.body.classList.toggle('lendo',S.lendo);document.querySelectorAll('.lido').forEach(x=>x.classList.remove('lido'));
+ let bar=$('lerbar');if(S.lendo){if(!bar){bar=document.createElement('div');bar.id='lerbar';bar.className='lerbar';bar.setAttribute('role','status');document.body.appendChild(bar)}
+  bar.innerHTML=`${I.speaker('#3A2600',22)}<span style="flex:1"><b>Modo leitura</b><br>Toque no que quer ouvir.</span><button data-act="ler" class="btn" style="flex:none">Sair</button>`;falar('Modo leitura ligado. Toque no que você quer ouvir. Para sair, toque em Sair.')}
+ else{if(bar)bar.remove();try{speechSynthesis.cancel()}catch(e){}toast('Modo leitura desligado')}}
+const ALVO_LEITURA='.card,.tile,.cube,.lrow,.info,.short,.fchip,.mini,.ref,.refform,.phead,h1,h2,h3,p,label,.btn,.chip,li,.kv,.empty,button,a';
+function textoLeitura(el){const c=el.closest('[data-id]');const id=c&&+c.dataset.id;const p=id&&byId(id);
+ if(p&&!(el.matches('button,a')&&el.dataset.act&&el.dataset.act!=='abrir')){const st=status(p);return `${p.n}. ${CATS[p.c].um}. ${st.t}. ${isOnline(p)?'Atendimento online.':'Fica em '+limpaEnd(p.e)+'. '+(dist(p)!=null?'A '+fkm(dist(p))+' de você.':'')} ${p.wa?'Dá para agendar pelo WhatsApp.':p.t.length?'Agende por telefone.':''} ${p.g?'Nota no Google: '+String(p.g.v).replace('.',' vírgula ')+' de 5.':''}`}
+ const lb=el.getAttribute('aria-label');const t=(el.innerText||el.textContent||'').trim();return lb&&(!t||t.length<3)?lb:(t||lb||'')}
+document.addEventListener('click',e=>{if(!S.lendo)return;if(e.target.closest('#lerbar'))return;if(e.target.closest('#fab'))return;
+ const el=e.target.closest(ALVO_LEITURA);if(!el||!el.closest('#app,#modal,#nav,#top'))return;e.preventDefault();e.stopPropagation();
+ document.querySelectorAll('.lido').forEach(x=>x.classList.remove('lido'));el.classList.add('lido');falar(simples(textoLeitura(el)).slice(0,700))},true);
+
+/* ---------- Ações novas ---------- */
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t||S.lendo)return;const a=t.dataset.act;
+ if(a==='vozc'){e.preventDefault();vozCampo(t.dataset.alvo)}
+ else if(a==='gpsnow'){e.preventDefault();toast('Buscando sua localização…');gpsAuto(false)}
+ else if(a==='waenviar'){e.preventDefault();enviarTudo()}});
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
