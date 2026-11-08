@@ -180,7 +180,7 @@ async function osrm(perfil,o,d){const k=[perfil,o.la,o.lo,d.la,d.lo].join();if(R
 function estMaisProx(pt){let best=null,bd=1e9;for(const e of EST){const d=km(pt,e);if(d<bd){bd=d;best=e}}return{e:best,d:bd}}
 function qtxt(pt){if(!pt)return'';if(pt.k==='unidade')return pt.e;if(pt.k==='gps'||pt.k==='geo')return pt.la+','+pt.lo;return pt.n+', São Paulo - SP'}
 const gmaps=(o,d,m)=>`https://www.google.com/maps/dir/?api=1&origin=${enc(qtxt(o))}&destination=${enc(qtxt(d))}&travelmode=${m}`;
-const gplace=p=>`https://www.google.com/maps/search/?api=1&query=${enc(p.n+', '+limpaEnd(p.e))}`;
+const gplace=p=>p.gid?'https://search.google.com/local/writereview?placeid='+encodeURIComponent(p.gid):`https://www.google.com/maps/search/?api=1&query=${enc(p.n+', '+limpaEnd(p.e))}`;
 const waze=d=>d.la!=null?`https://waze.com/ul?ll=${d.la},${d.lo}&navigate=yes`:`https://waze.com/ul?q=${enc(qtxt(d))}&navigate=yes`;
 const uber=d=>`https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[formatted_address]=${enc(qtxt(d))}`+(d.la!=null?`&dropoff[latitude]=${d.la}&dropoff[longitude]=${d.lo}`:'');
 const ptFromUnit=p=>({k:'unidade',id:p.id,n:p.n,sub:p.e,e:p.n+', '+limpaEnd(p.e),la:p.la,lo:p.lo});
@@ -340,7 +340,7 @@ function blocoRedes(p){const ks=Object.keys(p.soc||{}).filter(k=>REDES[k]&&p.soc
  if(false)h+=`<a class="soc" href="${gplace(p)}" target="_blank" rel="noopener"><span class="si gm">${PINSVG('#EA4335').replace('width="30" height="38"','width="20" height="26"')}</span><span class="col" style="flex:1"><b>Google Maps</b><span class="sm mut">Fotos, avaliações e horários</span></span>${I.chev('#4A6066',18)}</a>`;
  return `<div class="card"><div class="row between"><h2 class="h3">Redes sociais e links</h2>${ks.length?'':'<span class="tag gray">Sem rede oficial</span>'}</div>${ks.length?'':'<p class="sm mut" style="margin:-.3rem 0 0">Não encontramos rede social oficial deste local. Veja os links abaixo.</p>'}<div class="col" style="gap:.5rem">${h}</div></div>`}
 function blocoAvaliacao(p){const g=p.g;
- return `<div class="card"><h2 class="h3">Avaliação ⭐</h2>${g?`<div class="rate"><span class="big">${String(g.v).replace('.',',')}</span><span class="col" style="gap:.2rem">${estrelas(g.v,20)}<span class="sm mut">${g.n?g.n.toLocaleString('pt-BR')+' avaliações · ':''}Google Maps · consultado em ${CFG.dataRef}${g.f?` (<a class="lnk" href="${esc(g.f)}" target="_blank" rel="noopener">fonte</a>)`:''}</span></span></div>`:`<p class="p mut">Ainda não registramos a nota deste local. Veja a nota atualizada no Google Maps.</p>`}
+ return `<div class="card"><h2 class="h3">Avaliação ⭐</h2>${g?`<div class="rate"><span class="big">${String(g.v).replace('.',',')}</span><span class="col" style="gap:.2rem">${estrelas(g.v,20)}<span class="sm mut">${g.n?g.n.toLocaleString('pt-BR')+' avaliações · ':''}Google Maps · consultado em ${g.d||CFG.dataRef}${g.f?` (<a class="lnk" href="${esc(g.f)}" target="_blank" rel="noopener">fonte</a>)`:''}</span></span></div>`:`<p class="p mut">Ainda não registramos a nota deste local. Veja a nota atualizada no Google Maps.</p>`}
  <a class="btn teal" href="${gplace(p)}" target="_blank" rel="noopener" style="flex:none">★ Ver e avaliar no Google Maps</a>
  </div>`}
 function vLocal(){const p=byId(S.sel);if(!p)return vInicio();const d=dist(p),c=CATS[p.c],st=status(p),on=isOnline(p);
@@ -901,7 +901,7 @@ function blocoSelos(p){if(isOnline(p))return'';const ss=selosDe(p);const e=estac
  return `<section class="sec"><h2 class="h2">Selos da comunidade</h2>
  ${e?`<div class="info">${I.pin('#0A4B44',20)}<span><b>Ao lado do ${esc(TIPO_EST[e.t])}:</b> ${esc(e.n)}, a ${fkm(e.d)} a pé.</span></div>`:''}
  ${ss.length?`<div class="selos">${SELO_GRUPOS.map(([g,cor,its])=>its.filter(([k])=>ss.includes(k)).map(([k,t])=>`<span class="selo" style="--c:${cor}">✓ ${esc(t)}</span>`).join('')).join('')}</div>`:`<p class="p mut">Ainda não há selos. Eles aparecem quando pelo menos 3 pessoas confirmam o mesmo item (70% ou mais de “sim”).${pend?` Já há avaliações em andamento.`:''}</p>`}
- <button class="btn" data-act="avaliar" data-id="${p.id}" style="flex:none">★ Avaliar estrutura e atendimento</button></section>`}
+ <button class="btn" data-act="avaliar" data-id="${p.id}" style="flex:none">★ Avaliar estrutura e atendimento</button>${SESSAO?`<span class="sm mut">Conectado como ${esc(SESSAO.email||'sua conta')} · <button class="lnk sm" data-act="sairconta">Sair</button></span>`:'<span class="sm mut">Para avaliar é preciso entrar com e-mail (sem senha).</span>'}</section>`}
 const _vLocal=VIEWS.local;VIEWS.local=()=>{const h=_vLocal();const p=byId(S.sel);return p?h+blocoSelos(p):h};
 let AV={};
 function abrirAvaliar(id){const p=byId(id);AV={id,r:LS.get('av_'+id,{})};desenharAv(p)}
@@ -933,6 +933,51 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
  else if(a==='avset'){AV.r[t.dataset.k]=t.dataset.v;desenharAv(byId(AV.id))}
  else if(a==='avenviar')enviarAv();
  else if(a==='orc'){ORC={};abrirOrc()}
- else if(a==='orcenviar')orcEnviar(+t.dataset.id)});
+ else if(a==='orcenviar')orcEnviar(+t.dataset.id)
+ else if(a==='sairconta')sairConta()});
+/* =====================================================================
+   Conta (login por e-mail) para avaliar, faixa e ponto do atendimento inclusivo,
+   notas do Google vindas do Supabase
+   ===================================================================== */
+const APP_URL=location.origin+location.pathname;
+let SESSAO=LS.get('sessao',null);
+(function(){const h=location.hash||'';if(/access_token=/.test(h)){const q=new URLSearchParams(h.slice(1));SESSAO={at:q.get('access_token'),rt:q.get('refresh_token'),exp:Date.now()+((+q.get('expires_in')||3600)*1000),email:''};
+ try{const pl=JSON.parse(atob(SESSAO.at.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));SESSAO.email=pl.email||''}catch(e){}LS.set('sessao',SESSAO);try{history.replaceState(history.state,'',APP_URL)}catch(e){}setTimeout(()=>toast('Conta conectada'+(SESSAO.email?': '+SESSAO.email:'')+'. Você já pode avaliar locais.'),900)}})();
+async function tokenValido(){if(!SESSAO)return null;if(Date.now()<SESSAO.exp-60000)return SESSAO.at;
+ try{const r=await fetch(SBU+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:Object.assign({'Content-Type':'application/json'},{apikey:SBK}),body:JSON.stringify({refresh_token:SESSAO.rt})});if(!r.ok)throw 0;const j=await r.json();
+  SESSAO=Object.assign(SESSAO,{at:j.access_token,rt:j.refresh_token,exp:Date.now()+(j.expires_in||3600)*1000});LS.set('sessao',SESSAO);return SESSAO.at}catch(e){SESSAO=null;LS.del('sessao');return null}}
+function abrirLogin(motivo){abrirModal(`<div class="row between"><h2 class="h2">Entrar para avaliar</h2>${xBtn}</div>
+ <p class="p mut">${esc(motivo||'Para evitar avaliações falsas, só quem tem conta pode avaliar.')} Enviamos um link de acesso para o seu e-mail, sem senha.</p>
+ <form data-form="entrar" class="col" style="gap:.6rem"><label class="f">Seu e-mail<input class="inp" name="email" type="email" autocomplete="email" required placeholder="nome@exemplo.com"></label><button class="btn pri" style="flex:none">Enviar link de acesso</button></form>
+ <span class="sm mut">Usamos o e-mail só para identificar sua conta. Ele não aparece para ninguém.</span>`,'Entrar')}
+async function pedirLink(email){email=(email||'').trim();if(!/^\S+@\S+\.\S+$/.test(email)){toast('Confira o e-mail');return}
+ try{const r=await fetch(SBU+'/auth/v1/otp?redirect_to='+encodeURIComponent(APP_URL),{method:'POST',headers:{'Content-Type':'application/json',apikey:SBK},body:JSON.stringify({email,create_user:true})});
+  if(!r.ok){const j=await r.json().catch(()=>({}));throw new Error(j.msg||j.error_description||'erro')}
+  fechar();toast('Pronto! Abra o link que enviamos para '+email+' neste aparelho.')}catch(e){toast('Não foi possível enviar agora: '+e.message)}}
+function sairConta(){SESSAO=null;LS.del('sessao');toast('Você saiu da conta');render()}
+document.addEventListener('submit',e=>{const F=e.target;if(F.dataset&&F.dataset.form==="entrar"){e.preventDefault();pedirLink(F.elements.email.value)}},true);
+async function enviarAv(){const p=byId(AV.id);const its=Object.entries(AV.r).filter(([k,v])=>v!=='x');if(!its.length){toast('Marque pelo menos um item');return}
+ const tk=await tokenValido();if(!tk){LS.set('av_pend',{id:AV.id,r:AV.r});abrirLogin();return}
+ const rows=its.map(([k,v])=>({local_id:String(p.id),item:k,valor:v==='s'}));
+ try{const r=await fetch(SBU+'/rest/v1/pax_avaliacoes?on_conflict=local_id,item,usuario',{method:'POST',headers:{'Content-Type':'application/json',apikey:SBK,Authorization:'Bearer '+tk,Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify(rows)});
+  if(!r.ok)throw 0;LS.set('av_'+p.id,AV.r);LS.del('av_pend');fechar();toast('Obrigado! Sua avaliação ajuda outras pessoas.')}catch(e){toast('Não foi possível enviar agora. Tente com internet.')}}
+setTimeout(()=>{const pd=LS.get('av_pend',null);if(pd&&SESSAO){S.sel=pd.id;AV={id:pd.id,r:pd.r};try{ir('local');desenharAv(byId(pd.id))}catch(e){}}},1200);
+
+/* ---------- Atendimento inclusivo: faixa no cadastro e ponto na prévia ---------- */
+const INCL=SELO_GRUPOS[0][2];
+function inclusivoDe(p){const ss=selosDe(p);return INCL.filter(([k])=>ss.includes(k)).map(([k,t])=>t)}
+function faixaInclusiva(p){const it=inclusivoDe(p);if(!it.length)return'';return `<div class="faixa-incl" role="note"><span class="incl-dot" aria-hidden="true"></span><span><b>Atendimento Inclusivo:</b> ${esc(it.join(' · '))}. Confirmado por pessoas da comunidade.</span></div>`}
+const _vLocal2=VIEWS.local;VIEWS.local=()=>{let h=_vLocal2();const p=byId(S.sel);if(!p)return h;const f=faixaInclusiva(p);if(!f)return h;
+ const m=h.indexOf('id="galsc"');if(m>-1){let k=h.indexOf('</div>',m);const dots=h.indexOf('id="galdots"');if(dots>-1&&dots<k+40)k=h.indexOf('</div>',dots);return h.slice(0,k+6)+f+h.slice(k+6)}return f+h};
+const _card=card,_mini=mini;
+card=function(p){const h=_card(p);return inclusivoDe(p).length?h.replace('<span class="bdg">','<span class="incl-dot pin" title="Atendimento inclusivo" aria-label="Atendimento inclusivo"></span><span class="bdg">'):h};
+mini=function(p){const h=_mini(p);return inclusivoDe(p).length?h.replace('<span class="bdg">','<span class="incl-dot pin" title="Atendimento inclusivo" aria-label="Atendimento inclusivo"></span><span class="bdg">'):h};
+
+/* ---------- Notas do Google (gravadas pela função pax-google no Supabase) ---------- */
+function aplicarGoogle(p,x){if(!p||x.google_nota==null)return;const d=x.google_atualizado?new Date(x.google_atualizado).toLocaleDateString('pt-BR',{month:'short',year:'numeric'}).replace('.',''):'';
+ p.g={v:+x.google_nota,n:x.google_qtd||0,d,f:x.google_place_id?'https://www.google.com/maps/place/?q=place_id:'+x.google_place_id:undefined};if(x.google_place_id)p.gid=x.google_place_id}
+(function(){if(typeof fetch!=='function')return;
+ fetch(SBU+'/rest/v1/pax_locais?select=id,google_place_id,google_nota,google_qtd,google_atualizado&google_nota=not.is.null',{headers:SBH}).then(r=>r.ok?r.json():[]).then(rs=>{(rs||[]).forEach(x=>aplicarGoogle(byId(+x.id),x))}).catch(()=>{});
+ fetch(SBU+'/rest/v1/pax_extra?select=cnes,google_place_id,google_nota,google_qtd,google_atualizado&google_nota=not.is.null&limit=5000',{headers:SBH}).then(r=>r.ok?r.json():[]).then(rs=>{const t=()=>{(rs||[]).forEach(x=>aplicarGoogle(byId(10000000+(+x.cnes)),x))};t();setTimeout(t,8000)}).catch(()=>{})})();
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
