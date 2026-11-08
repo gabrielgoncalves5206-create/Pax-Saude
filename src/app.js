@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'4.3',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'4.4',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -32,11 +32,13 @@ function km(a,b){if(!a||!b||a.la==null||b.la==null)return null;const R=6371,r=x=
 const fkm=d=>d==null?'—':(d<1?Math.round(d*100)*10+' m':d.toFixed(1).replace('.',',')+' km');
 const fmin=m=>{m=Math.max(1,Math.round(m));return m<60?m+' min':Math.floor(m/60)+'h'+String(m%60).padStart(2,'0')};
 const telHref=t=>'tel:+55'+t.replace(/\s*\([^)]*\)\s*$/,'').replace(/[^\d]/g,'');
-function agoraSP(){const s=new Date().toLocaleString('en-US',{timeZone:'America/Sao_Paulo',hour12:false,weekday:'short',hour:'2-digit',minute:'2-digit'});const m=s.match(/(\w+),?\s+(\d+):(\d+)/);const dias={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};return m?{d:dias[m[1]],min:(+m[2]%24)*60+(+m[3])}:{d:new Date().getDay(),min:new Date().getHours()*60+new Date().getMinutes()}}
+let _ag=null,_agT=0;function agoraSP(){const _n=Date.now();if(_ag&&_n-_agT<20000)return _ag;_agT=_n;return _ag=agoraSP0()}
+function agoraSP0(){const s=new Date().toLocaleString('en-US',{timeZone:'America/Sao_Paulo',hour12:false,weekday:'short',hour:'2-digit',minute:'2-digit'});const m=s.match(/(\w+),?\s+(\d+):(\d+)/);const dias={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};return m?{d:dias[m[1]],min:(+m[2]%24)*60+(+m[3])}:{d:new Date().getDay(),min:new Date().getHours()*60+new Date().getMinutes()}}
 const toMin=s=>{const[a,b]=s.split(':');return +a*60+ +b};
-function status(p){if(p.h==='24h')return{k:'aberto',t:'Aberto 24h'};if(!Array.isArray(p.h))return{k:'?',t:p.c==='online'?'Online':'Horário a confirmar'};const n=agoraSP();for(const r of p.h){if(r.d.includes(n.d)&&n.min>=toMin(r.a)&&n.min<toMin(r.f))return{k:'aberto',t:'Aberto · fecha '+r.f.replace(':00','h').replace(':','h')}}return{k:'fechado',t:'Fechado agora'}}
+function status(p){const a=agoraSP(),k=a.d*1440+a.min;if(p._stK===k)return p._st;p._stK=k;return p._st=status0(p)}
+function status0(p){if(p.h==='24h')return{k:'aberto',t:'Aberto 24h'};if(!Array.isArray(p.h))return{k:'?',t:p.c==='online'?'Online':'Horário a confirmar'};const n=agoraSP();for(const r of p.h){if(r.d.includes(n.d)&&n.min>=toMin(r.a)&&n.min<toMin(r.f))return{k:'aberto',t:'Aberto · fecha '+r.f.replace(':00','h').replace(':','h')}}return{k:'fechado',t:'Fechado agora'}}
 const isOnline=p=>p.c==='online';
-const dist=p=>isOnline(p)?null:km(S.origin,p);
+const dist=p=>{if(isOnline(p))return null;const o=S.origin;if(p._dO===o&&p._dLa===p.la)return p._d;p._dO=o;p._dLa=p.la;return p._d=km(o,p)};
 const nota=p=>p.g?p.g.v:0;
 function toast(t){const el=$('toast');el.innerHTML=`<div class="toast" role="status">${esc(t)}</div>`;clearTimeout(toast._t);toast._t=setTimeout(()=>el.innerHTML='',2800)}
 const primeiroNome=()=>S.user&&S.user.nome?S.user.nome.trim().split(/\s+/)[0]:'';
@@ -163,7 +165,7 @@ function mapThumb(p,hx,hy){if(p.la==null)return`<span style="position:absolute;i
  for(let tx=Math.floor((px-hx)/256);tx<=Math.floor((px+hx)/256);tx++)for(let ty=Math.floor((py-hy)/256);ty<=Math.floor((py+hy)/256);ty++)h+=`<img src="https://${'abcd'[(tx+ty)&3]}.basemaps.cartocdn.com/rastertiles/voyager/${z}/${tx}/${ty}.png" style="left:${Math.round(tx*256-px)}px;top:${Math.round(ty*256-py)}px" alt="" loading="lazy">`;
  return `<span class="tiles" aria-hidden="true">${h}</span><span class="pin">${PINSVG(CATS[p.c].cor)}</span>`}
 function coverBase(p,h){h=h||'8.5rem';const f=fotosDe(p)[0];const c=CATS[p.c];
- return `<span class="cover" data-cov="${p.id}" data-h="${h}" style="height:${h}">${mapThumb(p,340,150)}${f?`<img class="ph" src="${esc(f.u)}" alt="Foto: ${esc(p.n)}" loading="lazy" referrerpolicy="no-referrer" onerror="var s=this.parentNode.querySelector('.src');if(s)s.textContent='Mapa · OSM/CARTO';this.remove()">`:''}<span class="bdg">${esc(c.um.toUpperCase())}</span><span class="src">${f?esc(f.src):p.la!=null?'Mapa · OSM/CARTO':'Online'}</span></span>`}
+ return `<span class="cover" data-cov="${p.id}" data-h="${h}" style="height:${h}">${mapThumb(p,340,150)}${f?`<img class="ph" src="${esc(f.u)}" alt="Foto: ${esc(p.n)}" loading="lazy" referrerpolicy="no-referrer" decoding="async" onerror="var s=this.parentNode.querySelector('.src');if(s)s.textContent='Ilustração Pax';this.remove()">`:''}<span class="bdg">${esc(c.um.toUpperCase())}</span><span class="src">${f?esc(f.src):p.la!=null?'Mapa · OSM/CARTO':'Online'}</span></span>`}
 function galeriaBase(p){const fs=fotosDe(p);const sl=fs.map(f=>`<span class="cover" style="height:15rem"><span style="position:absolute;inset:0;background:#DCE8E6"></span><img class="ph" src="${esc(f.u)}" alt="Foto ${f.rua?'de rua perto':'de'} ${esc(p.n)}" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"><a class="src" href="${esc(f.link||'#')}" target="_blank" rel="noopener">${f.rua?'Foto de rua · ':''}${esc(f.src)}</a></span>`);
  if(!isOnline(p))sl.push(`<span class="cover" style="height:15rem">${mapThumb(p,420,180)}<span class="src">Mapa · © OpenStreetMap © CARTO</span></span>`);else sl.push(`<span class="cover" style="height:15rem">${mapThumb(p)}</span>`);
  return `<div class="gallery" id="galsc">${sl.join('')}</div>${sl.length>1?`<div class="dots" id="galdots">${sl.map((x,i)=>`<i class="${i?'':'on'}"></i>`).join('')}</div>`:''}`}
@@ -189,7 +191,7 @@ const ptFromUnit=p=>({k:'unidade',id:p.id,n:p.n,sub:p.e,e:p.n+', '+limpaEnd(p.e)
 /* ============ MAPAS (Leaflet + OpenStreetMap/CARTO) ============ */
 let MAPAS=[];
 function matarMapas(){MAPAS.forEach(m=>{try{m.remove()}catch(e){}});MAPAS=[]}
-function novoMapa(id){const el=$(id);if(!el)return null;if(typeof window.L==='undefined'||!window.L.map){el.innerHTML='<div class="empty">O mapa precisa de internet para carregar. Use os botões do Google Maps.</div>';return null}
+function novoMapa(id){const el=$(id);if(!el)return null;if(typeof window.L==='undefined'||!window.L.map){el.dataset.mapwait='1';el.innerHTML='<div class="empty">Carregando mapa…</div>';return null}
  const m=window.L.map(el,{zoomControl:true,attributionControl:true,scrollWheelZoom:false});
  window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap · © CARTO'}).addTo(m);MAPAS.push(m);return m}
 function pinOrigem(m){if(!m||S.origin.la==null)return;window.L.circleMarker([S.origin.la,S.origin.lo],{radius:9,color:'#fff',weight:3,fillColor:'#2563EB',fillOpacity:1}).addTo(m).bindTooltip('Você: '+S.origin.n)}
@@ -306,15 +308,15 @@ function vResultados(){const f=S.flow;const online=f.modo==='online';const r=res
  ${notaOrdem()?`<p class="sm mut" style="margin:0">${esc(notaOrdem())}</p>`:''}
  ${f.modo==='img'?`<button class="btn pri" data-act="orc" style="flex:none">${I.doc('#fff',20)} Pedir 3 orçamentos com foto do pedido</button>`:''}
  ${online?`<div class="info">${I.video('#0A4B44',20)}<span>Consultas por vídeo: toque em <b>Acessar</b> para abrir o serviço ou o perfil do médico.</span></div>`:(S.showMap?`<div class="mapwrap"><div id="mapRes" class="leaf" style="height:18rem"></div></div>`:'')}
- ${r.length?`<div class="grid">${r.slice(0,S.lim||30).map(card).join('')}</div>${r.length>(S.lim||30)?`<button class="btn" style="width:100%;margin-top:.6rem" data-act="mais">Mostrar mais (${r.length-(S.lim||30)} restantes)</button>`:''}`:'<div class="empty">Nenhum local com esses filtros. Tire um filtro para ver mais.</div>'}</section>`}
+ ${r.length?`<div class="grid">${r.slice(0,S.lim||20).map(card).join('')}</div>${r.length>(S.lim||20)?`<button class="btn" style="width:100%;margin-top:.6rem" data-act="mais">Mostrar mais (${r.length-(S.lim||20)} restantes)</button>`:''}`:'<div class="empty">Nenhum local com esses filtros. Tire um filtro para ver mais.</div>'}</section>`}
 function vBuscar(){return phead('Buscar','Digite ou fale o que precisa',false)+`<section class="sec">${buscaForm('qb','Médico, exame, local ou bairro',S.q,'q')}${origemChip(true)}
  <div class="chips" role="group" aria-label="Categoria">${[['todos','Todos']].concat(Object.keys(CATS).map(c=>[c,CATS[c].nome])).map(([k,t])=>`<button class="chip" data-act="cat" data-cat="${k}" aria-pressed="${S.cat===k}">${t}</button>`).join('')}</div>
  ${controles(false)}
  <div id="resumo"></div>${S.showMap?'<div class="mapwrap"><div id="mapBusca" class="leaf" style="height:18rem"></div></div>':''}<div id="res" class="grid"></div></section>`}
-function filtrarBusca(){const t=norm(S.q);let r=LOC.filter(p=>{if(S.cat!=='todos'&&p.c!==S.cat)return false;if(t){const hay=norm([p.n,p.b,p.e,p.sp,p.s.join(' '),CATS[p.c].nome].join(' '));if(!t.split(/\s+/).every(w=>hay.includes(w)))return false}return true});return ordenar(filtrosAplic(r))}
+function filtrarBusca(){const t=norm(S.q);let r=LOC.filter(p=>{if(S.cat!=='todos'&&p.c!==S.cat)return false;if(t){const hay=p._hay||(p._hay=norm([p.n,p.b,p.e,p.sp,p.s.join(' '),CATS[p.c].nome].join(' ')));if(!t.split(/\s+/).every(w=>hay.includes(w)))return false}return true});return ordenar(filtrosAplic(r))}
 function renderRes(){const box=$('res');if(!box)return;const r=filtrarBusca();
  $('resumo').innerHTML=`<p class="sm mut" style="margin:0"><b style="color:var(--ink)">${r.length} ${r.length===1?'local':'locais'}</b>${notaOrdem()?' · '+esc(notaOrdem()):''}</p>`;
- box.innerHTML=r.length?r.slice(0,30).map(card).join('')+(r.length>30?`<p class="sm mut">Mostrando 30 de ${r.length}. Refine a busca.</p>`:''):'<div class="empty">Nada encontrado. Tente outra palavra ou tire um filtro.</div>';
+ box.innerHTML=r.length?r.slice(0,20).map(card).join('')+(r.length>20?`<p class="sm mut">Mostrando 20 de ${r.length}. Refine a busca.</p>`:''):'<div class="empty">Nada encontrado. Tente outra palavra ou tire um filtro.</div>';
  if(S.showMap&&$('mapBusca')){matarMapas();mapaResultados('mapBusca',r.filter(p=>!isOnline(p)))}observar()}
 
 /* ---- descrição completa ---- */
@@ -551,7 +553,7 @@ function empilha(tipo){try{if(REUSE){REUSE=false;history.replaceState({pax:tipo}
 function desempilha(){if(!HOK)return;try{IGN++;history.back()}catch(e){IGN=0}}
 window.addEventListener('popstate',()=>{if(IGN>0){IGN--;return}if($('modal').innerHTML){fechar(true);return}if($('drawer').innerHTML){fecharMenu(true);return}voltarTela()});
 function snap(){return{v:S.view,sel:S.sel,pg:S.pg,flow:Object.assign({},S.flow)}}
-function ir(v){if(!VIEWS[v])v='inicio';if(S.view!==v)S.lim=30;if(S.view!==v||v==='local'||v==='pg'){HIST.push(snap());empilha('tela')}else if(REUSE){REUSE=false;try{history.replaceState({pax:'tela'},'')}catch(e){}}if(TABS.includes(v))S.navAt=v;S.view=v;render(true);try{window.scrollTo(0,0)}catch(e){}const a=$('app');if(a&&a.focus)try{a.focus({preventScroll:true})}catch(e){}}
+function ir(v){if(!VIEWS[v])v='inicio';if(S.view!==v)S.lim=20;if(S.view!==v||v==='local'||v==='pg'){HIST.push(snap());empilha('tela')}else if(REUSE){REUSE=false;try{history.replaceState({pax:'tela'},'')}catch(e){}}if(TABS.includes(v))S.navAt=v;S.view=v;render(true);try{window.scrollTo(0,0)}catch(e){}const a=$('app');if(a&&a.focus)try{a.focus({preventScroll:true})}catch(e){}}
 function irTab(v){fechar('nav');fecharMenu('nav');if(v==='novo')S.flow={tipo:null,modo:null,item:null};ir(v)}
 function voltarTela(){const s=HIST.pop();if(!s){if(S.view!=='inicio'){S.view='inicio';render(true)}return}S.view=s.v;S.sel=s.sel;S.pg=s.pg;S.flow=s.flow;if(TABS.includes(s.v))S.navAt=s.v;render(true);try{window.scrollTo(0,0)}catch(e){}}
 function voltar(){if(HIST.length&&HOK){try{history.back();return}catch(e){}}voltarTela()}
@@ -567,7 +569,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
  case'fecharMenu':fecharMenu();break;
  case'pg':abrirPg(t.dataset.v);break;
  case'abrir':abrir(id);break;
- case'mais':{const y=window.scrollY;S.lim=(S.lim||30)+30;render();window.scrollTo(0,y);break}
+ case'mais':{const y=window.scrollY;S.lim=(S.lim||20)+20;render();window.scrollTo(0,y);break}
  case'voltar':voltar();break;
  case'tipo':S.flow={tipo:t.dataset.v,modo:null,item:null};ir('modo');break;
  case'modo':S.flow.modo=t.dataset.v;S.flow.item=null;S.qi='';ir('itens');break;
@@ -618,7 +620,7 @@ function reverso(pt){fetch('https://nominatim.openstreetmap.org/reverse?format=j
 function gpsAuto(silencioso){if(!navigator.geolocation)return;navigator.geolocation.getCurrentPosition(pos=>{const pt={k:'gps',n:'Minha localização',sub:'Localização atual pelo GPS',la:pos.coords.latitude,lo:pos.coords.longitude};S.origin=pt;S.gpsMsg='';LS.set('origin',pt);S.rmode=null;render();reverso(pt)},()=>{S.gpsMsg=silencioso?'Ative a localização do aparelho para usar onde você está. Por enquanto: '+S.origin.n+'.':'';if(silencioso)render()},{enableHighAccuracy:true,timeout:12000,maximumAge:120000})}
 function usarGPS(){if(!navigator.geolocation){toast('Localização indisponível neste navegador');return}toast('Buscando sua localização…');navigator.geolocation.getCurrentPosition(pos=>{const pt={k:'gps',n:'Minha localização',sub:'Localização atual pelo GPS',la:pos.coords.latitude,lo:pos.coords.longitude};S.gpsMsg='';setPonto('origin',pt);reverso(pt)},()=>toast('Não foi possível usar a localização. Verifique a permissão.'),{enableHighAccuracy:true,timeout:10000})}
 document.addEventListener('input',e=>{const k=e.target.dataset.live;if(!k)return;
- if(k==='q'){S.q=e.target.value;renderRes()}else if(k==='qi'){S.qi=e.target.value;renderItens()}else if(k==='pk'){PK.q=e.target.value;renderPK()}
+ if(k==='q'){S.q=e.target.value;clearTimeout(window._tq);window._tq=setTimeout(renderRes,140)}else if(k==='qi'){S.qi=e.target.value;clearTimeout(window._tqi);window._tqi=setTimeout(renderItens,120)}else if(k==='pk'){PK.q=e.target.value;renderPK()}
  else if(k==='cel'){const v=fmtCel(e.target.value);if(v!==e.target.value)e.target.value=v}
  else if(k==='watxt'){const was=WA.custom;WA.custom=true;WA.txt=e.target.value;atualizaWA();if(!was){const h=document.querySelector('label[for=wabubble]');if(h&&!h.parentNode.querySelector('[data-act=wareset]'))h.insertAdjacentHTML('afterend','<button type="button" class="lnk sm" data-act="wareset">Restaurar texto</button>')}}
  else if(k==='waitem'){WA.item=e.target.value;atualizaWA();desenharWA()}else if(k==='wanome'){WA.nome=e.target.value.trim();WA.rel='';atualizaWA()}else if(k==='waplano'){WA.plano=e.target.value.trim();atualizaWA()}else if(k==='waquando'){WA.quando=e.target.value;atualizaWA()}});
@@ -754,9 +756,12 @@ function cnesParaLocal(r){const x=r.dados,cat=r.cat;if(cat==='online'||x.geoFix|
   d:`${tipo} registrado no CNES (Cadastro Nacional de Estabelecimentos de Saúde), nº ${x.cnes}.`+(esp.length>1||img.length?' Especialidades e exames estimados pelo nome do cadastro; confirme por telefone.':''),
   la:c==='online'?null:x.la,lo:c==='online'?null:x.lo,f:'https://cnes.datasus.gov.br/pages/estabelecimentos/ficha/identificacao/355030'+String(x.cnes).padStart(7,'0'),
   esp:cat==='presencial'?esp:[],img,lab:cat==='lab',on:cat==='online'?['clinica']:[],s,soc:{},fotos2:[],ordemCnes:r.ordem}}
-function cnesDuplicado(q){const GEN=/^(hospital|clinica|clinicas|centro|medico|medica|medicina|saude|diagnostico|diagnosticos|laboratorio|unidade|instituto|especialidades|integrada|servicos|paulo|paulista|imagem|analises|assistencia)$/;const nq=norm(q.n).split(/[^a-z0-9]+/).filter(w=>w.length>=5&&!GEN.test(w));return LOC.some(p=>{if(p.fonteCnes||p.la==null||q.la==null)return false;const d=km(p,q);if(d==null||d>0.08)return false;const np=norm(p.n);return nq.some(w=>np.includes(w))||norm(limpaEnd(p.e)).split(',')[0]===norm(q.e).split(',')[0]})}
+let _baseIdx=null;function baseIdx(){if(_baseIdx)return _baseIdx;_baseIdx=new Map();LOC.forEach(p=>{if(p.fonteCnes||p.la==null)return;p._nn=norm(p.n);p._ne=norm(limpaEnd(p.e)).split(',')[0];const k=Math.round(p.la*100)+':'+Math.round(p.lo*100);(_baseIdx.get(k)||_baseIdx.set(k,[]).get(k)).push(p)});return _baseIdx}
+function cnesDuplicado0(q){const GEN=/^(hospital|clinica|clinicas|centro|medico|medica|medicina|saude|diagnostico|diagnosticos|laboratorio|unidade|instituto|especialidades|integrada|servicos|paulo|paulista|imagem|analises|assistencia)$/;const nq=norm(q.n).split(/[^a-z0-9]+/).filter(w=>w.length>=5&&!GEN.test(w));return LOC.some(p=>{if(p.fonteCnes||p.la==null||q.la==null)return false;const d=km(p,q);if(d==null||d>0.08)return false;const np=norm(p.n);return nq.some(w=>np.includes(w))||norm(limpaEnd(p.e)).split(',')[0]===norm(q.e).split(',')[0]})}
+function cnesDuplicado(q){if(q.la==null)return false;const I=baseIdx(),a=Math.round(q.la*100),b=Math.round(q.lo*100);const GEN=/^(hospital|clinica|clinicas|centro|medico|medica|medicina|saude|diagnostico|diagnosticos|laboratorio|unidade|instituto|especialidades|integrada|servicos|paulo|paulista|imagem|analises|assistencia)$/;let nq=null,qe=null;
+ for(let i=-1;i<=1;i++)for(let j=-1;j<=1;j++){const L=I.get((a+i)+':'+(b+j));if(!L)continue;for(const p of L){const d=km(p,q);if(d==null||d>0.08)continue;nq=nq||norm(q.n).split(/[^a-z0-9]+/).filter(w=>w.length>=5&&!GEN.test(w));qe=qe||norm(q.e).split(',')[0];if(nq.some(w=>p._nn.includes(w))||p._ne===qe)return true}}return false}
 function aplicarCnes(rows){if(!Array.isArray(rows)||!rows.length)return 0;const ids=new Set(LOC.map(p=>p.id));let n=0;rows.forEach(r=>{const q=cnesParaLocal(r);if(!q||ids.has(q.id)||cnesDuplicado(q))return;LOC.push(q);ids.add(q.id);n++});return n}
-(function(){LS.del('cnes');const cache=LS.get('cnes2',null);if(cache&&cache.rows)aplicarCnes(cache.rows);
+(function(){LS.del('cnes');let cache=null;try{cache=LS.get('cnes2',null)}catch(e){}const ociosa=window.requestIdleCallback||(f=>setTimeout(f,60));if(cache&&cache.rows)ociosa(()=>{const n=aplicarCnes(cache.rows);if(n&&!['lembrete','perfil','pg','local'].includes(S.view)&&!document.querySelector('#modal .sheet'))render()},{timeout:1200});
  if(typeof fetch!=='function')return;if(cache&&cache.em&&Date.now()-cache.em<3*864e5)return;
  const U='https://cckywhtpnjhlwqslmlxz.supabase.co',K='sb_publishable_yv9jTgQHXV1Diy_xPkk_eg_qSt_8roq';
  (async()=>{try{let rows=[],de=0;for(;;){const r=await fetch(U+'/rest/v1/pax_extra?select=cat,ordem,dados&order=ordem.asc,cnes.asc&offset='+de+'&limit=1000',{headers:{apikey:K,Authorization:'Bearer '+K}});if(!r.ok)break;const pg=await r.json();rows=rows.concat(pg);if(pg.length<1000)break;de+=1000}
@@ -791,14 +796,14 @@ function renderItens(){const box=$('itens');if(!box)return;const t=norm(S.qi);co
 
 /* ---------- Microfone em todos os campos de texto ---------- */
 let MICN=0;
-function micsEverywhere(){document.querySelectorAll('input[type=text],input[type=search],input:not([type]),input[type=email],textarea').forEach(el=>{
+function micsEverywhere(){if(!SR)return;document.querySelectorAll('input:not([data-mic]):not([type=date]):not([type=time]):not([type=file]):not([type=checkbox]):not([type=radio]):not([type=hidden]),textarea:not([data-mic])').forEach(el=>{
  if(el.dataset.mic||el.closest('.search')||el.type==='hidden'||el.id==='wabubble')return;el.dataset.mic='1';if(!SR)return;if(!el.id)el.id='campo'+(++MICN);
  const b=document.createElement('button');b.type='button';b.className='micmini';b.dataset.act='vozc';b.dataset.alvo=el.id;b.setAttribute('aria-label','Falar em vez de digitar');b.innerHTML=I.mic('#fff',18);
  const w=document.createElement('span');w.className='micwrap';el.parentNode.insertBefore(w,el);w.appendChild(el);w.appendChild(b)})}
 function vozCampo(id){if(!SR){toast('Voz indisponível neste navegador');return}const el=$(id);if(!el)return;try{const r=new SR();r.lang='pt-BR';r.interimResults=false;const b=document.querySelector(`[data-act="vozc"][data-alvo="${id}"]`);if(b)b.classList.add('on');toast('Pode falar…');
  r.onresult=e=>{const t=e.results[0][0].transcript;el.value=el.tagName==='TEXTAREA'&&el.value.trim()?el.value.replace(/\s*$/,' ')+t:t;el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))};
  r.onend=()=>{if(b)b.classList.remove('on')};r.onerror=()=>{if(b)b.classList.remove('on');toast('Não consegui ouvir. Tente de novo.')};r.start()}catch(e){toast('Não foi possível usar o microfone')}}
-try{new MutationObserver(()=>{micsEverywhere()}).observe(document.body,{childList:true,subtree:true})}catch(e){}
+let _micR=0;try{new MutationObserver(()=>{if(_micR)return;_micR=requestAnimationFrame(()=>{_micR=0;micsEverywhere()})}).observe(document.body,{childList:true,subtree:true})}catch(e){}
 
 /* ---------- Filtros rápidos acima de Consultas e Exames ---------- */
 function filtrosRapidos(){const it=[['gpsnow','Perto de mim',S.origin.k==='gps'],['fOpen','Aberto agora',S.fOpen],['f24','24 horas',S.f24],['fConv','Convênio',S.fConv],['fSus','SUS',S.fSus],['fWa','WhatsApp',S.fWa]];
@@ -817,7 +822,7 @@ document.addEventListener('submit',e=>{const F=e.target;if(F.dataset&&F.dataset.
 /* ---------- Mapa só antes de agendar pelo WhatsApp ---------- */
 let MAPAWA=null;
 function mapaWA(){const el=$('wamap');if(!el)return;try{if(MAPAWA)MAPAWA.remove()}catch(e){}MAPAWA=null;const p=byId(WA.id);if(!p||p.la==null){el.remove();return}
- if(typeof window.L==='undefined'||!window.L.map){el.innerHTML='<div class="empty">O mapa precisa de internet.</div>';return}
+ if(typeof window.L==='undefined'||!window.L.map){el.dataset.mapwait='1';el.innerHTML='<div class="empty">Carregando mapa…</div>';return}
  const m=window.L.map(el,{zoomControl:false,attributionControl:true,scrollWheelZoom:false,dragging:true});MAPAWA=m;
  window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap · © CARTO'}).addTo(m);
  window.L.circleMarker([p.la,p.lo],{radius:10,color:'#fff',weight:3,fillColor:'#128C4A',fillOpacity:1}).addTo(m).bindTooltip(p.n,{permanent:false});
@@ -874,7 +879,7 @@ ubs:()=>ILU_BASE('#E2EEF8','#F7FBFE',`<path d="M90 128V62l80-30 80 30v66z" fill=
 online:()=>ILU_BASE('#DFF3F1','#F5FBFB',`<rect x="128" y="20" width="84" height="112" rx="12" fill="#fff" stroke="#0E6B6B" stroke-width="3"/><rect x="136" y="32" width="68" height="76" rx="6" fill="#CFEDEA"/><circle cx="170" cy="60" r="12" fill="#F2C8A5"/><path d="M150 100c0-14 9-22 20-22s20 8 20 22z" fill="#fff" stroke="#0E6B6B" stroke-width="2.5"/><path d="M164 80c0 8 2 11 6 13 4-2 6-5 6-13" stroke="#0E6B6B" stroke-width="2" fill="none"/><circle cx="170" cy="120" r="5" fill="#0E6B6B"/><rect x="230" y="40" width="66" height="26" rx="10" fill="#fff" stroke="#0E6B6B" stroke-width="2.5"/><path d="M242 50h40M242 57h26" stroke="#0E6B6B" stroke-width="2.5" stroke-linecap="round"/><rect x="44" y="76" width="66" height="26" rx="10" fill="#0E6B6B"/><path d="M56 86h40M56 93h24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>`)};
 function iluDe(p){if(isOnline(p))return'online';if(/^UBS|\bUBS\b|UNIDADE BASICA/i.test(p.n)||(p.fonteCnes&&/Unidade Básica/.test(p.d||'')))return'ubs';if(p.c==='hospital')return'hospital';if(p.c==='laboratorio')return'laboratorio';if(p.c==='imagem')return'imagem';return'clinica'}
 function coverBase(p,h){h=h||'8.5rem';const f=fotosDe(p)[0];const c=CATS[p.c];
- return `<span class="cover" data-cov="${p.id}" data-h="${h}" style="height:${h}">${f?mapThumb(p,340,150):ILU[iluDe(p)]()}${f?`<img class="ph" src="${esc(f.u)}" alt="Foto: ${esc(p.n)}" loading="lazy" referrerpolicy="no-referrer" onerror="var s=this.parentNode.querySelector('.src');if(s)s.textContent='Mapa · OSM/CARTO';this.remove()">`:''}<span class="bdg">${esc(c.um.toUpperCase())}</span><span class="src">${f?esc(f.src):'Ilustração Pax'}</span></span>`}
+ return `<span class="cover" data-cov="${p.id}" data-h="${h}" style="height:${h}">${f?'<span style="position:absolute;inset:0;background:#DCE8E6"></span>':ILU[iluDe(p)]()}${f?`<img class="ph" src="${esc(f.u)}" alt="Foto: ${esc(p.n)}" loading="lazy" referrerpolicy="no-referrer" decoding="async" onerror="var s=this.parentNode.querySelector('.src');if(s)s.textContent='Ilustração Pax';this.remove()">`:''}<span class="bdg">${esc(c.um.toUpperCase())}</span><span class="src">${f?esc(f.src):'Ilustração Pax'}</span></span>`}
 /* =====================================================================
    Selos da comunidade, estações, orçamentos
    ===================================================================== */
@@ -894,8 +899,9 @@ function temGrupo(p,i){const ks=SELO_GRUPOS[i][2].map(x=>x[0]);return selosDe(p)
  const c=LS.get('estacoes',null);if(c&&c.rows){ESTACOES=c.rows}if(c&&c.em&&Date.now()-c.em<30*864e5)return;
  fetch(SBU+'/rest/v1/pax_estacoes?select=nome,tipo,lat,lon&limit=5000',{headers:SBH}).then(r=>r.ok?r.json():null).then(rs=>{if(rs&&rs.length){ESTACOES=rs;LS.set('estacoes',{em:Date.now(),rows:rs})}}).catch(()=>{})})();
 const TIPO_EST={metro:'Metrô',trem:'Trem (CPTM)',onibus:'Terminal de ônibus'};
-function estacaoPerto(p){if(p._est!==undefined&&p._estN===ESTACOES.length)return p._est;p._estN=ESTACOES.length;p._est=null;if(p.la==null||!ESTACOES.length)return null;let m=null;
- for(const e of ESTACOES){if(Math.abs(e.lat-p.la)>.006||Math.abs(e.lon-p.lo)>.007)continue;const d=km(p,{la:e.lat,lo:e.lon});if(d!=null&&d<=.5&&(!m||d<m.d))m={n:e.nome,t:e.tipo,d}}return p._est=m}
+let _estG=null,_estGN=-1;function gradeEst(){if(_estGN===ESTACOES.length)return _estG;_estGN=ESTACOES.length;_estG=new Map();for(const e of ESTACOES){const k=Math.round(e.lat*100)+':'+Math.round(e.lon*100);(_estG.get(k)||_estG.set(k,[]).get(k)).push(e)}return _estG}
+function estacaoPerto(p){if(p._est!==undefined&&p._estN===ESTACOES.length)return p._est;p._estN=ESTACOES.length;p._est=null;if(p.la==null||!ESTACOES.length)return null;let m=null;const G=gradeEst(),a=Math.round(p.la*100),b=Math.round(p.lo*100),C=[];for(let i=-1;i<=1;i++)for(let j=-1;j<=1;j++){const L=G.get((a+i)+':'+(b+j));if(L)C.push(...L)}
+ for(const e of C){if(Math.abs(e.lat-p.la)>.006||Math.abs(e.lon-p.lo)>.007)continue;const d=km(p,{la:e.lat,lo:e.lon});if(d!=null&&d<=.5&&(!m||d<m.d))m={n:e.nome,t:e.tipo,d}}return p._est=m}
 function filtrosAplic(r){return r.filter(p=>{if(S.fWa&&!p.wa)return false;if(S.fOpen&&status(p).k!=='aberto')return false;if(S.fConv&&!/conv|plano/i.test(p.cv))return false;if(S.fSus&&!p.sus)return false;if(S.f24&&p.h!=='24h')return false;
  if(S.fMetro&&!estacaoPerto(p))return false;if(S.fAcess&&!temGrupo(p,1))return false;if(S.fIncl&&!temGrupo(p,0))return false;if(S.fKids&&!selosDe(p).includes('kids'))return false;if(S.fPet&&!selosDe(p).includes('pet'))return false;return true})}
 function blocoSelos(p){if(isOnline(p))return'';const ss=selosDe(p);const e=estacaoPerto(p);const s=SELOS[String(p.id)]||{};const pend=Object.keys(s).filter(k=>!s[k].selo&&s[k].total>0).length;
@@ -986,5 +992,7 @@ function btnGmaps(href){return `<a class="btn-gm" href="${href}" target="_blank"
 function btnUber(href){return `<a class="btn-uber" href="${href}" target="_blank" rel="noopener" aria-label="Chamar um Uber"><img src="img/uber.png" alt="Uber" style="height:1.15rem;width:auto"></a>`}
 function botoesMapa(p){if(isOnline(p)||p.la==null)return'';return `<div class="mapbtns">${btnGmaps(gplace(p))}${btnUber(uber(ptDe(p)))}</div>`}
 const _vLocal3=VIEWS.local;VIEWS.local=()=>{const h=_vLocal3();const p=byId(S.sel);if(!p)return h;const k='<section class="sec" style="padding-top:1.2rem">';return h.replace(k,k+botoesMapa(p))};
+window.paxLeaflet=()=>{if(document.querySelector('#modal [data-mapwait]'))mapaWA();if(document.querySelector('#app [data-mapwait]'))render()};
+setTimeout(()=>{if(typeof window.L==='undefined'){const w=document.querySelector('[data-mapwait] .empty');if(w)w.textContent='O mapa precisa de internet. Use os botões do Google Maps.'}},9000);
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
