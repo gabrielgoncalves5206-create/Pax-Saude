@@ -739,6 +739,45 @@ const I=new Proxy({},{get:(o,k)=>(c,w,sw)=>SVG2(k,c,w,sw)});
 const ICW='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#063B21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+P.wa2+'</svg>';
 const IC_ESP={clinica:'steth',cardio:'cardio',dermato:'dermato',endo:'drop',gastro:'gastro',gineco:'female',neuro:'brain',oftalmo:'eye',orto:'bone',otorrino:'ear',pedi:'baby',psiq:'chat',uro:'drop'};
 const IC_IMG={rx:'bone',us:'wave',tc:'scan',rm:'scan',mamo:'female',dens:'bone',eco:'cardio'};
+/* Ícones detalhados por especialidade e exame */
+Object.assign(P,{
+x_clin:'<path d="M6 3v5a4 4 0 0 0 8 0V3"/><path d="M5 3h2M13 3h2"/><path d="M10 12v3a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="11" r="2"/>',
+x_cardio:'<path d="M12 20s-7-4.5-9-9a4.5 4.5 0 0 1 9-3 4.5 4.5 0 0 1 9 3c-2 4.5-9 9-9 9z"/><path d="M5 12h3l1.5-2.5 2 5 2-3.5H19"/>',
+x_derm:'<path d="M3 13c3-1.5 6 1.5 9 0s6-1.5 9 0v7H3z"/><path d="M7 13V6M12 12.4V4M17 13V7"/><circle cx="15.5" cy="17" r="1.1"/>',
+x_thy:'<path d="M12 9c-1.5-3-7-3.5-7 1.5 0 4 3 6.5 5 5.5 1.2-.6 2-2 2-4 0 2 .8 3.4 2 4 2 1 5-1.5 5-5.5 0-5-5.5-4.5-7-1.5z"/><path d="M12 3v6M12 15.5V21"/>',
+x_gastro:'<path d="M9 3v4c0 2-3 3.5-3 7.5a6 6 0 0 0 11 3.2c1.4-2.2.8-5.2-2.2-5.2-2 0-3 1-3.8 0V3"/><path d="M15.5 19.5c1.2 1 3 1 4.5-.2"/>',
+x_gin:'<path d="M12 9c-3 0-4 2-4 4s2 3 2 5v2.5h4V18c0-2 2-3 2-5s-1-4-4-4z"/><path d="M8.3 12C6.5 10 5.5 8.5 4 8.5M15.7 12c1.8-2 2.8-3.5 4.3-3.5"/><circle cx="3" cy="8" r="1.6"/><circle cx="21" cy="8" r="1.6"/>',
+x_brain:'<path d="M12 5a3 3 0 0 0-5 1 3 3 0 0 0-3 4 3 3 0 0 0 1 5 3 3 0 0 0 4 4 3 3 0 0 0 3-1z"/><path d="M12 5a3 3 0 0 1 5 1 3 3 0 0 1 3 4 3 3 0 0 1-1 5 3 3 0 0 1-4 4 3 3 0 0 1-3-1z"/><path d="M12 5v13M8 10h2M14 13h2M7.5 14.5h1.5"/>',
+x_eye:'<path d="M2 12.5s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"/><circle cx="12" cy="12.5" r="3.2"/><circle cx="12" cy="12.5" r="1"/><path d="M6 6.5 5 4.5M12 5.5V3.5M18 6.5l1-2"/>',
+x_bone:'<path d="M7.5 4.5a2 2 0 1 0-3 3h2l9 9v2a2 2 0 1 0 3 3 2 2 0 1 0 3-3h-2l-9-9v-2a2 2 0 1 0-3-3z"/>',
+x_ear:'<path d="M8 9.5a5 5 0 0 1 10 0c0 3-3 4-3 7a3 3 0 0 1-6 0"/><path d="M11 9.5a2 2 0 0 1 4 0c0 1.2-1 1.6-1.6 2.3"/><path d="M4 8c-1.2 2.2-1.2 4.8 0 7"/>',
+x_baby:'<circle cx="12" cy="13" r="7"/><path d="M12 6c0-2 2.2-3 3.4-1.8"/><path d="M9.5 12.3v.2M14.5 12.3v.2"/><path d="M10 15.6c1.1 1 2.9 1 4 0"/>',
+x_mind:'<path d="M17 21v-3.5c2-1 3-3 3-6a8 8 0 0 0-16 0c0 2.2 1 3.4 2 4.4V21"/><path d="M12 14s-3-1.8-3-3.7a1.6 1.6 0 0 1 3-.8 1.6 1.6 0 0 1 3 .8c0 1.9-3 3.7-3 3.7z"/>',
+x_kid:'<path d="M9 3.5c-3 0-5 3.2-5 7.5s2 7.5 5 7.5c2 0 2.2-2.2 1.2-3.3s-1-3 0-4.2 1-3.2 0-4.4S11 3.5 9 3.5z"/><path d="M15 3.5c3 0 5 3.2 5 7.5s-2 7.5-5 7.5c-2 0-2.2-2.2-1.2-3.3s1-3 0-4.2-1-3.2 0-4.4S13 3.5 15 3.5z"/><path d="M10.5 13.5 11 21M13.5 13.5 13 21"/>',
+x_rx:'<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M12 5.5v13"/><path d="M12 8c-2 0-4 .8-5 2M12 8c2 0 4 .8 5 2M12 11c-2 0-4 .8-5 2M12 11c2 0 4 .8 5 2M12 14c-1.8 0-3.3.8-4.3 2M12 14c1.8 0 3.3.8 4.3 2"/>',
+x_us:'<path d="M4.5 14.5 10 9l3.5 3.5L8 18z"/><path d="M4.5 14.5 2.5 16.5l3.5 3.5 2-2"/><path d="M14.5 6.5a4 4 0 0 1 3.5 3.5M15 3a7.5 7.5 0 0 1 6.5 6.5"/>',
+x_tc:'<circle cx="12" cy="10" r="7"/><circle cx="12" cy="10" r="3"/><path d="M2 20h20M6 20v-3h12v3"/>',
+x_rm:'<path d="M4 18V9a8 8 0 0 1 16 0v9z"/><circle cx="12" cy="10" r="3.5"/><path d="M2 18h20M8 15.5h8"/>',
+x_mamo:'<path d="M9 6a3 3 0 0 1 6 0c0 2-1.5 3.5-3 5.5"/><path d="M12 11.5 6.5 20M9 6c0 2 1.5 3.5 3 5.5l5.5 8.5"/>',
+x_dens:'<path d="M10 3c-2 0-3 2-1 3l1 1v10l-1 1c-2 1-1 3 1 3h4c2 0 3-2 1-3l-1-1V7l1-1c2-1 1-3-1-3z"/><path d="M12 10v.1M12 13v.1M12 16v.1"/>',
+x_eco:'<path d="M10 19s-6-3.8-7.6-7.6A3.8 3.8 0 0 1 10 8.8a3.8 3.8 0 0 1 7.6 2.6"/><path d="M14.5 14.5a3 3 0 0 1 3 3M15.5 11.5a6 6 0 0 1 6 6"/>',
+x_blood:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><circle cx="10" cy="14.5" r="1.3"/><circle cx="14" cy="16.5" r="1.3"/><circle cx="13.5" cy="12" r=".8"/>',
+x_gluco:'<rect x="6" y="2.5" width="11" height="15" rx="2.5"/><rect x="8.5" y="5" width="6" height="4" rx="1"/><path d="M10.5 17.5v4h2v-4M10 12.5h.1M13 12.5h.1"/>',
+x_artery:'<path d="M3 7.5h18M3 16.5h18"/><path d="M7 7.5c1 2.6 5 2.6 6 0M9.5 16.5c1-2 4-2 5 0"/><path d="M17 12h.1M5 12h.1"/>',
+x_fat:'<circle cx="8" cy="9" r="3"/><circle cx="15.5" cy="7.5" r="2"/><circle cx="13.5" cy="15.5" r="4"/>',
+x_sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>',
+x_bloodclock:'<path d="M10 3s5 5.5 5 9.2"/><path d="M10 3S5 8.5 5 12.3a5 5 0 0 0 5 5"/><circle cx="16.5" cy="16.5" r="4.5"/><path d="M16.5 14v2.5l1.6 1"/>',
+x_urine:'<path d="M6 4h12v3H6z"/><path d="M7 7h10l-1 13.5H8z"/><path d="M7.6 13h8.8"/>',
+x_preg:'<circle cx="11" cy="4" r="2"/><path d="M10 7c-2 3-2 7 0 9v5"/><path d="M12 7c4.5 1.6 5.5 7 1.2 9V21"/>'});
+Object.assign(P2,{x_clin:'<circle cx="20" cy="11" r="2"/>',x_cardio:P.x_cardio.split('/>')[0]+'/>',x_derm:'<path d="M3 13c3-1.5 6 1.5 9 0s6-1.5 9 0v7H3z"/>',x_thy:'<path d="M12 9c-1.5-3-7-3.5-7 1.5 0 4 3 6.5 5 5.5 1.2-.6 2-2 2-4 0 2 .8 3.4 2 4 2 1 5-1.5 5-5.5 0-5-5.5-4.5-7-1.5z"/>',
+x_gastro:'<path d="M9 7c0 2-3 3.5-3 7.5a6 6 0 0 0 11 3.2c1.4-2.2.8-5.2-2.2-5.2-2 0-3 1-3.8 0V7z"/>',x_gin:'<path d="M12 9c-3 0-4 2-4 4s2 3 2 5v2.5h4V18c0-2 2-3 2-5s-1-4-4-4z"/>',x_brain:'<path d="M12 5a3 3 0 0 0-5 1 3 3 0 0 0-3 4 3 3 0 0 0 1 5 3 3 0 0 0 4 4 3 3 0 0 0 3-1zM12 5a3 3 0 0 1 5 1 3 3 0 0 1 3 4 3 3 0 0 1-1 5 3 3 0 0 1-4 4 3 3 0 0 1-3-1z"/>',
+x_eye:'<circle cx="12" cy="12.5" r="3.2"/>',x_bone:P.x_bone,x_ear:'<path d="M8 9.5a5 5 0 0 1 10 0c0 3-3 4-3 7a3 3 0 0 1-6 0z"/>',x_baby:'<circle cx="12" cy="13" r="7"/>',x_mind:'<path d="M12 14s-3-1.8-3-3.7a1.6 1.6 0 0 1 3-.8 1.6 1.6 0 0 1 3 .8c0 1.9-3 3.7-3 3.7z"/>',
+x_kid:P.x_kid.split('<path d="M10.5')[0],x_rx:'<rect x="3" y="3" width="18" height="18" rx="2.5"/>',x_us:'<path d="M4.5 14.5 10 9l3.5 3.5L8 18z"/>',x_tc:'<circle cx="12" cy="10" r="7"/>',x_rm:'<path d="M4 18V9a8 8 0 0 1 16 0v9z"/>',x_mamo:'<path d="M9 6a3 3 0 0 1 6 0c0 2-1.5 3.5-3 5.5C10.5 9.5 9 8 9 6z"/>',
+x_dens:P.x_dens.split('<path d="M12 10')[0],x_eco:'<path d="M10 19s-6-3.8-7.6-7.6A3.8 3.8 0 0 1 10 8.8a3.8 3.8 0 0 1 7.6 2.6z"/>',x_blood:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>',x_gluco:'<rect x="8.5" y="5" width="6" height="4" rx="1"/>',
+x_artery:'<path d="M7 7.5c1 2.6 5 2.6 6 0zM9.5 16.5c1-2 4-2 5 0z"/>',x_fat:'<circle cx="8" cy="9" r="3"/><circle cx="15.5" cy="7.5" r="2"/><circle cx="13.5" cy="15.5" r="4"/>',x_sun:'<circle cx="12" cy="12" r="4"/>',x_bloodclock:'<circle cx="16.5" cy="16.5" r="4.5"/>',x_urine:'<path d="M7.6 13h8.8l-.5 7.5H8z"/>',x_preg:'<path d="M12 7c4.5 1.6 5.5 7 1.2 9H10c-2-2-2-6 0-9z"/>'});
+Object.assign(IC_ESP,{clinica:'x_clin',cardio:'x_cardio',dermato:'x_derm',endo:'x_thy',gastro:'x_gastro',gineco:'x_gin',neuro:'x_brain',oftalmo:'x_eye',orto:'x_bone',otorrino:'x_ear',pedi:'x_baby',psiq:'x_mind',uro:'x_kid'});
+Object.assign(IC_IMG,{rx:'x_rx',us:'x_us',tc:'x_tc',rm:'x_rm',mamo:'x_mamo',dens:'x_dens',eco:'x_eco'});
+const LABIC=['x_blood','x_gluco','x_artery','x_fat','x_thy','x_sun','x_bloodclock','x_urine','x_kid','x_preg'];
 const IC_CAT={hospital:'build',clinica:'steth',medico:'user',laboratorio:'flask',imagem:'scan',online:'video'};
 const LOGO=(s,c1,c2)=>{c1=c1||'#0B4F5C';c2=c2||'#14A39A';return `<svg width="${s}" height="${s}" viewBox="0 0 64 64" aria-hidden="true"><path fill="${c2}" d="M32 5c7.5 7.5 7.5 18 0 25.5-7.5-7.5-7.5-18 0-25.5z"/><path fill="${c1}" d="M32 59c-7.5-7.5-7.5-18 0-25.5 7.5 7.5 7.5 18 0 25.5z"/><path fill="${c1}" d="M5 32c7.5-7.5 18-7.5 25.5 0-7.5 7.5-18 7.5-25.5 0z"/><path fill="${c2}" d="M59 32c-7.5 7.5-18 7.5-25.5 0 7.5-7.5 18-7.5 25.5 0z"/><g stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity=".75"><path d="M32 10v15M32 39v15M10 32h15M39 32h15"/></g><circle cx="32" cy="32" r="3.4" fill="${c2}"/></svg>`};
 const PINSVG=c=>`<svg width="30" height="38" viewBox="0 0 30 38" aria-hidden="true"><path d="M15 37s13-12.3 13-22A13 13 0 0 0 2 15c0 9.7 13 22 13 22z" fill="${c}" stroke="#fff" stroke-width="2.5"/><circle cx="15" cy="15" r="5" fill="#fff"/></svg>`;
@@ -878,7 +917,7 @@ function vModo(){const f=S.flow;const c=f.tipo==='consulta';const cor=c?'#B02A62
  <div class="card adv" hidden><h2 class="h3">Como funciona</h2>${[['1','Escolha '+(c?'a especialidade':'o exame')],['2','Compare distância, horário e nota'],['3','Agende pelo WhatsApp ou ligue']].map(([a,b])=>`<div class="row"><span class="lic" style="width:2rem;height:2rem;border-radius:50%;font-weight:800;color:${cor};background:${c?'#FDE8F0':'#E5EEFC'}">${a}</span><span class="p">${b}</span></div>`).join('')}</div></section>`}
 const ORD_ESP=['clinica','cardio','gineco','pedi','dermato','orto','oftalmo','gastro','endo','neuro','otorrino','psiq','uro'];
 function itensLista(){const f=S.flow;
- if(f.modo==='lab')return LABX.map((x,i)=>({k:'lab'+i,t:x[0],s:x[1],p:x[2],ic:'tube',n:LOC.filter(p=>p.lab).length}));
+ if(f.modo==='lab')return LABX.map((x,i)=>({k:'lab'+i,t:x[0],s:x[1],p:x[2],ic:LABIC[i]||'tube',n:LOC.filter(p=>p.lab).length}));
  if(f.modo==='img')return Object.keys(IMGX).map(k=>({k,t:IMGX[k][0],s:IMGX[k][1],p:IMGX[k][2],ic:IC_IMG[k]||'scan',n:LOC.filter(p=>p.img.includes(k)).length}));
  return ORD_ESP.filter(k=>ESP[k]).concat(Object.keys(ESP).filter(k=>!ORD_ESP.includes(k))).map(k=>({k,t:ESP[k][0],s:ESP[k][1],ic:IC_ESP[k]||'steth',n:LOC.filter(p=>f.modo==='online'?p.on.includes(k):(!isOnline(p)&&p.esp.includes(k))).length}))}
 function vItens(){const f=S.flow;const tit=f.modo==='presencial'?'Consulta presencial':f.modo==='online'?'Consulta online':f.modo==='lab'?'Exames laboratoriais':'Exames de imagem';
