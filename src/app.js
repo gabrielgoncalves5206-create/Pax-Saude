@@ -737,7 +737,7 @@ function renderItens(){const box=$('itens');if(!box)return;const t=norm(S.qi);co
 /* ---------- Microfone em todos os campos de texto ---------- */
 let MICN=0;
 function micsEverywhere(){document.querySelectorAll('input[type=text],input[type=search],input:not([type]),input[type=email],textarea').forEach(el=>{
- if(el.dataset.mic||el.closest('.search')||el.type==='hidden')return;el.dataset.mic='1';if(!SR)return;if(!el.id)el.id='campo'+(++MICN);
+ if(el.dataset.mic||el.closest('.search')||el.type==='hidden'||el.id==='wabubble')return;el.dataset.mic='1';if(!SR)return;if(!el.id)el.id='campo'+(++MICN);
  const b=document.createElement('button');b.type='button';b.className='micmini';b.dataset.act='vozc';b.dataset.alvo=el.id;b.setAttribute('aria-label','Falar em vez de digitar');b.innerHTML=I.mic('#fff',18);
  const w=document.createElement('span');w.className='micwrap';el.parentNode.insertBefore(w,el);w.appendChild(el);w.appendChild(b)})}
 function vozCampo(id){if(!SR){toast('Voz indisponível neste navegador');return}const el=$(id);if(!el)return;try{const r=new SR();r.lang='pt-BR';r.interimResults=false;const b=document.querySelector(`[data-act="vozc"][data-alvo="${id}"]`);if(b)b.classList.add('on');toast('Pode falar…');
