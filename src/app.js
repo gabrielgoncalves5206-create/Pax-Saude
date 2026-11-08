@@ -121,6 +121,20 @@ x_artery:'<path d="M7 7.5c1 2.6 5 2.6 6 0zM9.5 16.5c1-2 4-2 5 0z"/>',x_fat:'<cir
 Object.assign(IC_ESP,{clinica:'x_clin',cardio:'x_cardio',dermato:'x_derm',endo:'x_thy',gastro:'x_gastro',gineco:'x_gin',neuro:'x_brain',oftalmo:'x_eye',orto:'x_bone',otorrino:'x_ear',pedi:'x_baby',psiq:'x_mind',uro:'x_kid'});
 Object.assign(IC_IMG,{rx:'x_rx',us:'x_us',tc:'x_tc',rm:'x_rm',mamo:'x_mamo',dens:'x_dens',eco:'x_eco'});
 const LABIC=['x_blood','x_gluco','x_artery','x_fat','x_thy','x_sun','x_bloodclock','x_urine','x_kid','x_preg'];
+/* Ícones revisados (2ª versão) */
+Object.assign(P,{
+x_gastro:'<path d="M8 3v3.5c0 1.2-.6 2-1.6 3C5 11 4.5 13 5 15.2 6 19.5 11 21.5 15 19.8c3.5-1.5 5-5 3.5-8.3-.9-2-3.4-2.5-5-1.2-1 .8-2.4.5-2.9-.6L10 7V3"/><path d="M18.7 13.6c1.3.3 2.3 1.4 2.3 3"/>',
+x_mamo:'<path d="M12 12.5C9.5 10 8.5 8.4 8.5 6.6a3.5 3.5 0 0 1 7 0c0 1.8-1 3.4-3.5 5.9z"/><path d="M10.3 10.6 6 19.5l2.3.8 1.7-2.5M13.7 10.6 18 19.5l-2.3.8-1.7-2.5"/>',
+x_dens:'<path d="M7.5 4.5a3 3 0 1 1 4.6 2.5L14 9.5V21h-4V10.5L7.9 7.6a3 3 0 0 1-.4-3.1z"/><path d="M3 14h3M18 14h3M3 17h3M18 17h3"/>',
+x_bloodclock:'<path d="M9 3s5 5.6 5 9.6a5 5 0 0 1-10 0C4 8.6 9 3 9 3z"/><circle cx="17.5" cy="17" r="4"/><path d="M17.5 15v2l1.4.9"/>',
+x_mind:'<path d="M15 21v-3h2a2 2 0 0 0 2-2v-2.5l1.6-.6a.6.6 0 0 0 .3-.9L19 9.5C18.5 5.5 15.4 3 11.5 3 7 3 4 6.3 4 10.4c0 2.4 1 4 2.5 5.4V21"/><path d="M11.5 12.8s-2.8-1.6-2.8-3.4a1.5 1.5 0 0 1 2.8-.7 1.5 1.5 0 0 1 2.8.7c0 1.8-2.8 3.4-2.8 3.4z"/>',
+x_us:'<path d="M9.5 2.5h5v7h-5z"/><path d="M8 9.5h8l-1 4H9z"/><path d="M8 17c2.5 1.3 5.5 1.3 8 0M6 20.3c3.6 1.8 8.4 1.8 12 0"/>',
+x_artery:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5.5"/><path d="M17.5 12a5.5 5.5 0 0 0-5.5-5.5c1.6 1.4 2.3 3.3 2.3 5 0 .3 1.2.5 3.2.5z"/>',
+x_derm:'<circle cx="10" cy="10" r="6.5"/><path d="M14.8 14.8 20.5 20.5"/><path d="M8.3 9c.6-1.3 2.6-1.4 3.3-.1.6 1.1-.2 2.7-1.6 2.7S7.7 10.1 8.3 9z"/>',
+x_preg:'<circle cx="11.5" cy="4" r="2"/><path d="M11 7c-1.5 2-1.6 4.5-.6 6.2.5.9.5 1.9 0 2.7L9.5 21"/><path d="M12.5 7.5c1.3 1.6 1.4 3 1 4.3 2.8.6 4.5 2.4 4.3 4.6-.2 2-2 3.2-4.3 3.4L13 21"/>'});
+Object.assign(P2,{x_gastro:'<path d="M8 6.5c0 1.2-.6 2-1.6 3C5 11 4.5 13 5 15.2 6 19.5 11 21.5 15 19.8c3.5-1.5 5-5 3.5-8.3-.9-2-3.4-2.5-5-1.2-1 .8-2.4.5-2.9-.6L10 7z"/>',x_mamo:'<path d="M12 12.5C9.5 10 8.5 8.4 8.5 6.6a3.5 3.5 0 0 1 7 0c0 1.8-1 3.4-3.5 5.9z"/>',
+x_dens:'<path d="M7.5 4.5a3 3 0 1 1 4.6 2.5L14 9.5V21h-4V10.5L7.9 7.6a3 3 0 0 1-.4-3.1z"/>',x_bloodclock:'<path d="M9 3s5 5.6 5 9.6a5 5 0 0 1-10 0C4 8.6 9 3 9 3z"/>',x_mind:'<path d="M15 21v-3h2a2 2 0 0 0 2-2v-2.5l1.6-.6a.6.6 0 0 0 .3-.9L19 9.5C18.5 5.5 15.4 3 11.5 3 7 3 4 6.3 4 10.4c0 2.4 1 4 2.5 5.4V21z"/>',
+x_us:'<path d="M8 9.5h8l-1 4H9z"/>',x_artery:'<path d="M17.5 12a5.5 5.5 0 0 0-5.5-5.5c1.6 1.4 2.3 3.3 2.3 5 0 .3 1.2.5 3.2.5z"/>',x_derm:'<circle cx="10" cy="10" r="6.5"/>',x_preg:'<path d="M12.5 7.5c1.3 1.6 1.4 3 1 4.3 2.8.6 4.5 2.4 4.3 4.6-.2 2-2 3.2-4.3 3.4l-2.6-3.6c.5-.8.5-1.8 0-2.7-1-1.7-.9-4.2.6-6.2z"/>'});
 const IC_CAT={hospital:'build',clinica:'steth',medico:'user',laboratorio:'flask',imagem:'scan',online:'video'};
 const LOGO=(s,c1,c2)=>{c1=c1||'#0B4F5C';c2=c2||'#14A39A';return `<svg width="${s}" height="${s}" viewBox="0 0 64 64" aria-hidden="true"><path fill="${c2}" d="M32 5c7.5 7.5 7.5 18 0 25.5-7.5-7.5-7.5-18 0-25.5z"/><path fill="${c1}" d="M32 59c-7.5-7.5-7.5-18 0-25.5 7.5 7.5 7.5 18 0 25.5z"/><path fill="${c1}" d="M5 32c7.5-7.5 18-7.5 25.5 0-7.5 7.5-18 7.5-25.5 0z"/><path fill="${c2}" d="M59 32c-7.5 7.5-18 7.5-25.5 0 7.5-7.5 18-7.5 25.5 0z"/><g stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity=".75"><path d="M32 10v15M32 39v15M10 32h15M39 32h15"/></g><circle cx="32" cy="32" r="3.4" fill="${c2}"/></svg>`};
 const PINSVG=c=>`<svg width="30" height="38" viewBox="0 0 30 38" aria-hidden="true"><path d="M15 37s13-12.3 13-22A13 13 0 0 0 2 15c0 9.7 13 22 13 22z" fill="${c}" stroke="#fff" stroke-width="2.5"/><circle cx="15" cy="15" r="5" fill="#fff"/></svg>`;
@@ -281,14 +295,15 @@ function ordenar(r){const D=p=>dist(p)??1e9;
  else if(S.sort==='preco')r.sort((a,b)=>(a.pr||1e9)-(b.pr||1e9)||D(a)-D(b));
  else if(S.sort==='nota')r.sort((a,b)=>nota(b)-nota(a)||D(a)-D(b));
  else r.sort((a,b)=>a.n.localeCompare(b.n,'pt'));return r}
-function controles(online){const nf=['fOpen','f24','fWa','fConv','fSus'].filter(k=>S[k]).length;return `<div class="seg" role="group" aria-label="Ordenar">${[['perto',online?'Recomendados':'Mais perto'],['preco','Menor preço'],['nota','Melhor nota']].map(([k,t])=>`<button data-act="sort" data-k="${k}" aria-pressed="${S.sort===k}">${t}</button>`).join('')}</div>
+function controles(online){const nf=['fOpen','f24','fWa','fConv','fSus','fMetro','fAcess','fIncl','fKids','fPet'].filter(k=>S[k]).length;return `<div class="seg" role="group" aria-label="Ordenar">${[['perto',online?'Recomendados':'Mais perto'],['preco','Menor preço'],['nota','Melhor nota']].map(([k,t])=>`<button data-act="sort" data-k="${k}" aria-pressed="${S.sort===k}">${t}</button>`).join('')}</div>
  <div class="row"><button class="btn" data-act="showF" aria-expanded="${!!S.showF}">${SVG('<path d="M4 6h16M7 12h10M10 18h4"/>','#0B4F5C',20)} Filtros${nf?' ('+nf+')':''}</button>${online?'':`<button class="btn" data-act="showMap" aria-expanded="${!!S.showMap}">${I.map('#0B4F5C',20)} ${S.showMap?'Esconder mapa':'Ver no mapa'}</button>`}</div>
- ${S.showF?`<div class="chips" role="group" aria-label="Filtros">`:'<div hidden>'}${[['fOpen','Aberto agora'],['f24','24 horas'],['fWa','Com WhatsApp'],['fConv','Aceita convênio'],['fSus','SUS']].map(([k,t])=>`<button class="chip" data-act="tg" data-k="${k}" aria-pressed="${S[k]}">${t}</button>`).join('')}</div>`}
+ ${S.showF?`<div class="chips" role="group" aria-label="Filtros">`:'<div hidden>'}${[['fOpen','Aberto agora'],['f24','24 horas'],['fWa','Com WhatsApp'],['fConv','Aceita convênio'],['fSus','SUS'],['fMetro','Ao lado do metrô'],['fAcess','Acessível'],['fIncl','Inclusivo'],['fKids','Espaço kids'],['fPet','Aceita pet']].map(([k,t])=>`<button class="chip" data-act="tg" data-k="${k}" aria-pressed="${S[k]}">${t}</button>`).join('')}</div>`}
 function notaOrdem(){if(S.sort==='preco')return'Só alguns locais publicam preço; os demais aparecem depois, por distância.';if(S.sort==='nota')return'Pela nota do Google Maps (pesquisada em '+CFG.dataRef+') onde encontramos; os demais aparecem depois, por distância.';return''}
 function vResultados(){const f=S.flow;const online=f.modo==='online';const r=resultadosFlow();
  const sub=(f.modo==='presencial'?'Presencial':f.modo==='online'?'Online':f.modo==='lab'?'Laboratorial':'Imagem')+' · '+r.length+' '+(r.length===1?'opção':'opções');
  return phead(itemNome(),sub)+`<section class="sec">${online?'':origemBloco()}${controles(online)}
  ${notaOrdem()?`<p class="sm mut" style="margin:0">${esc(notaOrdem())}</p>`:''}
+ ${f.modo==='img'?`<button class="btn pri" data-act="orc" style="flex:none">${I.doc('#fff',20)} Pedir 3 orçamentos com foto do pedido</button>`:''}
  ${online?`<div class="info">${I.video('#0A4B44',20)}<span>Consultas por vídeo: toque em <b>Acessar</b> para abrir o serviço ou o perfil do médico.</span></div>`:(S.showMap?`<div class="mapwrap"><div id="mapRes" class="leaf" style="height:18rem"></div></div>`:'')}
  ${r.length?`<div class="grid">${r.slice(0,S.lim||30).map(card).join('')}</div>${r.length>(S.lim||30)?`<button class="btn" style="width:100%;margin-top:.6rem" data-act="mais">Mostrar mais (${r.length-(S.lim||30)} restantes)</button>`:''}`:'<div class="empty">Nenhum local com esses filtros. Tire um filtro para ver mais.</div>'}</section>`}
 function vBuscar(){return phead('Buscar','Digite ou fale o que precisa',false)+`<section class="sec">${buscaForm('qb','Médico, exame, local ou bairro',S.q,'q')}${origemChip(true)}
@@ -555,8 +570,8 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
  case'voltar':voltar();break;
  case'tipo':S.flow={tipo:t.dataset.v,modo:null,item:null};ir('modo');break;
  case'modo':S.flow.modo=t.dataset.v;S.flow.item=null;S.qi='';ir('itens');break;
- case'item':S.flow.item=t.dataset.k;S.sort='perto';S.fWa=S.fOpen=S.fConv=S.fSus=S.f24=false;ir('resultados');break;
- case'atalho':{const k=t.dataset.k;if(k!=='gps'&&k!=='emerg'){fecharMenu('nav');fechar('nav')}S.fWa=S.fOpen=S.fConv=S.fSus=S.f24=false;S.q='';S.cat='todos';S.sort='perto';
+ case'item':S.flow.item=t.dataset.k;S.sort='perto';S.fWa=S.fOpen=S.fConv=S.fSus=S.f24=S.fMetro=S.fAcess=S.fIncl=S.fKids=S.fPet=false;ir('resultados');break;
+ case'atalho':{const k=t.dataset.k;if(k!=='gps'&&k!=='emerg'){fecharMenu('nav');fechar('nav')}S.fWa=S.fOpen=S.fConv=S.fSus=S.f24=S.fMetro=S.fAcess=S.fIncl=S.fKids=S.fPet=false;S.q='';S.cat='todos';S.sort='perto';
   if(k==='ps'){S.cat='hospital';S.f24=true;ir('buscar')}else if(k==='wa'){S.fWa=true;ir('buscar')}else if(k==='sus'){S.fSus=true;ir('buscar')}
   else if(k==='tele'){S.flow={tipo:'consulta',modo:'online',item:null};S.qi='';ir('itens')}else if(k==='favs')ir('perfil');else if(k==='emerg')abrirPg('emergencia');
   else if(k==='gps')usarGPS();break}
@@ -847,5 +862,77 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
  if(a==='vozc'){e.preventDefault();vozCampo(t.dataset.alvo)}
  else if(a==='gpsnow'){e.preventDefault();toast('Buscando sua localização…');gpsAuto(false)}
  else if(a==='waenviar'){e.preventDefault();enviarTudo()}});
+/* Ilustrações por categoria (quando o local não tem foto) */
+const ILU_BASE=(bg1,bg2,inner)=>`<svg viewBox="0 0 340 150" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" style="position:absolute;inset:0" aria-hidden="true"><defs><linearGradient id="ig" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${bg1}"/><stop offset="1" stop-color="${bg2}"/></linearGradient></defs><rect width="340" height="150" fill="url(#ig)"/><circle cx="290" cy="30" r="16" fill="#fff" opacity=".55"/><path d="M0 128h340v22H0z" fill="#fff" opacity=".55"/>${inner}</svg>`;
+const ILU={
+hospital:()=>ILU_BASE('#FBE3E3','#FFF6F5',`<rect x="105" y="38" width="130" height="92" rx="6" fill="#fff" stroke="#8A1C22" stroke-width="3"/><rect x="145" y="22" width="50" height="24" rx="5" fill="#fff" stroke="#8A1C22" stroke-width="3"/><path d="M170 26v16M162 34h16" stroke="#C62E4A" stroke-width="5" stroke-linecap="round"/>${[0,1,2].map(r=>[0,1,2,3].map(c=>`<rect x="${117+c*28}" y="${54+r*20}" width="18" height="11" rx="2" fill="#CFE3F2"/>`).join('')).join('')}<rect x="157" y="104" width="26" height="26" rx="3" fill="#8A1C22"/><path d="M60 128c0-30 22-30 22 0M270 128c0-26 20-26 20 0" fill="#7FB89E"/><path d="M71 128v-14M280 128v-12" stroke="#4E7F67" stroke-width="3"/><rect x="40" y="110" width="44" height="18" rx="5" fill="#fff" stroke="#8A1C22" stroke-width="2.5"/><path d="M50 104h18l8 6" stroke="#8A1C22" stroke-width="2.5" fill="none"/><circle cx="50" cy="129" r="4" fill="#33484D"/><circle cx="76" cy="129" r="4" fill="#33484D"/><path d="M58 117h8M62 113v8" stroke="#C62E4A" stroke-width="2.5"/>`),
+clinica:()=>ILU_BASE('#E1F2EA','#F6FBF8',`<rect x="40" y="30" width="260" height="98" rx="8" fill="#fff" stroke="#143D33" stroke-width="3"/><rect x="58" y="44" width="54" height="40" rx="4" fill="#CFE8DD"/><path d="M85 52v24M73 64h24" stroke="#143D33" stroke-width="4" stroke-linecap="round"/><rect x="130" y="90" width="80" height="8" rx="3" fill="#143D33"/><path d="M140 98v30M200 98v30" stroke="#143D33" stroke-width="3"/><rect x="150" y="76" width="26" height="16" rx="2" fill="#9CC9B6"/><circle cx="240" cy="66" r="11" fill="#F2C8A5"/><path d="M222 108c0-18 8-28 18-28s18 10 18 28z" fill="#fff" stroke="#143D33" stroke-width="3"/><path d="M234 86c0 10 2 14 6 16 4-2 6-6 6-16" stroke="#3A9B7A" stroke-width="2.5" fill="none"/><circle cx="240" cy="104" r="3" fill="#3A9B7A"/><rect x="226" y="108" width="28" height="20" rx="3" fill="#143D33"/><rect x="60" y="100" width="56" height="12" rx="4" fill="#CFE8DD" stroke="#143D33" stroke-width="2.5"/><path d="M64 112v16M112 112v16" stroke="#143D33" stroke-width="3"/>`),
+laboratorio:()=>ILU_BASE('#E3ECF7','#F7FAFE',`<rect x="40" y="94" width="260" height="34" rx="6" fill="#fff" stroke="#1F4E7A" stroke-width="3"/><rect x="62" y="70" width="80" height="10" rx="3" fill="#1F4E7A"/>${[0,1,2,3,4].map(i=>`<rect x="${68+i*15}" y="${40+(i%2)*6}" width="9" height="${40-(i%2)*6}" rx="4.5" fill="#fff" stroke="#1F4E7A" stroke-width="2.5"/><rect x="${69.5+i*15}" y="${60}" width="6" height="${18}" rx="3" fill="${['#C62E4A','#E8A33D','#C62E4A','#7A4FB0','#C62E4A'][i]}"/>`).join('')}<path d="M190 128h56M218 128v-14" stroke="#1F4E7A" stroke-width="4" stroke-linecap="round"/><path d="M205 114h26l-6-30-10-8" stroke="#1F4E7A" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="204" y="44" width="14" height="30" rx="3" transform="rotate(-25 211 59)" fill="#fff" stroke="#1F4E7A" stroke-width="3"/><circle cx="240" cy="96" r="7" fill="#CFE3F2" stroke="#1F4E7A" stroke-width="2.5"/><path d="M270 60s10 11 10 18a10 10 0 0 1-20 0c0-7 10-18 10-18z" fill="#E8A1AE" stroke="#C62E4A" stroke-width="2.5"/>`),
+imagem:()=>ILU_BASE('#E6E9F7','#F8F9FE',`<path d="M110 128V74a60 60 0 0 1 120 0v54z" fill="#fff" stroke="#3B4C9B" stroke-width="3"/><circle cx="170" cy="78" r="26" fill="#DCE2F7" stroke="#3B4C9B" stroke-width="3"/><circle cx="170" cy="78" r="12" fill="#3B4C9B" opacity=".25"/><rect x="60" y="104" width="160" height="12" rx="5" fill="#fff" stroke="#3B4C9B" stroke-width="3"/><path d="M80 116v12M200 116v12" stroke="#3B4C9B" stroke-width="3"/><rect x="250" y="48" width="56" height="44" rx="5" fill="#2B3566"/><path d="M278 56v28M266 62c6 0 12 2 12 6M290 62c-6 0-12 2-12 6M266 72c6 0 12 2 12 6M290 72c-6 0-12 2-12 6" stroke="#BFD0FF" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M270 92v12h16V92" stroke="#2B3566" stroke-width="3" fill="none"/><circle cx="54" cy="56" r="10" fill="#3B4C9B" opacity=".2"/>`),
+ubs:()=>ILU_BASE('#E2EEF8','#F7FBFE',`<path d="M90 128V62l80-30 80 30v66z" fill="#fff" stroke="#1C5BA8" stroke-width="3"/><rect x="146" y="58" width="48" height="34" rx="4" fill="#1C5BA8"/><path d="M170 64v22M159 75h22" stroke="#fff" stroke-width="5" stroke-linecap="round"/><rect x="106" y="74" width="26" height="18" rx="2" fill="#CFE3F2"/><rect x="208" y="74" width="26" height="18" rx="2" fill="#CFE3F2"/><rect x="158" y="102" width="24" height="26" rx="3" fill="#1C5BA8" opacity=".85"/><path d="M40 128c0-36 28-36 28 0M282 128c0-30 24-30 24 0" fill="#86C19B"/><path d="M54 128v-16M294 128v-14" stroke="#4E8A63" stroke-width="3"/><path d="M110 112h30M200 112h30" stroke="#1C5BA8" stroke-width="2" opacity=".4"/>`),
+online:()=>ILU_BASE('#DFF3F1','#F5FBFB',`<rect x="128" y="20" width="84" height="112" rx="12" fill="#fff" stroke="#0E6B6B" stroke-width="3"/><rect x="136" y="32" width="68" height="76" rx="6" fill="#CFEDEA"/><circle cx="170" cy="60" r="12" fill="#F2C8A5"/><path d="M150 100c0-14 9-22 20-22s20 8 20 22z" fill="#fff" stroke="#0E6B6B" stroke-width="2.5"/><path d="M164 80c0 8 2 11 6 13 4-2 6-5 6-13" stroke="#0E6B6B" stroke-width="2" fill="none"/><circle cx="170" cy="120" r="5" fill="#0E6B6B"/><rect x="230" y="40" width="66" height="26" rx="10" fill="#fff" stroke="#0E6B6B" stroke-width="2.5"/><path d="M242 50h40M242 57h26" stroke="#0E6B6B" stroke-width="2.5" stroke-linecap="round"/><rect x="44" y="76" width="66" height="26" rx="10" fill="#0E6B6B"/><path d="M56 86h40M56 93h24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>`)};
+function iluDe(p){if(isOnline(p))return'online';if(/^UBS|\bUBS\b|UNIDADE BASICA/i.test(p.n)||(p.fonteCnes&&/Unidade Básica/.test(p.d||'')))return'ubs';if(p.c==='hospital')return'hospital';if(p.c==='laboratorio')return'laboratorio';if(p.c==='imagem')return'imagem';return'clinica'}
+function coverBase(p,h){h=h||'8.5rem';const f=fotosDe(p)[0];const c=CATS[p.c];
+ return `<span class="cover" data-cov="${p.id}" data-h="${h}" style="height:${h}">${f?mapThumb(p,340,150):ILU[iluDe(p)]()}${f?`<img class="ph" src="${esc(f.u)}" alt="Foto: ${esc(p.n)}" loading="lazy" referrerpolicy="no-referrer" onerror="var s=this.parentNode.querySelector('.src');if(s)s.textContent='Mapa · OSM/CARTO';this.remove()">`:''}<span class="bdg">${esc(c.um.toUpperCase())}</span><span class="src">${f?esc(f.src):'Ilustração Pax'}</span></span>`}
+/* =====================================================================
+   Selos da comunidade, estações, orçamentos
+   ===================================================================== */
+const SELO_GRUPOS=[
+ ['Atendimento inclusivo','#7A4FB0',[['lgbt','Acolhe pessoas LGBTQIA+'],['gineco_humanizada','Ginecologia humanizada'],['body_positive','Macas e equipamentos para pessoas gordas']]],
+ ['Acessibilidade física','#1C5BA8',[['rampa','Rampa ou entrada sem degrau'],['elevador','Elevador largo'],['banheiro','Banheiro adaptado'],['libras','Intérprete de LIBRAS']]],
+ ['Estrutura familiar','#C2410C',[['kids','Espaço kids com monitor'],['pet','Aceita pet de suporte ou tem espaço pet']]],
+ ['Transparência e conforto','#0E6B6B',[['ar','Ar-condicionado funciona'],['wifi','Wi-Fi bom na recepção'],['sem_taxa','Sem taxa extra além do combinado']]]];
+const SELO_NOME={};SELO_GRUPOS.forEach(g=>g[2].forEach(([k,t])=>SELO_NOME[k]=t));
+let SELOS={},ESTACOES=[];
+const SBU='https://cckywhtpnjhlwqslmlxz.supabase.co',SBK='sb_publishable_yv9jTgQHXV1Diy_xPkk_eg_qSt_8roq',SBH={apikey:SBK,Authorization:'Bearer '+SBK};
+function aparelhoId(){let a=LS.get('aparelho','');if(!a){a=(crypto.randomUUID?crypto.randomUUID():String(Math.random()).slice(2)+Date.now());LS.set('aparelho',a)}return a}
+function selosDe(p){const s=SELOS[String(p.id)]||{};return Object.keys(s).filter(k=>s[k].selo)}
+function temGrupo(p,i){const ks=SELO_GRUPOS[i][2].map(x=>x[0]);return selosDe(p).some(k=>ks.includes(k))}
+(function(){if(typeof fetch!=='function')return;
+ fetch(SBU+'/rest/v1/pax_selos?select=local_id,item,total,sim,selo',{headers:SBH}).then(r=>r.ok?r.json():[]).then(rs=>{SELOS={};(rs||[]).forEach(x=>{(SELOS[x.local_id]=SELOS[x.local_id]||{})[x.item]=x})}).catch(()=>{});
+ const c=LS.get('estacoes',null);if(c&&c.rows){ESTACOES=c.rows}if(c&&c.em&&Date.now()-c.em<30*864e5)return;
+ fetch(SBU+'/rest/v1/pax_estacoes?select=nome,tipo,lat,lon&limit=5000',{headers:SBH}).then(r=>r.ok?r.json():null).then(rs=>{if(rs&&rs.length){ESTACOES=rs;LS.set('estacoes',{em:Date.now(),rows:rs})}}).catch(()=>{})})();
+const TIPO_EST={metro:'Metrô',trem:'Trem (CPTM)',onibus:'Terminal de ônibus'};
+function estacaoPerto(p){if(p._est!==undefined&&p._estN===ESTACOES.length)return p._est;p._estN=ESTACOES.length;p._est=null;if(p.la==null||!ESTACOES.length)return null;let m=null;
+ for(const e of ESTACOES){if(Math.abs(e.lat-p.la)>.006||Math.abs(e.lon-p.lo)>.007)continue;const d=km(p,{la:e.lat,lo:e.lon});if(d!=null&&d<=.5&&(!m||d<m.d))m={n:e.nome,t:e.tipo,d}}return p._est=m}
+function filtrosAplic(r){return r.filter(p=>{if(S.fWa&&!p.wa)return false;if(S.fOpen&&status(p).k!=='aberto')return false;if(S.fConv&&!/conv|plano/i.test(p.cv))return false;if(S.fSus&&!p.sus)return false;if(S.f24&&p.h!=='24h')return false;
+ if(S.fMetro&&!estacaoPerto(p))return false;if(S.fAcess&&!temGrupo(p,1))return false;if(S.fIncl&&!temGrupo(p,0))return false;if(S.fKids&&!selosDe(p).includes('kids'))return false;if(S.fPet&&!selosDe(p).includes('pet'))return false;return true})}
+function blocoSelos(p){if(isOnline(p))return'';const ss=selosDe(p);const e=estacaoPerto(p);const s=SELOS[String(p.id)]||{};const pend=Object.keys(s).filter(k=>!s[k].selo&&s[k].total>0).length;
+ return `<section class="sec"><h2 class="h2">Selos da comunidade</h2>
+ ${e?`<div class="info">${I.pin('#0A4B44',20)}<span><b>Ao lado do ${esc(TIPO_EST[e.t])}:</b> ${esc(e.n)}, a ${fkm(e.d)} a pé.</span></div>`:''}
+ ${ss.length?`<div class="selos">${SELO_GRUPOS.map(([g,cor,its])=>its.filter(([k])=>ss.includes(k)).map(([k,t])=>`<span class="selo" style="--c:${cor}">✓ ${esc(t)}</span>`).join('')).join('')}</div>`:`<p class="p mut">Ainda não há selos. Eles aparecem quando pelo menos 3 pessoas confirmam o mesmo item (70% ou mais de “sim”).${pend?` Já há avaliações em andamento.`:''}</p>`}
+ <button class="btn" data-act="avaliar" data-id="${p.id}" style="flex:none">★ Avaliar estrutura e atendimento</button></section>`}
+const _vLocal=VIEWS.local;VIEWS.local=()=>{const h=_vLocal();const p=byId(S.sel);return p?h+blocoSelos(p):h};
+let AV={};
+function abrirAvaliar(id){const p=byId(id);AV={id,r:LS.get('av_'+id,{})};desenharAv(p)}
+function desenharAv(p){abrirModal(`<div class="row between"><h2 class="h2">Avaliar ${esc(p.n)}</h2>${xBtn}</div><p class="p mut">Responda só o que você viu. É anônimo: não enviamos nome, telefone nem localização.</p>
+ ${SELO_GRUPOS.map(([g,cor,its])=>`<div class="col" style="gap:.4rem"><b style="color:${cor}">${g}</b>${its.map(([k,t])=>`<div class="row between" style="gap:.5rem"><span class="sm" style="flex:1">${esc(t)}</span><div class="seg" role="group" aria-label="${esc(t)}">${[['s','Sim'],['n','Não'],['x','Não sei']].map(([v,l])=>`<button type="button" data-act="avset" data-k="${k}" data-v="${v}" aria-pressed="${(AV.r[k]||'x')===v}">${l}</button>`).join('')}</div></div>`).join('')}</div>`).join('')}
+ <button class="btn pri" data-act="avenviar" style="flex:none">Enviar avaliação</button>`,'Avaliar local')}
+async function enviarAv(){const p=byId(AV.id);const its=Object.entries(AV.r).filter(([k,v])=>v!=='x');if(!its.length){toast('Marque pelo menos um item');return}
+ const ap=aparelhoId();const rows=its.map(([k,v])=>({local_id:String(p.id),item:k,valor:v==='s',aparelho:ap}));
+ try{const r=await fetch(SBU+'/rest/v1/pax_avaliacoes',{method:'POST',headers:Object.assign({'Content-Type':'application/json',Prefer:'resolution=ignore-duplicates,return=minimal'},SBH),body:JSON.stringify(rows)});
+  if(!r.ok&&r.status!==409)throw 0;LS.set('av_'+p.id,AV.r);fechar();toast('Obrigado! Sua avaliação ajuda outras pessoas.')}catch(e){toast('Não foi possível enviar agora. Tente com internet.')}}
+
+/* ---------- 3 orçamentos de exame de imagem ---------- */
+const GRANDES=/fleury|einstein|s[ií]rio|delboni|lavoisier|a\+|alta excel|dasa|salom[aã]o|hcor|oswaldo cruz|9 de julho|nove de julho|rede d.or|s[aã]o luiz|samaritano|sabar[aá]|benefic[eê]ncia/i;
+function candidatosOrc(){const k=S.flow.item;return LOC.filter(p=>!isOnline(p)&&p.c!=='hospital'&&p.img.includes(k)&&!GRANDES.test(p.n)&&(p.wa||p.t.length)&&p.la!=null).sort((a,b)=>((b.wa?1:0)-(a.wa?1:0))||(dist(a)??1e9)-(dist(b)??1e9)).slice(0,3)}
+function abrirOrc(){const cs=candidatosOrc();const ex=itemNome();ORC={cs,file:ORC.file||null};
+ abrirModal(`<div class="row between"><h2 class="h2">3 orçamentos de ${esc(ex)}</h2>${xBtn}</div>
+ <p class="p mut">Escolhemos as 3 clínicas de médio porte mais perto, fora das grandes redes, todas com cadastro no CNES (Ministério da Saúde). Você envia o pedido médico para as 3 e compara as respostas.</p>
+ <label class="soc" style="cursor:pointer"><span class="si" style="background:var(--mint)">${I.doc('#0B4F5C',22)}</span><span class="col" style="flex:1;min-width:0"><b>Foto do pedido médico</b><span class="sm mut ell">${ORC.file?esc(ORC.file.name):'Tire uma foto ou escolha da galeria'}</span></span><span class="ref-bt" style="background:var(--mint)">${ORC.file?'Trocar':'Fotografar'}</span><input type="file" accept="image/*" capture="environment" data-live="orcfoto" class="sr"></label>
+ ${cs.length?cs.map((p,i)=>`<div class="card" style="gap:.4rem"><b>${i+1}. ${esc(p.n)}</b><span class="sm mut">${esc(limpaEnd(p.e))} · ${fkm(dist(p))}</span><button class="btn ${p.wa?'wa':''}" data-act="orcenviar" data-id="${p.id}" style="flex:none">${p.wa?ICW+' Pedir orçamento pelo WhatsApp':I.phone('#0B4F5C',18)+' Ligar e pedir orçamento'}</button></div>`).join(''):'<div class="empty">Não achamos clínicas de médio porte com contato para este exame perto de você.</div>'}
+ <span class="sm mut">O preço final é sempre confirmado pela clínica.</span>`,'Pedir orçamentos')}
+let ORC={};
+function textoOrc(){return `Olá! Encontrei vocês pelo Pax - Saúde. Gostaria de um orçamento particular para ${itemNome()}${ORC.file?' (pedido médico em anexo)':''}. Qual o valor, o preparo e a próxima data disponível? Obrigado!`}
+async function orcEnviar(id){const p=byId(id);const t=textoOrc();if(!p.wa){ligar(id);return}
+ try{if(ORC.file&&navigator.canShare&&navigator.canShare({files:[ORC.file],text:t})){await navigator.share({files:[ORC.file],text:t});toast('Escolha o WhatsApp e a conversa de '+p.n);return}}catch(e){if(e&&e.name==='AbortError')return}
+ window.open(waUrl(p,t),'_blank')}
+document.addEventListener('change',e=>{const t=e.target;if(t.dataset&&t.dataset.live==='orcfoto'&&t.files&&t.files[0]){ORC.file=t.files[0];abrirOrc()}});
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t||S.lendo)return;const a=t.dataset.act;
+ if(a==='avaliar')abrirAvaliar(+t.dataset.id);
+ else if(a==='avset'){AV.r[t.dataset.k]=t.dataset.v;desenharAv(byId(AV.id))}
+ else if(a==='avenviar')enviarAv();
+ else if(a==='orc'){ORC={};abrirOrc()}
+ else if(a==='orcenviar')orcEnviar(+t.dataset.id)});
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
