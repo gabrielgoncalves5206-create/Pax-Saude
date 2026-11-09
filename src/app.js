@@ -995,11 +995,5 @@ const _vLocal3=VIEWS.local;VIEWS.local=()=>{const h=_vLocal3();const p=byId(S.se
 window.paxLeaflet=()=>{if(document.querySelector('#modal [data-mapwait]'))mapaWA();if(document.querySelector('#app [data-mapwait]'))render()};
 setTimeout(()=>{if(typeof window.L==='undefined'){const w=document.querySelector('[data-mapwait] .empty');if(w)w.textContent='O mapa precisa de internet. Use os botões do Google Maps.'}},9000);
 
-/* ===== Street View ao vivo (Maps Embed API, gratuita; chave restrita ao site) ===== */
-const SV_KEY='AIzaSyCQ6iNylAU8eKhy9oCKDUw5pHmv2fBi47A';
-function blocoStreetView(p){if(isOnline(p)||p.la==null)return'';
- const src=`https://www.google.com/maps/embed/v1/streetview?key=${SV_KEY}&location=${p.la},${p.lo}&fov=75&pitch=8&source=outdoor`;
- return `<div class="sv"><iframe title="Street View da frente de ${esc(p.n)}" src="${src}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><span class="sv-tag">Vista da rua · arraste para girar</span></div>`}
-const _vLocal4=VIEWS.local;VIEWS.local=()=>{const h=_vLocal4();const p=byId(S.sel);if(!p)return h;const k='<div class="mapbtns">';return h.includes(k)?h.replace(k,blocoStreetView(p)+k):h};
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
