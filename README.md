@@ -5,15 +5,11 @@ App web para encontrar **consultas e exames na cidade de São Paulo** (foco na A
 **Acesse:** https://gabrielgoncalves5206-create.github.io/pax-saude/
 
 ## O que tem
-- 120 locais e serviços (hospitais, clínicas, médicos, laboratórios, diagnóstico por imagem e teleconsulta)
-- Fluxo: Consultas → Presencial/Online → especialidade · Exames → Laboratoriais/Imagem → exame
-- WhatsApp com mensagem pronta (só onde é oficial); nos demais, "Ligar"
-- Rota com partida e destino editáveis: a pé, bicicleta, carro (OSRM) e transporte público
-- Nota do Google Maps (com data) e botão "Avaliar no Google Maps"
-- Redes sociais oficiais de cada local
-- Fotos: site oficial → Mapillary → Wikimedia Commons → miniatura do mapa
-- Acessibilidade: 3 tamanhos de letra, alto contraste, letra de leitura fácil, leitura em voz alta, busca por voz, modo simples, reduzir animações
-- Perfil com nome, celular e dependentes (dados ficam só no aparelho)
+- Dois locais: **Dimagem Unineuro** (Lapa) e **MITI** (1º andar do Horsa II, Conjunto Nacional, Av. Paulista, 2073)
+- Cadastro obrigatório na primeira abertura: nome, celular e convênio (ou Particular). **Cada celular só pode ter um cadastro**: a regra é garantida no banco (`supabase/pax_cadastros.sql`, rodar uma vez)
+- Fluxo: Consultas ou Exames → local → Agendar (só pergunta o exame, quando há mais de um, e o período) → mensagem pronta no WhatsApp
+- Rota com partida e destino editáveis: a pé, bicicleta, carro e transporte público
+- Acessibilidade: 3 tamanhos de letra, alto contraste, letra de leitura fácil, leitura em voz alta, modo simples, reduzir animações
 
 ## Estrutura
 - `index.html` — app completo em um arquivo (é o que o GitHub Pages publica)
@@ -28,5 +24,7 @@ No início de `src/app.js`, o objeto `CFG` guarda:
 - `empresa` e `email`: nome da empresa e e-mail de contato (ainda a definir).
 
 ## Pendências
+- Rodar `supabase/pax_cadastros.sql` no Supabase (sem isso o cadastro não conclui)
+- WhatsApp, telefone, horário e serviços do MITI
 - Nome da empresa e e-mail de contato
 - Termos de Uso e Política de Privacidade são rascunhos para revisão jurídica

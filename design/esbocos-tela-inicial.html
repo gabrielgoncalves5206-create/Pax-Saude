@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pax - Saúde · 3 esboços da tela inicial</title>
+<style>
+/* Cada esboço troca só as variáveis de cor; layout idêntico ao app (src/shell.html). */
+.t-a{--hero:#8FDDD6;--hero-ink:#06302E;--hero-sub:#0B4B48;--accent:#8A6A1F;--accent-ink:#fff;--bg:#F3FAF9;--card:#fff;--ink:#0B2928;--mut:#44605E;--line:#CFE6E3;
+ --c1-bg:#DDF4F1;--c1-ink:#0A5754;--c1-line:#B5E3DE;--c2-bg:#F6ECD2;--c2-ink:#6B5010;--c2-line:#E5D1A0;--nav:#0B4B48;--nav-on:#E7CC86;--chip:rgba(6,48,46,.10);--search-ic:#0A5754}
+.t-b{--hero:#1F2A5C;--hero-ink:#fff;--hero-sub:#C9D1F5;--accent:#E8684A;--accent-ink:#2A0E07;--bg:#F5F6FB;--card:#fff;--ink:#141A3A;--mut:#4B5278;--line:#DADEF0;
+ --c1-bg:#E4E8FB;--c1-ink:#1F2A5C;--c1-line:#C3CBF0;--c2-bg:#FFE6DE;--c2-ink:#8A2B13;--c2-line:#F6C3B5;--nav:#fff;--nav-on:#1F2A5C;--chip:rgba(255,255,255,.14);--search-ic:#1F2A5C}
+.t-c{--hero:#4A2252;--hero-ink:#fff;--hero-sub:#EBCFF0;--accent:#2E8F6E;--accent-ink:#fff;--bg:#FAF5F8;--card:#fff;--ink:#2A1330;--mut:#645069;--line:#EBDDE9;
+ --c1-bg:#F6E3EF;--c1-ink:#6B2468;--c1-line:#E9C4DD;--c2-bg:#DCF3E9;--c2-ink:#17624A;--c2-line:#B3E0CD;--nav:#4A2252;--nav-on:#fff;--chip:rgba(255,255,255,.14);--search-ic:#4A2252}
+
+*{box-sizing:border-box}
+body{margin:0;background:#E9EDEC;font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;color:#0C2329;-webkit-font-smoothing:antialiased}
+h1.pg{margin:0;padding:1.4rem 1.5rem .2rem;font-size:1.35rem}
+p.pg{margin:0;padding:0 1.5rem 1rem;color:#4A6066;font-size:.95rem}
+.board{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;padding:0 1.5rem 2rem}
+.col{display:flex;flex-direction:column;align-items:center;gap:.8rem;width:390px}
+.cap{width:100%}
+.cap b{display:block;font-size:1.05rem}
+.cap span{display:block;font-size:.85rem;color:#4A6066;line-height:1.45;margin-top:.15rem}
+.sw{display:flex;gap:.35rem;margin-top:.5rem}
+.sw i{display:block;width:2.4rem;height:2.1rem;border-radius:.6rem;border:1px solid rgba(0,0,0,.12)}
+.sw small{display:block;font-size:.6rem;color:#4A6066;text-align:center;margin-top:.15rem}
+
+/* ---- moldura do celular ---- */
+.phone{width:390px;height:880px;border-radius:2.4rem;background:var(--bg);border:9px solid #14181A;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 18px 40px rgba(0,0,0,.22)}
+.scroll{flex:1;overflow:hidden;padding-bottom:5.2rem}
+.top{display:grid;grid-template-columns:3rem 1fr 3rem;align-items:center;padding:.55rem .75rem;background:var(--hero);color:var(--hero-ink)}
+.top .ib{width:3rem;height:3rem;display:flex;align-items:center;justify-content:center}
+.brand{justify-self:center;display:flex;align-items:center;gap:.5rem;font-size:1.2rem}
+.brand .mk{width:2.1rem;height:2.1rem;border-radius:.8rem;background:var(--accent);display:flex;align-items:center;justify-content:center}
+.brand b{font-weight:800}.brand span{font-weight:500;opacity:.85}
+.hero{background:var(--hero);color:var(--hero-ink);padding:.4rem 1rem 1.4rem;border-radius:0 0 1.75rem 1.75rem;display:flex;flex-direction:column;gap:.85rem}
+.hello{font-size:1.45rem;font-weight:800;margin:0;line-height:1.25}
+.hello small{display:block;font-size:.92rem;font-weight:500;color:var(--hero-sub);margin-top:.15rem}
+.ref{display:flex;align-items:center;gap:.6rem;min-height:3.2rem;padding:.4rem .6rem .4rem .5rem;border-radius:1rem;background:var(--chip);color:var(--hero-ink)}
+.ref .ri{width:2.2rem;height:2.2rem;border-radius:.8rem;background:var(--accent);display:flex;align-items:center;justify-content:center;flex:none}
+.ref .rt{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}
+.ref .rt small{font-size:.7rem;font-weight:600;color:var(--hero-sub)}
+.ref .rt b{font-size:.9rem}
+.ref .rb{font-size:.78rem;font-weight:800;text-decoration:underline;text-underline-offset:2px}
+.search{display:flex;align-items:center;gap:.6rem;min-height:3.4rem;padding:.3rem .35rem .3rem .9rem;border-radius:1.1rem;background:#fff;color:var(--ink);box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.search span{flex:1;font-size:.95rem;color:#5B6F6D}
+.mic{width:2.75rem;height:2.75rem;border-radius:.85rem;background:var(--accent);display:flex;align-items:center;justify-content:center;flex:none}
+.sec{padding:1.1rem 1rem 0;display:flex;flex-direction:column;gap:.8rem}
+.h2{margin:0;font-size:1.1rem;font-weight:800;color:var(--ink)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.cube{position:relative;overflow:hidden;min-height:10.5rem;display:flex;flex-direction:column;gap:.6rem;padding:1.1rem;border-radius:1.6rem;text-align:left}
+.cube .ic{width:3.8rem;height:3.8rem;border-radius:1.2rem;background:#fff;display:flex;align-items:center;justify-content:center}
+.cube .t{font-size:1.45rem;font-weight:800;line-height:1.15}
+.cube .d{font-size:.84rem;line-height:1.4;font-weight:600;opacity:.92}
+.cube.c1{background:var(--c1-bg);color:var(--c1-ink);border:1.5px solid var(--c1-line)}
+.cube.c2{background:var(--c2-bg);color:var(--c2-ink);border:1.5px solid var(--c2-line)}
+.cube .bg{position:absolute;right:-18px;bottom:-22px;opacity:.09}
+.hs{display:flex;gap:.7rem;overflow:hidden}
+.short{width:5.2rem;flex:none;display:flex;flex-direction:column;align-items:center;gap:.4rem;font-size:.74rem;font-weight:700;text-align:center;line-height:1.2;color:var(--ink)}
+.short i{width:3.4rem;height:3.4rem;border-radius:1.15rem;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line)}
+.sos{display:flex;align-items:center;gap:.7rem;padding:.8rem .9rem;border-radius:1rem;background:#FBE9E8;color:#7D1B15;font-size:.85rem;line-height:1.4}
+.sos b{font-size:.92rem}
+.nav{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,1fr);align-items:end;padding:.45rem .4rem .7rem;background:var(--nav);border-top:1px solid var(--line)}
+.nav div{display:flex;flex-direction:column;align-items:center;gap:.2rem;font-size:.68rem;font-weight:700;min-height:3.2rem;color:var(--mut)}
+.t-a .nav div{color:#CBE9E6}
+.nav .on{color:var(--nav-on)}
+.t-c .nav div{color:#E6D2EB}.t-c .nav .on{color:#fff}
+.t-a .nav .on{color:var(--nav-on)}
+.t-c .nav div{color:#E6D2EB}.t-c .nav .on{color:#fff}
+.nav .bub{width:3.2rem;height:2rem;border-radius:999px;display:flex;align-items:center;justify-content:center}
+.nav .on .bub{background:var(--accent)}
+.nav .plus{width:3.5rem;height:3.5rem;border-radius:1.3rem;margin-top:-1.5rem;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.28)}
+.notes{width:100%;font-size:.8rem;color:#33484D;line-height:1.5;background:#fff;border-radius:1rem;padding:.7rem .9rem;border:1px solid #D5E0DF}
+.notes table{width:100%;border-collapse:collapse;font-size:.75rem;margin-top:.3rem}
+.notes td{padding:.15rem 0}
+.notes td:last-child{text-align:right;font-weight:800}
+</style>
+</head>
+<body>
+<h1 class="pg">Pax - Saúde · 3 esboços da tela inicial (Consultas e Exames)</h1>
+<p class="pg">Mesmo layout do app atual, trocando apenas a paleta. Tamanhos de toque, textos e hierarquia permanecem iguais.</p>
+
+<div class="board">
+
+<!-- ================= A · TIFFANY + DOURADO ================= -->
+<div class="col t-a">
+ <div class="cap"><b>A · Tiffany + dourado escuro</b>
+ <span>Superfícies em azul Tiffany suave, texto em verde-petróleo profundo e dourado escuro como cor de ação. Ar de clínica premium e acolhedora.</span>
+ <div class="sw"><div><i style="background:#8FDDD6"></i><small>Tiffany</small></div><div><i style="background:#0B4B48"></i><small>Petróleo</small></div><div><i style="background:#8A6A1F"></i><small>Dourado</small></div><div><i style="background:#F6ECD2"></i><small>Areia</small></div><div><i style="background:#F3FAF9"></i><small>Fundo</small></div></div></div>
+ <div class="phone">
+  <div class="scroll">
+   <div class="top"><div class="ib"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></div>
+    <div class="brand"><span class="mk"><svg width="20" height="20" viewBox="0 0 64 64" fill="#fff"><path d="M32 8c6 6 6 15 0 21-6-6-6-15 0-21zM32 56c-6-6-6-15 0-21 6 6 6 15 0 21zM8 32c6-6 15-6 21 0-6 6-15 6-21 0zM56 32c-6 6-15 6-21 0 6-6 15-6 21 0z"/></svg></span><span><b>Pax</b> - Saúde</span></div><div class="ib"></div></div>
+   <section class="hero"><h2 class="hello">Olá! <small>O que você precisa hoje?</small></h2>
+    <div class="ref"><span class="ri"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg></span><span class="rt"><small>Endereço de Referência:</small><b>Av. Paulista, 1000 · Bela Vista</b></span><span class="rb">Alterar</span></div>
+    <div class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A5754" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span>Especialidade, exame, local ou bairro</span><div class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div></div>
+   </section>
+   <section class="sec"><div class="duo">
+    <div class="cube c1"><span class="ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0A5754" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a4 4 0 0 0 8 0V3M10 13v2a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="11" r="2"/></svg></span><span class="t">Consultas</span><span class="d">Presencial perto de você ou online por vídeo</span></div>
+    <div class="cube c2"><span class="ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#6B5010" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/><path d="M7.5 15h9"/></svg></span><span class="t">Exames</span><span class="d">Laboratoriais (sangue, urina) ou de imagem</span></div>
+   </div></section>
+   <section class="sec"><h2 class="h2">Atalhos</h2><div class="hs">
+    <div class="short"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B3261E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></i>Pronto-socorro 24h</div>
+    <div class="short"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0A5754" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6" width="12" height="12" rx="2"/><path d="M15 10l6-3v10l-6-3"/></svg></i>Consulta por vídeo</div>
+    <div class="short"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#12794A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.8z"/></svg></i>Com WhatsApp</div>
+    <div class="short"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8A6A1F" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></i>Perto de mim</div>
+   </div></section>
+   <section class="sec"><div class="sos"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B3261E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span><b>Emergência? Ligue 192 (SAMU)</b><br>Bombeiros: 193 · Não espere agendar.</span></div></section>
+  </div>
+  <div class="nav">
+   <div class="on"><span class="bub"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></span>Início</div>
+   <div><span class="bub"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></span>Buscar</div>
+   <div><span class="plus"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>Agendar</div>
+   <div><span class="bub"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.500-9 9-9 9z"/></svg></span>Favoritos</div>
+   <div><span class="bub"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>Perfil</div>
+  </div>
+ </div>
+ <div class="notes"><b>Por que funciona:</b> o Tiffany puro tem pouco contraste com branco, então ele fica nas superfícies (cabeçalho, fundo) e o texto usa petróleo escuro. O dourado escuro dá o toque de requinte em botões e ícones de ação, e distingue Exames (areia/dourado) de Consultas (Tiffany).</div>
+</div>
+
+<!-- ================= B · AZUL-ÍNDIGO + CORAL ================= -->
+<div class="col t-b">
+ <div class="cap"><b>B · Índigo + coral</b>
+ <span>Cabeçalho índigo profundo, cartões em lavanda e pêssego, coral como destaque. Transmite confiança e energia, bem diferente do verde-azulado atual.</span>
+ <div class="sw"><div><i style="background:#1F2A5C"></i><small>Índigo</small></div><div><i style="background:#E4E8FB"></i><small>Lavanda</small></div><div><i style="background:#E8684A"></i><small>Coral</small></div><div><i style="background:#FFE6DE"></i><small>Pêssego</small></div><div><i style="background:#F5F6FB"></i><small>Fundo</small></div></div></div>
+ <div class="phone">
+  <div class="scroll">
+   <div class="top"><div class="ib"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></div>
+    <div class="brand"><span class="mk"><svg width="20" height="20" viewBox="0 0 64 64" fill="#2A0E07"><path d="M32 8c6 6 6 15 0 21-6-6-6-15 0-21zM32 56c-6-6-6-15 0-21 6 6 6 15 0 21zM8 32c6-6 15-6 21 0-6 6-15 6-21 0zM56 32c-6 6-15 6-21 0 6-6 15-6 21 0z"/></svg></span><span><b>Pax</b> - Saúde</span></div><div class="ib"></div></div>
+   <section class="hero"><h2 class="hello">Olá! <small>O que você precisa hoje?</small></h2>
+    <div class="ref"><span class="ri"><svg width="20" height="20" viewBox="0 0 24 24" fill="#2A0E07"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg></span><span class="rt"><small>Endereço de Referência:</small><b>Av. Paulista, 1000 · Bela Vista</b></span><span class="rb">Alterar</span></div>
+    <div class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F2A5C" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span>Especialidade, exame, local ou bairro</span><div class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#2A0E07"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="#2A0E07" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div></div>
+   </section>
+   <section class="sec"><div class="duo">
+    <div class="cube c1"><span class="ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1F2A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a4 4 0 0 0 8 0V3M10 13v2a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="11" r="2"/></svg></span><span class="t">Consultas</span><span class="d">Presencial perto de você ou online por vídeo</span></div>
+    <div class="cube c2"><span class="ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#8A2B13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/><path d="M7.5 15h9"/></svg></span><span class="t">Exames</span><span class="d">Laboratoriais (sangue, urina) ou de imagem</span></div>
+   </div></section>
+   <section class="sec"><h2 class="h2">Atalhos</h2><div class="hs">
+    <div class="short"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B3261E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></i>Pronto-socorro 24h</div>
+    <div class="short"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F2A5C" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6" width="12" height="12" rx="2"/><path d="M15 10l6-3v10l-6-3"/></svg></i>Consulta por vídeo</div>
+    <div class="short"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#12794A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.8z"/></svg></i>Com WhatsApp</div>
+    <div class="short"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B4442A" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></i>Perto de mim</div>
+   </div></section>
+   <section class="sec"><div class="sos"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B3261E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span><b>Emergência? Ligue 192 (SAMU)</b><br>Bombeiros: 193 · Não espere agendar.</span></div></section>
+  </div>
+  <div class="nav">
+   <div class="on"><span class="bub"><svg width="22" height="22" viewBox="0 0 24 24" fill="#2A0E07"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></span>Início</div>
+   <div><span class="bub"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></span>Buscar</div>
+   <div><span class="plus"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2A0E07" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>Agendar</div>
+   <div><span class="bub"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.500-9 9-9 9z"/></svg></span>Favoritos</div>
+   <div><span class="bub"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>Perfil</div>
+  </div>
+ </div>
+ <div class="notes"><b>Por que funciona:</b> índigo + coral são complementares, então Consultas (frio) e Exames (quente) se distinguem de longe. Coral só entra como preenchimento com texto escuro, nunca como texto sobre branco, para manter o contraste.</div>
+</div>
+
+<!-- ================= C · AMEIXA + MENTA ================= -->
+<div class="col t-c">
+ <div class="cap"><b>C · Ameixa + rosa quartzo + menta</b>
+ <span>Cabeçalho ameixa, cartões em rosa quartzo e verde-menta. Visual acolhedor e feminino-neutro, comum em saúde da mulher e bem-estar, mais afetivo que técnico.</span>
+ <div class="sw"><div><i style="background:#4A2252"></i><small>Ameixa</small></div><div><i style="background:#F6E3EF"></i><small>Quartzo</small></div><div><i style="background:#2E8F6E"></i><small>Menta</small></div><div><i style="background:#DCF3E9"></i><small>Névoa</small></div><div><i style="background:#FAF5F8"></i><small>Fundo</small></div></div></div>
+ <div class="phone">
+  <div class="scroll">
+   <div class="top"><div class="ib"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></div>
+    <div class="brand"><span class="mk"><svg width="20" height="20" viewBox="0 0 64 64" fill="#fff"><path d="M32 8c6 6 6 15 0 21-6-6-6-15 0-21zM32 56c-6-6-6-15 0-21 6 6 6 15 0 21zM8 32c6-6 15-6 21 0-6 6-15 6-21 0zM56 32c-6 6-15 6-21 0 6-6 15-6 21 0z"/></svg></span><span><b>Pax</b> - Saúde</span></div><div class="ib"></div></div>
+   <section class="hero"><h2 class="hello">Olá! <small>O que você precisa hoje?</small></h2>
+    <div class="ref"><span class="ri"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg></span><span class="rt"><small>Endereço de Referência:</small><b>Av. Paulista, 1000 · Bela Vista</b></span><span class="rb">Alterar</span></div>
+    <div class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4A2252" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span>Especialidade, exame, local ou bairro</span><div class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div></div>
+   </section>
+   <section class="sec"><div class="duo">
+    <div class="cube c1"><span class="ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#6B2468" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a4 4 0 0 0 8 0V3M10 13v2a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="11" r="2"/></svg></span><span class="t">Consultas</span><span class="d">Presencial perto de você ou online por vídeo</span></div>
+    <div class="cube c2"><span class="ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#17624A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/><path d="M7.5 15h9"/></svg></span><span class="t">Exames</span><span class="d">Laboratoriais (sangue, urina) ou de imagem</span></div>
+   </div></section>
+   <section class="sec"><h2 class="h2">Atalhos</h2><div class="hs">
+    <div class="short"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B3261E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></i>Pronto-socorro 24h</div>
+    <div class="short"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6B2468" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6" width="12" height="12" rx="2"/><path d="M15 10l6-3v10l-6-3"/></svg></i>Consulta por vídeo</div>
+    <div class="short"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#17624A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.8z"/></svg></i>Com WhatsApp</div>
+    <div class="short"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4A2252" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></i>Perto de mim</div>
+   </div></section>
+   <section class="sec"><div class="sos"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B3261E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span><b>Emergência? Ligue 192 (SAMU)</b><br>Bombeiros: 193 · Não espere agendar.</span></div></section>
+  </div>
+  <div class="nav">
+   <div class="on"><span class="bub"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></span>Início</div>
+   <div><span class="bub"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></span>Buscar</div>
+   <div><span class="plus"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>Agendar</div>
+   <div><span class="bub"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.500-9 9-9 9z"/></svg></span>Favoritos</div>
+   <div><span class="bub"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>Perfil</div>
+  </div>
+ </div>
+ <div class="notes"><b>Por que funciona:</b> ameixa dá seriedade médica sem o "azul de hospital"; o verde-menta lembra cuidado e frescor e separa bem Exames de Consultas. Atenção: é a paleta mais afetiva, convém validar se combina com o público geral (SUS, convênio e particular).</div>
+</div>
+
+</div>
+</body>
+</html>
