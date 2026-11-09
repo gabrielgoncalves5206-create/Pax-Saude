@@ -1513,10 +1513,13 @@ function mapaWAHtml(){const p=byId(WA.id);if(!p||p.la==null||isOnline(p))return'
 
 /* ---------- Envio único: mensagem + pedido + guia ---------- */
 function rotuloEnvio(){const ks=(WA.files||[]).map(x=>x.k);const a=[];if(ks.includes('waped'))a.push('Pedido Médico');if(ks.includes('waguia'))a.push('Guia');return 'Enviar mensagem com anexo de '+a.join(' e ')}
-async function enviarTudo(){const p=byId(WA.id);const txt=WA.custom?WA.txt:msgWA(p,WA);const fs=(WA.files||[]).map(x=>x.file);
- try{if(navigator.clipboard)await navigator.clipboard.writeText(txt)}catch(e){}
- try{if(navigator.canShare&&navigator.canShare({files:fs,text:txt})){await navigator.share({files:fs,text:txt});registrarEnvio();toast('Pronto! Confira a conversa no WhatsApp.');return}}catch(e){if(e&&e.name==='AbortError')return}
- toast('Este aparelho não anexa direto. Abrimos o WhatsApp com a mensagem; toque no clipe 📎 para anexar.');try{window.open(waUrl(p,txt),'_blank')}catch(e){}registrarEnvio()}
+function enviarTudo(){const p=byId(WA.id);const txt=WA.custom?WA.txt:msgWA(p,WA);const fs=(WA.files||[]).map(x=>x.file);const url=waUrl(p,txt);
+ // share() precisa ser chamado direto no toque (sem await antes), senão o navegador bloqueia
+ let pode=false;try{pode=!!(navigator.canShare&&fs.length&&navigator.canShare({files:fs}))}catch(e){}
+ if(pode){navigator.share({files:fs,text:txt}).then(()=>{registrarEnvio();toast('Pronto! Confira a conversa no WhatsApp.')}).catch(e=>{if(e&&e.name==='AbortError')return;abrirWaDireto(url)});try{navigator.clipboard&&navigator.clipboard.writeText(txt)}catch(e){}return}
+ try{navigator.clipboard&&navigator.clipboard.writeText(txt)}catch(e){}
+ toast('Abrindo o WhatsApp com a mensagem. Para anexar, toque no clipe 📎.');abrirWaDireto(url)}
+function abrirWaDireto(url){registrarEnvio();const w=window.open(url,'_blank','noopener');if(!w)location.href=url}
 function registrarEnvio(){const p=byId(WA.id);S.hist.unshift({id:p.id,tipo:WA.tipo,item:WA.item,pac:WA.nome,data:new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}),ok:false});S.hist=S.hist.slice(0,40);LS.set('hist',S.hist);setTimeout(()=>{fechar();navBar()},300)}
 
 /* ---------- Voz mais natural ---------- */
