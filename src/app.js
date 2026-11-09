@@ -720,7 +720,7 @@ function vLembrete(){const L=S.lembEd||{};const locs=S.hist.map(x=>byId(x.id)).f
  <button class="btn pri" data-act="lsalvar" style="flex:none" ${L.data?'':'disabled'}>${I.cal('#fff',20)} Salvar e ativar avisos no Pax</button>
  <div class="acts"><button class="btn" data-act="lgoogle" ${L.data?'':'disabled'}>Google Agenda</button><button class="btn" data-act="lics" ${L.data?'':'disabled'}>Calendário do celular</button></div>
  <span class="sm mut">O Pax avisa 1 dia antes e 2 horas antes. Para avisar mesmo com o app fechado, adicione também ao calendário do celular.</span>
- ${S.lemb.length?`<h2 class="h2">Lembretes salvos</h2>`+S.lemb.map((x,i)=>`<div class="card"><b>${esc(x.titulo)}</b><span class="sm">${esc(x.data.split('-').reverse().join('/'))}${x.hora?' às '+esc(x.hora):''} · ${esc(x.end)}</span>${x.desc?`<span class="sm mut" style="white-space:pre-wrap">${esc(x.desc)}</span>`:''}<button class="lnk sm" data-act="ldel" data-i="${i}" style="align-self:flex-start">Apagar</button></div>`).join(''):''}</section>`}
+ ${S.lemb.length?`<h2 class="h2">Lembretes salvos</h2>`+S.lemb.map((x,i)=>`<div class="card"><b>${esc(x.titulo)}</b><span class="sm">${esc(x.data.split('-').reverse().join('/'))}${x.hora?' às '+esc(x.hora):''} · ${esc(x.end)}</span>${x.desc?`<span class="sm mut" style="white-space:pre-wrap">${esc(x.desc)}</span>`:''}<button class="btn btn-del" data-act="ldelq" data-i="${i}">${I.x('#B3261E',18)} Apagar lembrete</button></div>`).join(''):''}</section>`}
 VIEWS.lembrete=vLembrete;
 function lembDe(){const L=S.lembEd;const p=L.id?byId(L.id):null;L.titulo=(p?(p.c==='laboratorio'||p.c==='imagem'?'Exame':'Consulta')+' – '+p.n:'Consulta/Exame');if(p&&!L.endManual)L.end=p.n+', '+limpaEnd(p.e);return L}
 function abrirLembrete(o){S.lembEd=Object.assign({msg:'',data:'',hora:'',desc:'',end:'',id:null},o||{});if(S.lembEd.msg){const r=lerConfirmacao(S.lembEd.msg);Object.assign(S.lembEd,{data:r.data||S.lembEd.data,hora:r.hora||S.lembEd.hora,desc:r.desc||S.lembEd.desc})}lembDe();ir('lembrete')}
@@ -734,10 +734,13 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
   const ok=()=>{toast('Lembrete salvo. O Pax avisa 1 dia e 2 horas antes.');render()};if(typeof Notification!=='undefined'&&Notification.permission==='default'){Notification.requestPermission().then(ok,ok)}else ok()}
  if(a==='lgoogle'&&L&&L.data){lembDe();window.open(lembreteGoogle(L),'_blank')}
  if(a==='lics'&&L&&L.data){lembDe();baixarICS(L)}
- if(a==='ldel'){S.lemb.splice(+t.dataset.i,1);LS.set('lemb',S.lemb);render()}
+ if(a==='ldelq'){const i=+t.dataset.i,x=S.lemb[i];if(!x)return;abrirModal(`<div class="row between"><h2 class="h2">Apagar lembrete?</h2>${xBtn}</div><p class="p"><b>${esc(x.titulo)}</b><br>${esc(x.data.split('-').reverse().join('/'))}${x.hora?' às '+esc(x.hora):''}</p><p class="sm mut">Os avisos do Pax para este compromisso param. Se você também salvou na agenda do celular ou no Google Agenda, apague lá também.</p><button class="btn pri" data-act="ldel" data-i="${i}" style="background:#B3261E;border-color:#B3261E">Sim, apagar</button><button class="btn" data-act="fechar">Cancelar</button>`,'Apagar lembrete')}
+ if(a==='ldel'){S.lemb.splice(+t.dataset.i,1);LS.set('lemb',S.lemb);fechar();toast('Lembrete apagado');render()}
  if(a==='lnovo'){const x=S.hist[+t.dataset.i];abrirLembrete(x?{id:x.id}:{})}});
 /* agenda: botão de lembrete em cada pedido */
 function vAgenda(){let h=vAgendaBase();h=h.replace(/<button class="btn (pri)?" data-act="hok" data-i="(\d+)">/g,(m,_,i)=>`<button class="btn" data-act="lnovo" data-i="${i}">${I.cal('#0B4F5C',18)} Criar lembrete</button>`+m);
+ const lista=S.lemb.length?`<h2 class="h2">Meus lembretes</h2>`+S.lemb.map((x,i)=>`<div class="card"><b>${esc(x.titulo)}</b><span class="sm">${esc(x.data.split('-').reverse().join('/'))}${x.hora?' às '+esc(x.hora):''}${x.end?' · '+esc(x.end):''}</span><button class="btn btn-del" data-act="ldelq" data-i="${i}">${I.x('#B3261E',18)} Apagar lembrete</button></div>`).join(''):'';
+ h=h.replace(/(<section class="sec"[^>]*>)/,'$1'+lista);
  return h.replace('<button class="btn pri" data-act="nav" data-v="novo"',`<button class="btn" data-act="lnovo" data-i="-1" style="flex:none">${I.cal('#0B4F5C',20)} Criar lembrete a partir de uma confirmação</button>\n <button class="btn pri" data-act="nav" data-v="novo"`)}
 VIEWS.agenda=vAgenda;
 /* compartilhar → Pax (Android): abre o lembrete já preenchido */
