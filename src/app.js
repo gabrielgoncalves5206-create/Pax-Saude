@@ -206,7 +206,7 @@ function msgWA(p,o){
  const quem=(o.nome||'[nome do paciente]')+(o.rel?' ('+o.rel+')':'');
  if(o.tipo==='exame')return `Olá, ${p.n}! Encontrei vocês pelo app Pax - Saúde e gostaria de agendar o exame: ${o.item}.\n\nPaciente: ${quem}\nPreferência: ${per}, ${o.quando}\nPagamento: ${pag}\n\nPreciso de algum preparo? Quais horários vocês têm disponíveis?`;
  return `Olá, ${p.n}! Encontrei vocês pelo app Pax - Saúde e gostaria de agendar uma consulta${o.item?' de '+o.item:''}${o.online?' online (por vídeo)':''}.\n\nPaciente: ${quem}\nPreferência: ${per}, ${o.quando}\nPagamento: ${pag}\n\nQuais horários vocês têm disponíveis?`}
-const waUrl=(p,t)=>'https://wa.me/'+p.wa+'?text='+enc(t);
+const waUrl=(p,t)=>(MOBILE?'whatsapp://send?phone='+p.wa+'&text=':'https://wa.me/'+p.wa+'?text=')+enc(t);
 function opcoesItem(p,tipo){if(tipo==='exame'){const a=p.img.map(k=>IMGX[k][0]);if(p.lab)LABX.forEach(x=>a.push(x[0]));return a.length?a:['Exames']}const a=p.esp.map(k=>ESP[k][0]);return a.length?a:(p.sp?[p.sp]:['Clínica geral'])}
 
 /* ============ VOZ (busca e leitura) ============ */
@@ -481,6 +481,7 @@ function fecharMenu(m){if(!$('drawer').innerHTML)return;$('drawer').innerHTML=''
 /* ============ MODAIS ============ */
 function fechar(m){if(!$('modal').innerHTML)return;$('modal').innerHTML='';if(m==='nav')REUSE=true;else if(m!==true)desempilha()}
 const GEMB='AIzaSyCQ6iNylAU8eKhy9oCKDUw5pHmv2fBi47A';
+const MOBILE=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Mac/.test(navigator.platform));
 function waFmt(u){let d=String(u||'').replace(/\D/g,'');if(d.startsWith('55')&&d.length>=12)d=d.slice(2);if(d.length===11)return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;if(d.length===10)return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;return d}
 function abrirModal(html,label){const novo=!$('modal').innerHTML;$('modal').innerHTML=`<div class="modal-bg" data-act="fechar-bg"><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(label)}"><span class="grab"></span>${html}</div></div>`;if(novo)empilha('modal');const f=document.querySelector('.sheet input:not([type=checkbox]),.sheet select');if(f&&!f.value)f.focus()}
 const xBtn=`<button class="round" data-act="fechar" aria-label="Fechar">${I.x('#0C2329',20)}</button>`;
@@ -521,7 +522,7 @@ function desenharWA(){const p=byId(WA.id);const seg=(k,ops)=>`<div class="seg" r
  ${preparoBox()}
  ${anexosBox()}
  <div class="col" style="gap:.4rem"><div class="row between"><label for="wabubble" class="sm" style="font-weight:800;color:#33484D">Sua mensagem (pode editar)</label>${WA.custom?'<button type="button" class="lnk sm" data-act="wareset">Restaurar texto</button>':''}</div><div class="chat"><textarea id="wabubble" class="bubble" data-live="watxt" rows="9" style="width:calc(100% - 1.5rem);border:0;font:inherit;resize:vertical;outline:none;color:#111">${esc(txt)}</textarea></div><span class="sm mut">Toque no texto para mudar o que quiser antes de enviar.</span></div>
- ${WA.files&&WA.files.length?`<button type="button" class="btn wa" data-act="waenviar" style="min-height:3.4rem;font-size:1.02rem;flex:none">${ICW} ${rotuloEnvio()}</button><span class="sm mut">Escolha o WhatsApp e depois a conversa de ${esc(p.n)}. O texto também fica copiado, caso precise colar.</span><a id="wago" hidden href="${waUrl(p,txt)}"></a>`:`<a class="btn wa" id="wago" href="${waUrl(p,txt)}" target="_blank" rel="noopener" data-act="wago" style="min-height:3.4rem;font-size:1.02rem;flex:none">${ICW} Abrir WhatsApp</a>`}
+ ${WA.files&&WA.files.length?`<button type="button" class="btn wa" data-act="waenviar" style="min-height:3.4rem;font-size:1.02rem;flex:none">${ICW} ${rotuloEnvio()}</button><span class="sm mut">Escolha o WhatsApp e depois a conversa de ${esc(p.n)}. O texto também fica copiado, caso precise colar.</span><a id="wago" hidden href="${waUrl(p,txt)}"></a>`:`<a class="btn wa" id="wago" href="${waUrl(p,txt)}"${MOBILE?'':' target="_blank" rel="noopener"'} data-act="wago" style="min-height:3.4rem;font-size:1.02rem;flex:none">${ICW} Agendar pelo WhatsApp</a>`}
  <span class="sm mut" style="text-align:center">${esc(p.wn)} · +${p.wa.replace(/^55(\d\d)(\d+)(\d{4})$/,'55 ($1) $2-$3')}. A mensagem sai do seu WhatsApp; o Pax não envia nada sozinho.</span>`,'Agendar pelo WhatsApp');setTimeout(mapaWA,80)}
 function atualizaWA(){const p=byId(WA.id);const t=WA.custom?WA.txt:msgWA(p,WA);const b=$('wabubble'),a=$('wago');if(b&&!WA.custom)b.value=t;if(a)a.href=waUrl(p,t)}
 function ligar(id){const p=byId(id);abrirModal(`<div class="row between"><h2 class="h2">Ligar para ${esc(p.n)}</h2>${xBtn}</div>
@@ -843,7 +844,7 @@ function enviarTudo(){const p=byId(WA.id);const txt=WA.custom?WA.txt:msgWA(p,WA)
  if(pode){navigator.share({files:fs,text:txt}).then(()=>{registrarEnvio();toast('Pronto! Confira a conversa no WhatsApp.')}).catch(e=>{if(e&&e.name==='AbortError')return;abrirWaDireto(url)});try{navigator.clipboard&&navigator.clipboard.writeText(txt)}catch(e){}return}
  try{navigator.clipboard&&navigator.clipboard.writeText(txt)}catch(e){}
  toast('Abrindo o WhatsApp com a mensagem. Para anexar, toque no clipe 📎.');abrirWaDireto(url)}
-function abrirWaDireto(url){registrarEnvio();const w=window.open(url,'_blank','noopener');if(!w)location.href=url}
+function abrirWaDireto(url){registrarEnvio();if(MOBILE){location.href=url;return}const w=window.open(url,'_blank','noopener');if(!w)location.href=url}
 function registrarEnvio(){const p=byId(WA.id);S.hist.unshift({id:p.id,tipo:WA.tipo,item:WA.item,pac:WA.nome,data:new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}),ok:false});S.hist=S.hist.slice(0,40);LS.set('hist',S.hist);setTimeout(()=>{fechar();navBar()},300)}
 
 /* ---------- Voz mais natural ---------- */
