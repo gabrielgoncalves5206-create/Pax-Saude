@@ -1676,6 +1676,29 @@ setTimeout(()=>{if(typeof window.L==='undefined'){const w=document.querySelector
  const c=LS.get('fotosx',null);if(c)ap(c);
  fetch(SBU2+'/rest/v1/pax_extra?select=cnes,foto_url,foto_credito&foto_url=not.is.null&limit=5000',{headers:{apikey:K2,Authorization:'Bearer '+K2}}).then(r=>r.ok?r.json():null).then(rs=>{if(!rs)return;LS.set('fotosx',rs);const t=()=>ap(rs);t();setTimeout(()=>{t();if(S.view==='local'||S.view==='home')render()},8000)}).catch(()=>{})})();
 PGS.remocao=['Remover estabelecimento','Para responsáveis pelo local',()=>`<div class="card"><p class="p">O Pax reúne dados públicos (CNES, sites oficiais e fotos divulgadas pelos próprios estabelecimentos) para ajudar pacientes a encontrar e reconhecer o local.</p><p class="p">Se você é responsável por um estabelecimento e quer remover a foto ou o cadastro, envie o nome e o endereço do local. Retiramos em até 5 dias úteis.</p><a class="btn pri" href="mailto:${/@/.test(CFG.email)?CFG.email:''}?subject=${enc('Pax - Saúde: pedido de remoção')}&body=${enc('Estabelecimento:\nEndereço:\nRemover: ( ) só a foto  ( ) o cadastro inteiro\nSeu nome e cargo:')}">${I.mail('#fff',20)} Pedir remoção por e-mail</a></div>`];
+
+/* ===== Conta do paciente na nuvem (Supabase pax_pacientes) ===== */
+const PAC_SB='https://cckywhtpnjhlwqslmlxz.supabase.co',PAC_K='sb_publishable_yv9jTgQHXV1Diy_xPkk_eg_qSt_8roq';
+function uidDe(at){try{return JSON.parse(atob(at.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))).sub}catch(e){return null}}
+const soDig=t=>String(t||'').replace(/\D/g,'');
+let _ultSync='';
+async function syncPaciente(){const u=S.user;if(!SESSAO||!u||!u.nome||soDig(u.cel).length<10)return;const k=u.nome+'|'+soDig(u.cel);if(k===_ultSync)return;
+ const at=await tokenValido();if(!at)return;const id=uidDe(at);if(!id)return;
+ try{const r=await fetch(PAC_SB+'/rest/v1/pax_pacientes?on_conflict=id',{method:'POST',headers:{apikey:PAC_K,Authorization:'Bearer '+at,'Content-Type':'application/json',Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({id,nome:u.nome.trim().slice(0,120),telefone:soDig(u.cel).slice(-13),atualizado:new Date().toISOString()})});if(r.ok)_ultSync=k}catch(e){}}
+function mascTel(t){const d=soDig(t);return d.length>=4?'•••• '+d.slice(-4):'—'}
+function blocoConta(){if(!SESSAO)return `<div class="card"><b>Conta na nuvem</b><p class="p mut">Entre com seu e-mail para guardar seu nome e celular com segurança e usar em outros aparelhos.</p><button class="btn" data-act="pacEntrar">Entrar com e-mail</button></div>`;
+ return `<div class="card"><b>Conta na nuvem</b><p class="p mut">Seu nome e celular ficam salvos na sua conta. Só você pode ver ou apagar esses dados.</p><button class="btn" data-act="pacApagar" style="color:#B3261E;border-color:#B3261E">${I.x('#B3261E',18)} Apagar meus dados da conta</button></div>`}
+function confirmarApagar(){const u=S.user||{};abrirModal(`<div class="row between"><h2 class="h2">Apagar dados da conta?</h2>${xBtn}</div>
+ <div class="info warn">${I.alert('#5E3B08',20)}<span>Esta ação <b>não pode ser desfeita</b>. Seu nome e o celular <b>${esc(mascTel(u.cel))}</b> serão apagados da nuvem do Pax. Avaliações que você fez continuam anônimas.</span></div>
+ <form data-form="pacApagar" class="col" style="gap:.7rem"><label class="lbl">Para confirmar, digite os 4 últimos números do seu celular<input name="fim" inputmode="numeric" maxlength="4" required autocomplete="off" class="inp"></label>
+ <button class="btn pri" type="submit" style="background:#B3261E;border-color:#B3261E">Sim, apagar meus dados</button><button type="button" class="btn" data-act="fechar">Cancelar</button></form>`)}
+async function apagarPaciente(fim){const u=S.user||{};if(soDig(u.cel).slice(-4)!==fim){toast('Os números não conferem. Nada foi apagado.');return}
+ const at=await tokenValido();const id=at&&uidDe(at);if(!id){toast('Entre na sua conta para apagar');return}
+ try{const r=await fetch(PAC_SB+'/rest/v1/pax_pacientes?id=eq.'+id,{method:'DELETE',headers:{apikey:PAC_K,Authorization:'Bearer '+at,Prefer:'return=minimal'}});if(!r.ok)throw 0;_ultSync='';fechar();toast('Seus dados foram apagados da conta');render()}catch(e){toast('Não foi possível apagar agora. Tente de novo.')}}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act;if(a==='pacApagar'){e.preventDefault();confirmarApagar()}else if(a==='pacEntrar'){e.preventDefault();abrirLogin('conta')}},true);
+document.addEventListener('submit',e=>{const f=e.target;if(f.dataset&&f.dataset.form==='pacApagar'){e.preventDefault();e.stopPropagation();apagarPaciente(soDig(new FormData(f).get('fim')))}},true);
+if(VIEWS.perfil){const _vPerfil=VIEWS.perfil;VIEWS.perfil=()=>{setTimeout(syncPaciente,300);const h=_vPerfil();return h+`<section class="sec">${blocoConta()}</section>`}}
+setTimeout(syncPaciente,3000);
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
 
