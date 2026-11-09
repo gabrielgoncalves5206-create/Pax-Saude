@@ -1146,7 +1146,7 @@ function abrirMenu(){const u=S.user;const it=(v,ic,t,s,cor)=>`<button class="it"
  $('drawer').innerHTML=`<div class="drawer-bg" data-act="fecharMenu"></div><nav class="drawer" role="dialog" aria-modal="true" aria-label="Menu"><div class="dh"><div class="row between"><span class="row">${LOGO(34,'#fff','#34C3B5')}<span style="font-size:1.2rem"><b>Pax</b> - Saúde</span></span><button class="iconbtn" data-act="fecharMenu" aria-label="Fechar menu">${I.x('#fff',22)}</button></div>
  <button class="row" data-act="nav" data-v="perfil" style="color:#fff;text-align:left"><span class="lic" style="background:rgba(255,255,255,.15)">${I.user('#fff',20)}</span><span class="col"><b>${u?esc(u.nome):'Entrar / criar perfil'}</b><span class="sm" style="opacity:.85">${u?'Perfil e dependentes':'Nome, celular e dependentes'}</span></span></button></div>
  <span class="grp">AJUDA</span>${it('emergencia','ambul','Emergência','192 SAMU · 193 Bombeiros','#B3261E')}${it('acess','aa','Acessibilidade','Letra grande, contraste e voz')}${it('ajuda','help','Ajuda','Perguntas frequentes')}${it('contato','mail','Fale conosco','Dúvidas e correções')}
- <span class="grp">PAX</span>${it('instalar','plus','Instalar Aplicação','Android, iPhone e computador')}${it('clinicas','brief','Para clínicas e médicos','Apareça ou corrija seus dados')}${it('sobre','info','Sobre o Pax','Missão e números')}${it('fontes','book','Fontes e créditos','Dados, mapas e fotos')}
+ <span class="grp">PAX</span>${it('instalar','plus','Instalar Aplicação','Android, iPhone e computador')}${it('clinicas','brief','Para clínicas e médicos','Apareça ou corrija seus dados')}${it('sobre','info','Sobre o Pax','Missão e números')}${it('fontes','book','Fontes e créditos','Dados, mapas e fotos')}${it('remocao','x','Remover estabelecimento','Pedido do responsável pelo local')}
  <span class="grp">TERMOS E PRIVACIDADE</span>${it('termos','doc','Termos de Uso','Regras de uso do app')}${it('privacidade','shield','Política de Privacidade','LGPD e seus dados')}
  <p class="sm mut" style="padding:1rem 1.1rem">© 2026 ${esc(CFG.empresa)} · versão ${CFG.versao}</p></nav>`;
  empilha('menu');const b=document.querySelector('.drawer .iconbtn');if(b)b.focus()}
@@ -1669,6 +1669,13 @@ const _vLocal3=VIEWS.local;VIEWS.local=()=>{const h=_vLocal3();const p=byId(S.se
 window.paxLeaflet=()=>{if(document.querySelector('#modal [data-mapwait]'))mapaWA();if(document.querySelector('#app [data-mapwait]'))render()};
 setTimeout(()=>{if(typeof window.L==='undefined'){const w=document.querySelector('[data-mapwait] .empty');if(w)w.textContent='O mapa precisa de internet. Use os botões do Google Maps.'}},9000);
 
+
+/* ===== Fotos dos sites oficiais (pax_extra.foto_url) + página de remoção ===== */
+(()=>{const SBU2='https://cckywhtpnjhlwqslmlxz.supabase.co',K2='sb_publishable_yv9jTgQHXV1Diy_xPkk_eg_qSt_8roq';
+ const ap=rs=>(rs||[]).forEach(x=>{const p=byId(10000000+(+x.cnes));if(p&&!p.foto){p.foto=x.foto_url;p.fotoCred=x.foto_credito}});
+ const c=LS.get('fotosx',null);if(c)ap(c);
+ fetch(SBU2+'/rest/v1/pax_extra?select=cnes,foto_url,foto_credito&foto_url=not.is.null&limit=5000',{headers:{apikey:K2,Authorization:'Bearer '+K2}}).then(r=>r.ok?r.json():null).then(rs=>{if(!rs)return;LS.set('fotosx',rs);const t=()=>ap(rs);t();setTimeout(()=>{t();if(S.view==='local'||S.view==='home')render()},8000)}).catch(()=>{})})();
+PGS.remocao=['Remover estabelecimento','Para responsáveis pelo local',()=>`<div class="card"><p class="p">O Pax reúne dados públicos (CNES, sites oficiais e fotos divulgadas pelos próprios estabelecimentos) para ajudar pacientes a encontrar e reconhecer o local.</p><p class="p">Se você é responsável por um estabelecimento e quer remover a foto ou o cadastro, envie o nome e o endereço do local. Retiramos em até 5 dias úteis.</p><a class="btn pri" href="mailto:${/@/.test(CFG.email)?CFG.email:''}?subject=${enc('Pax - Saúde: pedido de remoção')}&body=${enc('Estabelecimento:\nEndereço:\nRemover: ( ) só a foto  ( ) o cadastro inteiro\nSeu nome e cargo:')}">${I.mail('#fff',20)} Pedir remoção por e-mail</a></div>`];
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
 
