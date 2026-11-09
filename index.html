@@ -299,6 +299,7 @@ button,a,label,input,select,textarea{touch-action:manipulation;-webkit-tap-highl
 .cover img.ph{will-change:auto}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 .wa-num{display:block;font-weight:700;color:#128C4A;font-size:.95rem;margin:.1rem 0}
+.gm-frame{width:100%;height:11rem;border:0;border-radius:1rem;display:block;background:#e8eef0}.btn-gm-wide{display:flex;align-items:center;justify-content:center;width:100%;min-height:2.9rem;border-radius:.9rem;text-decoration:none}
 </style>
 </head>
 <body>
@@ -1155,6 +1156,7 @@ function fecharMenu(m){if(!$('drawer').innerHTML)return;$('drawer').innerHTML=''
 
 /* ============ MODAIS ============ */
 function fechar(m){if(!$('modal').innerHTML)return;$('modal').innerHTML='';if(m==='nav')REUSE=true;else if(m!==true)desempilha()}
+const GEMB='AIzaSyCQ6iNylAU8eKhy9oCKDUw5pHmv2fBi47A';
 function waFmt(u){let d=String(u||'').replace(/\D/g,'');if(d.startsWith('55')&&d.length>=12)d=d.slice(2);if(d.length===11)return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;if(d.length===10)return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;return d}
 function abrirModal(html,label){const novo=!$('modal').innerHTML;$('modal').innerHTML=`<div class="modal-bg" data-act="fechar-bg"><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(label)}"><span class="grab"></span>${html}</div></div>`;if(novo)empilha('modal');const f=document.querySelector('.sheet input:not([type=checkbox]),.sheet select');if(f&&!f.value)f.focus()}
 const xBtn=`<button class="round" data-act="fechar" aria-label="Fechar">${I.x('#0C2329',20)}</button>`;
@@ -1497,7 +1499,7 @@ document.addEventListener('submit',e=>{const F=e.target;if(F.dataset&&F.dataset.
 
 /* ---------- Mapa só antes de agendar pelo WhatsApp ---------- */
 let MAPAWA=null;
-function mapaWA(){const el=$('wamap');if(!el)return;try{if(MAPAWA)MAPAWA.remove()}catch(e){}MAPAWA=null;const p=byId(WA.id);if(!p||p.la==null){el.remove();return}
+function mapaWA(){return;const el=$('wamap');if(!el)return;try{if(MAPAWA)MAPAWA.remove()}catch(e){}MAPAWA=null;const p=byId(WA.id);if(!p||p.la==null){el.remove();return}
  if(typeof window.L==='undefined'||!window.L.map){el.dataset.mapwait='1';el.innerHTML='<div class="empty">Carregando mapa…</div>';return}
  const m=window.L.map(el,{zoomControl:false,attributionControl:true,scrollWheelZoom:false,dragging:true});MAPAWA=m;
  window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap · © CARTO'}).addTo(m);
@@ -1505,7 +1507,9 @@ function mapaWA(){const el=$('wamap');if(!el)return;try{if(MAPAWA)MAPAWA.remove(
  const b=[[p.la,p.lo]];if(S.origin.la!=null){window.L.circleMarker([S.origin.la,S.origin.lo],{radius:8,color:'#fff',weight:3,fillColor:'#2563EB',fillOpacity:1}).addTo(m).bindTooltip('Você');b.push([S.origin.la,S.origin.lo])}
  if(b.length>1)m.fitBounds(b,{padding:[24,24],maxZoom:16});else m.setView(b[0],15)}
 function mapaWAHtml(){const p=byId(WA.id);if(!p||p.la==null||isOnline(p))return'';const d=dist(p);
- return `<div class="col" style="gap:.35rem"><div id="wamap" class="leaf" style="height:11rem;border-radius:1rem" aria-label="Mapa do local"></div><div class="row between sm"><span class="mut ell" style="min-width:0">${esc(limpaEnd(p.e))}</span><span style="flex:none;font-weight:800">${d!=null?fkm(d)+' de você':''}</span></div><button type="button" class="btn" data-act="rota" data-id="${p.id}" style="flex:none">${I.route('#0B4F5C',20)} Como chegar</button></div>`}
+ const q=p.gid?'place_id:'+p.gid:(p.la+','+p.lo);
+ const src=`https://www.google.com/maps/embed/v1/place?key=${GEMB}&q=${enc(q)}&zoom=16&language=pt-BR&region=BR`;
+ return `<div class="col" style="gap:.35rem"><iframe class="gm-frame" title="Mapa de ${esc(p.n)} no Google Maps" src="${src}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><div class="row between sm"><span class="mut ell" style="min-width:0">${esc(limpaEnd(p.e))}</span><span style="flex:none;font-weight:800">${d!=null?fkm(d)+' de você':''}</span></div><a class="btn-gm btn-gm-wide" href="${gmaps(S.origin,ptDe(p),'driving')}" target="_blank" rel="noopener" aria-label="Abrir rota no Google Maps"><img src="img/gmaps.png" alt="Google Maps" style="height:1.35rem;width:auto"></a></div>`}
 
 /* ---------- Envio único: mensagem + pedido + guia ---------- */
 function rotuloEnvio(){const ks=(WA.files||[]).map(x=>x.k);const a=[];if(ks.includes('waped'))a.push('Pedido Médico');if(ks.includes('waguia'))a.push('Guia');return 'Enviar mensagem com anexo de '+a.join(' e ')}
