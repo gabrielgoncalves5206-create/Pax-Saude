@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'7.0',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'7.1',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -1149,16 +1149,23 @@ const SEL='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="c
 
 /* ---- tela inicial ---- */
 vInicio=function(){const n=primeiroNome();const pend=S.peds.filter(p=>p.st==='pend');
- return `<section class="hero"><h1 class="hello">${n?'Olá, '+esc(n)+'!':'Olá!'} <small>Como podemos ajudar?</small></h1></section>
+ return `<section class="hero"><h1 class="hello">${n?'Olá, '+esc(n)+'!':'Olá!'} <small>Como podemos ajudar?</small></h1>${origemChip()}</section>
+ ${LS.get('seloX',0)?'':`<div class="faixa-t"><span>⚡ <b>Resposta no WhatsApp em até 15 min</b> · após o expediente, a partir das 7h</span><button data-act="seloX" aria-label="Fechar aviso">✕</button></div>`}
  ${pend.length?`<section class="sec"><button class="aviso-conf" data-act="nav" data-v="agenda"><span class="ac-ic">${I.clock('#4A2252',22)}</span><span><b>A clínica já marcou seu horário?</b><small>${pend.length===1?esc(pend[0].item):pend.length+' pedidos aguardando'} · toque para informar</small></span>${I.chev('#4A2252',18)}</button></section>`:''}
- <section class="sec acoes">
-  <button class="acao ex" data-act="fluxo" data-t="exame"><span class="acao-ic">${I.doc('#fff',30)}</span><span><b>Tenho um pedido de exame</b><small>Ressonância ou tomografia na Dimagem</small></span>${I.chev('#fff',22)}</button>
-  <button class="acao co" data-act="fluxo" data-t="consulta"><span class="acao-ic">${I.steth('#fff',30)}</span><span><b>Quero marcar uma consulta</b><small>Especialidades no MITI, Av. Paulista</small></span>${I.chev('#fff',22)}</button>
-  <button class="acao ag" data-act="nav" data-v="agenda"><span class="acao-ic">${I.clock('#4A2252',28)}</span><span><b>Minha agenda</b><small>${S.peds.length?S.peds.length+' agendamento'+(S.peds.length>1?'s':''):'Seus agendamentos aparecem aqui'}</small></span>${I.chev('#4A2252',22)}</button>
+ <section class="sec acoes2">
+  <button class="acao2 ex" data-act="fluxo" data-t="exame"><span class="acao-ic">${I.doc('#fff',28)}</span><b>Exames</b><small>Ressonância e tomografia · Dimagem</small></button>
+  <button class="acao2 co" data-act="fluxo" data-t="consulta"><span class="acao-ic">${I.steth('#fff',28)}</span><b>Consultas</b><small>Especialidades · MITI, Av. Paulista</small></button>
+  <button class="acao ag" data-act="nav" data-v="agenda"><span class="acao-ic">${I.clock('#4A2252',26)}</span><span><b>Minha agenda</b><small>${S.peds.length?S.peds.length+' agendamento'+(S.peds.length>1?'s':''):'Seus agendamentos aparecem aqui'}</small></span>${I.chev('#4A2252',22)}</button>
  </section>
- <section class="sec"><div class="selo"><span class="selo-n">15<small>min</small></span><span><b>Resposta no WhatsApp em até 15 minutos</b><small>Mensagens após o expediente são respondidas a partir das 7h.</small></span></div></section>
+ <section class="sec apres"><h2 class="h2">Apresentação</h2>
+  <div class="apr-card"><div class="apr-fotos"><img src="fotos/dim-rm.jpg" alt="Sala de ressonância magnética da Dimagem" loading="lazy"><img src="fotos/dim-tc.jpg" alt="Exame de ressonância em andamento" loading="lazy"><img src="fotos/dim-recepcao.jpg" alt="Recepção da Dimagem" loading="lazy"></div>
+  <div class="apr-txt"><span class="apr-k">Dimagem Unineuro</span><h3>Diagnóstico por imagem com 30 anos de confiança</h3>
+  <p>Ressonância e tomografia com equipamentos modernos, laudos de especialistas e um atendimento que acolhe você do agendamento ao resultado.</p>
+  <ul><li><b>30 anos</b><span>de história na Lapa</span></li><li><b>31</b><span>convênios aceitos</span></li><li><b>RM e TC</b><span>no mesmo lugar</span></li></ul>
+  <q>Saúde igual para todos</q>
+  <button class="btn pri" data-act="fluxo" data-t="exame">Agendar meu exame</button></div></div>
+ </section>
  <section class="sec atr">
-  <button class="atr-dm" data-act="abrir" data-id="9001"><img src="fotos/9001-1.jpg" alt="" loading="lazy"><span class="atr-v"><span class="atr-n">30<small>anos</small></span><span class="atr-t"><b>Dimagem Unineuro</b><span>Ressonância e tomografia na Lapa</span></span><q>Saúde igual para todos</q></span></button>
   <div class="atr-mt"><span class="atr-cab"><b>MITI</b> · Conjunto Nacional, Av. Paulista</span>
    <button class="atr-c pac" data-act="fluxo" data-t="consulta"><img src="fotos/9002-2.jpg" alt="" loading="lazy"><span><small>Para o paciente</small><b>Consultas na Paulista, das 8h às 21h</b></span></button>
    <button class="atr-c med" data-act="nav" data-v="coworking"><img src="fotos/9002-4.jpg" alt="" loading="lazy"><span><small>Para o profissional de saúde</small><b>Alugue um consultório por hora ou mês</b></span></button></div>
@@ -1199,7 +1206,7 @@ VIEWS.fluxo=function(){const f=S.fx;if(!f)return VIEWS.novo();const ex=f.tipo===
  if(f.step===4){const c=CONV.find(x=>x.id===f.conv);const loc=ex?DIM():MITI();
   h=`<h2 class="h2">Tudo certo! Confira</h2><div class="card resumo">
   <div class="rl"><span>Local</span><b>${esc(loc.n)}</b></div>
-  <div class="rl"><span>${ex?'Exame':'Especialidade'}</span><b>${ex?(f.foto?'Conforme pedido médico (foto)':esc(f.exame)):esc(f.esp)}</b></div>
+  <div class="rl"><span>${ex?'Exame':'Especialidade'}</span><b>${ex?esc((f.exames||[]).join(', ')||'Conforme pedido médico'):esc(f.esp)}</b></div>
   <div class="rl"><span>Pagamento</span><b>${f.pag==='part'?'Particular':esc(c?c.n:'')}</b></div>
   <div class="rl"><span>Preferência</span><b>${{manha:'Manhã',tarde:'Tarde',noite:'Noite'}[f.turno]}, ${f.semana==='esta'?'esta semana':'próxima semana'}</b></div></div>
   <p class="sm mut">${ex?'A Dimagem responde em até 15 minutos. Mensagens após o expediente são respondidas a partir das 7h.':'O MITI responde em até 30 a 60 minutos.'}</p>
@@ -1216,7 +1223,7 @@ function msgFluxo(f,link){const u=S.user||{},c=CONV.find(x=>x.id===f.conv),ex=f.
 async function enviarFluxo(){const f=S.fx,m=$('fmsg'),b=document.querySelector('[data-act=fenviar]');const ex=f.tipo==='exame',loc=ex?DIM():MITI();let link='';
  if(b)b.disabled=true;
  if(f.foto){m.textContent='Enviando a foto do pedido…';try{const j=await rpc('pax_pedido_enviar',{p_img:f.foto});if(!j||!j.ok)throw 0;link=(/^https?:/.test(location.protocol)?location.origin+location.pathname.replace(/index\.html$/,''):'https://gabrielgoncalves5206-create.github.io/Pax-Saude/')+'#p='+j.id}catch(e){m.style.color='#B3261E';m.textContent='Não consegui enviar a foto agora. Verifique a internet e tente de novo.';if(b)b.disabled=false;return}}
- const ped={id:Date.now().toString(36),tipo:f.tipo,loc:loc.id,item:ex?(f.foto?'Exame conforme pedido médico':f.exame):f.esp,pag:f.pag==='part'?'Particular':(CONV.find(x=>x.id===f.conv)||{}).n||'',pref:`${{manha:'Manhã',tarde:'Tarde',noite:'Noite'}[f.turno]}, ${f.semana==='esta'?'esta semana':'próxima semana'}`,st:'pend',criado:Date.now()};
+ const ped={id:Date.now().toString(36),tipo:f.tipo,loc:loc.id,item:ex?((f.exames||[]).join(', ')||'Exame conforme pedido médico'):f.esp,pag:f.pag==='part'?'Particular':(CONV.find(x=>x.id===f.conv)||{}).n||'',pref:`${{manha:'Manhã',tarde:'Tarde',noite:'Noite'}[f.turno]}, ${f.semana==='esta'?'esta semana':'próxima semana'}`,st:'pend',criado:Date.now()};
  S.peds.unshift(ped);salvaPeds();location.href=waUrl(loc,msgFluxo(f,link));S.fx=null;S.enviado=ped.id;setTimeout(()=>ir('enviado'),400)}
 VIEWS.enviado=function(){const p=S.peds.find(x=>x.id===S.enviado)||S.peds[0];if(!p)return vInicio();const ex=p.tipo==='exame';
  return `<section class="sec ok-tela"><div class="ok-ic">${SEL.replace('width="20" height="20"','width="54" height="54"')}</div><h1 class="h1">Pedido enviado!</h1>
@@ -1272,6 +1279,89 @@ document.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.l
 if(/^#p=[0-9a-f-]{36}$/.test(location.hash)){const id=location.hash.slice(3);document.body.className='pedv';document.body.innerHTML='<main class="pedv-w"><p>Carregando o pedido…</p></main>';
  rpc('pax_pedido_ver',{p_id:id}).then(j=>{const w=document.querySelector('.pedv-w');if(!j||!j.ok){w.innerHTML='<h1>Pedido indisponível</h1><p>Este link expirou ou não existe. As fotos ficam disponíveis por 14 dias.</p>';return}
   const ate=new Date(j.expira).toLocaleDateString('pt-BR');w.innerHTML=`<h1>Pedido médico enviado pelo app Pax - Saúde</h1><p>Disponível até ${ate}. Depois disso a foto é apagada automaticamente.</p><img src="${j.img}" alt="Pedido médico"><a download="pedido-medico.jpg" href="${j.img}">Baixar imagem</a>`}).catch(()=>{document.querySelector('.pedv-w').innerHTML='<p>Não foi possível carregar. Tente de novo.</p>'})}
+
+
+/* ============ v7.1: início lado a lado, faixa de tempo, apresentação, leitura do pedido ============ */
+vInicio=function(){const n=primeiroNome();const pend=S.peds.filter(p=>p.st==='pend');const faixa=!LS.get('faixaX',0);
+ return `<section class="hero">${'<h1 class="hello">'+(n?'Olá, '+esc(n)+'!':'Olá!')+' <small>Como podemos ajudar?</small></h1>'}${origemChip()}</section>
+ ${faixa?`<div class="faixa" role="note"><span>⚡ <b>Resposta no WhatsApp em até 15 min</b> · após o expediente, a partir das 7h</span><button data-act="faixa-x" aria-label="Fechar aviso">${I.x('#0E3D2E',16)}</button></div>`:''}
+ ${pend.length?`<section class="sec"><button class="aviso-conf" data-act="nav" data-v="agenda"><span class="ac-ic">${I.clock('#4A2252',22)}</span><span><b>A clínica já marcou seu horário?</b><small>${pend.length===1?esc(pend[0].item):pend.length+' pedidos aguardando'} · toque para informar</small></span>${I.chev('#4A2252',18)}</button></section>`:''}
+ <section class="sec duo">
+  <button class="duo-b ex" data-act="fluxo" data-t="exame"><span class="duo-ic">${I.doc('#fff',28)}</span><b>Exames</b><small>Tenho um pedido médico</small><span class="duo-l">Dimagem Unineuro</span></button>
+  <button class="duo-b co" data-act="fluxo" data-t="consulta"><span class="duo-ic">${I.steth('#fff',28)}</span><b>Consultas</b><small>Marcar com especialista</small><span class="duo-l">MITI · Paulista</span></button>
+ </section>
+ <section class="sec" style="padding-top:0"><button class="acao ag" data-act="nav" data-v="agenda"><span class="acao-ic">${I.clock('#4A2252',26)}</span><span><b>Minha agenda</b><small>${S.peds.length?S.peds.length+' agendamento'+(S.peds.length>1?'s':''):'Seus agendamentos aparecem aqui'}</small></span>${I.chev('#4A2252',22)}</button></section>
+ <section class="sec apres"><h2 class="h2">Apresentação</h2>
+  <article class="ap dm">
+   <div class="ap-fotos"><img class="g" src="fotos/dm-rm.jpg" alt="Sala de ressonância magnética da Dimagem" loading="lazy"><img src="fotos/dm-rm2.jpg" alt="Paciente em exame de ressonância" loading="lazy"><img src="fotos/dm-recepcao.jpg" alt="Recepção" loading="lazy"></div>
+   <div class="ap-tx"><span class="ap-k">Dimagem Unineuro</span><h3>30 anos cuidando do seu diagnóstico</h3><q>Saúde igual para todos</q>
+    <ul class="ap-pt"><li><b>Ressonância e tomografia</b> com equipamentos modernos</li><li><b>Convênios e particular</b>: 30 planos aceitos</li><li><b>Na Lapa</b>, junto ao Hospital Albert Sabin</li></ul>
+    <button class="btn pri" data-act="fluxo" data-t="exame">Agendar meu exame</button></div>
+  </article>
+  <article class="ap mt">
+   <div class="ap-fotos"><img class="g" src="fotos/9002-1.jpg" alt="Consultório do MITI" loading="lazy"><img src="fotos/9002-2.jpg" alt="" loading="lazy"><img src="fotos/9002-4.jpg" alt="" loading="lazy"></div>
+   <div class="ap-tx"><span class="ap-k">MITI · Conjunto Nacional</span><h3>Cuidado de perto, no coração da Paulista</h3>
+    <div class="ap-duo"><div><b>Para você, paciente</b><span>Psicologia, neuropsicologia, fisioterapia e terapias integrativas. Das 8h às 21h.</span><button class="btn pri" data-act="fluxo" data-t="consulta">Marcar consulta</button></div>
+    <div><b>Para você, profissional</b><span>Consultórios prontos por hora ou por mês, num endereço de referência.</span><button class="btn" data-act="nav" data-v="coworking">Quero um consultório</button></div></div></div>
+  </article>
+ </section>
+ <section class="sec"><div class="row between"><h2 class="h2">Convênios na Dimagem</h2><button class="lnk" data-act="nav" data-v="convenios">Ver todos</button></div>${carrossel('carConv',CONV.map(cartaoConv),'Convênios aceitos na Dimagem Unineuro')}</section>
+ <section class="sec"><h2 class="h2">Especialidades no MITI</h2>${carrossel('carEsp',MITI_ESP.map(cartaoEsp),'Especialidades atendidas no MITI')}</section>
+ <section class="sec"><h2 class="h2">Nossos locais</h2><div class="grid">${LOC.map(card).join('')}</div></section>
+ <section class="sec"><a class="info red" href="tel:192" style="align-items:center">${I.ambul('#B3261E',28)}<span style="flex:1"><b>Emergência? Ligue 192 (SAMU)</b><br>Bombeiros: 193 · Não espere agendar.</span>${I.phone('#B3261E',22)}</a></section>`};
+VIEWS.inicio=vInicio;
+
+
+const EXRAW={};
+const EXAMES2=(()=>{const m=new Map();CONV.forEach(c=>c.ex.forEach(([k,n])=>{if(/^pct/i.test(n))return;const rm=k.startsWith('4110'),tc=k.startsWith('4100');if(!rm&&!tc)return;
+ const d=/^angio/i.test(n)?n:(rm?'Ressonância · ':'Tomografia · ')+n;if(!m.has(d)){m.set(d,1);EXRAW[d]=n}}));return [...m.keys()].sort((a,b)=>a.localeCompare(b,'pt'))})();
+/* ---- leitura do pedido (OCR no próprio celular) ---- */
+const STOP=new Set(['de','da','do','das','dos','e','com','sem','ou','a','o','em','para','por','na','no','exame','exames']);
+const tok=s=>norm(s).replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(w=>w.length>2&&!STOP.has(w));
+function acharExames(txt){const t=' '+norm(txt).replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ')+' ';
+ const rm=/ (ressonancia|rnm|rm|mri|angio rm|angiorm) /.test(t),tc=/ (tomografia|tc|angiotomografia|angiotc) /.test(t);if(!rm&&!tc)return [];
+ const sc=EXAMES2.map(n=>{const nn=norm(n);const isRM=/resson|angio-rm/.test(nn),isTC=/tomog|angiotomo/.test(nn);
+  if((isRM&&!rm)||(isTC&&!tc)||(/^angio/.test(nn)&&!/ angio/.test(t))||/nao inclui/.test(nn))return [n,0];const ws=tok(/ ou /.test(' '+nn+' ')?n:n.replace(/\([^)]*\)/g,'')).filter(w=>!/resson|tomog|magnet|computad/.test(w));if(!ws.length)return [n,0];
+  const hit=ws.filter(w=>t.includes(' '+w.slice(0,Math.max(4,w.length-2)))).length;return [n,/ ou /.test(' '+nn+' ')?(hit?.62+hit*.01:0):(hit<ws.length?0:1)+(hit&&t.includes(' '+ws[0].slice(0,Math.max(4,ws[0].length-2)))?.1:0)]}).filter(x=>x[1]>=.5).sort((a,b)=>b[1]-a[1]);const top=sc.length?sc[0][1]:0;
+ const out=[];const art='Ressonância · Articular (por articulação)';if(rm&&/ (joelho|ombro|cotovelo|punho|tornozelo|quadril|coxofemoral) /.test(t)&&EXAMES2.includes(art))out.push(art);for(const [n,v] of sc){if(out.length>=3||v<top-.2)break;if(!out.some(o=>tok(o).join()===tok(n).join()))out.push(n)}return out}
+let _tess=null;function carregarTess(){return _tess||(_tess=new Promise((ok,er)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';s.onload=()=>ok(window.Tesseract);s.onerror=er;document.head.appendChild(s)}))}
+async function lerPedido(dataUrl){const T=await carregarTess();const r=await T.recognize(dataUrl,'por');return (r&&r.data&&r.data.text)||''}
+async function processarFoto(){const f=S.fx;if(!f||!f.foto)return;f.lendo=true;f.lido=null;render();
+ try{const txt=await Promise.race([lerPedido(f.foto),new Promise((_,er)=>setTimeout(()=>er('tempo'),45000))]);const l=acharExames(txt);f.lido=l.length?'ok':'falha';f.exames=l}catch(e){f.lido='falha';f.exames=[]}
+ f.lendo=false;if(S.view==='fluxo')render()}
+
+/* passo 2 com os exames abaixo do cartão */
+const _blocoPag71=blocoPag;
+blocoPag=function(){const f=S.fx;if(f.tipo!=='exame')return _blocoPag71();const c=CONV.find(x=>x.id===f.conv);f.exames=f.exames||[];
+ const cobre=n=>!c||f.pag!=='conv'?null:c.pac?'pac':c.ex.some(e=>e[1]===(EXRAW[n]||n));
+ const base=_blocoPag71().replace(/<p class="cob[^>]*>[\s\S]*?<\/p>/,'');const i=base.indexOf('<div class="opts"');
+ const exs=`<div class="exbox">${f.lendo?`<div class="lendo"><span class="spin" aria-hidden="true"></span><span><b>Lendo seu pedido médico…</b><small>Identificando o exame solicitado</small></span></div>`:`
+  <b class="exbox-t">${f.lido==='ok'?'Exame identificado no seu pedido':f.lido==='falha'?'Não conseguimos ler o pedido':'Exame solicitado'}</b>
+  ${f.lido==='falha'?'<p class="sm mut" style="margin:.1rem 0 .4rem">A leitura falhou. Escolha o exame que está no seu pedido para confirmar.</p>':f.lido==='ok'?'<p class="sm mut" style="margin:.1rem 0 .4rem">Confira. Você pode remover ou adicionar exames.</p>':''}
+  ${f.exames.map((n,k)=>{const cb=cobre(n);return `<div class="exi"><span class="exi-n">${esc(n)}${cb===null?'':cb==='pac'?'<small class="ok">Atendido em pacote</small>':cb?'<small class="ok">✓ Coberto pelo convênio</small>':'<small class="warn">Fora da tabela do convênio: a equipe confirma</small>'}</span><button class="round" data-act="exrm" data-k="${k}" aria-label="Remover ${esc(n)}">${I.x('#B3261E',16)}</button></div>`}).join('')}
+  <details class="addex" ${f.exames.length?'':'open'}><summary>${f.exames.length?'+ Adicionar outro exame':'Escolher o exame'}</summary>${buscaForm('qe','Digite o exame, ex.: crânio',S.qe||'','qe')}<div class="exsel" id="exsel">${listaEx()}</div></details>`}</div>`;
+ return base.slice(0,i)+exs+base.slice(i)};
+listaEx=function(){const t=norm(S.qe||'');const l=t?EXAMES2.filter(n=>norm(n).includes(t)).slice(0,30):[];const sel=(S.fx&&S.fx.exames)||[];
+ return l.map(n=>`<button class="exo ${sel.includes(n)?'on':''}" data-act="exadd" data-v="${esc(n)}">${sel.includes(n)?SEL:'+'}<span>${esc(n)}</span></button>`).join('')||`<p class="sm mut">${t?'Nenhum exame com esse nome.':'Digite parte do nome, por exemplo "crânio" ou "joelho".'}</p>`};
+
+/* passo 1 do exame: só a foto (ou pular) */
+const _fluxo71=VIEWS.fluxo;
+VIEWS.fluxo=function(){const f=S.fx;if(!f||f.tipo!=='exame'||f.step!==1)return _fluxo71().replace(/<button class="btn pri big" data-act="fprox" (disabled)?>Confirmar<\/button>/,()=>`<button class="btn pri big" data-act="fprox" ${(f&&f.tipo==='exame'&&(!(f.exames||[]).length||f.lendo))||(f&&!(f.pag==='part'||f.conv))?'disabled':''}>Confirmar</button>`);
+ return phead('Pedido de exame','Dimagem Unineuro')+`<section class="sec fluxo">${passos(1,4)}<h2 class="h2">Foto do pedido médico</h2><p class="mut">Nós lemos o pedido e identificamos o exame para você.</p>
+  ${f.foto?`<div class="foto-prev"><img src="${f.foto}" alt="Pedido médico"><button class="btn" data-act="ffoto-x">Trocar foto</button></div>`:`<label class="foto-btn"><input type="file" accept="image/*" capture="environment" id="ffile" hidden><svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><b>Fotografar pedido médico</b><small>ou escolher da galeria</small></label>`}
+  <div class="info" style="margin-top:.8rem">${I.info('#0A4B44',20)}<span><b>Leve o pedido original no dia do exame.</b> A foto fica guardada com segurança por 14 dias e depois é apagada automaticamente.</span></div>
+  <button class="btn pri big" data-act="fprox" ${f.foto?'':'disabled'}>Continuar</button>${f.foto?'':'<button class="lnk" data-act="fsemfoto" style="margin-top:.8rem">Não tenho o pedido agora</button>'}</section>`};
+
+/* resumo com a lista de exames */
+const _msg71=msgFluxo;msgFluxo=function(f,link){f.exame=(f.exames||[]).join('; ');return _msg71(f,link).replace(/Pedido médico \(foto\): (\S+)\n/,(m,l)=>`Exame(s): ${f.exame||'conforme pedido'}\nPedido médico (foto): ${l}\n`)};
+
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act,f=S.fx;
+ if(a==='faixa-x'){LS.set('faixaX',1);const el=document.querySelector('.faixa');if(el)el.remove()}
+ else if(a==='exadd'&&f){f.exames=f.exames||[];const n=t.dataset.v;f.exames=f.exames.includes(n)?f.exames.filter(x=>x!==n):[...f.exames,n];S.qe='';render()}
+ else if(a==='exrm'&&f){f.exames.splice(+t.dataset.k,1);render()}
+ else if(a==='fsemfoto'&&f){f.foto=null;f.lido=null;f.exames=[];f.step=2;render()}},true);
+/* ao avançar do passo 1 com foto, dispara a leitura */
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act=fprox]');const f=S.fx;if(t&&f&&f.tipo==='exame'&&f.step===2&&f.foto&&f.lido==null&&!f.lendo)processarFoto()});
 
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
