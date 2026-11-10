@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'9.0',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'9.1',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -1583,22 +1583,27 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
 document.addEventListener('click',e=>{const t=e.target.closest('[data-act=fprox]');if(t&&S.fx&&S.fx.pag==='part')pagCfg().then(()=>{if(S.view==='fluxo'&&S.fx&&S.fx.step===4)render()})});
 
 
-/* ============ v8.1: especialidade avança sozinha; convênio "Não declara" ============ */
-document.addEventListener('click',e=>{const t=e.target.closest('[data-act=fesp]');const f=S.fx;if(!t||!f)return;e.stopImmediatePropagation();f.esp=t.dataset.v;f.step=2;render();scrollTo(0,0)},true);
-const ND={id:'nd',n:'Não declara'};
-const _cvp81=cvpLista;cvpLista=function(l,sel){const q=norm(S.qcv||'');const nd=(!q||norm(ND.n).includes(q))?`<button class="cvp txt nd ${sel==='nd'?'on':''}" data-act="cvsel" data-k="nd"><span>Não declara</span>${sel==='nd'?SEL:''}</button>`:'';return nd+_cvp81(l,sel).replace(/^<p class="sm mut"[^>]*>Nenhum convênio com esse nome\.<\/p>$/,nd?'':'$&')};
-const _find81=Array.prototype.find;
-const _bp81=blocoPag;blocoPag=function(){const f=S.fx;if(f.conv!=='nd')return _bp81();CONV.push(ND);try{return _bp81()}finally{CONV.pop()}};
-const _msg81=msgFluxo;msgFluxo=function(f,link){return _msg81(f,link).replace('Atendimento: Pro Bono · Convênio \n','Atendimento: Pro Bono · Convênio não declarado\n')};
-document.addEventListener('click',e=>{const t=e.target.closest('[data-act=cvsel]');if(t&&S.fx&&t.dataset.k==='nd'){e.stopImmediatePropagation();S.fx.conv='nd';S.fx.troca=false;S.fx.pag='conv';S.qcv='';render()}},true);
-const _resumo81=VIEWS.fluxo;VIEWS.fluxo=function(){const f=S.fx;if(!f||f.conv!=='nd')return _resumo81();CONV.push(ND);try{return _resumo81()}finally{CONV.pop()}};
-
 /* ============ v8.1: especialidade avança sozinha · Pro Bono com "Não declarar" ============ */
-document.addEventListener('click',e=>{const t=e.target.closest('[data-act=fesp]');const f=S.fx;if(!t||!f)return;e.stopImmediatePropagation();f.esp=t.dataset.v;f.step=2;render();scrollTo(0,0)},true);
 const _cpl81=cvpLista;cvpLista=function(l,sel){const q=norm(S.qcv||'');const nd=!q||'nao declarar'.includes(q)?`<button class="cvp txt nd ${sel==='nd'?'on':''}" data-act="cvsel" data-k="nd"><span>Não declarar</span>${sel==='nd'?SEL:''}</button>`:'';return nd+_cpl81(l,sel)};
-const _cpb81=cartaoProBono;cartaoProBono=c=>{const f=S.fx;const h=_cpb81(c);return f&&f.conv==='nd'?h.replace('<b>Escolha abaixo</b>','<b>Não declarado</b>'):h};
-const _bpnd=blocoPag;blocoPag=function(){const f=S.fx;let h=_bpnd();if(f&&f.conv==='nd')h=h.replace('<small>Pelo seu convênio</small>','<small>Convênio não declarado</small>').replace('>Escolher convênio<','>Trocar convênio<');return h};
+const _cpb81=cartaoProBono;cartaoProBono=c=>{const f=S.fx;const h=_cpb81(c);return f&&f.conv==='nd'?h.replace('<b>Escolha abaixo</b>','<b>Não declarar</b>'):h};
+const _bpnd=blocoPag;blocoPag=function(){const f=S.fx;let h=_bpnd();if(f&&f.conv==='nd')h=h.replace('<small>Pelo seu convênio</small>','<small>Não declarar</small>').replace('>Escolher convênio<','>Trocar convênio<');return h};
 const _m81=msgFluxo;msgFluxo=function(f,l){let m=_m81(f,l);if(f.pag!=='part'&&f.conv==='nd')m=m.replace(/Atendimento: Pro Bono · Convênio .*\n/,'Atendimento: Pro Bono · Convênio não declarado\n');return m};
 document.addEventListener('click',e=>{const t=e.target.closest('[data-act=cvsel]');if(t&&S.fx&&t.dataset.k==='nd'){e.stopImmediatePropagation();S.fx.conv='nd';S.fx.pag='conv';S.fx.troca=false;S.qcv='';render()}},true);
+
+/* ============ v9.1: especialidade com expansão suave, título do pagamento, leitura do convênio reforçada ============ */
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act=fesp]');const f=S.fx;if(!t||!f)return;e.stopImmediatePropagation();if(f._pick)return;f._pick=1;
+ const red=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;f.esp=t.dataset.v;t.classList.add('pick');
+ document.querySelectorAll('.espb').forEach(x=>{if(x!==t)x.classList.add('fade')});
+ setTimeout(()=>{f.step=2;f._pick=0;render();scrollTo(0,0);const app=$('app');if(app){app.classList.remove('tr-up');void app.offsetWidth;app.classList.add('tr-up')}},red?0:340)},true);
+const _fx91=VIEWS.fluxo;VIEWS.fluxo=function(){const f=S.fx;let h=_fx91();if(f&&f.step===2){const alvo=f.tipo==='consulta'?f.esp:'Exame';h=h.replace('<h2 class="h2">Confirme o pagamento</h2>',`<h2 class="h2">Confirme o pagamento <span class="tit-esp">· ${esc(alvo)}</span></h2>`)}return h};
+/* leitura do convênio: imagem tratada (cinza, contraste, maior) e busca tolerante a erros de leitura */
+function prepOCR(dataUrl){return new Promise(ok=>{const im=new Image();im.onload=()=>{const k=Math.min(2.2,2000/Math.max(im.width,im.height));const w=Math.round(im.width*k),h=Math.round(im.height*k);const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.filter='grayscale(1) contrast(1.6) brightness(1.08)';x.drawImage(im,0,0,w,h);ok(c.toDataURL('image/png'))};im.onerror=()=>ok(dataUrl);im.src=dataUrl})}
+lerPedido=async function(dataUrl){const T=await carregarTess();const r=await T.recognize(await prepOCR(dataUrl),'por');return (r&&r.data&&r.data.text)||''};
+function lev(a,b){if(Math.abs(a.length-b.length)>2)return 9;const d=[...Array(b.length+1).keys()];for(let i=1;i<=a.length;i++){let p=d[0];d[0]=i;for(let j=1;j<=b.length;j++){const t=d[j];d[j]=Math.min(d[j]+1,d[j-1]+1,p+(a[i-1]===b[j-1]?0:1));p=t}}return d[b.length]}
+const _ac91=acharConv;acharConv=function(txt){const r=_ac91(txt);if(r)return r;const t=norm(txt).replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ');const ws=t.split(' ');
+ if(/sistema\s*unic|s\s*u\s*s\b|\bsus\b|cartao\s*nacional\s*de\s*saude|prefeitura|secretaria\s*(municipal|estadual)\s*de\s*saude|\bubs\b|\bama\b/.test(t))return 'SUS';
+ const nomes=[['sulamerica','SulAmérica'],['bradesco','Bradesco Saúde'],['amil','Amil'],['unimed','Central Nacional Unimed'],['notredame','Hapvida NotreDame Intermédica'],['intermedica','Hapvida NotreDame Intermédica'],['hapvida','Hapvida NotreDame Intermédica'],['porto','Porto Seguro Saúde'],['cassi','Cassi'],['cabesp','Cabesp'],['geap','GEAP Saúde'],['careplus','Care Plus'],['prevent','Prevent Senior'],['medsenior','MedSênior'],['mediservice','Mediservice'],['vivest','Vivest'],['funcesp','Vivest'],['biovida','Biovida Saúde'],['metrus','Metrus'],['medprev','MedPrev'],['solumedi','Solumedi'],['sonilab','Sonilab · Cruz Azul'],['postal','Postal Saúde'],['leader','Leader'],['select','Select']];
+ for(const w of ws){if(w.length<4)continue;for(const [k,n] of nomes)if(lev(w,k)<=(k.length>6?2:1))return n}
+ const m=t.match(/(convenio|plano|operadora)\s*:?\s*([a-z ]{3,30})/);if(m){const v=m[2].trim().split(' ').slice(0,3).join(' ');if(v&&!/^(de|do|da|saude)$/.test(v))return v.replace(/\b\w/g,l=>l.toUpperCase())}return ''};
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();

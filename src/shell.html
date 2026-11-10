@@ -568,6 +568,15 @@ body.modo-apr .nav,body.modo-apr .top,body.modo-apr header,body.modo-apr .fab{di
 .addex summary{font-size:1rem;padding:.5rem 0}
 .atr-n{color:#E9C46A}
 .cvp.nd{background:#F4FAFA;border-bottom:2px solid var(--line)}.cvp.nd span{color:#4E6664}
+
+/* ---------- v9.1 ---------- */
+.espb{transition:transform .34s cubic-bezier(.2,.8,.2,1),box-shadow .34s,opacity .3s}
+.espb.pick{transform:scale(1.07);box-shadow:0 0 0 4px #7CCFB0,0 18px 32px rgba(14,77,69,.35);z-index:2;position:relative}
+.espb.fade{opacity:.35;transform:scale(.97)}
+#app.tr-up{animation:trUp .42s cubic-bezier(.2,.8,.2,1)}
+@keyframes trUp{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+.tit-esp{color:#0ABAB5;font-weight:800}
+@media (prefers-reduced-motion:reduce){.espb,.espb.pick,.espb.fade{transition:none;transform:none}#app.tr-up{animation:none}}
 </style>
 </head>
 <body>
