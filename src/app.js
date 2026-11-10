@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'9.2',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'9.3',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -1604,7 +1604,7 @@ function lev(a,b){if(Math.abs(a.length-b.length)>2)return 9;const d=[...Array(b.
 const _ac91=acharConv;acharConv=function(txt){const r=_ac91(txt);if(r)return r;const t=norm(txt).replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ');const ws=t.split(' ');
  if(/sistema\s*unic|s\s*u\s*s\b|\bsus\b|cartao\s*nacional\s*de\s*saude|prefeitura|secretaria\s*(municipal|estadual)\s*de\s*saude|\bubs\b|\bama\b/.test(t))return 'SUS';
  const nomes=[['sulamerica','SulAmérica'],['bradesco','Bradesco Saúde'],['amil','Amil'],['unimed','Central Nacional Unimed'],['notredame','Hapvida NotreDame Intermédica'],['intermedica','Hapvida NotreDame Intermédica'],['hapvida','Hapvida NotreDame Intermédica'],['porto','Porto Seguro Saúde'],['cassi','Cassi'],['cabesp','Cabesp'],['geap','GEAP Saúde'],['careplus','Care Plus'],['prevent','Prevent Senior'],['medsenior','MedSênior'],['mediservice','Mediservice'],['vivest','Vivest'],['funcesp','Vivest'],['biovida','Biovida Saúde'],['metrus','Metrus'],['medprev','MedPrev'],['solumedi','Solumedi'],['sonilab','Sonilab · Cruz Azul'],['postal','Postal Saúde'],['leader','Leader'],['select','Select']];
- for(const w of ws){if(w.length<4)continue;for(const [k,n] of nomes)if(lev(w,k)<=(k.length>6?2:1))return n}
+ if(/\b(amil|arnil|amll|arnll|aml|amii|arnii|ami1)\b/.test(t))return 'Amil';for(const w of ws){if(w.length<4)continue;for(const [k,n] of nomes)if(lev(w,k)<=(k.length>6?2:1))return n}
  const m=t.match(/(convenio|plano|operadora)\s*:?\s*([a-z ]{3,30})/);if(m){const v=m[2].trim().split(' ').slice(0,3).join(' ');if(v&&!/^(de|do|da|saude)$/.test(v))return v.replace(/\b\w/g,l=>l.toUpperCase())}return ''};
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
