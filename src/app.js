@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'6.6',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'6.7',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -1090,7 +1090,8 @@ vInicio=function(){const n=primeiroNome();
 VIEWS.inicio=vInicio;
 
 VIEWS.convenios=function(){return phead('Convênios na Dimagem','Toque em um convênio para ver os exames credenciados')+`<section class="sec">${buscaForm('qc','Nome do convênio',S.qc||'','qc')}<div class="cvl" id="cvl">${listaConv()}</div></section>`};
-function listaConv(){const t=norm(S.qc||'');return CONV.filter(c=>!t||norm(c.n).includes(t)).map(c=>`<button class="cv" data-act="conv" data-k="${c.id}">${c.logo?`<span class="cv-m lg" style="background:${c.lbg||'#fff'}"><img src="${c.logo}" alt=""></span>`:`<span class="cv-m" style="background:${c.bg};color:${c.ink}">${esc(c.n.split(/[ ·]/)[0].slice(0,3).toUpperCase())}</span>`}<span class="col" style="flex:1;min-width:0"><b>${esc(c.n)}</b><span class="sm mut">${c.pac?'Pacote: Ressonância e Tomografia':c.ex.length+' exames'}</span></span>${I.chev("#645069",16)}</button>`).join('')||'<div class="empty">Nenhum convênio com esse nome.</div>'}
+function miniConv(c){const k=CARTAO[c.id];return k?`<span class="cv-t" style="${k.bg}">${k.svg}</span>`:`<span class="cv-t" style="background:${c.bg}"><svg viewBox="0 0 400 252"><text x="200" y="140" text-anchor="middle" font-family="Arial" font-weight="900" font-style="italic" font-size="${c.n.length>12?38:52}" fill="${c.ink}">${esc(c.n)}</text><path d="M0 205 C140 175 260 230 400 195 V252 H0Z" fill="${c.ac}"/></svg></span>`}
+function listaConv(){const t=norm(S.qc||'');return CONV.filter(c=>!t||norm(c.n).includes(t)).map(c=>`<button class="cv" data-act="conv" data-k="${c.id}">${miniConv(c)}<span class="col" style="flex:1;min-width:0"><b>${esc(c.n)}</b><span class="sm mut">${c.pac?'Pacote: Ressonância e Tomografia':c.ex.length+' exames'}</span></span>${I.chev('#645069',16)}</button>`).join('')||'<div class="empty">Nenhum convênio com esse nome.</div>'}
 VIEWS.convenio=function(){const c=CONV.find(x=>x.id===S.conv);if(!c)return VIEWS.convenios();
  const g={rm:[],tc:[],out:[]};c.ex.forEach(e=>{const d=norm(e[1]);(/resson|angiorm|\brm\b/.test(d)||e[0].startsWith('4110')?g.rm:/tomog|angiotomo|\btc\b/.test(d)||e[0].startsWith('4100')?g.tc:g.out).push(e)});
  const bloco=(t,l)=>l.length?`<h2 class="h3" style="margin-top:1rem">${t} <span class="sm mut">(${l.length})</span></h2><ul class="exl">${l.map(e=>`<li><span>${esc(e[1])}</span><code>${esc(e[0])}</code></li>`).join('')}</ul>`:'';
