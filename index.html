@@ -567,6 +567,7 @@ body.modo-apr .nav,body.modo-apr .top,body.modo-apr header,body.modo-apr .fab{di
 .exi{padding:.8rem .9rem}.exi-n{font-size:1rem}
 .addex summary{font-size:1rem;padding:.5rem 0}
 .atr-n{color:#E9C46A}
+.cvp.nd{background:#F4FAFA;border-bottom:2px solid var(--line)}.cvp.nd span{color:#4E6664}
 </style>
 </head>
 <body>
@@ -2287,6 +2288,14 @@ const _bp81=blocoPag;blocoPag=function(){const f=S.fx;if(f.conv!=='nd')return _b
 const _msg81=msgFluxo;msgFluxo=function(f,link){return _msg81(f,link).replace('Atendimento: Pro Bono · Convênio \n','Atendimento: Pro Bono · Convênio não declarado\n')};
 document.addEventListener('click',e=>{const t=e.target.closest('[data-act=cvsel]');if(t&&S.fx&&t.dataset.k==='nd'){e.stopImmediatePropagation();S.fx.conv='nd';S.fx.troca=false;S.fx.pag='conv';S.qcv='';render()}},true);
 const _resumo81=VIEWS.fluxo;VIEWS.fluxo=function(){const f=S.fx;if(!f||f.conv!=='nd')return _resumo81();CONV.push(ND);try{return _resumo81()}finally{CONV.pop()}};
+
+/* ============ v8.1: especialidade avança sozinha · Pro Bono com "Não declarar" ============ */
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act=fesp]');const f=S.fx;if(!t||!f)return;e.stopImmediatePropagation();f.esp=t.dataset.v;f.step=2;render();scrollTo(0,0)},true);
+const _cpl81=cvpLista;cvpLista=function(l,sel){const q=norm(S.qcv||'');const nd=!q||'nao declarar'.includes(q)?`<button class="cvp txt nd ${sel==='nd'?'on':''}" data-act="cvsel" data-k="nd"><span>Não declarar</span>${sel==='nd'?SEL:''}</button>`:'';return nd+_cpl81(l,sel)};
+const _cpb81=cartaoProBono;cartaoProBono=c=>{const f=S.fx;const h=_cpb81(c);return f&&f.conv==='nd'?h.replace('<b>Escolha abaixo</b>','<b>Não declarado</b>'):h};
+const _bpnd=blocoPag;blocoPag=function(){const f=S.fx;let h=_bpnd();if(f&&f.conv==='nd')h=h.replace('<small>Pelo seu convênio</small>','<small>Convênio não declarado</small>').replace('>Escolher convênio<','>Trocar convênio<');return h};
+const _m81=msgFluxo;msgFluxo=function(f,l){let m=_m81(f,l);if(f.pag!=='part'&&f.conv==='nd')m=m.replace(/Atendimento: Pro Bono · Convênio .*\n/,'Atendimento: Pro Bono · Convênio não declarado\n');return m};
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act=cvsel]');if(t&&S.fx&&t.dataset.k==='nd'){e.stopImmediatePropagation();S.fx.conv='nd';S.fx.pag='conv';S.fx.troca=false;S.qcv='';render()}},true);
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
 
