@@ -510,6 +510,29 @@ body.modo-apr .nav,body.modo-apr .top,body.modo-apr header,body.modo-apr .fab{di
 .c2-pill{position:relative;margin-top:.6rem;font-size:.8rem;font-weight:800;padding:.4rem .8rem;border-radius:999px;background:#fff}
 .cubo2.co .c2-pill{color:#17624A}.cubo2.ex .c2-pill{color:#4A2252}
 .cubo2:active{transform:scale(.98)}.cubos+.sec{padding-top:.75rem!important}
+
+/* ---------- v7.4: apresentações separadas ---------- */
+.dk{background:#fff}
+.dk-x{position:fixed;top:max(.9rem,env(safe-area-inset-top));right:.9rem;z-index:30;width:2.8rem;height:2.8rem;border-radius:50%;background:rgba(0,0,0,.4);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center}
+.dk-img{position:relative;height:72vh;min-height:24rem;overflow:hidden;display:flex;align-items:flex-end}
+.dk-img.hero1{height:100vh;height:100svh}
+.dk-bg{position:absolute;inset:-15% 0;will-change:transform}.dk-bg img{width:100%;height:100%;object-fit:cover}
+.dk-sh{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,color-mix(in srgb,var(--c) 85%,#000) 100%)}
+.dk-cap{position:relative;z-index:1;color:#fff;padding:1.4rem 1.3rem 2.4rem;max-width:36rem}
+.dk-cap span{display:inline-block;font-size:.78rem;font-weight:800;background:#7CCFB0;color:#0E3D2E;padding:.3rem .7rem;border-radius:999px;margin-bottom:.6rem}
+.dk-cap h2{margin:0;font-size:2rem;line-height:1.1;letter-spacing:-.02em}
+.hero1 .dk-cap h2{font-size:2.4rem}
+.dk-w{background:#fff;padding:3.2rem 1.4rem;position:relative;z-index:2}
+.dk-w>div{max-width:34rem;margin:0 auto}
+.dk-w h3{margin:0 0 .7rem;font-size:1.75rem;line-height:1.15;color:var(--c);letter-spacing:-.01em}
+.dk-w p{margin:0;font-size:1.08rem;line-height:1.55;color:#4b3a50}
+.dk-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;text-align:center}
+.dk-nums div{display:flex;flex-direction:column;gap:.3rem;padding:1rem .4rem;border-radius:1.2rem;background:#FAF5F8}
+.dk-nums b{font-size:1.45rem;color:var(--c);letter-spacing:-.02em}.dk-nums span{font-size:.78rem;color:var(--mut)}
+.dk-fim{padding-bottom:4rem;text-align:center}.dk-fim .btn{width:100%;margin-top:1rem}
+.dk-outros{display:flex;flex-direction:column;gap:.6rem;margin-top:1.4rem}
+[data-rev]{opacity:0;transform:translateY(34px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}[data-rev].vis{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){[data-rev]{opacity:1;transform:none;transition:none}}
 </style>
 </head>
 <body>

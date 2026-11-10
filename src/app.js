@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'7.3',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'7.4',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -1439,5 +1439,68 @@ vInicio=function(){const h=_ini73();const a=h.indexOf('<section class="sec duo">
   <button class="cubo2 ex" data-act="fluxo" data-t="exame"><span class="c2-ic">${dc}</span><span class="c2-big" aria-hidden="true">${alvo}</span><b>Exames</b><small>Ressonância e tomografia</small><span class="c2-pill">Agendar ›</span></button></section>`;
  return h.slice(0,a)+cubos+h.slice(b)};
 VIEWS.inicio=vInicio;
+
+/* ============ v7.4: especialidades do MITI (pesquisa por profissional) e apresentações separadas ============ */
+const RJ='stroke-linecap="round" stroke-linejoin="round"';
+Object.assign(ICM,{
+ psiq:`<svg viewBox="0 0 120 120"><path d="M40 104V88c-10-6-18-17-18-31 0-21 16-37 37-37 18 0 33 12 36 29l7 13c1 2 0 4-2 4h-6v10c0 5-4 9-9 9h-9v9" fill="#E9DDF0" stroke="#4A2252" stroke-width="4" ${RJ}/><path d="M44 50c0-9 7-15 15-15s14 6 14 13c0 6-4 9-8 11-3 2-4 4-4 8" fill="none" stroke="#2E8F6E" stroke-width="5" ${RJ}/><circle cx="61" cy="78" r="3.5" fill="#2E8F6E"/><path d="M92 24l6-6M100 34h8M96 14v-6" stroke="#E1A422" stroke-width="4" ${RJ}/></svg>`,
+ cardio:`<svg viewBox="0 0 120 120"><path d="M60 100C30 80 14 62 14 42c0-14 11-24 24-24 9 0 17 5 22 13 5-8 13-13 22-13 13 0 24 10 24 24 0 20-16 38-46 58z" fill="#F6E3EF" stroke="#B3261E" stroke-width="4.5" ${RJ}/><path d="M22 58h22l7-14 10 28 8-20 5 6h24" fill="none" stroke="#2E8F6E" stroke-width="5" ${RJ}/></svg>`,
+ endo:`<svg viewBox="0 0 120 120"><path d="M60 30v62" stroke="#4A2252" stroke-width="5" ${RJ}/><path d="M56 46c-12-12-34-10-38 8-4 18 8 32 22 30 10-2 16-12 16-22z" fill="#F6E3EF" stroke="#6B2468" stroke-width="4.5" ${RJ}/><path d="M64 46c12-12 34-10 38 8 4 18-8 32-22 30-10-2-16-12-16-22z" fill="#F6E3EF" stroke="#6B2468" stroke-width="4.5" ${RJ}/><rect x="50" y="58" width="20" height="12" rx="6" fill="#7CCFB0" stroke="#17624A" stroke-width="3.5"/><circle cx="34" cy="62" r="4" fill="#7CCFB0"/><circle cx="86" cy="62" r="4" fill="#7CCFB0"/></svg>`,
+ neurol:`<svg viewBox="0 0 120 120"><path d="M58 20c-6-6-17-5-21 2-8 0-14 7-12 15-7 4-8 14-2 19-3 7 1 15 9 16 2 8 11 12 18 8 3 3 6 4 8 4z" fill="#DCF3E9" stroke="#17624A" stroke-width="4" ${RJ}/><path d="M58 20c6-6 17-5 21 2 8 0 14 7 12 15 7 4 8 14 2 19 3 7-1 15-9 16-2 8-11 12-18 8-3 3-6 4-8 4z" fill="#DCF3E9" stroke="#17624A" stroke-width="4" ${RJ}/><g fill="#6B2468"><circle cx="40" cy="42" r="5"/><circle cx="76" cy="38" r="5"/><circle cx="58" cy="58" r="5"/><circle cx="44" cy="70" r="5"/><circle cx="78" cy="68" r="5"/></g><path d="M40 42l18 16 18-20M58 58l-14 12M58 58l20 10" fill="none" stroke="#6B2468" stroke-width="3"/><path d="M58 88v16" stroke="#17624A" stroke-width="6" ${RJ}/></svg>`,
+ neuroc:`<svg viewBox="0 0 120 120"><path d="M50 22c-6-6-16-5-20 2-8 0-13 7-11 14-7 4-8 13-2 18-3 7 1 14 8 15 2 8 10 11 17 7 3 3 5 4 8 4V22z" fill="#DCF3E9" stroke="#17624A" stroke-width="4" ${RJ}/><path d="M50 22c6-6 16-5 20 2 8 0 13 7 11 14" fill="none" stroke="#17624A" stroke-width="4" ${RJ}/><path d="M64 104l34-50" stroke="#4A2252" stroke-width="7" ${RJ}/><path d="M98 54l10-16c2-3-2-6-5-4L88 46z" fill="#E9DDF0" stroke="#4A2252" stroke-width="4" ${RJ}/><path d="M30 40c6 0 9 4 9 9M26 60c5-2 10 0 12 5" fill="none" stroke="#17624A" stroke-width="3" ${RJ}/></svg>`,
+ pneumo:`<svg viewBox="0 0 120 120"><path d="M60 14v40M60 40c-6 6-12 8-18 8M60 40c6 6 12 8 18 8" stroke="#4A2252" stroke-width="5" fill="none" ${RJ}/><path d="M44 36c-14 4-26 22-28 46-1 12 6 20 16 18l12-3c4-1 6-4 6-8V44c0-6-2-10-6-8z" fill="#F6E3EF" stroke="#6B2468" stroke-width="4.5" ${RJ}/><path d="M76 36c14 4 26 22 28 46 1 12-6 20-16 18l-12-3c-4-1-6-4-6-8V44c0-6 2-10 6-8z" fill="#F6E3EF" stroke="#6B2468" stroke-width="4.5" ${RJ}/><path d="M30 70c4-4 10-4 14 0M76 70c4-4 10-4 14 0" stroke="#2E8F6E" stroke-width="3.5" fill="none" ${RJ}/></svg>`,
+ clinica:`<svg viewBox="0 0 120 120"><path d="M34 18v26a20 20 0 0 0 40 0V18" fill="none" stroke="#4A2252" stroke-width="6" ${RJ}/><circle cx="34" cy="18" r="5" fill="#4A2252"/><circle cx="74" cy="18" r="5" fill="#4A2252"/><path d="M54 64v12a22 22 0 0 0 44 0V66" fill="none" stroke="#4A2252" stroke-width="6" ${RJ}/><circle cx="98" cy="56" r="12" fill="#7CCFB0" stroke="#17624A" stroke-width="4"/><circle cx="98" cy="56" r="4" fill="#17624A"/></svg>`,
+ onco:`<svg viewBox="0 0 120 120"><path d="M50 22c-10 0-16 8-14 18l14 30 14-30c2-10-4-18-14-18z" fill="#F6E3EF" stroke="#6B2468" stroke-width="4.5" ${RJ}/><path d="M50 70L30 104M50 70l20 34" stroke="#6B2468" stroke-width="9" ${RJ}/><path d="M50 70L30 104M50 70l20 34" stroke="#E9C9E3" stroke-width="3" ${RJ}/><path d="M80 96l28-40" stroke="#17624A" stroke-width="6" ${RJ}/><path d="M108 56l6-12c1-3-2-5-4-3l-10 10z" fill="#DCF3E9" stroke="#17624A" stroke-width="3.5" ${RJ}/></svg>`,
+ nutri:`<svg viewBox="0 0 120 120"><path d="M60 36c-8-6-24-8-34 2-12 12-8 36 4 50 8 10 18 14 30 10 12 4 22 0 30-10 12-14 16-38 4-50-10-10-26-8-34-2z" fill="#DCF3E9" stroke="#17624A" stroke-width="4.5" ${RJ}/><path d="M60 36c0-10 4-18 12-22" stroke="#6B2468" stroke-width="5" fill="none" ${RJ}/><path d="M64 26c8-10 22-10 28-4-6 10-18 12-28 4z" fill="#7CCFB0" stroke="#17624A" stroke-width="3.5" ${RJ}/><path d="M36 58c2-8 8-12 14-12" stroke="#fff" stroke-width="5" fill="none" ${RJ}/></svg>`,
+ esporte:`<svg viewBox="0 0 120 120"><circle cx="70" cy="18" r="9" fill="#F6E3EF" stroke="#6B2468" stroke-width="4"/><path d="M40 46l16-12 16 6 10 16M56 34l-8 26 18 10v28M48 60l-12 18-18-2" fill="none" stroke="#4A2252" stroke-width="7" ${RJ}/><circle cx="92" cy="86" r="16" fill="#F2C94C" stroke="#8A5A00" stroke-width="4"/><path d="M86 86l4 4 8-8" stroke="#8A5A00" stroke-width="4" fill="none" ${RJ}/></svg>`});
+MITI_ESP.length=0;
+[['Cardiologia','Coração e pressão arterial','cardio','#B3261E','#F6E3EF',2],['Cirurgia oncológica','Avaliação e acompanhamento cirúrgico','onco','#6B2468','#DCF3E9',1],['Clínica médica','Check-up e cuidado do adulto','clinica','#4A2252','#7CCFB0',2],
+ ['Endocrinologia','Hormônios, tireoide e diabetes','endo','#6B2468','#7CCFB0',1],['Fisioterapia em performance','Reabilitação e desempenho esportivo','fisio','#6B2468','#7CCFB0',1],['Medicina esportiva e nutrologia','Saúde e performance no esporte','esporte','#17624A','#F6E3EF',1],
+ ['Neurocirurgia','Coluna, nervos e cérebro','neuroc','#17624A','#F6E3EF',1],['Neurologia','Dor de cabeça, dor crônica e nervos','neurol','#2E8F6E','#F6E3EF',2],['Neuropsicologia','Memória, atenção e desenvolvimento','neuro','#2E8F6E','#F6E3EF',1],
+ ['Nutrição','Alimentação e emagrecimento saudável','nutri','#17624A','#F6E3EF',2],['Pneumologia','Pulmões e respiração','pneumo','#4A2252','#7CCFB0',1],['Psicologia','Psicoterapia para adultos, casais e adolescentes','psico','#4A2252','#7CCFB0',8],
+ ['Psiquiatria','Ansiedade, depressão e saúde mental','psiq','#6B2468','#7CCFB0',6],['Terapias integrativas','Práticas complementares de cuidado','integ','#17624A','#F6E3EF',1]
+].forEach(([n,d,ic,bg,ac,q])=>MITI_ESP.push({n,d,ic,bg,ac,q}));
+Object.assign(MODM,{psiq:'Saúde mental · consulta médica',cardio:'Cuidado do coração',endo:'Hormônios e metabolismo',neurol:'Sistema nervoso',neuroc:'Cirurgia do sistema nervoso',pneumo:'Saúde respiratória',clinica:'Clínico geral',onco:'Oncologia cirúrgica',nutri:'Alimentação e saúde',esporte:'Esporte e nutrologia'});
+const _ce74=cartaoEsp;cartaoEsp=e=>_ce74(e).replace('<span class="cc-tipo">Especialidade no MITI</span>',`<span class="cc-tipo">${e.q} profissiona${e.q>1?'is':'l'} no MITI</span>`);
+
+/* ---- apresentações separadas: Dimagem, MITI paciente, MITI profissional ---- */
+const DECKS={
+ dm:{nome:'Dimagem Unineuro',cor:'#4A2252',cta:['fluxo','exame','Agendar meu exame'],bl:[
+  {f:'fotos/dm-rm.jpg',k:'Dimagem Unineuro',t:'30 anos cuidando do seu diagnóstico'},
+  {tx:'Saúde igual para todos.',p:'Há mais de três décadas, a Dimagem faz ressonância magnética e tomografia com o mesmo cuidado para cada paciente, seja pelo convênio ou particular.'},
+  {f:'fotos/dm-rm2.jpg',k:'Tecnologia',t:'Imagem nítida, exame mais tranquilo'},
+  {nums:[['30+','anos de experiência'],['30','convênios aceitos'],['15 min','para responder no WhatsApp']]},
+  {f:'fotos/dm-recepcao.jpg',k:'Acolhimento',t:'Uma equipe que explica cada etapa'},
+  {tx:'Agendar é simples.',p:'Mande a foto do pedido médico pelo app. A gente identifica o exame, confere o convênio e responde com os horários.'}]},
+ pac:{nome:'MITI · Para você, paciente',cor:'#17624A',cta:['fluxo','consulta','Marcar consulta'],bl:[
+  {f:'fotos/9002-1.jpg',k:'MITI · Conjunto Nacional',t:'Cuidado de perto, no coração da Paulista'},
+  {tx:'Especialistas num só endereço.',p:'Psiquiatria, psicologia, neurologia, cardiologia, nutrição, fisioterapia e muito mais, no Conjunto Nacional.'},
+  {f:'fotos/9002-2.jpg',k:'Conforto',t:'Consultórios acolhedores e reservados'},
+  {nums:[['14','especialidades'],['8h–21h','horário de atendimento'],['1 min','do metrô Consolação']]},
+  {f:'fotos/9002-3.jpg',k:'Fácil de chegar',t:'Av. Paulista, 2073 · 1º andar do Horsa II'},
+  {tx:'Marque em poucos toques.',p:'Escolha a especialidade e o melhor horário. O MITI responde pelo WhatsApp em 30 a 60 minutos.'}]},
+ med:{nome:'MITI · Para você, profissional',cor:'#6B2468',cta:['nav','coworking','Quero um consultório'],bl:[
+  {f:'fotos/9002-4.jpg',k:'MITI · Para profissionais',t:'Seu consultório no endereço mais conhecido de São Paulo'},
+  {tx:'Atenda sem o custo de montar um consultório.',p:'Salas prontas e mobiliadas, por hora ou por mês, no Conjunto Nacional.'},
+  {f:'fotos/9002-5.jpg',k:'Estrutura pronta',t:'Chegue, atenda e vá embora'},
+  {nums:[['Hora','ou plano mensal'],['8h–21h','todos os dias úteis'],['Paulista','pacientes chegam fácil']]},
+  {f:'fotos/9002-6.jpg',k:'Comunidade',t:'Divida o espaço com outros especialistas'},
+  {tx:'Fale com a gente.',p:'Envie seu interesse e a equipe do MITI apresenta os horários e valores.'}]}};
+VIEWS.apresentacao=function(){const d=DECKS[S.aprK||'dm']||DECKS.dm;
+ return `<div class="dk" style="--c:${d.cor}"><button class="dk-x" data-act="voltar" aria-label="Fechar">${I.x('#fff',22)}</button>
+ ${d.bl.map((b,i)=>b.f?`<section class="dk-img ${i===0?'hero1':''}"><div class="dk-bg" data-px><img src="${b.f}" alt=""></div><div class="dk-sh"></div><div class="dk-cap" data-rev><span>${esc(b.k)}</span><h2>${esc(b.t)}</h2></div>${i===0?'<span class="apr-seta" aria-hidden="true">⌄</span>':''}</section>`
+  :b.nums?`<section class="dk-w"><div class="dk-nums" data-rev>${b.nums.map(([n,l])=>`<div><b>${esc(n)}</b><span>${esc(l)}</span></div>`).join('')}</div></section>`
+  :`<section class="dk-w"><div data-rev><h3>${esc(b.tx)}</h3><p>${esc(b.p)}</p></div></section>`).join('')}
+ <section class="dk-w dk-fim"><div data-rev><h3>${esc(d.nome)}</h3><button class="btn pri big" data-act="${d.cta[0]}" ${d.cta[0]==='fluxo'?`data-t="${d.cta[1]}"`:`data-v="${d.cta[1]}"`}>${esc(d.cta[2])}</button>
+ <div class="dk-outros">${Object.entries(DECKS).filter(([k])=>k!==(S.aprK||'dm')).map(([k,o])=>`<button class="lnk" data-act="deck" data-k="${k}">Ver ${esc(o.nome)} ›</button>`).join('')}</div></div></section></div>`};
+aprIniciar=function(){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.2});document.querySelectorAll('[data-rev]').forEach(x=>io.observe(x));
+ if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;const ps=[...document.querySelectorAll('.dk-img')];
+ const tick=()=>{if(S.view!=='apresentacao')return;const vh=innerHeight;ps.forEach(p=>{const r=p.getBoundingClientRect();if(r.bottom<0||r.top>vh)return;const k=(r.top+r.height/2-vh/2)/vh;p.querySelector('[data-px]').style.transform=`translateY(${(k*-110).toFixed(1)}px) scale(1.2)`})};
+ removeEventListener('scroll',aprIniciar._t);aprIniciar._t=()=>requestAnimationFrame(tick);addEventListener('scroll',aprIniciar._t,{passive:true});tick()};
+const _r74=render;render=function(a){const k=S.aprK;_r74(a);if(S.view==='apresentacao'&&k)S.aprK=k};
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;
+ if(t.dataset.act==='nav'&&t.dataset.v==='apresentacao'){S.aprK=t.dataset.k||'dm'}
+ else if(t.dataset.act==='deck'){S.aprK=t.dataset.k;render();scrollTo(0,0)}},true);
+
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
