@@ -387,6 +387,52 @@ button,a,label,input,select,textarea{touch-action:manipulation;-webkit-tap-highl
 @media (min-width:900px){.nav .bub svg *{stroke:#E6D2EB}.nav button[aria-current="page"] .bub svg *{stroke:#fff}.nav .mid span:last-child{color:#2A1330}}
 html.nomotion .car-tr,html.nomotion .nav .bub{transition:none}
 @media (prefers-reduced-motion:reduce){.car-tr,.nav .bub{transition:none}}
+
+/* ---------- v7: fluxo do paciente ---------- */
+.acoes{display:grid;gap:.7rem}
+.acao{display:flex;align-items:center;gap:.9rem;padding:1rem 1.1rem;border-radius:1.4rem;text-align:left;min-height:5.2rem;width:100%}
+.acao>span:nth-child(2){flex:1;display:flex;flex-direction:column;gap:.15rem}.acao b{font-size:1.08rem}.acao small{font-size:.85rem;opacity:.9}
+.acao-ic{width:3.4rem;height:3.4rem;border-radius:1.1rem;display:flex;align-items:center;justify-content:center;flex:none;background:rgba(255,255,255,.18)}
+.acao.ex{background:linear-gradient(135deg,#4A2252,#6B2468);color:#fff;box-shadow:0 10px 22px rgba(74,34,82,.3)}
+.acao.co{background:linear-gradient(135deg,#17624A,#2E8F6E);color:#fff;box-shadow:0 10px 22px rgba(23,98,74,.28)}
+.acao.ag{background:#fff;border:1px solid var(--line);color:var(--ink)}.acao.ag .acao-ic{background:#F6E3EF}
+.selo{display:flex;align-items:center;gap:.9rem;background:#DCF3E9;border-radius:1.3rem;padding:.9rem 1rem}
+.selo-n{font-size:2.3rem;font-weight:900;color:#17624A;line-height:.85;display:flex;flex-direction:column;align-items:center;flex:none}.selo-n small{font-size:.8rem;font-weight:800}
+.selo span:last-child{display:flex;flex-direction:column;gap:.15rem}.selo b{color:#0E3D2E}.selo small{font-size:.82rem;color:#2C5A49}
+.aviso-conf{display:flex;align-items:center;gap:.8rem;width:100%;text-align:left;background:#F6E3EF;border:2px solid #E3B8D8;border-radius:1.2rem;padding:.8rem 1rem}
+.aviso-conf>span:nth-child(2){flex:1;display:flex;flex-direction:column}.aviso-conf small{color:var(--mut)}
+.ac-ic{width:2.6rem;height:2.6rem;border-radius:.9rem;background:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+.passos{display:flex;align-items:center;gap:.35rem;margin-bottom:1rem}.passos i{height:.4rem;flex:1;max-width:3.2rem;border-radius:999px;background:var(--line)}.passos i.on{background:#2E8F6E}.passos span{margin-left:.5rem}
+.fluxo .h2{margin-top:0}.fluxo .btn.big{width:100%;min-height:3.4rem;font-size:1.05rem;margin-top:1.1rem}
+.fluxo .btn[disabled]{opacity:.45}
+.foto-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;background:linear-gradient(135deg,#4A2252,#6B2468);color:#fff;border-radius:1.4rem;min-height:11rem;cursor:pointer;text-align:center}
+.foto-btn b{font-size:1.1rem}.foto-btn small{opacity:.85}
+.foto-prev{display:grid;gap:.6rem}.foto-prev img{width:100%;max-height:22rem;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:1.2rem}
+.semfoto{margin-top:1rem;background:#fff;border:1px solid var(--line);border-radius:1.2rem;padding:.8rem 1rem}.semfoto summary{font-weight:800;cursor:pointer}
+.exsel{display:flex;flex-direction:column;gap:.35rem;margin-top:.6rem;max-height:18rem;overflow:auto}
+.exo{display:flex;align-items:center;gap:.5rem;text-align:left;padding:.65rem .8rem;border-radius:.9rem;border:1px solid var(--line);background:#FAF5F8;min-height:2.9rem}.exo.on{border-color:#2E8F6E;background:#DCF3E9;color:#0E3D2E;font-weight:700}
+.esps{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.espb{display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:1rem .6rem;border-radius:1.3rem;background:var(--bg);color:#fff;border:3px solid transparent;text-align:center}
+.espb.on{border-color:#7CCFB0;box-shadow:0 0 0 3px #fff inset}
+.espb-ic{width:4.6rem;height:4.6rem;border-radius:1.2rem;background:#fff;display:flex;align-items:center;justify-content:center}.espb-ic svg{width:3.6rem;height:3.6rem}
+.pag-cartao .ct{box-shadow:0 10px 22px rgba(42,19,48,.2)}
+.cob{margin:.7rem 0 0;font-weight:700;font-size:.92rem;padding:.55rem .8rem;border-radius:.9rem}.cob.ok{background:#DCF3E9;color:#0E3D2E}.cob.warn{background:#FFF4D6;color:#6B4E00}
+.opts{display:grid;gap:.5rem;margin-top:.9rem}
+.opt{display:flex;align-items:center;gap:.7rem;text-align:left;padding:.8rem 1rem;border-radius:1.1rem;border:2px solid var(--line);background:#fff;min-height:3.6rem}
+.opt svg{width:1.4rem;height:1.4rem;border-radius:50%;border:2px solid #C9B8CC;color:transparent;padding:.1rem;flex:none}
+.opt.on{border-color:#2E8F6E;background:#F2FBF7}.opt.on svg{background:#2E8F6E;border-color:#2E8F6E;color:#fff}
+.opt span{display:flex;flex-direction:column}.opt small{color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip2{padding:.75rem 1.1rem;border-radius:999px;border:2px solid var(--line);background:#fff;font-weight:700;min-height:3rem}.chip2.on{background:#4A2252;border-color:#4A2252;color:#fff}
+.resumo .rl{display:flex;justify-content:space-between;gap:1rem;padding:.55rem 0;border-top:1px solid var(--line)}.resumo .rl:first-child{border-top:0}.resumo .rl span{color:var(--mut)}.resumo .rl b{text-align:right}
+.ok-tela{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.8rem;padding-top:1.5rem}
+.ok-ic{width:6rem;height:6rem;border-radius:50%;background:#7CCFB0;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 .6rem #DCF3E9}
+.ok-tela .btn{width:100%}
+.card.ag{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.8rem}.card.ag.ok{border-left:5px solid #2E8F6E}.card.ag.pend{border-left:5px solid #E1A422}
+.ag-dt{font-size:1.1rem;color:#17624A;text-transform:capitalize}
+.ag-bts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.4rem}.ag-bts .btn:last-child{grid-column:1/-1}
+.conf{display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem;padding:.8rem;border-radius:1rem;background:#FAF5F8}
+body.pedv{background:#f4f4f4;font-family:system-ui,sans-serif;margin:0}.pedv-w{max-width:900px;margin:0 auto;padding:1.2rem}.pedv-w h1{font-size:1.2rem}.pedv-w img{width:100%;border-radius:.6rem;background:#fff;margin:.6rem 0}.pedv-w a{display:inline-block;padding:.7rem 1rem;background:#4A2252;color:#fff;border-radius:.6rem;text-decoration:none}
 </style>
 </head>
 <body>
@@ -521,7 +567,7 @@ const CARTAO={"sulamerica": {"bg": "background:#fff", "svg": "<svg viewBox=\"0 0
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'6.7',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'7.0',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -1651,6 +1697,143 @@ const _navBar61=navBar;navBar=function(){_navBar61();const nav=$('nav');if(!nav|
  nav.insertAdjacentHTML('afterbegin',`<svg class="navbg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><path d="${d}" fill="#fff"/></svg><span class="navball" aria-hidden="true" style="left:${cx-r}px;top:${yc+2-r}px">${svg?svg.outerHTML:''}</span>`);
  const bl=nav.querySelector('.navball svg');if(bl){bl.setAttribute('stroke','#4A2252');bl.setAttribute('width','20');bl.setAttribute('height','20');bl.querySelectorAll('[stroke]').forEach(e=>e.setAttribute('stroke','#4A2252'))}};
 addEventListener('resize',()=>{clearTimeout(window._nr);window._nr=setTimeout(navBar,150)});
+
+/* ============ v7: fluxo do paciente (pedido de exame, consulta, confirmação e lembrete) ============ */
+const VAPID='BMJfFkD1_9mFOq5MywP8rKyyeLJwCZfmCGoIH65AYrfzI6nbBXXH_p4oH0NLzpm7MORQjdKnsYmAt9LGAAEskpM';
+S.peds=LS.get('peds',[]);const salvaPeds=()=>LS.set('peds',S.peds);
+const DIM=()=>byId(9001),MITI=()=>byId(9002);
+const EXAMES=(()=>{const m=new Map();CONV.forEach(c=>c.ex.forEach(([k,n])=>{if(!m.has(n))m.set(n,k)}));return [...m.keys()].sort((a,b)=>a.localeCompare(b,'pt'))})();
+function convDoUser(){const u=S.user||{};const t=norm(u.conv||'');if(!t||/particular/.test(t))return null;return CONV.find(c=>norm(c.n).includes(t)||t.includes(norm(c.n).split(' ')[0]))||null}
+function rpc(nome,body){return fetch(SB5+'/rest/v1/rpc/'+nome,{method:'POST',headers:{apikey:K5,Authorization:'Bearer '+K5,'Content-Type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json())}
+function novoFluxo(tipo){const c=convDoUser();S.fx={tipo,step:1,foto:null,exame:'',esp:'',pag:c?'conv':'part',conv:c?c.id:'',troca:false,turno:'',semana:''}}
+const SEL='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>';
+
+/* ---- tela inicial ---- */
+vInicio=function(){const n=primeiroNome();const pend=S.peds.filter(p=>p.st==='pend');
+ return `<section class="hero"><h1 class="hello">${n?'Olá, '+esc(n)+'!':'Olá!'} <small>Como podemos ajudar?</small></h1></section>
+ ${pend.length?`<section class="sec"><button class="aviso-conf" data-act="nav" data-v="agenda"><span class="ac-ic">${I.clock('#4A2252',22)}</span><span><b>A clínica já marcou seu horário?</b><small>${pend.length===1?esc(pend[0].item):pend.length+' pedidos aguardando'} · toque para informar</small></span>${I.chev('#4A2252',18)}</button></section>`:''}
+ <section class="sec acoes">
+  <button class="acao ex" data-act="fluxo" data-t="exame"><span class="acao-ic">${I.doc('#fff',30)}</span><span><b>Tenho um pedido de exame</b><small>Ressonância ou tomografia na Dimagem</small></span>${I.chev('#fff',22)}</button>
+  <button class="acao co" data-act="fluxo" data-t="consulta"><span class="acao-ic">${I.steth('#fff',30)}</span><span><b>Quero marcar uma consulta</b><small>Especialidades no MITI, Av. Paulista</small></span>${I.chev('#fff',22)}</button>
+  <button class="acao ag" data-act="nav" data-v="agenda"><span class="acao-ic">${I.clock('#4A2252',28)}</span><span><b>Minha agenda</b><small>${S.peds.length?S.peds.length+' agendamento'+(S.peds.length>1?'s':''):'Seus agendamentos aparecem aqui'}</small></span>${I.chev('#4A2252',22)}</button>
+ </section>
+ <section class="sec"><div class="selo"><span class="selo-n">15<small>min</small></span><span><b>Resposta no WhatsApp em até 15 minutos</b><small>Mensagens após o expediente são respondidas a partir das 7h.</small></span></div></section>
+ <section class="sec atr">
+  <button class="atr-dm" data-act="abrir" data-id="9001"><img src="fotos/9001-1.jpg" alt="" loading="lazy"><span class="atr-v"><span class="atr-n">30<small>anos</small></span><span class="atr-t"><b>Dimagem Unineuro</b><span>Ressonância e tomografia na Lapa</span></span><q>Saúde igual para todos</q></span></button>
+  <div class="atr-mt"><span class="atr-cab"><b>MITI</b> · Conjunto Nacional, Av. Paulista</span>
+   <button class="atr-c pac" data-act="fluxo" data-t="consulta"><img src="fotos/9002-2.jpg" alt="" loading="lazy"><span><small>Para o paciente</small><b>Consultas na Paulista, das 8h às 21h</b></span></button>
+   <button class="atr-c med" data-act="nav" data-v="coworking"><img src="fotos/9002-4.jpg" alt="" loading="lazy"><span><small>Para o profissional de saúde</small><b>Alugue um consultório por hora ou mês</b></span></button></div>
+ </section>
+ <section class="sec"><div class="row between"><h2 class="h2">Convênios na Dimagem</h2><button class="lnk" data-act="nav" data-v="convenios">Ver todos</button></div>${carrossel('carConv',CONV.map(cartaoConv),'Convênios aceitos na Dimagem Unineuro')}</section>
+ <section class="sec"><h2 class="h2">Especialidades no MITI</h2>${carrossel('carEsp',MITI_ESP.map(cartaoEsp),'Especialidades atendidas no MITI')}</section>
+ <section class="sec"><h2 class="h2">Nossos locais</h2><div class="grid">${LOC.map(card).join('')}</div></section>
+ <section class="sec"><a class="info red" href="tel:192" style="align-items:center">${I.ambul('#B3261E',28)}<span style="flex:1"><b>Emergência? Ligue 192 (SAMU)</b><br>Bombeiros: 193 · Não espere agendar.</span>${I.phone('#B3261E',22)}</a></section>`};
+VIEWS.inicio=vInicio;
+VIEWS.novo=function(){return phead('O que você precisa?','Escolha uma opção',false)+`<section class="sec acoes">
+ <button class="acao ex" data-act="fluxo" data-t="exame"><span class="acao-ic">${I.steth('#fff',30)}</span><span><b>Tenho um pedido de exame</b><small>Ressonância ou tomografia na Dimagem</small></span>${I.chev('#fff',22)}</button>
+ <button class="acao co" data-act="fluxo" data-t="consulta"><span class="acao-ic">${I.steth('#fff',30)}</span><span><b>Quero marcar uma consulta</b><small>Especialidades no MITI</small></span>${I.chev('#fff',22)}</button></section>`};
+
+/* ---- fluxo ---- */
+function passos(n,tot){return `<div class="passos" aria-label="Passo ${n} de ${tot}">${[...Array(tot)].map((_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')}<span class="sm mut">Passo ${n} de ${tot}</span></div>`}
+function blocoPag(){const f=S.fx,c=CONV.find(x=>x.id===f.conv);const cob=f.tipo==='exame'&&f.pag==='conv'&&c?(c.pac?'Atendido em pacote de Ressonância e Tomografia':f.exame?(c.ex.some(e=>e[1]===f.exame)?'✓ Seu convênio cobre este exame na Dimagem':'Este exame não está na tabela do seu convênio. A equipe confirma ou você pode fazer Particular.'):'✓ Convênio aceito na Dimagem'):'';
+ return `<div class="pag-cartao">${f.pag==='conv'&&c?arteConv(c):`<div class="ct" style="background:linear-gradient(135deg,#4A2252,#6B2468)"><svg viewBox="0 0 400 252"><text x="32" y="90" font-family="Arial" font-weight="900" font-size="46" fill="#fff">Particular</text><text x="34" y="124" font-family="Arial" font-size="18" fill="#F6E3EF">Valor informado no atendimento</text></svg></div>`}</div>
+ ${cob?`<p class="cob ${/^✓|pacote/.test(cob)?'ok':'warn'}">${esc(cob)}</p>`:''}
+ <div class="opts" role="radiogroup" aria-label="Forma de pagamento">
+  ${convDoUser()?`<button class="opt ${f.pag==='conv'&&!f.troca&&f.conv===convDoUser().id?'on':''}" data-act="fpag" data-v="meu" role="radio">${SEL}<span><b>Usar meu convênio</b><small>${esc(convDoUser().n)}</small></span></button>`:''}
+  <button class="opt ${f.troca?'on':''}" data-act="fpag" data-v="troca" role="radio">${SEL}<span><b>${convDoUser()?'Trocar convênio':'Usar convênio'}</b><small>Escolher outro da lista</small></span></button>
+  <button class="opt ${f.pag==='part'?'on':''}" data-act="fpag" data-v="part" role="radio">${SEL}<span><b>Particular</b><small>Valor sob consulta</small></span></button>
+ </div>
+ ${f.troca?`<label class="f">Convênio<select class="inp" id="fconv"><option value="">Escolha o convênio</option>${CONV.map(x=>`<option value="${x.id}" ${x.id===f.conv?'selected':''}>${esc(x.n)}</option>`).join('')}</select></label>`:''}`}
+function chips(nome,vals,atual){return `<div class="chips">${vals.map(([v,t])=>`<button class="chip2 ${atual===v?'on':''}" data-act="fchip" data-k="${nome}" data-v="${v}">${t}</button>`).join('')}</div>`}
+VIEWS.fluxo=function(){const f=S.fx;if(!f)return VIEWS.novo();const ex=f.tipo==='exame',tot=4;let h='';
+ if(f.step===1&&ex)h=`<h2 class="h2">Foto do pedido médico</h2><p class="mut">A equipe vê o pedido e já agenda o exame certo.</p>
+  ${f.foto?`<div class="foto-prev"><img src="${f.foto}" alt="Pedido médico"><button class="btn" data-act="ffoto-x">Trocar foto</button></div>`:`<label class="foto-btn"><input type="file" accept="image/*" capture="environment" id="ffile" hidden><svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><b>Fotografar pedido médico</b><small>ou escolher da galeria</small></label>`}
+  <div class="info" style="margin-top:.8rem">${I.info('#0A4B44',20)}<span><b>Leve o pedido original no dia do exame.</b> A foto fica guardada com segurança por 14 dias e depois é apagada automaticamente.</span></div>
+  ${f.foto?'':`<details class="semfoto" ${f.exame?'open':''}><summary>Não tenho o pedido agora</summary>${buscaForm('qe','Qual exame?',S.qe||'','qe')}<div class="exsel" id="exsel">${listaEx()}</div></details>`}
+  <button class="btn pri big" data-act="fprox" ${f.foto||f.exame?'':'disabled'}>Continuar</button>`;
+ if(f.step===1&&!ex)h=`<h2 class="h2">Qual especialidade?</h2><div class="esps">${MITI_ESP.map(e=>`<button class="espb ${f.esp===e.n?'on':''}" data-act="fesp" data-v="${esc(e.n)}" style="--bg:${e.bg};--ac:${e.ac}"><span class="espb-ic">${ICM[e.ic]}</span><b>${esc(e.n)}</b></button>`).join('')}</div>
+  <button class="btn pri big" data-act="fprox" ${f.esp?'':'disabled'}>Continuar</button>`;
+ if(f.step===2)h=`<h2 class="h2">Confirme o pagamento</h2>${blocoPag()}<button class="btn pri big" data-act="fprox" ${f.pag==='part'||f.conv?'':'disabled'}>Confirmar</button>`;
+ if(f.step===3)h=`<h2 class="h2">Sua preferência</h2><h3 class="h3">Turno</h3>${chips('turno',[['manha','Manhã'],['tarde','Tarde'],['noite','Noite']],f.turno)}
+  <h3 class="h3" style="margin-top:1rem">Semana</h3>${chips('semana',[['esta','Esta semana'],['proxima','Próxima semana']],f.semana)}
+  <button class="btn pri big" data-act="fprox" ${f.turno&&f.semana?'':'disabled'}>Continuar</button>`;
+ if(f.step===4){const c=CONV.find(x=>x.id===f.conv);const loc=ex?DIM():MITI();
+  h=`<h2 class="h2">Tudo certo! Confira</h2><div class="card resumo">
+  <div class="rl"><span>Local</span><b>${esc(loc.n)}</b></div>
+  <div class="rl"><span>${ex?'Exame':'Especialidade'}</span><b>${ex?(f.foto?'Conforme pedido médico (foto)':esc(f.exame)):esc(f.esp)}</b></div>
+  <div class="rl"><span>Pagamento</span><b>${f.pag==='part'?'Particular':esc(c?c.n:'')}</b></div>
+  <div class="rl"><span>Preferência</span><b>${{manha:'Manhã',tarde:'Tarde',noite:'Noite'}[f.turno]}, ${f.semana==='esta'?'esta semana':'próxima semana'}</b></div></div>
+  <p class="sm mut">${ex?'A Dimagem responde em até 15 minutos. Mensagens após o expediente são respondidas a partir das 7h.':'O MITI responde em até 30 a 60 minutos.'}</p>
+  <p class="sm" id="fmsg" role="status" aria-live="polite"></p>
+  <button class="btn wa big" data-act="fenviar">${ICW} Enviar pelo WhatsApp</button>`}
+ return phead(ex?'Pedido de exame':'Marcar consulta',ex?'Dimagem Unineuro':'MITI · Av. Paulista')+`<section class="sec fluxo">${passos(f.step,tot)}${h}${f.step>1?`<button class="lnk" data-act="fvolta" style="margin-top:.6rem">Voltar ao passo anterior</button>`:''}</section>`};
+function listaEx(){const t=norm(S.qe||'');const l=t?EXAMES.filter(n=>norm(n).includes(t)).slice(0,30):EXAMES.slice(0,0);
+ return l.map(n=>`<button class="exo ${S.fx&&S.fx.exame===n?'on':''}" data-act="fexame" data-v="${esc(n)}">${S.fx&&S.fx.exame===n?SEL:''}<span>${esc(n)}</span></button>`).join('')||`<p class="sm mut">${t?'Nenhum exame com esse nome.':'Digite parte do nome, por exemplo "crânio" ou "joelho".'}</p>`}
+function comprimir(file){return new Promise((ok,er)=>{const img=new Image();img.onload=()=>{let q=.72,w=img.width,h=img.height,m=1600;if(w>m||h>m){const r=Math.min(m/w,m/h);w=Math.round(w*r);h=Math.round(h*r)}
+ const cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').drawImage(img,0,0,w,h);let d=cv.toDataURL('image/jpeg',q);while(d.length>600000&&q>.35){q-=.1;d=cv.toDataURL('image/jpeg',q)}URL.revokeObjectURL(img.src);ok(d)};img.onerror=er;img.src=URL.createObjectURL(file)})}
+function msgFluxo(f,link){const u=S.user||{},c=CONV.find(x=>x.id===f.conv),ex=f.tipo==='exame';
+ const pag=f.pag==='part'?'Particular':(c?c.n:'');const pref=`${{manha:'manhã',tarde:'tarde',noite:'noite'}[f.turno]}, ${f.semana==='esta'?'esta semana':'próxima semana'}`;
+ return `Olá! Vim pelo app Pax - Saúde e gostaria de agendar ${ex?'um exame':'uma consulta de '+f.esp}.\n\nPaciente: ${u.nome||''}\nCelular: ${u.cel||''}\nPagamento: ${pag}\n${ex?(link?'Pedido médico (foto): '+link:'Exame: '+f.exame)+'\n':''}Preferência: ${pref}\n\nQuais horários vocês têm?`}
+async function enviarFluxo(){const f=S.fx,m=$('fmsg'),b=document.querySelector('[data-act=fenviar]');const ex=f.tipo==='exame',loc=ex?DIM():MITI();let link='';
+ if(b)b.disabled=true;
+ if(f.foto){m.textContent='Enviando a foto do pedido…';try{const j=await rpc('pax_pedido_enviar',{p_img:f.foto});if(!j||!j.ok)throw 0;link=(/^https?:/.test(location.protocol)?location.origin+location.pathname.replace(/index\.html$/,''):'https://gabrielgoncalves5206-create.github.io/Pax-Saude/')+'#p='+j.id}catch(e){m.style.color='#B3261E';m.textContent='Não consegui enviar a foto agora. Verifique a internet e tente de novo.';if(b)b.disabled=false;return}}
+ const ped={id:Date.now().toString(36),tipo:f.tipo,loc:loc.id,item:ex?(f.foto?'Exame conforme pedido médico':f.exame):f.esp,pag:f.pag==='part'?'Particular':(CONV.find(x=>x.id===f.conv)||{}).n||'',pref:`${{manha:'Manhã',tarde:'Tarde',noite:'Noite'}[f.turno]}, ${f.semana==='esta'?'esta semana':'próxima semana'}`,st:'pend',criado:Date.now()};
+ S.peds.unshift(ped);salvaPeds();location.href=waUrl(loc,msgFluxo(f,link));S.fx=null;S.enviado=ped.id;setTimeout(()=>ir('enviado'),400)}
+VIEWS.enviado=function(){const p=S.peds.find(x=>x.id===S.enviado)||S.peds[0];if(!p)return vInicio();const ex=p.tipo==='exame';
+ return `<section class="sec ok-tela"><div class="ok-ic">${SEL.replace('width="20" height="20"','width="54" height="54"')}</div><h1 class="h1">Pedido enviado!</h1>
+ <p class="mut">${ex?'A Dimagem responde no WhatsApp em até <b>15 minutos</b>.':'O MITI responde no WhatsApp em até <b>30 a 60 minutos</b>.'}</p>
+ <div class="card col" style="gap:.5rem;text-align:left"><b>O que acontece agora</b><span class="sm">1. A equipe responde com os horários disponíveis.</span><span class="sm">2. Você escolhe o horário com ela pelo WhatsApp.</span><span class="sm">3. Volte aqui e toque em <b>“Já marquei”</b> para guardar na agenda e receber o lembrete.</span>${ex?'<span class="sm">As orientações de preparo são passadas pela equipe no agendamento. Leve o pedido original.</span>':''}</div>
+ <button class="btn pri big" data-act="conf-ab" data-id="${p.id}">Já marquei, informar data</button><button class="btn" data-act="nav" data-v="agenda">Ver minha agenda</button></section>`};
+
+/* ---- agenda ---- */
+function fmtData(d){try{return new Date(d+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'})}catch(e){return d}}
+VIEWS.agenda=function(){const ps=S.peds;
+ return phead('Minha agenda',ps.length?`${ps.filter(p=>p.st==='pend').length} aguardando · ${ps.filter(p=>p.st==='ok').length} marcados`:'Seus agendamentos aparecem aqui',false)+`<section class="sec">${ps.length?ps.map(p=>{const l=byId(p.loc)||{};
+  if(p.st==='pend')return `<div class="card ag pend"><div class="row between"><span class="tag warn">Aguardando a clínica</span><span class="sm mut">${new Date(p.criado).toLocaleDateString('pt-BR')}</span></div><b>${esc(p.item)}</b><span class="sm mut">${esc(l.n||'')} · ${esc(p.pag)} · ${esc(p.pref)}</span>
+   ${S.confAb===p.id?`<div class="conf"><b>Quando ficou marcado?</b><div class="row" style="gap:.6rem"><label class="f" style="flex:1">Data<input class="inp" type="date" id="cd" min="${new Date().toISOString().slice(0,10)}"></label><label class="f" style="flex:1">Hora<input class="inp" type="time" id="ch"></label></div><p class="sm" id="cmsg" role="status"></p><button class="btn pri" data-act="conf-ok" data-id="${p.id}">Salvar na agenda</button></div>`
+   :`<p class="sm" style="margin:.4rem 0 0"><b>A clínica já marcou seu horário?</b></p><div class="row" style="gap:.5rem"><button class="btn pri" data-act="conf-ab" data-id="${p.id}" style="flex:1">Sim, informar</button><button class="btn" data-act="ag-wa" data-id="${p.id}" style="flex:1">Falar de novo</button></div>`}
+   <button class="lnk" data-act="ag-del" data-id="${p.id}" style="color:#B3261E">Remover</button></div>`;
+  return `<div class="card ag ok"><div class="row between"><span class="tag">Marcado</span>${p.lemb?`<span class="sm mut">🔔 Lembrete 1 dia antes</span>`:''}</div><b class="ag-dt">${esc(fmtData(p.data))} · ${esc(p.hora)}</b><b>${esc(p.item)}</b><span class="sm mut">${esc(l.n||'')} · ${esc(p.pag)}</span><span class="sm mut">${esc(limpaEnd?limpaEnd(l.e||''):l.e||'')}</span>
+   <span class="sm">${p.tipo==='exame'?'Leve o pedido original e um documento com foto. Siga as orientações de preparo passadas pela equipe.':'Chegue 10 minutos antes.'}</span>
+   <div class="ag-bts"><button class="btn" data-act="rota" data-id="${p.loc}">Como chegar</button><button class="btn" data-act="ag-ics" data-id="${p.id}">Adicionar ao calendário</button><button class="btn" data-act="ag-rem" data-id="${p.id}">Preciso remarcar</button></div>
+   <button class="lnk" data-act="ag-del" data-id="${p.id}" style="color:#B3261E">Remover</button></div>`}).join(''):`<div class="empty">Você ainda não tem agendamentos.<br><button class="btn pri" data-act="nav" data-v="novo" style="margin-top:1rem">Agendar agora</button></div>`}</section>`};
+async function ativarLembrete(p){try{if(!('serviceWorker' in navigator)||!('PushManager' in window)||!('Notification' in window))return null;
+ const perm=await Notification.requestPermission();if(perm!=='granted')return null;const reg=await navigator.serviceWorker.ready;
+ const k=Uint8Array.from(atob(VAPID.replace(/-/g,'+').replace(/_/g,'/')+'='.repeat((4-VAPID.length%4)%4)),c=>c.charCodeAt(0));
+ const sub=(await reg.pushManager.getSubscription())||(await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:k}));const j=sub.toJSON();
+ const d=new Date(p.data+'T10:00:00-03:00');d.setDate(d.getDate()-1);if(d<new Date())return null;const l=byId(p.loc)||{};
+ const r=await rpc('pax_lembrete_agendar',{p_endpoint:j.endpoint,p_p256dh:j.keys.p256dh,p_auth:j.keys.auth,p_quando:d.toISOString(),p_titulo:'Amanhã: '+(p.tipo==='exame'?'seu exame':'sua consulta'),p_corpo:`${p.item} às ${p.hora} · ${l.n||''}. ${p.tipo==='exame'?'Leve o pedido original.':''}`});return r&&r.ok?r.id:null}catch(e){return null}}
+function icsDe(p){const l=byId(p.loc)||{};const [y,mo,d]=p.data.split('-'),[hh,mm]=p.hora.split(':');const dt=`${y}${mo}${d}T${hh}${mm}00`;const end=new Date(`${p.data}T${p.hora}:00`);end.setHours(end.getHours()+1);const pad=n=>String(n).padStart(2,'0');const de=`${end.getFullYear()}${pad(end.getMonth()+1)}${pad(end.getDate())}T${pad(end.getHours())}${pad(end.getMinutes())}00`;
+ const t=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Pax Saude//PT','BEGIN:VEVENT','UID:'+p.id+'@paxsaude','DTSTAMP:'+new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z','DTSTART;TZID=America/Sao_Paulo:'+dt,'DTEND;TZID=America/Sao_Paulo:'+de,'SUMMARY:'+p.item+' - '+(l.n||''),'LOCATION:'+(l.e||'').replace(/,/g,'\\,'),'DESCRIPTION:'+(p.tipo==='exame'?'Leve o pedido original.':'Chegue 10 minutos antes.'),'BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY','DESCRIPTION:Lembrete','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/calendar'}));a.download='agendamento.ics';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+
+/* ---- eventos ---- */
+document.addEventListener('click',async e=>{const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act,f=S.fx;
+ if(a==='fluxo'){novoFluxo(t.dataset.t);S.qe='';ir('fluxo')}
+ else if(a==='fprox'&&f){f.step++;render();scrollTo(0,0)}
+ else if(a==='fvolta'&&f){f.step=Math.max(1,f.step-1);render()}
+ else if(a==='fesp'&&f){f.esp=t.dataset.v;render()}
+ else if(a==='fexame'&&f){f.exame=t.dataset.v;f.foto=null;render()}
+ else if(a==='ffoto-x'&&f){f.foto=null;render()}
+ else if(a==='fpag'&&f){const v=t.dataset.v;if(v==='meu'){f.pag='conv';f.troca=false;f.conv=convDoUser().id}else if(v==='troca'){f.pag='conv';f.troca=true;f.conv=''}else{f.pag='part';f.troca=false;f.conv=''}render()}
+ else if(a==='fchip'&&f){f[t.dataset.k]=t.dataset.v;render()}
+ else if(a==='fenviar'&&f){enviarFluxo()}
+ else if(a==='conf-ab'){S.confAb=t.dataset.id;ir('agenda');setTimeout(()=>{const d=$('cd');if(d)d.focus()},200)}
+ else if(a==='conf-ok'){const p=S.peds.find(x=>x.id===t.dataset.id),d=$('cd').value,h=$('ch').value,m=$('cmsg');if(!d||!h){m.style.color='#B3261E';m.textContent='Informe a data e a hora.';return}
+  p.data=d;p.hora=h;p.st='ok';S.confAb=null;salvaPeds();m.textContent='Salvando…';p.lemb=await ativarLembrete(p);salvaPeds();render();toast(p.lemb?'Salvo! Você recebe um lembrete 1 dia antes.':'Salvo na agenda.')}
+ else if(a==='ag-wa'){const p=S.peds.find(x=>x.id===t.dataset.id);const l=byId(p.loc);location.href=waUrl(l,`Olá! Enviei um pedido pelo app Pax - Saúde (${p.item}, ${p.pag}, ${p.pref}) e ainda aguardo os horários. Podem me ajudar?`)}
+ else if(a==='ag-rem'){const p=S.peds.find(x=>x.id===t.dataset.id);const l=byId(p.loc);location.href=waUrl(l,`Olá! Preciso remarcar meu agendamento: ${p.item}, ${fmtData(p.data)} às ${p.hora}. Paciente: ${(S.user||{}).nome||''}. Quais outros horários vocês têm?`)}
+ else if(a==='ag-ics'){icsDe(S.peds.find(x=>x.id===t.dataset.id))}
+ else if(a==='ag-del'){const i=S.peds.findIndex(x=>x.id===t.dataset.id);if(i>=0&&confirm('Remover este agendamento da sua agenda?')){const p=S.peds[i];if(p.lemb)rpc('pax_lembrete_cancelar',{p_id:p.lemb}).catch(()=>{});S.peds.splice(i,1);salvaPeds();render()}}});
+document.addEventListener('change',async e=>{const t=e.target;if(t.id==='ffile'&&t.files&&t.files[0]&&S.fx){try{S.fx.foto=await comprimir(t.files[0]);S.fx.exame='';render()}catch(x){toast('Não consegui ler a foto. Tente outra.')}}
+ if(t.id==='fconv'&&S.fx){S.fx.conv=t.value;render()}});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.live==='qe'){S.qe=t.value;const b=$('exsel');if(b)b.innerHTML=listaEx()}});
+
+/* ---- visualizador do pedido (link enviado à clínica) ---- */
+if(/^#p=[0-9a-f-]{36}$/.test(location.hash)){const id=location.hash.slice(3);document.body.className='pedv';document.body.innerHTML='<main class="pedv-w"><p>Carregando o pedido…</p></main>';
+ rpc('pax_pedido_ver',{p_id:id}).then(j=>{const w=document.querySelector('.pedv-w');if(!j||!j.ok){w.innerHTML='<h1>Pedido indisponível</h1><p>Este link expirou ou não existe. As fotos ficam disponíveis por 14 dias.</p>';return}
+  const ate=new Date(j.expira).toLocaleDateString('pt-BR');w.innerHTML=`<h1>Pedido médico enviado pelo app Pax - Saúde</h1><p>Disponível até ${ate}. Depois disso a foto é apagada automaticamente.</p><img src="${j.img}" alt="Pedido médico"><a download="pedido-medico.jpg" href="${j.img}">Baixar imagem</a>`}).catch(()=>{document.querySelector('.pedv-w').innerHTML='<p>Não foi possível carregar. Tente de novo.</p>'})}
+
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
 
