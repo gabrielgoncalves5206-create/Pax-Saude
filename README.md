@@ -1,4 +1,4 @@
-# Pax - Saúde
+# Vitta - Family
 
 App web para encontrar **consultas e exames na cidade de São Paulo** (foco na Avenida Paulista e arredores, incluindo a Lapa), ver como chegar e iniciar o agendamento pelo WhatsApp oficial do local.
 
