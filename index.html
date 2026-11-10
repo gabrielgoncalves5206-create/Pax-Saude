@@ -498,6 +498,18 @@ body.modo-apr .nav,body.modo-apr .top,body.modo-apr header,body.modo-apr .fab{di
 .exr.on .exr-c{background:#2E8F6E;border-color:#2E8F6E}.exr.on{background:#F2FBF7}
 .exr-n{display:flex;flex-direction:column}.exr-n i,.exi-n i{font-style:normal;font-weight:500;font-size:.78rem;color:var(--mut)}.exr-n b{font-weight:600;font-size:.93rem}.exr-n small{color:var(--mut);font-size:.75rem}
 .addex .busca,.addex form{margin-top:.4rem}
+
+/* ---------- v7.3: cubos ---------- */
+.cubos{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.cubo2{position:relative;overflow:hidden;border-radius:1.7rem;padding:1rem;min-height:11.5rem;color:#fff;text-align:left;display:flex;flex-direction:column;align-items:flex-start;gap:.15rem}
+.cubo2.co{background:linear-gradient(160deg,#3BA883,#17624A);box-shadow:0 12px 24px rgba(23,98,74,.3)}
+.cubo2.ex{background:linear-gradient(160deg,#7A2D77,#4A2252);box-shadow:0 12px 24px rgba(74,34,82,.32)}
+.c2-ic{width:3rem;height:3rem;border-radius:1rem;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;margin-bottom:auto}.c2-ic svg{width:1.8rem;height:1.8rem}
+.c2-big{position:absolute;right:-1.2rem;bottom:-1.2rem;width:7.5rem;height:7.5rem;opacity:.16;pointer-events:none}.c2-big svg{width:100%;height:100%}
+.cubo2 b{font-size:1.35rem;letter-spacing:-.01em;margin-top:.8rem;position:relative}.cubo2 small{font-size:.82rem;opacity:.92;position:relative}
+.c2-pill{position:relative;margin-top:.6rem;font-size:.8rem;font-weight:800;padding:.4rem .8rem;border-radius:999px;background:#fff}
+.cubo2.co .c2-pill{color:#17624A}.cubo2.ex .c2-pill{color:#4A2252}
+.cubo2:active{transform:scale(.98)}.cubos+.sec{padding-top:.75rem!important}
 </style>
 </head>
 <body>
@@ -632,7 +644,7 @@ const CARTAO={"sulamerica": {"bg": "background:#fff", "svg": "<svg viewBox=\"0 0
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'7.2',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'7.3',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -2053,6 +2065,18 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
 document.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.live==='qcv'){S.qcv=t.value;const b=$('cvpl');if(b){const q=norm(t.value);b.innerHTML=cvpLista(CONV.filter(c=>!q||norm(c.n).includes(q)),S.fx&&S.fx.conv)}}});
 document.addEventListener('change',async e=>{const t=e.target;if(t.id==='ffile2'&&t.files&&t.files[0]&&S.fx){try{S.fx.foto=await comprimir(t.files[0]);S.fx.exame='';S.fx.lido=null;render()}catch(x){toast('Não consegui ler a foto. Tente outra.')}}});
 
+
+/* ============ v7.3: cubos estilo A (Consultas à esquerda) com etiqueta de ação ============ */
+const _ini73=vInicio;
+vInicio=function(){const h=_ini73();const a=h.indexOf('<section class="sec duo">');if(a<0)return h;const b=h.indexOf('</section>',a)+10;
+ const st='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a4 4 0 0 0 8 0V3M10 13v2a5 5 0 0 0 10 0v-3"/><circle cx="20" cy="10" r="2"/></svg>';
+ const dc='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>';
+ const alvo='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>';
+ const cubos=`<section class="sec cubos">
+  <button class="cubo2 co" data-act="fluxo" data-t="consulta"><span class="c2-ic">${st}</span><span class="c2-big" aria-hidden="true">${st}</span><b>Consultas</b><small>Especialistas no MITI</small><span class="c2-pill">Marcar ›</span></button>
+  <button class="cubo2 ex" data-act="fluxo" data-t="exame"><span class="c2-ic">${dc}</span><span class="c2-big" aria-hidden="true">${alvo}</span><b>Exames</b><small>Ressonância e tomografia</small><span class="c2-pill">Agendar ›</span></button></section>`;
+ return h.slice(0,a)+cubos+h.slice(b)};
+VIEWS.inicio=vInicio;
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
 

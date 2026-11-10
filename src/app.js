@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'7.2',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'7.3',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -1427,5 +1427,17 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
 document.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.live==='qcv'){S.qcv=t.value;const b=$('cvpl');if(b){const q=norm(t.value);b.innerHTML=cvpLista(CONV.filter(c=>!q||norm(c.n).includes(q)),S.fx&&S.fx.conv)}}});
 document.addEventListener('change',async e=>{const t=e.target;if(t.id==='ffile2'&&t.files&&t.files[0]&&S.fx){try{S.fx.foto=await comprimir(t.files[0]);S.fx.exame='';S.fx.lido=null;render()}catch(x){toast('Não consegui ler a foto. Tente outra.')}}});
 
+
+/* ============ v7.3: cubos estilo A (Consultas à esquerda) com etiqueta de ação ============ */
+const _ini73=vInicio;
+vInicio=function(){const h=_ini73();const a=h.indexOf('<section class="sec duo">');if(a<0)return h;const b=h.indexOf('</section>',a)+10;
+ const st='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a4 4 0 0 0 8 0V3M10 13v2a5 5 0 0 0 10 0v-3"/><circle cx="20" cy="10" r="2"/></svg>';
+ const dc='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>';
+ const alvo='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>';
+ const cubos=`<section class="sec cubos">
+  <button class="cubo2 co" data-act="fluxo" data-t="consulta"><span class="c2-ic">${st}</span><span class="c2-big" aria-hidden="true">${st}</span><b>Consultas</b><small>Especialistas no MITI</small><span class="c2-pill">Marcar ›</span></button>
+  <button class="cubo2 ex" data-act="fluxo" data-t="exame"><span class="c2-ic">${dc}</span><span class="c2-big" aria-hidden="true">${alvo}</span><b>Exames</b><small>Ressonância e tomografia</small><span class="c2-pill">Agendar ›</span></button></section>`;
+ return h.slice(0,a)+cubos+h.slice(b)};
+VIEWS.inicio=vInicio;
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
