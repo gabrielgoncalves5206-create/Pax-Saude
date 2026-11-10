@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'5.0',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'6.0',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -531,7 +531,7 @@ function navBar(){const it=[['inicio','Início','home'],['buscar','Buscar','sear
  const v=S.view;const at=['novo','modo','itens','resultados'].includes(v)?'novo':['local','rota','pg'].includes(v)?S.navAt||'inicio':v;const pend=S.hist.filter(x=>!x.ok).length;
  $('nav').innerHTML=it.map(([k,t,ic])=>{const on=at===k;
   if(!ic)return `<button class="mid" data-act="nav" data-v="novo" ${on?'aria-current="page"':''}><span class="plus">${I.plus('#fff',28,2.4)}</span><span>${t}</span></button>`;
-  return `<button data-act="nav" data-v="${k}" ${on?'aria-current="page"':''}><span class="bub" style="position:relative">${I[ic](on?'#FFFFFF':'#E6D2EB',22)}${k==='agenda'&&pend?`<span style="position:absolute;top:-2px;right:8px;min-width:1.1rem;height:1.1rem;border-radius:999px;background:#B3261E;color:#fff;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center">${pend}</span>`:''}</span><span>${t}</span></button>`}).join('')}
+  return `<button data-act="nav" data-v="${k}" ${on?'aria-current="page"':''}><span class="bub" style="position:relative">${I[ic](on?'#4A2252':'#9A8A9E',22)}${k==='agenda'&&pend?`<span style="position:absolute;top:-2px;right:8px;min-width:1.1rem;height:1.1rem;border-radius:999px;background:#B3261E;color:#fff;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center">${pend}</span>`:''}</span><span>${t}</span></button>`}).join('')}
 function aplicaA11y(){const h=document.documentElement,a=S.a11y;h.classList.toggle('fs1',a.fs===1);h.classList.toggle('fs2',a.fs===2);h.classList.toggle('hc',!!a.hc);h.classList.toggle('legivel',!!a.leg);h.classList.toggle('simples',!!a.simples);h.classList.toggle('nomotion',!!a.nomo);
  $('fab').innerHTML=a.ler?`<button class="fab" data-act="ler" aria-label="Ouvir esta tela">${I.speaker('#3A2600',26)}</button>`:''}
 function render(anim){matarMapas();BAR='';const v=S.view,app=$('app');
@@ -624,7 +624,7 @@ document.addEventListener('input',e=>{const k=e.target.dataset.live;if(!k)return
 document.addEventListener('change',e=>{const k=e.target.dataset.live;if(k==='waconv'){WA.conv=e.target.value;WA.plano=WA.conv&&WA.conv!=='outro'?WA.conv:'';desenharWA();return}if(k==='waped'||k==='waguia'){anexar(k,e.target.files&&e.target.files[0]);return}if(k==='waitem'){WA.item=e.target.value;atualizaWA()}if(k==='waquando'){WA.quando=e.target.value;atualizaWA()}
  if(k==='wapac'){const i=+e.target.value;WA.pac=i;if(i>=0){const x=pacientes()[i];WA.nome=x.nome;WA.rel=x.rel}else{WA.nome='';WA.rel=''}desenharWA()}});
 document.addEventListener('submit',e=>{e.preventDefault();const f=e.target.dataset.form,F=e.target;
- if(f==='busca'){const al=F.dataset.alvo;if(al==='qi')return;S.q=F.elements.q.value;S.cat='todos';if(S.view!=='buscar')ir('buscar');else renderRes()}
+ if(f==='busca'){const al=F.dataset.alvo;if(['qi','qc','qx'].includes(al))return;S.q=F.elements.q.value;S.cat='todos';if(S.view!=='buscar')ir('buscar');else renderRes()}
  if(f==='livre'){if(PK.q.trim())pontoLivre(PK.alvo,PK.q.trim());else if(PK.items&&PK.items[0])setPonto(PK.alvo,PK.items[0])}
  if(f==='login'){const nome=F.elements.nome.value.trim().replace(/\s+/g,' ');if(nome.length<2){toast('Digite seu nome');return}const cel=fmtCel(F.elements.cel.value);if(cel&&cel.replace(/\D/g,'').length<10){toast('Confira o celular com DDD');return}
   const novo=!S.user;S.user=Object.assign({deps:[]},S.user||{},{nome,cel});S.editando=false;LS.set('user',S.user);render();toast(novo?'Perfil criado. Bem-vindo(a), '+primeiroNome()+'!':'Perfil salvo')}
@@ -1044,6 +1044,91 @@ desenharWA=function(){const p=byId(WA.id);const txt=msgWA5(p,WA);
  <a class="btn wa" id="wago" href="${waUrl(p,txt)}"${MOBILE?'':' target="_blank" rel="noopener"'} data-act="wago" style="min-height:3.4rem;font-size:1.02rem;flex:none">${ICW} Agendar pelo WhatsApp</a>
  <span class="sm mut" style="text-align:center">Depois, mande na conversa a foto do pedido médico${convDe(S.user)==='Particular'?'':' e da carteirinha do convênio'}. A mensagem sai do seu WhatsApp.</span>`,'Agendar')};
 atualizaWA=function(){const p=byId(WA.id);const a=$('wago');if(a)a.href=waUrl(p,msgWA5(p,WA))};
+
+
+/* ============ v6: atrativos, carrosséis de convênios e especialidades, coworking ============ */
+const CORT={pausa:false,t:null};
+function cartaoConv(c){const sigla=c.n.replace(/[^A-Za-zÀ-ú ]/g,'').split(' ').filter(Boolean);
+ return `<article class="cc" style="--bg:${c.bg};--ink:${c.ink};--ac:${c.ac}"><span class="cc-flor" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+ <span class="cc-tipo">${c.t==='cl'?'Clínica parceira':'Convênio'}</span><b class="cc-nome${c.n.length>18?' lg':''}">${esc(c.n)}</b>
+ <span class="cc-sub">${c.pac?'Atendido em pacote: Ressonância e Tomografia':c.ex.length+' exames credenciados'}</span>
+ <button class="cc-ver" data-act="conv" data-k="${c.id}">Ver lista de exames credenciados</button></article>`}
+function cartaoEsp(e){return `<article class="cc esp" style="--bg:${e.bg};--ink:#fff;--ac:${e.ac}"><span class="cc-ic" aria-hidden="true">${ICM[e.ic]}</span>
+ <span class="cc-tipo">Especialidade no MITI</span><b class="cc-nome">${esc(e.n)}</b><span class="cc-sub">${esc(e.d)}</span>
+ <button class="cc-ver" data-act="abrir" data-id="9002">Agendar no MITI</button></article>`}
+const ICM={
+ psico:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M36 56V46h6a4 4 0 0 0 4-4v-6l5-2-5-9c0-11-8-17-18-17S12 15 12 26c0 7 4 11 6 14v16"/><path d="M28 22c3-3 9-2 9 3 0 4-5 4-5 8"/><circle cx="32" cy="38" r=".8" fill="currentColor"/></svg>',
+ neuro:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 12a8 8 0 0 0-8 8 8 8 0 0 0-4 14 8 8 0 0 0 6 12 8 8 0 0 0 14 4V16a8 8 0 0 0-8-4z"/><path d="M40 12a8 8 0 0 1 8 8 8 8 0 0 1 4 14 8 8 0 0 1-6 12 8 8 0 0 1-14 4"/><path d="M32 26h6l3-5M32 38h7l3 5M22 26h5M21 38h6"/></svg>',
+ fisio:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="38" cy="10" r="5"/><path d="M22 26l10-6 8 4 6 8M32 20l-4 16 10 6v14M28 36l-8 10-8-2"/><path d="M48 46h6M50 52h6"/></svg>',
+ integ:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M32 52c-6-6-8-14-8-20s4-14 8-18c4 4 8 12 8 18s-2 14-8 20z"/><path d="M32 52c-8-2-16-8-20-18 6-2 12-1 16 2M32 52c8-2 16-8 20-18-6-2-12-1-16 2"/><path d="M14 56h36"/></svg>'};
+function carrossel(id,itens,rot){return `<div class="car" id="${id}" role="region" aria-roledescription="carrossel" aria-label="${rot}" tabindex="0"><div class="car-tr">${itens.map((h,i)=>`<div class="car-it" data-i="${i}">${h}</div>`).join('')}</div></div>
+ <div class="car-ctl"><button class="iconbtn sm2" data-act="carmv" data-c="${id}" data-d="-1" aria-label="Anterior">${I.back('#4A2252',18)}</button><span class="sm mut" id="${id}-pos"></span><button class="iconbtn sm2" data-act="carmv" data-c="${id}" data-d="1" aria-label="Próximo">${I.chev('#4A2252',18)}</button></div>`}
+const CARS={};
+function carPos(id){const el=$(id);if(!el)return;const tr=el.firstElementChild,its=[...tr.children];
+ its.forEach((it,i)=>{it.setAttribute('aria-hidden',i?'true':'false');it.querySelectorAll('button').forEach(b=>b.tabIndex=i?-1:0)});
+ const p=$(id+'-pos');if(p)p.textContent=(+its[0].dataset.i+1)+' de '+its.length}
+function carMv(id,d){const el=$(id);if(!el)return;const tr=el.firstElementChild;if(tr.dataset.mv)return;const it=tr.children[0];
+ const passo=it.getBoundingClientRect().width+parseFloat(getComputedStyle(tr).columnGap||0);const anim=!(S.a11y&&S.a11y.nomo)&&!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+ if(d>0){if(!anim){tr.appendChild(tr.firstElementChild);carPos(id);return}tr.dataset.mv=1;tr.style.transition='transform .6s cubic-bezier(.2,.8,.2,1)';tr.style.transform=`translateX(${-passo}px)`;
+  setTimeout(()=>{tr.style.transition='none';tr.appendChild(tr.firstElementChild);tr.style.transform='translateX(0)';tr.offsetWidth;tr.dataset.mv='';carPos(id)},620)}
+ else{tr.style.transition='none';tr.insertBefore(tr.lastElementChild,tr.firstElementChild);if(!anim){carPos(id);return}tr.dataset.mv=1;tr.style.transform=`translateX(${-passo}px)`;tr.offsetWidth;
+  tr.style.transition='transform .6s cubic-bezier(.2,.8,.2,1)';tr.style.transform='translateX(0)';setTimeout(()=>{tr.dataset.mv='';carPos(id)},620)}}
+function carIniciar(){clearInterval(CORT.t);['carConv','carEsp'].forEach(id=>{const el=$(id);if(!el)return;carPos(id);
+ ['pointerenter','focusin','touchstart'].forEach(ev=>el.addEventListener(ev,()=>{el.dataset.p=1},{passive:true}));['pointerleave','focusout'].forEach(ev=>el.addEventListener(ev,()=>{el.dataset.p=''}));
+ let x0=null;el.addEventListener('touchstart',e=>{x0=e.touches[0].clientX},{passive:true});el.addEventListener('touchend',e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0;x0=null;if(Math.abs(dx)>40)carMv(id,dx<0?1:-1);setTimeout(()=>{el.dataset.p=''},4000)})});
+ if(S.a11y&&S.a11y.nomo)return;if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ CORT.t=setInterval(()=>{if(document.hidden)return;['carConv','carEsp'].forEach(id=>{const el=$(id);if(el&&!el.dataset.p)carMv(id,1)})},3000)}
+
+vInicio=function(){const n=primeiroNome();
+ return `<section class="hero"><h1 class="hello">${n?'Olá, '+esc(n)+'!':'Olá!'} <small>O que você precisa hoje?</small></h1>${origemChip()}</section>
+ <section class="sec">${cubosTipo(true)}</section>
+ <section class="sec atr">
+  <button class="atr-dm" data-act="abrir" data-id="9001"><img src="fotos/9001-1.jpg" alt="" loading="lazy"><span class="atr-v"><span class="atr-n">30<small>anos</small></span><span class="atr-t"><b>Dimagem Unineuro</b><span>Ressonância e tomografia na Lapa</span></span><q>Saúde igual para todos</q></span></button>
+  <div class="atr-mt"><span class="atr-cab"><b>MITI</b> · Conjunto Nacional, Av. Paulista</span>
+   <button class="atr-c pac" data-act="abrir" data-id="9002"><img src="fotos/9002-2.jpg" alt="" loading="lazy"><span><small>Para o paciente</small><b>Consultas na Paulista, das 8h às 21h</b></span></button>
+   <button class="atr-c med" data-act="nav" data-v="coworking"><img src="fotos/9002-4.jpg" alt="" loading="lazy"><span><small>Para o profissional de saúde</small><b>Alugue um consultório por hora ou mês</b></span></button></div>
+ </section>
+ <section class="sec"><div class="row between"><h2 class="h2">Convênios na Dimagem</h2><button class="lnk" data-act="nav" data-v="convenios">Ver todos</button></div>${carrossel('carConv',CONV.map(cartaoConv),'Convênios aceitos na Dimagem Unineuro')}</section>
+ <section class="sec"><h2 class="h2">Especialidades no MITI</h2>${carrossel('carEsp',MITI_ESP.map(cartaoEsp),'Especialidades atendidas no MITI')}</section>
+ <section class="sec"><h2 class="h2">Nossos locais</h2><div class="grid">${LOC.map(card).join('')}</div></section>
+ <section class="sec"><a class="info red" href="tel:192" style="align-items:center">${I.ambul('#B3261E',28)}<span style="flex:1"><b>Emergência? Ligue 192 (SAMU)</b><br>Bombeiros: 193 · Não espere agendar.</span>${I.phone('#B3261E',22)}</a></section>`};
+VIEWS.inicio=vInicio;
+
+VIEWS.convenios=function(){return phead('Convênios na Dimagem','Toque em um convênio para ver os exames credenciados')+`<section class="sec">${buscaForm('qc','Nome do convênio',S.qc||'','qc')}<div class="cvl" id="cvl">${listaConv()}</div></section>`};
+function listaConv(){const t=norm(S.qc||'');return CONV.filter(c=>!t||norm(c.n).includes(t)).map(c=>`<button class="cv" data-act="conv" data-k="${c.id}"><span class="cv-m" style="background:${c.bg};color:${c.ink}">${esc(c.n.split(/[ ·]/)[0].slice(0,3).toUpperCase())}</span><span class="col" style="flex:1;min-width:0"><b>${esc(c.n)}</b><span class="sm mut">${c.pac?'Pacote: Ressonância e Tomografia':c.ex.length+' exames'}</span></span>${I.chev("#645069",16)}</button>`).join('')||'<div class="empty">Nenhum convênio com esse nome.</div>'}
+VIEWS.convenio=function(){const c=CONV.find(x=>x.id===S.conv);if(!c)return VIEWS.convenios();
+ const g={rm:[],tc:[],out:[]};c.ex.forEach(e=>{const d=norm(e[1]);(/resson|angiorm|\brm\b/.test(d)||e[0].startsWith('4110')?g.rm:/tomog|angiotomo|\btc\b/.test(d)||e[0].startsWith('4100')?g.tc:g.out).push(e)});
+ const bloco=(t,l)=>l.length?`<h2 class="h3" style="margin-top:1rem">${t} <span class="sm mut">(${l.length})</span></h2><ul class="exl">${l.map(e=>`<li><span>${esc(e[1])}</span><code>${esc(e[0])}</code></li>`).join('')}</ul>`:'';
+ return phead(c.n,'Aceito na Dimagem Unineuro')+`<section class="sec"><div class="cc solo" style="--bg:${c.bg};--ink:${c.ink};--ac:${c.ac}"><span class="cc-flor" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="cc-tipo">${c.t==='cl'?'Clínica parceira':'Convênio'}</span><b class="cc-nome${c.n.length>18?" lg":""}">${esc(c.n)}</b><span class="cc-sub">${c.pac?'Atendido em pacote':c.ex.length+' exames credenciados'}</span></div>
+ ${c.pac?`<div class="info" style="margin-top:1rem">${I.info('#0A4B44',20)}<span>Este convênio é atendido em <b>pacote de Ressonância Magnética e Tomografia</b>. Confirme pelo WhatsApp se o seu exame e o seu plano estão incluídos.</span></div>`:
+ `${buscaForm('qx','Procurar exame',S.qx||'','qx')}<div id="exbox">${bloco('Ressonância magnética',g.rm)}${bloco('Tomografia',g.tc)}${bloco('Outros procedimentos',g.out)}</div><p class="sm mut">Código TUSS ao lado de cada exame. A cobertura depende do seu plano e da autorização da operadora.</p>`}
+ <button class="btn wa" data-act="abrir" data-id="9001" style="margin-top:1rem;width:100%">Agendar na Dimagem</button></section>`};
+
+VIEWS.coworking=function(){const u=S.user||{};return phead('Coworking no MITI','Consultórios para profissionais de saúde na Av. Paulista')+`<section class="sec">
+ <div class="cwk"><img src="fotos/9002-4.jpg" alt="Consultório do MITI" loading="lazy"><ul><li>Salas mobiliadas no Conjunto Nacional</li><li>Por hora (avulso) ou plano mensal</li><li>Recepção e agenda das 8h às 21h</li></ul></div>
+ <form id="fcw" class="card col" style="gap:.9rem;margin-top:1rem" novalidate><h2 class="h3">Tenho interesse</h2>
+ <label class="f">Nome completo<input class="inp" name="nome" autocomplete="name" required value="${esc(u.nome||'')}"></label>
+ <label class="f">Registro profissional (CRM, CRP, CREFITO…)<input class="inp" name="registro" required placeholder="Ex.: CRM-SP 123456"></label>
+ <label class="f">Especialidade<input class="inp" name="esp" required placeholder="Ex.: Psicologia"></label>
+ <label class="f">Celular com DDD<input class="inp" name="tel" inputmode="tel" autocomplete="tel" required value="${esc(u.cel||'')}"></label>
+ <label class="f">Como prefere usar<select class="inp" name="per"><option>Por hora (avulso)</option><option>Plano mensal</option><option>Ainda não sei</option></select></label>
+ <p class="sm" id="cwmsg" role="status" aria-live="polite"></p><button class="btn pri" type="submit">Enviar interesse</button>
+ <p class="sm mut" style="margin:0">A equipe do MITI recebe seus dados e entra em contato. Usamos só para isso.</p></form></section>`};
+document.addEventListener('submit',async e=>{if(e.target.id!=='fcw')return;e.preventDefault();const f=e.target,m=$('cwmsg'),b=f.querySelector('button[type=submit]');
+ const v={nome:f.nome.value.trim(),reg:f.registro.value.trim(),esp:f.esp.value.trim(),tel:f.tel.value.replace(/\D/g,''),per:f.per.value};
+ const err=v.nome.length<3?'Informe seu nome completo.':v.reg.length<3?'Informe seu registro profissional.':v.esp.length<2?'Informe sua especialidade.':!/^\d{10,11}$/.test(v.tel)?'Informe o celular com DDD (10 ou 11 números).':'';
+ if(err){m.style.color='#B3261E';m.textContent=err;return}b.disabled=true;m.style.color='';m.textContent='Enviando…';
+ try{const r=await fetch(SB5+'/rest/v1/rpc/pax_coworking_enviar',{method:'POST',headers:{apikey:K5,Authorization:'Bearer '+K5,'Content-Type':'application/json'},body:JSON.stringify({p_nome:v.nome,p_registro:v.reg,p_especialidade:v.esp,p_telefone:v.tel,p_periodo:v.per})});const j=await r.json();
+  if(r.ok&&j&&j.ok){f.outerHTML=`<div class="info" style="margin-top:1rem">${I.check?I.check('#0A4B44',22):''}<span><b>Interesse enviado.</b> A equipe do MITI vai falar com você pelo celular ${esc(v.tel)}.</span></div>`;return}
+  throw 0}catch(x){b.disabled=false;m.style.color='#B3261E';m.textContent='Não foi possível enviar agora. Verifique a internet e tente de novo.'}});
+
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act;
+ if(a==='conv'){S.conv=t.dataset.k;S.qx='';fecharMenu('nav');ir('convenio')}
+ else if(a==='carmv'){carMv(t.dataset.c,+t.dataset.d);const el=$(t.dataset.c);if(el){el.dataset.p=1;setTimeout(()=>{el.dataset.p=''},6000)}}});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.live==='qc'){S.qc=t.value;const b=$('cvl');if(b)b.innerHTML=listaConv()}
+ if(t.dataset&&t.dataset.live==='qx'){S.qx=t.value;const q=norm(t.value);document.querySelectorAll('#exbox li').forEach(li=>{li.hidden=!!q&&!norm(li.textContent).includes(q)})}});
+const _render6=render;render=function(a){_render6(a);if(S.view==='inicio')carIniciar();else clearInterval(CORT.t)};
+const _abrirMenu6=abrirMenu;abrirMenu=function(){_abrirMenu6();const g=document.querySelector('.drawer .grp');if(g)g.insertAdjacentHTML('beforebegin',`<span class="grp">DIMAGEM E MITI</span><button class="it" data-act="nav" data-v="convenios"><span class="lic">${I.shield('#4A2252',20)}</span><span style="flex:1"><b>Convênios e exames</b><small>O que a Dimagem aceita</small></span></button><button class="it" data-act="nav" data-v="coworking"><span class="lic">${I.build?I.build('#4A2252',20):''}</span><span style="flex:1"><b>Coworking no MITI</b><small>Para profissionais de saúde</small></span></button>`)};
 
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
