@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'9.3',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'9.4',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -1544,7 +1544,7 @@ processarFoto=async function(){const f=S.fx;if(!f||!f.foto)return;f.lendo=true;f
 
 /* passos: exame 1 foto, 2 pagamento, 3 preferência, 4 resumo · consulta 1 especialidade, 2 pagamento, 3 resumo */
 const _fx8=VIEWS.fluxo;
-VIEWS.fluxo=function(){const f=S.fx;if(f&&f.tipo==='consulta'&&f.step===3)f.step=4;let h=_fx8();
+VIEWS.fluxo=function(){const f=S.fx;if(f&&f.tipo==='consulta'&&f.step===3&&!((typeof PROF_ON!=='undefined')&&(PROF_ON||PROF_PREVIA)&&profsDe(f.esp).length))f.step=4;let h=_fx8();
  if(f&&f.tipo==='consulta'){h=h.replace(/<div class="passos"[\s\S]*?<\/div>/,()=>passos(f.step===4?3:f.step,3)).replace(/<div class="rl"><span>Preferência<\/span><b>[\s\S]*?<\/b><\/div>/,'')}
  if(f&&f.step===4)h=h.replace(/<p class="sm" id="fmsg"/,blocoPagto()+'<p class="sm" id="fmsg"');
  if(f&&f.step===4&&f.pag==='part'&&f.forma==='adiant'&&!(f.cob&&f.cob.pago))h=h.replace('data-act="fenviar"','data-act="fenviar" disabled');
@@ -1606,5 +1606,31 @@ const _ac91=acharConv;acharConv=function(txt){const r=_ac91(txt);if(r)return r;c
  const nomes=[['sulamerica','SulAmérica'],['bradesco','Bradesco Saúde'],['amil','Amil'],['unimed','Central Nacional Unimed'],['notredame','Hapvida NotreDame Intermédica'],['intermedica','Hapvida NotreDame Intermédica'],['hapvida','Hapvida NotreDame Intermédica'],['porto','Porto Seguro Saúde'],['cassi','Cassi'],['cabesp','Cabesp'],['geap','GEAP Saúde'],['careplus','Care Plus'],['prevent','Prevent Senior'],['medsenior','MedSênior'],['mediservice','Mediservice'],['vivest','Vivest'],['funcesp','Vivest'],['biovida','Biovida Saúde'],['metrus','Metrus'],['medprev','MedPrev'],['solumedi','Solumedi'],['sonilab','Sonilab · Cruz Azul'],['postal','Postal Saúde'],['leader','Leader'],['select','Select']];
  if(/\b(amil|arnil|amll|arnll|aml|amii|arnii|ami1)\b/.test(t))return 'Amil';for(const w of ws){if(w.length<4)continue;for(const [k,n] of nomes)if(lev(w,k)<=(k.length>6?2:1))return n}
  const m=t.match(/(convenio|plano|operadora)\s*:?\s*([a-z ]{3,30})/);if(m){const v=m[2].trim().split(' ').slice(0,3).join(' ');if(v&&!/^(de|do|da|saude)$/.test(v))return v.replace(/\b\w/g,l=>l.toUpperCase())}return ''};
+
+/* ============ v9.4: profissionais por especialidade (estilo Doctoralia) ============ */
+/* Base: agenda das salas do MITI (dimagem-unineuro-relatorios/collector/bases_salas_miti, out/2026).
+   esp/reg/sub/pub/mod em branco até o MITI confirmar. A lista só aparece com PROF_ON (autorização dos profissionais) ou ?profs=previa. */
+const PROFS=[{"n": "Bruna Witts", "esp": "", "reg": "", "dias": "Seg, Qui", "tur": "tarde e noite", "h": 3}, {"n": "Bruno Leonardo Bublitz", "esp": "", "reg": "", "dias": "Seg, Ter, Qui, Sex", "tur": "manhã e tarde", "h": 8}, {"n": "Caio Cesar Santos de Moura", "esp": "", "reg": "", "dias": "Ter", "tur": "tarde", "h": 4}, {"n": "Caroline Gioia", "esp": "", "reg": "", "dias": "Qui", "tur": "tarde", "h": 2}, {"n": "Cleo Siqueira", "esp": "", "reg": "", "dias": "Seg, Ter, Qui, Sex", "tur": "tarde", "h": 4}, {"n": "Daniela Pascale e Araujo", "esp": "", "reg": "", "dias": "Seg, Qua, Qui, Sex", "tur": "tarde e noite", "h": 53}, {"n": "Douglas Celestino Froes", "esp": "", "reg": "", "dias": "Sáb", "tur": "manhã", "h": 1}, {"n": "Eduardo César Queiroz Goncalves", "esp": "", "reg": "", "dias": "Ter, Qui", "tur": "manhã e tarde e noite", "h": 4}, {"n": "Eduardo Hypolito", "esp": "", "reg": "", "dias": "Sáb", "tur": "manhã", "h": 1}, {"n": "Felipe Henriques Carvalho Soares", "esp": "", "reg": "", "dias": "Ter, Sex", "tur": "manhã e tarde", "h": 7}, {"n": "Fernanda Barbosa Di Ninno", "esp": "", "reg": "", "dias": "Qua, Qui, Sex", "tur": "manhã", "h": 11}, {"n": "Gabriela Hinkelmann Berbert", "esp": "", "reg": "", "dias": "Qui", "tur": "tarde", "h": 4}, {"n": "Genoveva Rachid de Carvalho Zillo", "esp": "", "reg": "", "dias": "Qua, Sex", "tur": "manhã", "h": 4}, {"n": "Gustavo Andreazza Laporte", "esp": "", "reg": "", "dias": "Sáb", "tur": "manhã e tarde", "h": 4}, {"n": "Jessica Ferreira de Oliveira", "esp": "", "reg": "", "dias": "Sex", "tur": "tarde", "h": 3}, {"n": "Jose Roberto Peres", "esp": "Terapias integrativas", "reg": "", "dias": "Ter", "tur": "manhã", "h": 3}, {"n": "Juliana Meireles", "esp": "", "reg": "", "dias": "Sex", "tur": "manhã", "h": 1}, {"n": "Karen Higashi Furlan Gama", "esp": "", "reg": "", "dias": "Ter, Qui", "tur": "tarde e noite", "h": 27}, {"n": "Katia Branco Domingues Valente", "esp": "", "reg": "", "dias": "Sex", "tur": "manhã e tarde", "h": 25}, {"n": "Laisse Barreto Ferreira Reis", "esp": "", "reg": "", "dias": "Sex, Sáb", "tur": "manhã e tarde", "h": 2}, {"n": "Laura Di Ninno Domingues", "esp": "", "reg": "", "dias": "Qui", "tur": "manhã e tarde", "h": 2}, {"n": "Luiza Di Ninno Domingues", "esp": "", "reg": "", "dias": "Qua", "tur": "tarde", "h": 4}, {"n": "Marcelo Peroco Luiz da Costa", "esp": "", "reg": "", "dias": "Qui", "tur": "manhã", "h": 2}, {"n": "Mario Henrique Martins", "esp": "", "reg": "", "dias": "Sex", "tur": "tarde", "h": 1}, {"n": "Mariston Rafael Alves", "esp": "", "reg": "", "dias": "Ter", "tur": "tarde", "h": 3}, {"n": "Maxime Pierre Godard", "esp": "", "reg": "", "dias": "Seg, Ter, Qua, Qui, Sex", "tur": "tarde", "h": 8}, {"n": "Miguel Martins Rodrigues Neto", "esp": "", "reg": "", "dias": "Seg, Ter, Qua, Qui", "tur": "manhã e tarde e noite", "h": 124}, {"n": "Natalia Carvalhinho Carlos de Souza", "esp": "", "reg": "", "dias": "Ter", "tur": "tarde e noite", "h": 20}, {"n": "Paula Morais Figueiredo", "esp": "", "reg": "", "dias": "Ter", "tur": "tarde", "h": 1}, {"n": "Renata Montes Garcia Barbosa", "esp": "", "reg": "", "dias": "Sex", "tur": "tarde e noite", "h": 2}, {"n": "Romeu Nunes de Assunção Neto", "esp": "", "reg": "", "dias": "Ter", "tur": "noite", "h": 2}, {"n": "Tania Priante de Oliveira Madid Truyts", "esp": "", "reg": "", "dias": "Ter", "tur": "manhã", "h": 1}, {"n": "Thaisa Marques Moraes", "esp": "", "reg": "", "dias": "Seg, Sex", "tur": "tarde", "h": 3}, {"n": "Vera Beatriz Martins Monteiro", "esp": "", "reg": "", "dias": "Seg", "tur": "tarde", "h": 1}, {"n": "Vivian Gasparin Ruani", "esp": "", "reg": "", "dias": "Seg", "tur": "tarde e noite", "h": 2}, {"n": "Yasmin Silva Basílio", "esp": "", "reg": "", "dias": "Sáb", "tur": "manhã e tarde", "h": 2}];
+const PROF_ON=false,PROF_PREVIA=/[?&]profs=previa/.test(location.search);
+const iniciais=n=>n.split(' ').filter(w=>w.length>2).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+function profsDe(esp){const l=PROFS.filter(p=>p.esp===esp);return l.length||!PROF_PREVIA?l:PROFS.filter(p=>!p.esp)}
+function cardProf(p,f){const on=f.prof===p.n,pend='<i class="pf-pend">a confirmar</i>';
+ const pag=f.pag==='part'?'Vitta Particular':f.conv&&f.conv!=='nd'?((CONV.find(x=>x.id===f.conv)||{}).n||'Pro Bono'):'Pro Bono';
+ return `<article class="pf ${on?'on':''}"><div class="pf-top"><span class="pf-av" aria-hidden="true">${iniciais(p.n)}</span><div class="pf-id"><b>${esc(p.n)}</b><span>${p.esp?esc(p.esp):esc(f.esp)+' '+pend}</span><small>${p.reg?esc(p.reg):'Registro '+pend}</small></div></div>
+ <ul class="pf-ls"><li><span>Formação</span><b>${p.sub?esc(p.sub):pend}</b></li><li><span>Atende</span><b>${p.pub?esc(p.pub):pend}</b></li><li><span>Modalidade</span><b>${p.mod?esc(p.mod):'Presencial no MITI'}</b></li><li><span>No MITI</span><b>${esc(p.dias)} · ${esc(p.tur)}</b></li><li><span>Pagamento</span><b>${esc(pag)}</b></li></ul>
+ <button class="btn ${on?'pri':'sec'} pf-bt" data-act="fprof" data-v="${esc(p.n)}">${on?'Escolhido':'Escolher'}</button></article>`}
+const _fx94=VIEWS.fluxo;VIEWS.fluxo=function(){const f=S.fx;
+ if(f&&f.tipo==='consulta'&&f.step===3&&(PROF_ON||PROF_PREVIA)){const l=profsDe(f.esp);if(l.length){
+  const h=_fx94.call(this);const i=h.indexOf('<h2 class="h2">');const top=i>0?h.slice(0,i):'';
+  return top+`<h2 class="h2">Escolha o profissional <span class="tit-esp">· ${esc(f.esp)}</span></h2>${PROF_PREVIA&&!PROF_ON?'<div class="info"><span><b>Prévia.</b> Lista desligada no app até os profissionais autorizarem. Especialidade e registro a confirmar com o MITI.</span></div>':''}
+  <p class="sm mut">${l.length} profissiona${l.length>1?'is':'l'} atendendo no MITI · Conjunto Nacional</p><div class="pfs">${l.map(p=>cardProf(p,f)).join('')}</div>
+  <button class="btn pri big" data-act="fprox" ${f.prof?'':'disabled'}>Continuar</button><button class="lnk" data-act="fprofx" style="margin-top:.8rem">Sem preferência de profissional</button></section>`}}
+ return _fx94.call(this)};
+/* v8 pulava o passo 3 da consulta; com a lista ativa ele vira "Escolha o profissional" */
+const _r94=VIEWS.fluxo;
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');const f=S.fx;if(!t||!f)return;const a=t.dataset.act;
+ if(a==='fprof'){f.prof=t.dataset.v;render()}
+ else if(a==='fprofx'){f.prof='Sem preferência';f.step=4;render();scrollTo(0,0)}},true);
+const _m94=msgFluxo;msgFluxo=function(f,l){let m=_m94(f,l);if(f.tipo==='consulta'&&f.prof)m=m.replace(/(Celular: [^\n]*\n)/,`$1Profissional: ${f.prof}\n`);return m};
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
