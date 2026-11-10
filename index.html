@@ -325,7 +325,7 @@ button,a,label,input,select,textarea{touch-action:manipulation;-webkit-tap-highl
 /* ---------- v6: carrossel em fila ---------- */
 .car{position:relative;margin:.3rem -1rem 0;padding:.3rem 1rem 1.2rem;overflow:hidden;outline:none}
 .car:focus-visible{box-shadow:inset 0 0 0 3px var(--teal)}
-.car-tr{display:flex;column-gap:.8rem;will-change:transform}
+.car-tr{display:flex;column-gap:.8rem;will-change:transform;align-items:stretch}.car-it{display:flex}.car-it>*{flex:1}
 .car-it{flex:0 0 min(78%,26rem)}
 .car-it[aria-hidden="true"] .cc-ver{opacity:.85}
 .cc{position:relative;height:12rem;border-radius:1.5rem;background:var(--bg);color:var(--ink);padding:1.1rem 1.2rem;display:flex;flex-direction:column;gap:.3rem;overflow:hidden;box-shadow:0 10px 24px rgba(42,19,48,.18)}
@@ -358,7 +358,7 @@ button,a,label,input,select,textarea{touch-action:manipulation;-webkit-tap-highl
 .ct svg{position:absolute;inset:0;width:100%;height:100%}
 .ct-f{position:absolute;left:.7rem;bottom:.6rem;font-size:.72rem;font-weight:800;padding:.3rem .6rem;border-radius:999px;background:rgba(255,255,255,.95);color:#2A1330;box-shadow:0 0 0 1px rgba(42,19,48,.15)}
 .cvc-pe{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.6rem .3rem .2rem}
-.cvc-pe .sm{line-height:1.3;color:var(--mut)}.cvc-pe b{color:var(--ink)}
+.cvc-pe{min-height:4.6rem}.cvc-pe .sm{line-height:1.3;color:var(--mut);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.cvc{display:flex;flex-direction:column}.cvc-pe b{color:var(--ink)}
 .cc-ver2{font-size:.78rem;font-weight:800;background:var(--pet);color:#fff;padding:.55rem .75rem;border-radius:999px;min-height:2.6rem;text-align:center;max-width:52%}
 /* ---------- v6: convênios e exames ---------- */
 .cvl{display:flex;flex-direction:column;gap:.5rem;margin-top:.8rem}
@@ -520,7 +520,7 @@ const CARTAO={"sulamerica":{"bg":"background:#fff","svg":"<svg viewBox=\"0 0 400
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'6.4',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'6.5',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -1581,11 +1581,12 @@ function carMv(id,d){const el=$(id);if(!el)return;const tr=el.firstElementChild;
   setTimeout(()=>{tr.style.transition='none';tr.appendChild(tr.firstElementChild);tr.style.transform='translateX(0)';tr.offsetWidth;tr.dataset.mv='';carPos(id)},620)}
  else{tr.style.transition='none';tr.insertBefore(tr.lastElementChild,tr.firstElementChild);if(!anim){carPos(id);return}tr.dataset.mv=1;tr.style.transform=`translateX(${-passo}px)`;tr.offsetWidth;
   tr.style.transition='transform .6s cubic-bezier(.2,.8,.2,1)';tr.style.transform='translateX(0)';setTimeout(()=>{tr.dataset.mv='';carPos(id)},620)}}
+function carPausa(el){if(!el)return;el.dataset.p=1;clearTimeout(el._pt);el._pt=setTimeout(()=>{el.dataset.p=''},8000)}
 function carIniciar(){clearInterval(CORT.t);['carConv','carEsp'].forEach(id=>{const el=$(id);if(!el)return;carPos(id);
- ['pointerenter','focusin','touchstart'].forEach(ev=>el.addEventListener(ev,()=>{el.dataset.p=1},{passive:true}));['pointerleave','focusout'].forEach(ev=>el.addEventListener(ev,()=>{el.dataset.p=''}));
- let x0=null;el.addEventListener('touchstart',e=>{x0=e.touches[0].clientX},{passive:true});el.addEventListener('touchend',e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0;x0=null;if(Math.abs(dx)>40)carMv(id,dx<0?1:-1);setTimeout(()=>{el.dataset.p=''},4000)})});
+ ['pointerdown','touchstart','focusin','pointerenter'].forEach(ev=>el.addEventListener(ev,()=>carPausa(el),{passive:true}));
+ let x0=null;el.addEventListener('touchstart',e=>{x0=e.touches[0].clientX},{passive:true});el.addEventListener('touchend',e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0;x0=null;if(Math.abs(dx)>40)carMv(id,dx<0?1:-1);carPausa(el)})});
  if(S.a11y&&S.a11y.nomo)return;if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
- CORT.t=setInterval(()=>{if(document.hidden)return;['carConv','carEsp'].forEach(id=>{const el=$(id);if(el&&!el.dataset.p)carMv(id,1)})},3000)}
+ CORT.t=setInterval(()=>{if(document.hidden)return;['carConv','carEsp'].forEach(id=>{const el=$(id);if(el&&!el.dataset.p)carMv(id,1)})},5000)}
 
 vInicio=function(){const n=primeiroNome();
  return `<section class="hero"><h1 class="hello">${n?'Olá, '+esc(n)+'!':'Olá!'} <small>O que você precisa hoje?</small></h1>${origemChip()}</section>
@@ -1632,7 +1633,7 @@ document.addEventListener('submit',async e=>{if(e.target.id!=='fcw')return;e.pre
 
 document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act;
  if(a==='conv'){S.conv=t.dataset.k;S.qx='';fecharMenu('nav');ir('convenio')}
- else if(a==='carmv'){carMv(t.dataset.c,+t.dataset.d);const el=$(t.dataset.c);if(el){el.dataset.p=1;setTimeout(()=>{el.dataset.p=''},6000)}}});
+ else if(a==='carmv'){carMv(t.dataset.c,+t.dataset.d);carPausa($(t.dataset.c))}});
 document.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.live==='qc'){S.qc=t.value;const b=$('cvl');if(b)b.innerHTML=listaConv()}
  if(t.dataset&&t.dataset.live==='qx'){S.qx=t.value;const q=norm(t.value);document.querySelectorAll('#exbox li').forEach(li=>{li.hidden=!!q&&!norm(li.textContent).includes(q)})}});
 const _render6=render;render=function(a){_render6(a);if(S.view==='inicio')carIniciar();else clearInterval(CORT.t)};
