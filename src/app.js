@@ -1050,20 +1050,30 @@ atualizaWA=function(){const p=byId(WA.id);const a=$('wago');if(a)a.href=waUrl(p,
 const CORT={pausa:false,t:null};
 function cartaoConv(c){const sigla=c.n.replace(/[^A-Za-zÀ-ú ]/g,'').split(' ').filter(Boolean);
  return `<article class="cc" style="--bg:${c.bg};--ink:${c.ink};--ac:${c.ac}"><span class="cc-flor" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
- <span class="cc-tipo">${c.t==='cl'?'Clínica parceira':'Convênio'}</span><b class="cc-nome">${esc(c.n)}</b>
+ <span class="cc-tipo">${c.t==='cl'?'Clínica parceira':'Convênio'}</span><b class="cc-nome${c.n.length>18?' lg':''}">${esc(c.n)}</b>
  <span class="cc-sub">${c.pac?'Atendido em pacote: Ressonância e Tomografia':c.ex.length+' exames credenciados'}</span>
  <button class="cc-ver" data-act="conv" data-k="${c.id}">Ver lista de exames credenciados</button></article>`}
-function cartaoEsp(e){return `<article class="cc" style="--bg:${e.bg};--ink:#fff;--ac:${e.ac}"><span class="cc-flor" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+function cartaoEsp(e){return `<article class="cc esp" style="--bg:${e.bg};--ink:#fff;--ac:${e.ac}"><span class="cc-ic" aria-hidden="true">${ICM[e.ic]}</span>
  <span class="cc-tipo">Especialidade no MITI</span><b class="cc-nome">${esc(e.n)}</b><span class="cc-sub">${esc(e.d)}</span>
  <button class="cc-ver" data-act="abrir" data-id="9002">Agendar no MITI</button></article>`}
-function carrossel(id,itens,rot){return `<div class="car" id="${id}" role="region" aria-roledescription="carrossel" aria-label="${rot}" tabindex="0">${itens.map((h,i)=>`<div class="car-it" data-i="${i}">${h}</div>`).join('')}</div>
+const ICM={
+ psico:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M36 56V46h6a4 4 0 0 0 4-4v-6l5-2-5-9c0-11-8-17-18-17S12 15 12 26c0 7 4 11 6 14v16"/><path d="M28 22c3-3 9-2 9 3 0 4-5 4-5 8"/><circle cx="32" cy="38" r=".8" fill="currentColor"/></svg>',
+ neuro:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 12a8 8 0 0 0-8 8 8 8 0 0 0-4 14 8 8 0 0 0 6 12 8 8 0 0 0 14 4V16a8 8 0 0 0-8-4z"/><path d="M40 12a8 8 0 0 1 8 8 8 8 0 0 1 4 14 8 8 0 0 1-6 12 8 8 0 0 1-14 4"/><path d="M32 26h6l3-5M32 38h7l3 5M22 26h5M21 38h6"/></svg>',
+ fisio:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="38" cy="10" r="5"/><path d="M22 26l10-6 8 4 6 8M32 20l-4 16 10 6v14M28 36l-8 10-8-2"/><path d="M48 46h6M50 52h6"/></svg>',
+ integ:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M32 52c-6-6-8-14-8-20s4-14 8-18c4 4 8 12 8 18s-2 14-8 20z"/><path d="M32 52c-8-2-16-8-20-18 6-2 12-1 16 2M32 52c8-2 16-8 20-18-6-2-12-1-16 2"/><path d="M14 56h36"/></svg>'};
+function carrossel(id,itens,rot){return `<div class="car" id="${id}" role="region" aria-roledescription="carrossel" aria-label="${rot}" tabindex="0"><div class="car-tr">${itens.map((h,i)=>`<div class="car-it" data-i="${i}">${h}</div>`).join('')}</div></div>
  <div class="car-ctl"><button class="iconbtn sm2" data-act="carmv" data-c="${id}" data-d="-1" aria-label="Anterior">${I.back('#4A2252',18)}</button><span class="sm mut" id="${id}-pos"></span><button class="iconbtn sm2" data-act="carmv" data-c="${id}" data-d="1" aria-label="Próximo">${I.chev('#4A2252',18)}</button></div>`}
 const CARS={};
-function carPos(id){const el=$(id);if(!el)return;const its=[...el.children],n=its.length,k=CARS[id]||0;
- its.forEach((it,i)=>{const d=(i-k+n)%n;it.style.setProperty('--d',d>3?4:d);it.setAttribute('aria-hidden',d?'true':'false');it.querySelectorAll('button').forEach(b=>b.tabIndex=d?-1:0)});
- const p=$(id+'-pos');if(p)p.textContent=(k+1)+' de '+n}
-function carMv(id,d){const el=$(id);if(!el)return;const n=el.children.length;CARS[id]=((CARS[id]||0)+d+n)%n;carPos(id)}
-function carIniciar(){clearInterval(CORT.t);['carConv','carEsp'].forEach(id=>{const el=$(id);if(!el)return;CARS[id]=CARS[id]||0;carPos(id);
+function carPos(id){const el=$(id);if(!el)return;const tr=el.firstElementChild,its=[...tr.children];
+ its.forEach((it,i)=>{it.setAttribute('aria-hidden',i?'true':'false');it.querySelectorAll('button').forEach(b=>b.tabIndex=i?-1:0)});
+ const p=$(id+'-pos');if(p)p.textContent=(+its[0].dataset.i+1)+' de '+its.length}
+function carMv(id,d){const el=$(id);if(!el)return;const tr=el.firstElementChild;if(tr.dataset.mv)return;const it=tr.children[0];
+ const passo=it.getBoundingClientRect().width+parseFloat(getComputedStyle(tr).columnGap||0);const anim=!(S.a11y&&S.a11y.nomo)&&!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+ if(d>0){if(!anim){tr.appendChild(tr.firstElementChild);carPos(id);return}tr.dataset.mv=1;tr.style.transition='transform .6s cubic-bezier(.2,.8,.2,1)';tr.style.transform=`translateX(${-passo}px)`;
+  setTimeout(()=>{tr.style.transition='none';tr.appendChild(tr.firstElementChild);tr.style.transform='translateX(0)';tr.offsetWidth;tr.dataset.mv='';carPos(id)},620)}
+ else{tr.style.transition='none';tr.insertBefore(tr.lastElementChild,tr.firstElementChild);if(!anim){carPos(id);return}tr.dataset.mv=1;tr.style.transform=`translateX(${-passo}px)`;tr.offsetWidth;
+  tr.style.transition='transform .6s cubic-bezier(.2,.8,.2,1)';tr.style.transform='translateX(0)';setTimeout(()=>{tr.dataset.mv='';carPos(id)},620)}}
+function carIniciar(){clearInterval(CORT.t);['carConv','carEsp'].forEach(id=>{const el=$(id);if(!el)return;carPos(id);
  ['pointerenter','focusin','touchstart'].forEach(ev=>el.addEventListener(ev,()=>{el.dataset.p=1},{passive:true}));['pointerleave','focusout'].forEach(ev=>el.addEventListener(ev,()=>{el.dataset.p=''}));
  let x0=null;el.addEventListener('touchstart',e=>{x0=e.touches[0].clientX},{passive:true});el.addEventListener('touchend',e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0;x0=null;if(Math.abs(dx)>40)carMv(id,dx<0?1:-1);setTimeout(()=>{el.dataset.p=''},4000)})});
  if(S.a11y&&S.a11y.nomo)return;if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -1089,7 +1099,7 @@ function listaConv(){const t=norm(S.qc||'');return CONV.filter(c=>!t||norm(c.n).
 VIEWS.convenio=function(){const c=CONV.find(x=>x.id===S.conv);if(!c)return VIEWS.convenios();
  const g={rm:[],tc:[],out:[]};c.ex.forEach(e=>{const d=norm(e[1]);(/resson|angiorm|\brm\b/.test(d)||e[0].startsWith('4110')?g.rm:/tomog|angiotomo|\btc\b/.test(d)||e[0].startsWith('4100')?g.tc:g.out).push(e)});
  const bloco=(t,l)=>l.length?`<h2 class="h3" style="margin-top:1rem">${t} <span class="sm mut">(${l.length})</span></h2><ul class="exl">${l.map(e=>`<li><span>${esc(e[1])}</span><code>${esc(e[0])}</code></li>`).join('')}</ul>`:'';
- return phead(c.n,'Aceito na Dimagem Unineuro')+`<section class="sec"><div class="cc solo" style="--bg:${c.bg};--ink:${c.ink};--ac:${c.ac}"><span class="cc-flor" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="cc-tipo">${c.t==='cl'?'Clínica parceira':'Convênio'}</span><b class="cc-nome">${esc(c.n)}</b><span class="cc-sub">${c.pac?'Atendido em pacote':c.ex.length+' exames credenciados'}</span></div>
+ return phead(c.n,'Aceito na Dimagem Unineuro')+`<section class="sec"><div class="cc solo" style="--bg:${c.bg};--ink:${c.ink};--ac:${c.ac}"><span class="cc-flor" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="cc-tipo">${c.t==='cl'?'Clínica parceira':'Convênio'}</span><b class="cc-nome${c.n.length>18?" lg":""}">${esc(c.n)}</b><span class="cc-sub">${c.pac?'Atendido em pacote':c.ex.length+' exames credenciados'}</span></div>
  ${c.pac?`<div class="info" style="margin-top:1rem">${I.info('#0A4B44',20)}<span>Este convênio é atendido em <b>pacote de Ressonância Magnética e Tomografia</b>. Confirme pelo WhatsApp se o seu exame e o seu plano estão incluídos.</span></div>`:
  `${buscaForm('qx','Procurar exame',S.qx||'','qx')}<div id="exbox">${bloco('Ressonância magnética',g.rm)}${bloco('Tomografia',g.tc)}${bloco('Outros procedimentos',g.out)}</div><p class="sm mut">Código TUSS ao lado de cada exame. A cobertura depende do seu plano e da autorização da operadora.</p>`}
  <button class="btn wa" data-act="abrir" data-id="9001" style="margin-top:1rem;width:100%">Agendar na Dimagem</button></section>`};
