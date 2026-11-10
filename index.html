@@ -462,6 +462,42 @@ body.pedv{background:#f4f4f4;font-family:system-ui,sans-serif;margin:0}.pedv-w{m
 .spin{width:2rem;height:2rem;border-radius:50%;border:3px solid #DCF3E9;border-top-color:#2E8F6E;animation:gira 1s linear infinite;flex:none}
 @keyframes gira{to{transform:rotate(360deg)}}
 @media (min-width:900px){.ap{display:grid;grid-template-columns:1.1fr 1fr}.ap-fotos{height:100%;min-height:16rem}.ap-duo{grid-template-columns:1fr 1fr}}
+
+/* ---------- v7.2 ---------- */
+.atr-ver{grid-column:1/-1;font-size:.82rem;font-weight:800;color:#7CCFB0;margin-top:.2rem}
+.atr-c em{font-style:normal;font-size:.72rem;font-weight:800;color:#7CCFB0;margin-top:.15rem}
+.foto-dup{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}.foto-dup .foto-btn{min-height:9.5rem}
+.foto-btn.gal{background:#fff;color:#4A2252;border:2px dashed #C9B8CC}
+body.modo-apr .nav,body.modo-apr .top,body.modo-apr header,body.modo-apr .fab{display:none!important}
+.apr{position:relative;background:#140A18}
+.apr-p{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;padding:1.2rem 1.2rem 4.5rem}
+.apr-bg{position:absolute;inset:-12% 0;will-change:transform}.apr-bg img{width:100%;height:100%;object-fit:cover}
+.apr-sh{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,10,24,.05) 20%,color-mix(in srgb,var(--c) 70%,#000) 92%)}
+.apr-card{position:relative;z-index:1;width:100%;max-width:34rem;margin:0 auto;background:rgba(255,255,255,.12);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.25);border-radius:1.6rem;padding:1.3rem;color:#fff;display:flex;flex-direction:column;gap:.55rem;
+ opacity:0;transform:translateY(calc(40px + var(--py,0px)));transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.apr-card.vis{opacity:1;transform:translateY(var(--py,0px))}
+.apr-tag{align-self:flex-start;font-size:.75rem;font-weight:800;background:#7CCFB0;color:#0E3D2E;padding:.3rem .7rem;border-radius:999px}
+.apr-card h2{margin:0;font-size:1.75rem;line-height:1.12;letter-spacing:-.01em}.apr-card p{margin:0;opacity:.92}
+.apr-card ul{margin:0;padding:0;list-style:none;display:grid;gap:.35rem}.apr-card li{padding-left:1.4rem;position:relative;font-size:.95rem}.apr-card li::before{content:"";position:absolute;left:0;top:.35rem;width:.8rem;height:.8rem;border-radius:50%;background:#7CCFB0}
+.apr-card .btn{margin-top:.4rem;width:100%;min-height:3.2rem}.btn.wh{background:#fff;color:#4A2252;border:0}
+.apr-seta{position:absolute;bottom:1.1rem;left:50%;transform:translateX(-50%);color:#fff;font-size:1.8rem;opacity:.8;animation:pula 1.6s ease-in-out infinite}
+@keyframes pula{50%{transform:translate(-50%,6px)}}
+.apr-x{position:fixed;top:max(.9rem,env(safe-area-inset-top));right:.9rem;z-index:20;width:2.8rem;height:2.8rem;border-radius:50%;background:rgba(0,0,0,.35);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center}
+@media (prefers-reduced-motion:reduce){.apr-card{opacity:1;transform:none;transition:none}.apr-seta{animation:none}}
+.cvpick{margin-top:.6rem;background:#fff;border:2px solid #2E8F6E;border-radius:1.2rem;overflow:hidden}
+.cvp-in{display:flex;align-items:center;gap:.5rem;padding:.3rem .8rem;border-bottom:1px solid var(--line)}.cvp-in .inp{border:0;box-shadow:none;background:transparent;padding-left:0}
+.cvp-l{max-height:20rem;overflow:auto;display:flex;flex-direction:column}
+.cvp{display:flex;align-items:center;gap:.8rem;padding:.55rem .8rem;text-align:left;border-top:1px solid #F3ECF2;min-height:3.4rem}.cvp:first-child{border-top:0}
+.cvp .cv-t{width:4.2rem;flex:none}.cvp>span:not(.cv-t){flex:1;font-weight:700}.cvp.on{background:#F2FBF7}.cvp svg{color:#2E8F6E}
+.extabs{display:grid;grid-template-columns:repeat(3,1fr);gap:.3rem;background:#F3ECF2;padding:.3rem;border-radius:999px;margin:.6rem 0}
+.extabs button{border-radius:999px;padding:.55rem .3rem;font-weight:800;font-size:.85rem;color:var(--mut);min-height:2.6rem}.extabs .on{background:#fff;color:#4A2252;box-shadow:0 2px 6px rgba(42,19,48,.12)}
+.exlist{display:flex;flex-direction:column;max-height:22rem;overflow:auto;border:1px solid var(--line);border-radius:1rem;background:#fff}
+.exg{position:sticky;top:0;background:#FAF5F8;font-size:.75rem;font-weight:800;color:#6B2468;padding:.3rem .9rem;border-top:1px solid var(--line)}
+.exr{display:flex;align-items:center;gap:.75rem;padding:.65rem .9rem;text-align:left;border-top:1px solid #F3ECF2;min-height:3rem}
+.exr-c{width:1.4rem;height:1.4rem;border-radius:.45rem;border:2px solid #C9B8CC;flex:none;display:flex;align-items:center;justify-content:center;color:#fff}.exr-c svg{width:1rem;height:1rem}
+.exr.on .exr-c{background:#2E8F6E;border-color:#2E8F6E}.exr.on{background:#F2FBF7}
+.exr-n{display:flex;flex-direction:column}.exr-n i,.exi-n i{font-style:normal;font-weight:500;font-size:.78rem;color:var(--mut)}.exr-n b{font-weight:600;font-size:.93rem}.exr-n small{color:var(--mut);font-size:.75rem}
+.addex .busca,.addex form{margin-top:.4rem}
 </style>
 </head>
 <body>
@@ -596,7 +632,7 @@ const CARTAO={"sulamerica": {"bg": "background:#fff", "svg": "<svg viewBox=\"0 0
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'7.1',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'7.2',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -1861,7 +1897,7 @@ document.addEventListener('click',async e=>{const t=e.target.closest('[data-act]
  else if(a==='ag-rem'){const p=S.peds.find(x=>x.id===t.dataset.id);const l=byId(p.loc);location.href=waUrl(l,`Olá! Preciso remarcar meu agendamento: ${p.item}, ${fmtData(p.data)} às ${p.hora}. Paciente: ${(S.user||{}).nome||''}. Quais outros horários vocês têm?`)}
  else if(a==='ag-ics'){icsDe(S.peds.find(x=>x.id===t.dataset.id))}
  else if(a==='ag-del'){const i=S.peds.findIndex(x=>x.id===t.dataset.id);if(i>=0&&confirm('Remover este agendamento da sua agenda?')){const p=S.peds[i];if(p.lemb)rpc('pax_lembrete_cancelar',{p_id:p.lemb}).catch(()=>{});S.peds.splice(i,1);salvaPeds();render()}}});
-document.addEventListener('change',async e=>{const t=e.target;if(t.id==='ffile'&&t.files&&t.files[0]&&S.fx){try{S.fx.foto=await comprimir(t.files[0]);S.fx.exame='';render()}catch(x){toast('Não consegui ler a foto. Tente outra.')}}
+document.addEventListener('change',async e=>{const t=e.target;if(t.id==='ffile'&&t.files&&t.files[0]&&S.fx){try{S.fx.foto=await comprimir(t.files[0]);S.fx.exame='';S.fx.lido=null;S.fx.exames=[];render()}catch(x){toast('Não consegui ler a foto. Tente outra.')}}
  if(t.id==='fconv'&&S.fx){S.fx.conv=t.value;render()}});
 document.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.live==='qe'){S.qe=t.value;const b=$('exsel');if(b)b.innerHTML=listaEx()}});
 
@@ -1928,7 +1964,7 @@ blocoPag=function(){const f=S.fx;if(f.tipo!=='exame')return _blocoPag71();const 
  const exs=`<div class="exbox">${f.lendo?`<div class="lendo"><span class="spin" aria-hidden="true"></span><span><b>Lendo seu pedido médico…</b><small>Identificando o exame solicitado</small></span></div>`:`
   <b class="exbox-t">${f.lido==='ok'?'Exame identificado no seu pedido':f.lido==='falha'?'Não conseguimos ler o pedido':'Exame solicitado'}</b>
   ${f.lido==='falha'?'<p class="sm mut" style="margin:.1rem 0 .4rem">A leitura falhou. Escolha o exame que está no seu pedido para confirmar.</p>':f.lido==='ok'?'<p class="sm mut" style="margin:.1rem 0 .4rem">Confira. Você pode remover ou adicionar exames.</p>':''}
-  ${f.exames.map((n,k)=>{const cb=cobre(n);return `<div class="exi"><span class="exi-n">${esc(n)}${cb===null?'':cb==='pac'?'<small class="ok">Atendido em pacote</small>':cb?'<small class="ok">✓ Coberto pelo convênio</small>':'<small class="warn">Fora da tabela do convênio: a equipe confirma</small>'}</span><button class="round" data-act="exrm" data-k="${k}" aria-label="Remover ${esc(n)}">${I.x('#B3261E',16)}</button></div>`}).join('')}
+  ${f.exames.map((n,k)=>{const cb=cobre(n);return `<div class="exi"><span class="exi-n">${typeof nomeHtml==="function"?(/^Resson/.test(n)?"Ressonância · ":/^Tomog/.test(n)?"Tomografia · ":"")+nomeHtml(n):esc(n)}${cb===null?'':cb==='pac'?'<small class="ok">Atendido em pacote</small>':cb?'<small class="ok">✓ Coberto pelo convênio</small>':'<small class="warn">Fora da tabela do convênio: a equipe confirma</small>'}</span><button class="round" data-act="exrm" data-k="${k}" aria-label="Remover ${esc(n)}">${I.x('#B3261E',16)}</button></div>`}).join('')}
   <details class="addex" ${f.exames.length?'':'open'}><summary>${f.exames.length?'+ Adicionar outro exame':'Escolher o exame'}</summary>${buscaForm('qe','Digite o exame, ex.: crânio',S.qe||'','qe')}<div class="exsel" id="exsel">${listaEx()}</div></details>`}</div>`;
  return base.slice(0,i)+exs+base.slice(i)};
 listaEx=function(){const t=norm(S.qe||'');const l=t?EXAMES2.filter(n=>norm(n).includes(t)).slice(0,30):[];const sel=(S.fx&&S.fx.exames)||[];
@@ -1952,6 +1988,70 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
  else if(a==='fsemfoto'&&f){f.foto=null;f.lido=null;f.exames=[];f.step=2;render()}},true);
 /* ao avançar do passo 1 com foto, dispara a leitura */
 document.addEventListener('click',e=>{const t=e.target.closest('[data-act=fprox]');const f=S.fx;if(t&&f&&f.tipo==='exame'&&f.step===2&&f.foto&&f.lido==null&&!f.lendo)processarFoto()});
+
+
+/* ============ v7.2: galeria, apresentação em parallax, listas em ordem alfabética, escolha de convênio e exame ============ */
+CONV.sort((a,b)=>a.n.localeCompare(b.n,'pt'));MITI_ESP.sort((a,b)=>a.n.localeCompare(b.n,'pt'));
+
+/* início: volta os cards com degradê, que levam à apresentação */
+const _ini72=vInicio;
+vInicio=function(){let h=_ini72();const a=h.indexOf('<section class="sec apres">'),b=h.indexOf('</section>',h.indexOf('</article>',h.indexOf('class="ap mt"')))+10;
+ const atr=`<section class="sec atr">
+  <button class="atr-dm" data-act="nav" data-v="apresentacao" data-k="dm"><img src="fotos/dm-rm.jpg" alt="" loading="lazy"><span class="atr-v"><span class="atr-n">30<small>anos</small></span><span class="atr-t"><b>Dimagem Unineuro</b><span>Ressonância e tomografia na Lapa</span></span><q>Saúde igual para todos</q><span class="atr-ver">Toque para ver a apresentação ›</span></span></button>
+  <div class="atr-mt"><span class="atr-cab"><b>MITI</b> · Conjunto Nacional, Av. Paulista</span>
+   <button class="atr-c pac" data-act="nav" data-v="apresentacao" data-k="pac"><img src="fotos/9002-2.jpg" alt="" loading="lazy"><span><small>Para o paciente</small><b>Consultas na Paulista</b><em>Ver apresentação ›</em></span></button>
+   <button class="atr-c med" data-act="nav" data-v="apresentacao" data-k="med"><img src="fotos/9002-4.jpg" alt="" loading="lazy"><span><small>Para o profissional</small><b>Consultórios por hora ou mês</b><em>Ver apresentação ›</em></span></button></div></section>`;
+ return a>0?h.slice(0,a)+atr+h.slice(b):h};
+VIEWS.inicio=vInicio;
+
+/* apresentação com parallax */
+const APR=[
+ {k:'dm',img:'fotos/dm-rm.jpg',cor:'#4A2252',tag:'Dimagem Unineuro',t:'30 anos cuidando do seu diagnóstico',f:'Saúde igual para todos.',pts:['Ressonância magnética e tomografia','Mais de 30 convênios e particular','Na Lapa, junto ao Hospital Albert Sabin']},
+ {k:'dm2',img:'fotos/dm-rm2.jpg',cor:'#6B2468',tag:'Conforto no exame',t:'Você tranquilo do começo ao fim',f:'Equipe que explica cada etapa e acompanha você durante o exame.',pts:['Orientação de preparo no agendamento','Resposta no WhatsApp em até 15 minutos']},
+ {k:'dm3',img:'fotos/dm-recepcao.jpg',cor:'#17624A',tag:'Agendar é simples',t:'Mande a foto do pedido. A gente cuida do resto.',f:'Sem ligação, sem fila de espera ao telefone.',cta:['fluxo','exame','Agendar meu exame']},
+ {k:'pac',img:'fotos/9002-1.jpg',cor:'#2E8F6E',tag:'MITI · Para o paciente',t:'Cuidado de perto, no coração da Paulista',f:'Psicologia, neuropsicologia, fisioterapia e terapias integrativas.',pts:['Conjunto Nacional, Av. Paulista','Das 8h às 21h','Resposta em 30 a 60 minutos'],cta:['fluxo','consulta','Marcar consulta']},
+ {k:'med',img:'fotos/9002-4.jpg',cor:'#4A2252',tag:'MITI · Para o profissional',t:'Seu consultório no endereço mais conhecido de São Paulo',f:'Salas prontas para atender, por hora ou por mês.',pts:['Sem custo de montar consultório','Pacientes chegam fácil pelo metrô'],cta:['nav','coworking','Quero um consultório']}];
+VIEWS.apresentacao=function(){return `<div class="apr">${APR.map((p,i)=>`<section class="apr-p" id="apr-${p.k}" style="--c:${p.cor}"><div class="apr-bg" data-px><img src="${p.img}" alt=""></div><div class="apr-sh"></div>
+ <div class="apr-card" data-rev><span class="apr-tag">${esc(p.tag)}</span><h2>${esc(p.t)}</h2><p>${esc(p.f)}</p>${p.pts?`<ul>${p.pts.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}${p.cta?`<button class="btn ${p.cta[0]==='fluxo'?'pri':'wh'}" data-act="${p.cta[0]}" ${p.cta[0]==='fluxo'?`data-t="${p.cta[1]}"`:`data-v="${p.cta[1]}"`}>${esc(p.cta[2])}</button>`:''}</div>
+ ${i<APR.length-1?'<span class="apr-seta" aria-hidden="true">⌄</span>':''}</section>`).join('')}<button class="apr-x" data-act="voltar" aria-label="Fechar apresentação">${I.x('#fff',22)}</button></div>`};
+function aprIniciar(){const ps=[...document.querySelectorAll('.apr-p')];if(!ps.length)return;
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.25});document.querySelectorAll('[data-rev]').forEach(x=>io.observe(x));
+ const red=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;if(red)return;
+ const tick=()=>{if(S.view!=='apresentacao')return;const vh=innerHeight;ps.forEach(p=>{const r=p.getBoundingClientRect();if(r.bottom<0||r.top>vh)return;const k=(r.top+r.height/2-vh/2)/vh;
+  p.querySelector('[data-px]').style.transform=`translateY(${(k*-90).toFixed(1)}px) scale(1.15)`;p.querySelector('.apr-card').style.setProperty('--py',(k*40).toFixed(1)+'px')})};
+ removeEventListener('scroll',aprIniciar._t);aprIniciar._t=()=>requestAnimationFrame(tick);addEventListener('scroll',aprIniciar._t,{passive:true});tick()}
+const _render72=render;render=function(a){_render72(a);document.body.classList.toggle('modo-apr',S.view==='apresentacao');if(S.view==='apresentacao'){aprIniciar();if(S.aprK){const el=$('apr-'+S.aprK);S.aprK=null;if(el)setTimeout(()=>el.scrollIntoView({behavior:'smooth'}),60)}}};
+
+/* foto: câmera ou galeria */
+const _fx72=VIEWS.fluxo;
+VIEWS.fluxo=function(){let h=_fx72();return h.replace(/<label class="foto-btn">[\s\S]*?<\/label>/,`<div class="foto-dup"><label class="foto-btn"><input type="file" accept="image/*" capture="environment" id="ffile" hidden><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><b>Tirar foto</b><small>Usar a câmera</small></label>
+ <label class="foto-btn gal"><input type="file" accept="image/*" id="ffile2" hidden><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="#4A2252" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg><b>Escolher da galeria</b><small>Foto já salva</small></label></div>`)};
+
+/* escolher convênio: campo de busca + lista em ordem alfabética */
+const _bp72=blocoPag;
+blocoPag=function(){const f=S.fx;let h=_bp72();if(!f.troca)return h;
+ const t=norm(S.qcv||'');const l=CONV.filter(c=>!t||norm(c.n).includes(t));
+ const pick=`<div class="cvpick"><label class="cvp-in">${I.search?I.search('#645069',20):'🔍'}<input class="inp" id="qcv" data-live="qcv" placeholder="Buscar convênio" value="${esc(S.qcv||'')}" autocomplete="off"></label>
+  <div class="cvp-l" id="cvpl">${cvpLista(l,f.conv)}</div></div>`;
+ return h.replace(/<label class="f">Convênio<select[\s\S]*?<\/select><\/label>/,pick)};
+function cvpLista(l,sel){return l.map(c=>`<button class="cvp ${c.id===sel?'on':''}" data-act="cvsel" data-k="${c.id}">${miniConv(c)}<span>${esc(c.n)}</span>${c.id===sel?SEL:''}</button>`).join('')||'<p class="sm mut">Nenhum convênio com esse nome.</p>'}
+
+/* escolher exame: abas por tipo, busca e lista organizada */
+const TIPOS=[['rm','Ressonância'],['tc','Tomografia'],['angio','Angio']];
+const tipoEx=n=>/^angio/i.test(n)?'angio':/^resson/i.test(n)?'rm':'tc';
+const nomeCurto=n=>n.replace(/^(Ressonância|Tomografia) · /,'');const nomeHtml=n=>{const c=nomeCurto(n),i=c.indexOf(' (');return i>0?`${esc(c.slice(0,i))}<i>${esc(c.slice(i+1))}</i>`:esc(c)};
+listaEx=function(){const f=S.fx||{},sel=f.exames||[],tp=S.extp||'rm',t=norm(S.qe||'');
+ let l=EXAMES2.filter(n=>t?norm(n).includes(t):tipoEx(n)===tp);
+ const grupos={};l.forEach(n=>{const g=(nomeCurto(n)[0]||'#').toUpperCase();(grupos[g]=grupos[g]||[]).push(n)});
+ return `${t?'':`<div class="extabs" role="tablist">${TIPOS.map(([k,v])=>`<button role="tab" class="${tp===k?'on':''}" data-act="extp" data-k="${k}">${v}</button>`).join('')}</div>`}
+ <div class="exlist">${Object.keys(grupos).sort((a,b)=>a.localeCompare(b,'pt')).map(g=>`<span class="exg">${g}</span>${grupos[g].map(n=>`<button class="exr ${sel.includes(n)?'on':''}" data-act="exadd" data-v="${esc(n)}"><span class="exr-c">${sel.includes(n)?SEL:''}</span><span class="exr-n"><b>${nomeHtml(n)}</b>${t?`<small>${TIPOS.find(x=>x[0]===tipoEx(n))[1]}</small>`:''}</span></button>`).join('')}`).join('')||'<p class="sm mut" style="padding:.6rem">Nenhum exame com esse nome.</p>'}</div>`};
+
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act;
+ if(a==='nav'&&t.dataset.v==='apresentacao')S.aprK=t.dataset.k||null;
+ else if(a==='cvsel'&&S.fx){S.fx.conv=t.dataset.k;S.fx.troca=false;S.fx.pag='conv';S.qcv='';render()}
+ else if(a==='extp'){S.extp=t.dataset.k;const b=$('exsel');if(b)b.innerHTML=listaEx()}},true);
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.live==='qcv'){S.qcv=t.value;const b=$('cvpl');if(b){const q=norm(t.value);b.innerHTML=cvpLista(CONV.filter(c=>!q||norm(c.n).includes(q)),S.fx&&S.fx.conv)}}});
+document.addEventListener('change',async e=>{const t=e.target;if(t.id==='ffile2'&&t.files&&t.files[0]&&S.fx){try{S.fx.foto=await comprimir(t.files[0]);S.fx.exame='';S.fx.lido=null;render()}catch(x){toast('Não consegui ler a foto. Tente outra.')}}});
 
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
