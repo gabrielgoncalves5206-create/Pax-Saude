@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'9.1',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'9.2',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -1411,10 +1411,11 @@ blocoPag=function(){const f=S.fx;let h=_bp72();if(!f.troca)return h;
 function cvpLista(l,sel){return l.map(c=>`<button class="cvp ${c.id===sel?'on':''}" data-act="cvsel" data-k="${c.id}">${miniConv(c)}<span>${esc(c.n)}</span>${c.id===sel?SEL:''}</button>`).join('')||'<p class="sm mut">Nenhum convênio com esse nome.</p>'}
 
 /* escolher exame: abas por tipo, busca e lista organizada */
-const TIPOS=[['rm','Ressonância'],['tc','Tomografia'],['angio','Angio']];
-const tipoEx=n=>/^angio/i.test(n)?'angio':/^resson/i.test(n)?'rm':'tc';
+const TIPOS=[['rm','Ressonância Magnética'],['tc','Tomografia Computadorizada']];
+const ANGTP={};CONV.forEach(c=>c.ex.forEach(([k,n])=>{if(/^angio/i.test(n))ANGTP[n]=k.startsWith('4110')?'rm':'tc'}));
+const tipoEx=n=>/^angio/i.test(n)?(ANGTP[n]||(/resson|\brm\b/i.test(n)?'rm':'tc')):/^resson/i.test(n)?'rm':'tc';
 const nomeCurto=n=>n.replace(/^(Ressonância|Tomografia) · /,'');const nomeHtml=n=>{const c=nomeCurto(n),i=c.indexOf(' (');return i>0?`${esc(c.slice(0,i))}<i>${esc(c.slice(i+1))}</i>`:esc(c)};
-listaEx=function(){const f=S.fx||{},sel=f.exames||[],tp=S.extp||'rm',t=norm(S.qe||'');
+listaEx=function(){const f=S.fx||{},sel=f.exames||[],tp=(S.extp==='tc'?'tc':'rm'),t=norm(S.qe||'');
  let l=EXAMES2.filter(n=>t?norm(n).includes(t):tipoEx(n)===tp);
  const grupos={};l.forEach(n=>{const g=(nomeCurto(n)[0]||'#').toUpperCase();(grupos[g]=grupos[g]||[]).push(n)});
  return `${t?'':`<div class="extabs" role="tablist">${TIPOS.map(([k,v])=>`<button role="tab" class="${tp===k?'on':''}" data-act="extp" data-k="${k}">${v}</button>`).join('')}</div>`}
@@ -1595,7 +1596,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act=fesp]'
  const red=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;f.esp=t.dataset.v;t.classList.add('pick');
  document.querySelectorAll('.espb').forEach(x=>{if(x!==t)x.classList.add('fade')});
  setTimeout(()=>{f.step=2;f._pick=0;render();scrollTo(0,0);const app=$('app');if(app){app.classList.remove('tr-up');void app.offsetWidth;app.classList.add('tr-up')}},red?0:340)},true);
-const _fx91=VIEWS.fluxo;VIEWS.fluxo=function(){const f=S.fx;let h=_fx91();if(f&&f.step===2){const alvo=f.tipo==='consulta'?f.esp:'Exame';h=h.replace('<h2 class="h2">Confirme o pagamento</h2>',`<h2 class="h2">Confirme o pagamento <span class="tit-esp">· ${esc(alvo)}</span></h2>`)}return h};
+const _fx91=VIEWS.fluxo;VIEWS.fluxo=function(){const f=S.fx;let h=_fx91();if(f&&f.step===2){const tps=[...new Set((f.exames||[]).map(n=>tipoEx(n)))];const alvo=f.tipo==='consulta'?f.esp:(tps.length===1?(tps[0]==='rm'?'Ressonância Magnética':'Tomografia Computadorizada'):tps.length?'Ressonância e Tomografia':'Exame');h=h.replace('<h2 class="h2">Confirme o pagamento</h2>',`<h2 class="h2">Confirme o pagamento <span class="tit-esp">· ${esc(alvo)}</span></h2>`)}return h};
 /* leitura do convênio: imagem tratada (cinza, contraste, maior) e busca tolerante a erros de leitura */
 function prepOCR(dataUrl){return new Promise(ok=>{const im=new Image();im.onload=()=>{const k=Math.min(2.2,2000/Math.max(im.width,im.height));const w=Math.round(im.width*k),h=Math.round(im.height*k);const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.filter='grayscale(1) contrast(1.6) brightness(1.08)';x.drawImage(im,0,0,w,h);ok(c.toDataURL('image/png'))};im.onerror=()=>ok(dataUrl);im.src=dataUrl})}
 lerPedido=async function(dataUrl){const T=await carregarTess();const r=await T.recognize(await prepOCR(dataUrl),'por');return (r&&r.data&&r.data.text)||''};
