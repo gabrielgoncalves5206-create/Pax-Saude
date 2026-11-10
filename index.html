@@ -701,7 +701,7 @@ const CARTAO={"sulamerica": {"bg": "background:#fff", "svg": "<svg viewBox=\"0 0
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'8.0',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'8.1',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -2277,6 +2277,16 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
  else if(a==='fprox'&&f&&f.tipo==='consulta'&&f.step===2&&!(f.pag==='part'||f.conv)){e.stopImmediatePropagation()}},true);
 document.addEventListener('click',e=>{const t=e.target.closest('[data-act=fprox]');if(t&&S.fx&&S.fx.pag==='part')pagCfg().then(()=>{if(S.view==='fluxo'&&S.fx&&S.fx.step===4)render()})});
 
+
+/* ============ v8.1: especialidade avança sozinha; convênio "Não declara" ============ */
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act=fesp]');const f=S.fx;if(!t||!f)return;e.stopImmediatePropagation();f.esp=t.dataset.v;f.step=2;render();scrollTo(0,0)},true);
+const ND={id:'nd',n:'Não declara'};
+const _cvp81=cvpLista;cvpLista=function(l,sel){const q=norm(S.qcv||'');const nd=(!q||norm(ND.n).includes(q))?`<button class="cvp txt nd ${sel==='nd'?'on':''}" data-act="cvsel" data-k="nd"><span>Não declara</span>${sel==='nd'?SEL:''}</button>`:'';return nd+_cvp81(l,sel).replace(/^<p class="sm mut"[^>]*>Nenhum convênio com esse nome\.<\/p>$/,nd?'':'$&')};
+const _find81=Array.prototype.find;
+const _bp81=blocoPag;blocoPag=function(){const f=S.fx;if(f.conv!=='nd')return _bp81();CONV.push(ND);try{return _bp81()}finally{CONV.pop()}};
+const _msg81=msgFluxo;msgFluxo=function(f,link){return _msg81(f,link).replace('Atendimento: Pro Bono · Convênio \n','Atendimento: Pro Bono · Convênio não declarado\n')};
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act=cvsel]');if(t&&S.fx&&t.dataset.k==='nd'){e.stopImmediatePropagation();S.fx.conv='nd';S.fx.troca=false;S.fx.pag='conv';S.qcv='';render()}},true);
+const _resumo81=VIEWS.fluxo;VIEWS.fluxo=function(){const f=S.fx;if(!f||f.conv!=='nd')return _resumo81();CONV.push(ND);try{return _resumo81()}finally{CONV.pop()}};
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
 
