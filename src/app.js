@@ -985,7 +985,7 @@ function vCadastro(){
  <section class="sec"><form class="card" data-form="cad" novalidate>
  <label class="f">Nome completo<input class="inp" name="nome" required autocomplete="name" placeholder="Ex.: Maria da Silva"></label>
  <label class="f">Celular (WhatsApp)<input class="inp" name="cel" type="tel" inputmode="numeric" autocomplete="tel-national" data-live="cel" placeholder="(11) 90000-0000" required></label>
- <label class="f">Convênio<select class="inp" name="conv" data-live="cadconv"><option value="Particular">Particular (sem convênio)</option>${CONVS.map(x=>`<option>${x}</option>`).join('')}<option value="outro">Outro convênio…</option></select></label>
+ <label class="f">Convênio<select class="inp" name="conv" data-live="cadconv"><option value="Particular">Particular - Pax Saúde</option>${CONVS.map(x=>`<option>${x}</option>`).join('')}<option value="outro">Outro convênio…</option></select></label>
  <label class="f" id="cadoutro" hidden>Nome do convênio<input class="inp" name="outro" placeholder="Digite o nome do convênio"></label>
  <label class="row sm" style="align-items:flex-start;gap:.6rem;font-weight:600"><input type="checkbox" name="ok" style="width:1.4rem;height:1.4rem;flex:none;margin-top:.1rem"><span>Li e aceito os <button type="button" class="lnk" data-act="pg" data-v="termos">Termos de Uso</button> e a <button type="button" class="lnk" data-act="pg" data-v="privacidade">Política de Privacidade</button>.</span></label>
  <div class="info red" id="caderr" role="alert" hidden></div>
@@ -1030,7 +1030,7 @@ VIEWS.resultados=function(){const ex=(S.flow||{}).tipo==='exame';
 /* ---- marcação simples: só o exame (quando há mais de um) e o período ---- */
 function msgWA5(p,o){const u=S.user||{};const per={manha:'pela manhã',tarde:'à tarde',qualquer:'em qualquer horário'}[o.per];
  const oque=o.tipo==='exame'?(o.item?'agendar o exame de '+o.item:'agendar um exame'):'agendar uma consulta';
- const pag=convDe(u)==='Particular'?'particular':'convênio '+convDe(u);
+ const pag=convDe(u)==='Particular'?'Particular - Pax Saúde':'convênio '+convDe(u);
  return `Olá, ${p.n}! Encontrei vocês pelo app Pax - Saúde e gostaria de ${oque}.\n\nPaciente: ${u.nome}\nCelular: ${u.cel}\nAtendimento: ${pag}\nPreferência: ${per}\n\nQuais horários vocês têm disponíveis?`}
 compor=function(id){const p=byId(id);if(!p||!p.wa)return;const f=S.flow||{};const ops=p.img.map(k=>IMGX[k][0]);
  const tipo=ops.length?'exame':(f.tipo||'consulta');
@@ -1182,12 +1182,12 @@ VIEWS.novo=function(){return phead('O que você precisa?','Escolha uma opção',
 /* ---- fluxo ---- */
 function passos(n,tot){return `<div class="passos" aria-label="Passo ${n} de ${tot}">${[...Array(tot)].map((_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')}<span class="sm mut">Passo ${n} de ${tot}</span></div>`}
 function blocoPag(){const f=S.fx,c=CONV.find(x=>x.id===f.conv);const cob=f.tipo==='exame'&&f.pag==='conv'&&c?(c.pac?'Atendido em pacote de Ressonância e Tomografia':f.exame?(c.ex.some(e=>e[1]===f.exame)?'✓ Seu convênio cobre este exame na Dimagem':'Este exame não está na tabela do seu convênio. A equipe confirma ou você pode fazer Particular.'):'✓ Convênio aceito na Dimagem'):'';
- return `<div class="pag-cartao">${f.pag==='conv'&&c?arteConv(c):`<div class="ct" style="background:linear-gradient(135deg,#4A2252,#6B2468)"><svg viewBox="0 0 400 252"><text x="32" y="90" font-family="Arial" font-weight="900" font-size="46" fill="#fff">Particular</text><text x="34" y="124" font-family="Arial" font-size="18" fill="#F6E3EF">Valor informado no atendimento</text></svg></div>`}</div>
+ return `<div class="pag-cartao">${f.pag==='conv'&&c?arteConv(c):`<div class="ct" style="background:linear-gradient(135deg,#4A2252,#6B2468)"><svg viewBox="0 0 400 252"><text x="32" y="90" font-family="Arial" font-weight="900" font-size="46" fill="#fff">Particular</text><text x="34" y="150" font-family="Arial" font-weight="700" font-size="22" fill="#7CCFB0">Pax Saúde</text><text x="34" y="124" font-family="Arial" font-size="18" fill="#F6E3EF">Valor informado no atendimento</text></svg></div>`}</div>
  ${cob?`<p class="cob ${/^✓|pacote/.test(cob)?'ok':'warn'}">${esc(cob)}</p>`:''}
  <div class="opts" role="radiogroup" aria-label="Forma de pagamento">
   ${convDoUser()?`<button class="opt ${f.pag==='conv'&&!f.troca&&f.conv===convDoUser().id?'on':''}" data-act="fpag" data-v="meu" role="radio">${SEL}<span><b>Usar meu convênio</b><small>${esc(convDoUser().n)}</small></span></button>`:''}
   <button class="opt ${f.troca?'on':''}" data-act="fpag" data-v="troca" role="radio">${SEL}<span><b>${convDoUser()?'Trocar convênio':'Usar convênio'}</b><small>Escolher outro da lista</small></span></button>
-  <button class="opt ${f.pag==='part'?'on':''}" data-act="fpag" data-v="part" role="radio">${SEL}<span><b>Particular</b><small>Valor sob consulta</small></span></button>
+  <button class="opt ${f.pag==='part'?'on':''}" data-act="fpag" data-v="part" role="radio">${SEL}<span><b>Particular - Pax Saúde</b><small>Valor sob consulta</small></span></button>
  </div>
  ${f.troca?`<label class="f">Convênio<select class="inp" id="fconv"><option value="">Escolha o convênio</option>${CONV.map(x=>`<option value="${x.id}" ${x.id===f.conv?'selected':''}>${esc(x.n)}</option>`).join('')}</select></label>`:''}`}
 function chips(nome,vals,atual){return `<div class="chips">${vals.map(([v,t])=>`<button class="chip2 ${atual===v?'on':''}" data-act="fchip" data-k="${nome}" data-v="${v}">${t}</button>`).join('')}</div>`}
@@ -1207,7 +1207,7 @@ VIEWS.fluxo=function(){const f=S.fx;if(!f)return VIEWS.novo();const ex=f.tipo===
   h=`<h2 class="h2">Tudo certo! Confira</h2><div class="card resumo">
   <div class="rl"><span>Local</span><b>${esc(loc.n)}</b></div>
   <div class="rl"><span>${ex?'Exame':'Especialidade'}</span><b>${ex?esc((f.exames||[]).join(', ')||'Conforme pedido médico'):esc(f.esp)}</b></div>
-  <div class="rl"><span>Pagamento</span><b>${f.pag==='part'?'Particular':esc(c?c.n:'')}</b></div>
+  <div class="rl"><span>Pagamento</span><b>${f.pag==='part'?'Particular - Pax Saúde':esc(c?c.n:'')}</b></div>
   <div class="rl"><span>Preferência</span><b>${{manha:'Manhã',tarde:'Tarde',noite:'Noite'}[f.turno]}, ${f.semana==='esta'?'esta semana':'próxima semana'}</b></div></div>
   <p class="sm mut">${ex?'A Dimagem responde em até 15 minutos. Mensagens após o expediente são respondidas a partir das 7h.':'O MITI responde em até 30 a 60 minutos.'}</p>
   <p class="sm" id="fmsg" role="status" aria-live="polite"></p>
@@ -1218,12 +1218,12 @@ function listaEx(){const t=norm(S.qe||'');const l=t?EXAMES.filter(n=>norm(n).inc
 function comprimir(file){return new Promise((ok,er)=>{const img=new Image();img.onload=()=>{let q=.72,w=img.width,h=img.height,m=1600;if(w>m||h>m){const r=Math.min(m/w,m/h);w=Math.round(w*r);h=Math.round(h*r)}
  const cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').drawImage(img,0,0,w,h);let d=cv.toDataURL('image/jpeg',q);while(d.length>600000&&q>.35){q-=.1;d=cv.toDataURL('image/jpeg',q)}URL.revokeObjectURL(img.src);ok(d)};img.onerror=er;img.src=URL.createObjectURL(file)})}
 function msgFluxo(f,link){const u=S.user||{},c=CONV.find(x=>x.id===f.conv),ex=f.tipo==='exame';
- const pag=f.pag==='part'?'Particular':(c?c.n:'');const pref=`${{manha:'manhã',tarde:'tarde',noite:'noite'}[f.turno]}, ${f.semana==='esta'?'esta semana':'próxima semana'}`;
+ const pag=f.pag==='part'?'Particular - Pax Saúde':(c?c.n:'');const pref=`${{manha:'manhã',tarde:'tarde',noite:'noite'}[f.turno]}, ${f.semana==='esta'?'esta semana':'próxima semana'}`;
  return `Olá! Vim pelo app Pax - Saúde e gostaria de agendar ${ex?'um exame':'uma consulta de '+f.esp}.\n\nPaciente: ${u.nome||''}\nCelular: ${u.cel||''}\nPagamento: ${pag}\n${ex?(link?'Pedido médico (foto): '+link:'Exame: '+f.exame)+'\n':''}Preferência: ${pref}\n\nQuais horários vocês têm?`}
 async function enviarFluxo(){const f=S.fx,m=$('fmsg'),b=document.querySelector('[data-act=fenviar]');const ex=f.tipo==='exame',loc=ex?DIM():MITI();let link='';
  if(b)b.disabled=true;
  if(f.foto){m.textContent='Enviando a foto do pedido…';try{const j=await rpc('pax_pedido_enviar',{p_img:f.foto});if(!j||!j.ok)throw 0;link=(/^https?:/.test(location.protocol)?location.origin+location.pathname.replace(/index\.html$/,''):'https://gabrielgoncalves5206-create.github.io/Pax-Saude/')+'#p='+j.id}catch(e){m.style.color='#B3261E';m.textContent='Não consegui enviar a foto agora. Verifique a internet e tente de novo.';if(b)b.disabled=false;return}}
- const ped={id:Date.now().toString(36),tipo:f.tipo,loc:loc.id,item:ex?((f.exames||[]).join(', ')||'Exame conforme pedido médico'):f.esp,pag:f.pag==='part'?'Particular':(CONV.find(x=>x.id===f.conv)||{}).n||'',pref:`${{manha:'Manhã',tarde:'Tarde',noite:'Noite'}[f.turno]}, ${f.semana==='esta'?'esta semana':'próxima semana'}`,st:'pend',criado:Date.now()};
+ const ped={id:Date.now().toString(36),tipo:f.tipo,loc:loc.id,item:ex?((f.exames||[]).join(', ')||'Exame conforme pedido médico'):f.esp,pag:f.pag==='part'?'Particular - Pax Saúde':(CONV.find(x=>x.id===f.conv)||{}).n||'',pref:`${{manha:'Manhã',tarde:'Tarde',noite:'Noite'}[f.turno]}, ${f.semana==='esta'?'esta semana':'próxima semana'}`,st:'pend',criado:Date.now()};
  S.peds.unshift(ped);salvaPeds();location.href=waUrl(loc,msgFluxo(f,link));S.fx=null;S.enviado=ped.id;setTimeout(()=>ir('enviado'),400)}
 VIEWS.enviado=function(){const p=S.peds.find(x=>x.id===S.enviado)||S.peds[0];if(!p)return vInicio();const ex=p.tipo==='exame';
  return `<section class="sec ok-tela"><div class="ok-ic">${SEL.replace('width="20" height="20"','width="54" height="54"')}</div><h1 class="h1">Pedido enviado!</h1>
