@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'6.0',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'6.1',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -1130,5 +1130,15 @@ document.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.l
 const _render6=render;render=function(a){_render6(a);if(S.view==='inicio')carIniciar();else clearInterval(CORT.t)};
 const _abrirMenu6=abrirMenu;abrirMenu=function(){_abrirMenu6();const g=document.querySelector('.drawer .grp');if(g)g.insertAdjacentHTML('beforebegin',`<span class="grp">DIMAGEM E MITI</span><button class="it" data-act="nav" data-v="convenios"><span class="lic">${I.shield('#4A2252',20)}</span><span style="flex:1"><b>Convênios e exames</b><small>O que a Dimagem aceita</small></span></button><button class="it" data-act="nav" data-v="coworking"><span class="lic">${I.build?I.build('#4A2252',20):''}</span><span style="flex:1"><b>Coworking no MITI</b><small>Para profissionais de saúde</small></span></button>`)};
 
+
+/* ============ v6.1: menu inferior com recorte (esboço B2) ============ */
+const _navBar61=navBar;navBar=function(){_navBar61();const nav=$('nav');if(!nav||innerWidth>=900)return;
+ const bs=[...nav.querySelectorAll(':scope>button')],i=Math.max(0,bs.findIndex(b=>b.getAttribute('aria-current')==='page'));
+ const W=nav.clientWidth||innerWidth,H=nav.clientHeight||80,cw=W/bs.length,cx=cw*i+cw/2,top=16,r=19,R=25,rc=10,yc=top+rc;
+ const L=Math.max(cx-R-rc,20),Rr=Math.min(cx+R+rc,W-20);const d=`M0 ${top+20} Q0 ${top} 20 ${top} L${L} ${top} A${rc} ${rc} 0 0 1 ${cx-R} ${yc} A${R} ${R} 0 0 0 ${cx+R} ${yc} A${rc} ${rc} 0 0 1 ${cx+R+rc} ${top} L${Math.max(Rr,W-20)} ${top} Q${W} ${top} ${W} ${top+20} L${W} ${H} L0 ${H}Z`;
+ const b=bs[i],svg=b?b.querySelector('svg'):null;
+ nav.insertAdjacentHTML('afterbegin',`<svg class="navbg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><path d="${d}" fill="#fff"/></svg><span class="navball" aria-hidden="true" style="left:${cx-r}px;top:${yc+2-r}px">${svg?svg.outerHTML:''}</span>`);
+ const bl=nav.querySelector('.navball svg');if(bl){bl.setAttribute('stroke','#4A2252');bl.setAttribute('width','20');bl.setAttribute('height','20');bl.querySelectorAll('[stroke]').forEach(e=>e.setAttribute('stroke','#4A2252'))}};
+addEventListener('resize',()=>{clearTimeout(window._nr);window._nr=setTimeout(navBar,150)});
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
