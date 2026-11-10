@@ -667,7 +667,7 @@ const CARTAO={"sulamerica": {"bg": "background:#fff", "svg": "<svg viewBox=\"0 0
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'7.4',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'7.5',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -996,7 +996,7 @@ function blocoAvaliacao(p){const g=p.g;
  <a class="btn teal" href="${gplace(p)}" target="_blank" rel="noopener" style="flex:none">★ Ver e avaliar no Google Maps</a>
  </div>`}
 function vLocal(){const p=byId(S.sel);if(!p)return vInicio();const d=dist(p),c=CATS[p.c],st=status(p),on=isOnline(p);
- BAR=`<div class="bar">${p.wa?`<button class="btn wa" data-act="wa" data-id="${p.id}" style="font-size:1rem">${ICW} Agendar pelo WhatsApp</button>`:on?`<a class="btn pri" href="${esc(p.url)}" target="_blank" rel="noopener">${I.video('#fff',20)} Agendar no serviço</a>`:p.t.length?`<button class="btn pri" data-act="ligar" data-id="${p.id}">${I.phone('#fff',20)} Ligar para agendar</button>`:`<button class="btn pri" data-act="rota" data-id="${p.id}">Ver como chegar</button>`}</div>`;
+ BAR=`<div class="bar">${p.wa?`<button class="btn wa" data-act="wa" data-id="${p.id}" style="font-size:1rem">${ICW} ${p.id===9002?'Marcar consulta':'Agendar exame'}</button>`:on?`<a class="btn pri" href="${esc(p.url)}" target="_blank" rel="noopener">${I.video('#fff',20)} Agendar no serviço</a>`:p.t.length?`<button class="btn pri" data-act="ligar" data-id="${p.id}">${I.phone('#fff',20)} Ligar para agendar</button>`:`<button class="btn pri" data-act="rota" data-id="${p.id}">Ver como chegar</button>`}</div>`;
  return `<div style="position:relative" id="gal">${galeria(p)}</div>
  <div style="position:relative;margin-top:-1.6rem;border-radius:1.6rem 1.6rem 0 0;background:var(--bg);z-index:2">
  <div class="row" style="position:absolute;top:-4.6rem;left:1rem;right:1rem;justify-content:space-between;pointer-events:none"><button class="back" data-act="voltar" aria-label="Voltar" style="pointer-events:auto">${I.back('#2A1330',20)}</button><span class="row" style="pointer-events:auto"><button class="back" data-act="compart" data-id="${p.id}" aria-label="Compartilhar">${I.share('#2A1330',20)}</button>${heartBtn(p).replace('class="round"','class="back"')}</span></div>
@@ -2163,6 +2163,10 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
  if(t.dataset.act==='nav'&&t.dataset.v==='apresentacao'){S.aprK=t.dataset.k||'dm'}
  else if(t.dataset.act==='deck'){S.aprK=t.dataset.k;render();scrollTo(0,0)}},true);
 
+
+/* ============ v7.5: botões de WhatsApp dos locais usam o fluxo novo ============ */
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act="wa"]');if(!t)return;e.preventDefault();e.stopImmediatePropagation();
+ const id=+t.dataset.id;novoFluxo(id===9002?'consulta':'exame');S.qe='';ir('fluxo')},true);
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
 
