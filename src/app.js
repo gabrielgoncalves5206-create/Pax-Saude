@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'7.5',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'7.6',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -1181,7 +1181,7 @@ VIEWS.novo=function(){return phead('O que você precisa?','Escolha uma opção',
 
 /* ---- fluxo ---- */
 function passos(n,tot){return `<div class="passos" aria-label="Passo ${n} de ${tot}">${[...Array(tot)].map((_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')}<span class="sm mut">Passo ${n} de ${tot}</span></div>`}
-function blocoPag(){const f=S.fx,c=CONV.find(x=>x.id===f.conv);const cob=f.tipo==='exame'&&f.pag==='conv'&&c?(c.pac?'Atendido em pacote de Ressonância e Tomografia':f.exame?(c.ex.some(e=>e[1]===f.exame)?'✓ Seu convênio cobre este exame na Dimagem':'Este exame não está na tabela do seu convênio. A equipe confirma ou você pode fazer Particular.'):'✓ Convênio aceito na Dimagem'):'';
+function blocoPag(){const f=S.fx,c=CONV.find(x=>x.id===f.conv);const cob=f.tipo==='exame'&&f.pag==='conv'&&c?(c.pac?'Atendido em pacote de Ressonância e Tomografia':f.exame?(c.ex.some(e=>e[1]===f.exame)?'✓ Seu convênio cobre este exame na Dimagem':'Este exame não está na tabela do seu convênio. A equipe confirma ou você pode fazer Particular - Pax Saúde.'):'✓ Convênio aceito na Dimagem'):'';
  return `<div class="pag-cartao">${f.pag==='conv'&&c?arteConv(c):`<div class="ct" style="background:linear-gradient(135deg,#4A2252,#6B2468)"><svg viewBox="0 0 400 252"><text x="32" y="90" font-family="Arial" font-weight="900" font-size="46" fill="#fff">Particular</text><text x="34" y="150" font-family="Arial" font-weight="700" font-size="22" fill="#7CCFB0">Pax Saúde</text><text x="34" y="124" font-family="Arial" font-size="18" fill="#F6E3EF">Valor informado no atendimento</text></svg></div>`}</div>
  ${cob?`<p class="cob ${/^✓|pacote/.test(cob)?'ok':'warn'}">${esc(cob)}</p>`:''}
  <div class="opts" role="radiogroup" aria-label="Forma de pagamento">
@@ -1338,7 +1338,7 @@ blocoPag=function(){const f=S.fx;if(f.tipo!=='exame')return _blocoPag71();const 
  const exs=`<div class="exbox">${f.lendo?`<div class="lendo"><span class="spin" aria-hidden="true"></span><span><b>Lendo seu pedido médico…</b><small>Identificando o exame solicitado</small></span></div>`:`
   <b class="exbox-t">${f.lido==='ok'?'Exame identificado no seu pedido':f.lido==='falha'?'Não conseguimos ler o pedido':'Exame solicitado'}</b>
   ${f.lido==='falha'?'<p class="sm mut" style="margin:.1rem 0 .4rem">A leitura falhou. Escolha o exame que está no seu pedido para confirmar.</p>':f.lido==='ok'?'<p class="sm mut" style="margin:.1rem 0 .4rem">Confira. Você pode remover ou adicionar exames.</p>':''}
-  ${f.exames.map((n,k)=>{const cb=cobre(n);return `<div class="exi"><span class="exi-n">${typeof nomeHtml==="function"?(/^Resson/.test(n)?"Ressonância · ":/^Tomog/.test(n)?"Tomografia · ":"")+nomeHtml(n):esc(n)}${cb===null?'':cb==='pac'?'<small class="ok">Atendido em pacote</small>':cb?'<small class="ok">✓ Coberto pelo convênio</small>':'<small class="warn">Fora da tabela do convênio: a equipe confirma</small>'}</span><button class="round" data-act="exrm" data-k="${k}" aria-label="Remover ${esc(n)}">${I.x('#B3261E',16)}</button></div>`}).join('')}
+  ${f.exames.map((n,k)=>{const cb=cobre(n);return `<div class="exi"><span class="exi-n">${typeof nomeHtml==="function"?(/^Resson/.test(n)?"Ressonância · ":/^Tomog/.test(n)?"Tomografia · ":"")+nomeHtml(n):esc(n)}${cb===null?'':cb==='pac'?'<small class="ok">Atendido em pacote</small>':cb?'<small class="ok">✓ Coberto pelo convênio</small>':'<small class="warn">Fora da tabela do convênio: a equipe confirma ou escolha Particular - Pax Saúde</small>'}</span><button class="round" data-act="exrm" data-k="${k}" aria-label="Remover ${esc(n)}">${I.x('#B3261E',16)}</button></div>`}).join('')}
   <details class="addex" ${f.exames.length?'':'open'}><summary>${f.exames.length?'+ Adicionar outro exame':'Escolher o exame'}</summary>${buscaForm('qe','Digite o exame, ex.: crânio',S.qe||'','qe')}<div class="exsel" id="exsel">${listaEx()}</div></details>`}</div>`;
  return base.slice(0,i)+exs+base.slice(i)};
 listaEx=function(){const t=norm(S.qe||'');const l=t?EXAMES2.filter(n=>norm(n).includes(t)).slice(0,30):[];const sel=(S.fx&&S.fx.exames)||[];
