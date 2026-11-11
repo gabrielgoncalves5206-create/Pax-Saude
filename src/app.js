@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'9.7',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'9.8',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -1636,6 +1636,6 @@ const _m94=msgFluxo;msgFluxo=function(f,l){let m=_m94(f,l);if(0)m=m.replace(/(Ce
 /* ============ v9.7: VittaOne · abertura com slogan (3 s) ============ */
 (function(){const red=matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;const d=document.createElement('div');d.id='splash';d.setAttribute('role','status');
  d.innerHTML=`<div class="sp-in"><div class="sp-lg">${LOGO(84)}</div><h1 class="sp-nm"><b>Vitta</b>One</h1><p class="sp-sl">Sua saúde em um só lugar</p><span class="sp-bar"><i></i></span></div>`;
- document.body.appendChild(d);setTimeout(()=>{d.classList.add('out');setTimeout(()=>d.remove(),red?0:450)},3000);d.addEventListener('click',()=>{d.classList.add('out');setTimeout(()=>d.remove(),450)})})();
+ document.body.appendChild(d);setTimeout(()=>{d.classList.add('out');setTimeout(()=>d.remove(),red?0:450)},2000);d.addEventListener('click',()=>{d.classList.add('out');setTimeout(()=>d.remove(),450)})})();
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
