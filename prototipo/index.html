@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#FBF4EC">
+<meta name="theme-color" content="#F4F9F9">
 <title>VittaOne · Prévia do novo app</title>
 <meta name="description" content="Prévia clicável do novo VittaOne: consultas no MITI e exames na Dimagem Unineuro, em um só lugar.">
 <link rel="icon" href="../icon-192.png">
@@ -13,22 +13,23 @@
 <style>
 :root{
   --fs:1;
-  --bg:#FBF4EC;--bg2:#F5EADD;--card:#FFFFFF;--ink:#2B2320;--soft:#6E625C;--faint:#9C8F85;--line:#EFE4D6;
-  --tif:#0ABAB5;--tifd:#0E8F8A;--deep:#0C4F4C;--tifl:#D6F2F0;
-  --gold:#A0761C;--goldb:#C9A44E;--goldl:#F3E6C6;
-  --ok:#2E7D5B;--okl:#DDF1E6;--warn:#B4561F;--warnl:#FBE5D6;
-  --r-sm:14px;--r:22px;--r-lg:30px;
-  --sh:0 1px 0 rgba(43,35,32,.05),0 8px 24px -16px rgba(43,35,32,.35);
+  --bg:#F4F9F9;--bg2:#E6F0EF;--card:#FFFFFF;--ink:#13302F;--soft:#57706E;--faint:#7E9592;--line:#DCEBEA;
+  --tif:#0ABAB5;--tifd:#0B6F6B;--deep:#0A5E5B;--tifl:#D9F1EF;--graf:#1A2928;
+  --gold:#A0761C;--goldb:#C9A44E;--goldl:#F1E8D2;
+  --rm:#C2412D;--rml:#FBE3DF;--rmi:#8E2A1C;
+  --ok:#227A55;--okl:#DBF2E6;--warn:#B4471F;--warnl:#FBE4D8;--wa:#1FA855;
+  --r:22px;--r-lg:28px;
+  --sh:0 1px 0 rgba(19,48,47,.05),0 10px 26px -18px rgba(19,48,47,.45);
   --ease:cubic-bezier(.23,1,.32,1);--ease-io:cubic-bezier(.77,0,.175,1);--drawer:cubic-bezier(.32,.72,0,1);
-  --z-nav:10;--z-sheet:30;--z-toast:40;
+  --z-nav:10;--z-sheet:30;--z-lb:35;--z-toast:40;
   --font:"Nunito Sans",system-ui,sans-serif;--disp:"Bricolage Grotesque",system-ui,sans-serif;
 }
 html{font-size:calc(16px * var(--fs));-webkit-text-size-adjust:100%}
-html.hc{--bg:#FFFFFF;--bg2:#F1F1F1;--ink:#000;--soft:#2A2A2A;--faint:#444;--line:#8A8A8A;--tifd:#006A66;--gold:#7A5500;--deep:#00302E}
+html.hc{--bg:#FFFFFF;--bg2:#EFEFEF;--ink:#000;--soft:#222;--faint:#3b3b3b;--line:#8A8A8A;--tifd:#005A56;--gold:#6E4C00;--deep:#00302E}
 html.easy{--font:"Atkinson Hyperlegible",system-ui,sans-serif;--disp:"Atkinson Hyperlegible",system-ui,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-::selection{background:var(--goldl);color:var(--ink)}
-body{font-family:var(--font);color:var(--ink);background:#E9DFD2;caret-color:var(--tifd);font-size:1rem;line-height:1.45}
+::selection{background:var(--tifl);color:var(--ink)}
+body{font-family:var(--font);color:var(--ink);background:#DDE8E7;caret-color:var(--tifd);font-size:1rem;line-height:1.45}
 img{display:block;max-width:100%}
 svg{display:block;flex:none}
 button,input,select{font:inherit;color:inherit}
@@ -38,9 +39,10 @@ a{color:inherit;text-decoration:none}
 h1,h2,h3{font-family:var(--disp);letter-spacing:-.015em;text-wrap:balance;line-height:1.08}
 p{text-wrap:pretty}
 .tab{font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
 /* ---------- shell ---------- */
-.stage{min-height:100dvh;display:flex;justify-content:center;align-items:flex-start;gap:56px;padding:0}
+.stage{min-height:100dvh;display:flex;justify-content:center;align-items:flex-start;gap:56px}
 .side{display:none}
 @media (min-width:980px){
   .stage{padding:40px 24px;align-items:center}
@@ -49,77 +51,80 @@ p{text-wrap:pretty}
   .side .lg i{font-style:normal;color:var(--gold)}
   .side h2{font-size:40px;margin-top:22px}
   .side p{color:var(--soft);margin-top:12px;font-size:16px}
-  .side ul{list-style:none;margin-top:22px;display:grid;gap:10px;font-size:15px;color:var(--soft)}
-  .side li{display:flex;gap:10px;align-items:flex-start}
+  .side ul{list-style:none;margin-top:20px;display:grid;gap:9px;font-size:15px;color:var(--soft)}
   .side li b{color:var(--ink)}
-  .side .note{margin-top:22px;font-size:13px;color:var(--faint)}
-  .app{height:min(880px,calc(100dvh - 80px));border-radius:44px;box-shadow:0 40px 80px -30px rgba(43,35,32,.45),0 0 0 10px #1c1714}
+  .side .note{margin-top:20px;font-size:13px;color:var(--faint)}
+  .app{border-radius:44px;box-shadow:0 40px 80px -30px rgba(19,48,47,.45),0 0 0 10px #142120}
 }
 .app{width:100%;max-width:430px;height:100dvh;background:var(--bg);position:relative;overflow:hidden;overflow:clip;isolation:isolate}
 @media (min-width:980px){.app{height:min(880px,calc(100dvh - 80px))}}
-.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--goldb) transparent;padding-bottom:calc(110px + env(safe-area-inset-bottom))}
-.screen::-webkit-scrollbar{width:6px}.screen::-webkit-scrollbar-thumb{background:var(--goldl);border-radius:6px}
-.screen.nonav{padding-bottom:40px}
-.enter{animation:scrIn 380ms var(--ease) both}
-.enter.back{animation-name:scrBack}
-.still .stg>*,.still .okmark,.still .okmark path{animation:none!important;stroke-dashoffset:0}
-@keyframes scrIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
-@keyframes scrBack{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--tifl) transparent;padding-bottom:calc(118px + env(safe-area-inset-bottom))}
+.screen.nonav{padding-bottom:28px}
+.enter{animation:scrIn 360ms var(--ease) both}
+.enter.rev{animation-name:scrBack}
+@keyframes scrIn{from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:none}}
+@keyframes scrBack{from{opacity:0;transform:translateX(-22px)}to{opacity:1;transform:none}}
 .stg>*{animation:up 420ms var(--ease) both}
 .stg>*:nth-child(2){animation-delay:40ms}.stg>*:nth-child(3){animation-delay:80ms}.stg>*:nth-child(4){animation-delay:120ms}.stg>*:nth-child(5){animation-delay:160ms}.stg>*:nth-child(n+6){animation-delay:200ms}
 @keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.press{transition:transform 160ms var(--ease),background-color 160ms ease,box-shadow 160ms ease}
+.still .stg>*,.still .okmark,.still .okmark path{animation:none!important;stroke-dashoffset:0}
+.press{transition:transform 160ms var(--ease),background-color 160ms ease,box-shadow 160ms ease,border-color 160ms ease}
 .press:active{transform:scale(.97)}
 @media (hover:hover) and (pointer:fine){
   .lift{transition:transform 200ms var(--ease),box-shadow 200ms ease}
-  .lift:hover{transform:translateY(-2px);box-shadow:0 14px 30px -18px rgba(43,35,32,.45)}
-  .zoom img{transition:transform 400ms var(--ease)}
+  .lift:hover{transform:translateY(-2px);box-shadow:0 16px 32px -18px rgba(19,48,47,.5)}
+  .zoom img{transition:transform 450ms var(--ease)}
   .zoom:hover img{transform:scale(1.03)}
 }
 
 /* ---------- top / headers ---------- */
 .top{display:flex;align-items:center;gap:12px;padding:calc(18px + env(safe-area-inset-top)) 20px 0}
 .av{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:#fff;font-family:var(--disp);font-weight:700;font-size:1.1rem;flex:none}
-.hello b{display:block;font-family:var(--disp);font-size:1.3rem;font-weight:700;letter-spacing:-.01em}
+.hello b{display:block;font-family:var(--disp);font-size:1.3rem;font-weight:700}
 .hello span{font-size:.9rem;color:var(--soft)}
 .ibtn{width:46px;height:46px;border-radius:50%;background:var(--card);display:grid;place-items:center;box-shadow:var(--sh);position:relative;flex:none}
 .ibtn .dot{position:absolute;top:10px;right:11px;width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 2px #fff}
-.bar{display:flex;align-items:center;gap:10px;padding:calc(14px + env(safe-area-inset-top)) 16px 6px;position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:saturate(1.2) blur(10px)}
-.bar h1{font-size:1.25rem;font-weight:700}
-.back{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--card);box-shadow:var(--sh)}
+.bar{display:flex;align-items:center;gap:12px;padding:calc(12px + env(safe-area-inset-top)) 16px 8px;position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:saturate(1.2) blur(10px)}
+.bar h1{font-size:1.2rem;font-weight:700}
+.back{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--card);box-shadow:var(--sh);flex:none;position:relative;z-index:6}
 .pg{padding:0 20px}
 .h-xl{font-size:2rem;font-weight:800}
 .h-l{font-size:1.45rem;font-weight:700}
 .sub{color:var(--soft);font-size:.95rem;margin-top:6px}
-.sec{display:flex;justify-content:space-between;align-items:baseline;margin:30px 20px 12px}
+.sec{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:34px 20px 12px}
 .sec h2{font-size:1.25rem;font-weight:700}
-.sec button{font-size:.9rem;font-weight:800;color:var(--tifd);min-height:44px;padding:0 4px}
+.sec p{color:var(--soft);font-size:.88rem;margin-top:3px}
+.sec button{font-size:.9rem;font-weight:800;color:var(--tifd);min-height:44px;padding:0 4px;white-space:nowrap}
 
-/* ---------- common bits ---------- */
-.search{margin:18px 20px 0;display:flex;align-items:center;gap:10px;height:54px;border-radius:99px;background:var(--card);box-shadow:var(--sh);padding:0 18px;color:var(--faint);font-size:.98rem;width:calc(100% - 40px)}
+/* ---------- common ---------- */
+.search{margin:16px 20px 0;display:flex;align-items:center;gap:10px;height:54px;border-radius:99px;background:var(--card);box-shadow:var(--sh);padding:0 18px;color:var(--faint);font-size:.98rem;width:calc(100% - 40px)}
+.wa-row{margin:12px 20px 0;display:flex;align-items:center;gap:14px;width:calc(100% - 40px);min-height:64px;border-radius:20px;background:var(--wa);color:#fff;padding:10px 18px;box-shadow:0 12px 24px -16px rgba(31,168,85,.8)}
+.wa-row b{display:block;font-weight:800;font-size:1.02rem}
+.wa-row span{font-size:.82rem;opacity:.92}
+.wa-row>svg:last-child{margin-left:auto}
 .chips{display:flex;gap:8px;padding:16px 20px 2px;overflow-x:auto;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chip{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:99px;padding:6px 15px 6px 6px;font-weight:800;font-size:.92rem;white-space:nowrap;box-shadow:0 1px 0 rgba(43,35,32,.06);min-height:44px}
+.chip{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:99px;padding:6px 15px 6px 6px;font-weight:800;font-size:.92rem;white-space:nowrap;box-shadow:0 1px 0 rgba(19,48,47,.06),0 0 0 1px var(--line);min-height:44px}
 .chip i{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:#fff;font-style:normal;font-size:.85rem}
-.chip[aria-pressed=true]{background:var(--ink);color:#fff}
-.chip.add{padding:0;width:44px;justify-content:center;background:transparent;border:1.5px dashed #CDBBA9;box-shadow:none}
+.chip[aria-pressed=true]{background:var(--ink);color:#fff;box-shadow:none}
+.chip.add{padding:0;width:44px;justify-content:center;background:transparent;box-shadow:none;border:1.5px dashed #A9C1BE}
 .card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh)}
 .btn{height:52px;padding:0 22px;border-radius:99px;font-weight:800;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .btn.gold{background:var(--gold);color:#fff}
 .btn.tif{background:var(--tifd);color:#fff}
 .btn.ghost{background:var(--card);color:var(--ink);box-shadow:var(--sh)}
 .btn.line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
-.btn.wa{background:#1FA855;color:#fff}
+.btn.wa{background:var(--wa);color:#fff}
 .btn.full{width:100%}
 .btn[disabled]{opacity:.45;pointer-events:none}
 .pill{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:800;border-radius:99px;padding:5px 10px}
-.p-ok{background:var(--okl);color:var(--ok)}.p-gold{background:var(--goldl);color:#7A5A12}.p-tif{background:var(--tifl);color:#0B6E6A}.p-warn{background:var(--warnl);color:var(--warn)}
+.p-ok{background:var(--okl);color:var(--ok)}.p-gold{background:var(--goldl);color:#6E5110}.p-tif{background:var(--tifl);color:#085B57}.p-warn{background:var(--warnl);color:var(--warn)}
 .row{display:flex;align-items:center;gap:14px;padding:14px 16px;min-height:64px;width:100%}
 .row+.row{border-top:1px solid var(--line)}
-.row .ic{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--tifl);flex:none}
+.ic{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--tifl);flex:none}
 .row b{display:block;font-weight:800;font-size:1rem}
 .row>div span{font-size:.88rem;color:var(--soft)}
-.row .go{margin-left:auto}
+.row>svg:last-child{margin-left:auto}
 .field{display:block;margin-top:16px}
 .field label{display:block;font-weight:800;font-size:.95rem;margin-bottom:7px}
 .field input,.field select{width:100%;height:56px;border-radius:16px;border:1.5px solid var(--line);background:var(--card);padding:0 16px;font-size:1.02rem;outline:none;transition:border-color 160ms ease,box-shadow 160ms ease;appearance:none}
@@ -127,34 +132,50 @@ p{text-wrap:pretty}
 .field .err{display:none;color:var(--warn);font-size:.86rem;font-weight:700;margin-top:6px}
 .field.bad input,.field.bad select{border-color:var(--warn)}
 .field.bad .err{display:block}
-.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;background:var(--bg2);border-radius:99px;padding:4px;margin:8px 20px 0}
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;background:var(--bg2);border-radius:99px;padding:4px;margin:10px 20px 0}
 .seg button{position:relative;z-index:1;height:44px;border-radius:99px;font-weight:800;font-size:.95rem;color:var(--soft);text-align:center;transition:color 200ms ease}
 .seg button[aria-selected=true]{color:var(--ink)}
 .seg .knob{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:99px;background:var(--card);box-shadow:var(--sh);transition:transform 300ms var(--ease)}
 
 /* ---------- home ---------- */
-.next{margin:20px 20px 0;background:var(--deep);color:#F7F2E8;border-radius:var(--r);padding:16px;position:relative;overflow:hidden}
-.next::after{content:"";position:absolute;left:18px;right:18px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--goldb)}
+.dark{margin:18px 20px 0;background:var(--deep);color:#F2F8F7;border-radius:var(--r-lg);padding:16px;position:relative;overflow:hidden}
+.dark::after{content:"";position:absolute;left:20px;right:20px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--goldb)}
+.dark .tag{font-size:.8rem;font-weight:800;color:var(--goldb)}
 .next .g{display:grid;grid-template-columns:auto 1fr;gap:3px 14px}
-.dt{grid-row:span 3;width:60px;border-radius:15px;background:rgba(247,242,232,.1);text-align:center;padding:8px 0;align-self:start}
+.dt{grid-row:span 3;width:60px;border-radius:15px;background:rgba(242,248,247,.1);text-align:center;padding:8px 0;align-self:start}
 .dt b{display:block;font-family:var(--disp);font-size:1.75rem;font-weight:700;line-height:1}
-.dt small{font-size:.7rem;opacity:.78;text-transform:uppercase;letter-spacing:.06em;font-weight:800}
-.next .tag{font-size:.8rem;font-weight:800;color:var(--goldb)}
+.dt small{font-size:.7rem;opacity:.8;text-transform:uppercase;letter-spacing:.06em;font-weight:800}
 .next .tt{font-size:1.1rem;font-weight:800;line-height:1.2}
-.next .s{font-size:.88rem;opacity:.8}
+.next .s{font-size:.88rem;opacity:.82}
 .next .acts{display:flex;gap:8px;margin-top:14px}
 .next .acts button{flex:1;height:46px;border-radius:14px;font-weight:800;font-size:.92rem;display:flex;align-items:center;justify-content:center;gap:7px}
-.next .a1{background:var(--gold);color:#fff}.next .a2{background:rgba(247,242,232,.12);color:#F7F2E8}
-.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:22px 16px 0}
-.quick button{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:.8rem;font-weight:800;text-align:center;line-height:1.15;min-height:44px}
-.quick .q{width:62px;height:62px;border-radius:22px;display:grid;place-items:center;background:var(--card);box-shadow:var(--sh)}
-.hero{margin:24px 20px 0;border-radius:var(--r-lg);background:linear-gradient(160deg,#12A5A0 0%,#0E8F8A 60%,#0B7672 100%);color:#fff;padding:24px 20px 22px;position:relative;overflow:hidden}
-.hero h2{font-size:1.95rem;font-weight:800;max-width:13ch;line-height:1.02}
+.a1{background:var(--gold);color:#fff}.a2{background:rgba(242,248,247,.12);color:#F2F8F7}
+.cubes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.cube{border-radius:22px;padding:14px;min-height:196px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.cube.c1{background:#E6F6F5;color:var(--ink)}
+.cube.c2{background:#FBEFDC;color:var(--ink)}
+.cube .ci{width:46px;height:46px;border-radius:15px;background:#fff;display:grid;place-items:center;box-shadow:0 6px 14px -10px rgba(0,0,0,.4);position:relative}
+.cube b{font-family:var(--disp);font-size:1.25rem;font-weight:800;margin-top:12px;display:block;position:relative}
+.cube>span{font-size:.8rem;color:var(--soft);position:relative}
+.cube .two-b{display:grid;gap:6px;margin-top:auto;padding-top:10px;position:relative}
+.cube .two-b button{height:40px;border-radius:12px;font-weight:800;font-size:.85rem;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#fff;color:var(--ink)}
+.cube .bgic{position:absolute;right:-18px;top:-14px;opacity:.13;pointer-events:none}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:22px 14px 0}
+.quick button{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:.78rem;font-weight:800;text-align:center;line-height:1.15;min-height:44px}
+.quick .q{width:62px;height:62px;border-radius:22px;display:grid;place-items:center;background:var(--card);box-shadow:var(--sh);position:relative}
+.quick .q::after{content:"";position:absolute;inset:7px;border-radius:16px;background:var(--qc,var(--tifl));z-index:0}
+.quick .q svg{position:relative;z-index:1}
+.how{display:flex;gap:10px;overflow-x:auto;padding:2px 20px 6px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.how::-webkit-scrollbar{display:none}
+.how .st{flex:none;width:72%;scroll-snap-align:start;border-radius:var(--r);background:var(--card);box-shadow:var(--sh);padding:16px;position:relative}
+.how .st .n{font-family:var(--disp);font-size:2.6rem;font-weight:800;color:var(--tifl);line-height:1;position:absolute;right:14px;top:10px}
+.how .st b{display:block;font-weight:800;font-size:1.05rem;margin-top:12px}
+.how .st p{font-size:.88rem;color:var(--soft);margin-top:3px}
+.hero{margin:22px 20px 0;border-radius:var(--r-lg);background:linear-gradient(160deg,#0F8E89 0%,#0B6F6B 55%,#0A5E5B 100%);color:#fff;padding:24px 20px 22px;position:relative;overflow:hidden}
+.hero h2{font-size:1.9rem;font-weight:800;max-width:13ch;line-height:1.02}
 .hero p{margin-top:9px;max-width:25ch;font-size:.98rem;opacity:.96}
-.hero .b{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
-.hero .b2{background:rgba(6,45,43,.25);color:#fff}
-.hero .blob{position:absolute;right:-40px;top:-38px;width:170px;height:170px;transition:transform 600ms var(--ease)}
-.hero .gl{position:absolute;left:20px;right:20px;bottom:0;height:3px;background:var(--goldb);border-radius:3px 3px 0 0}
+.hero .blob{position:absolute;right:-40px;top:-38px;width:170px;height:170px}
+.hero::after{content:"";position:absolute;left:20px;right:20px;bottom:0;height:3px;background:var(--goldb);border-radius:3px 3px 0 0}
 .two{display:grid;grid-template-columns:1.1fr 1fr;gap:12px;padding:14px 20px 0}
 .tile{border-radius:var(--r);padding:16px;display:flex;flex-direction:column;justify-content:space-between;min-height:160px;text-align:left}
 .tile b{font-family:var(--disp);font-size:1.12rem;font-weight:700;line-height:1.12;display:block}
@@ -162,101 +183,187 @@ p{text-wrap:pretty}
 .t1{background:var(--card);box-shadow:var(--sh)}.t2{background:var(--goldl)}
 .chk{display:grid;gap:6px;margin-top:12px}
 .chk div{display:flex;align-items:center;gap:8px;font-size:.84rem;font-weight:700}
-.bx{width:19px;height:19px;border-radius:6px;display:grid;place-items:center;flex:none;border:1.5px solid #C9B9A8}
+.bx{width:19px;height:19px;border-radius:6px;display:grid;place-items:center;flex:none;border:1.5px solid #A9C1BE}
 .bx.on{background:var(--tifd);border-color:var(--tifd)}
-.prog{height:6px;border-radius:99px;background:#F1E7DC;overflow:hidden;margin-top:12px}
+.prog{height:6px;border-radius:99px;background:var(--bg2);overflow:hidden;margin-top:12px}
 .prog i{display:block;height:100%;background:var(--gold);border-radius:99px;transform-origin:left;transition:transform 500ms var(--ease)}
-.hs{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 20px 8px;scrollbar-width:none}
-.hs::-webkit-scrollbar{display:none}
-.place{flex:none;width:78%;scroll-snap-align:start;border-radius:var(--r);overflow:hidden;background:var(--card);box-shadow:var(--sh);text-align:left}
-.place .im{height:170px;overflow:hidden;position:relative}
-.place .im img{width:120%;max-width:none;height:100%;object-fit:cover;margin-left:-10%;will-change:auto}
-.place .im .pill{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.94);color:var(--ink)}
-.place .tx{padding:14px 16px 16px}
-.place b{font-family:var(--disp);font-size:1.15rem;font-weight:700;display:block}
-.place span{font-size:.88rem;color:var(--soft)}
-.band{margin:26px 0 0;height:300px;position:relative;overflow:hidden}
-.band img{position:absolute;left:0;right:0;top:-60px;height:420px;width:100%;object-fit:cover}
-.band .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,38,36,.88) 10%,rgba(10,38,36,.25) 60%,rgba(10,38,36,.1));display:flex;flex-direction:column;justify-content:flex-end;padding:22px;color:#fff}
+.car{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 20px 8px;scrollbar-width:none;scroll-padding:0 20px}
+.car::-webkit-scrollbar{display:none}
+.slide{flex:none;width:82%;height:250px;scroll-snap-align:start;border-radius:var(--r-lg);overflow:hidden;position:relative;text-align:left;color:#fff;background:#0E1A19}
+.slide img{position:absolute;top:0;height:100%;width:118%;max-width:none;object-fit:cover;left:-9%}
+.slide .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,34,32,.86) 0%,rgba(6,34,32,0) 62%);display:flex;flex-direction:column;justify-content:flex-end;padding:18px}
+.slide b{font-family:var(--disp);font-size:1.35rem;font-weight:700;line-height:1.1}
+.slide .ov span{font-size:.88rem;opacity:.92;margin-top:4px}
+.slide .pill{position:absolute;top:14px;left:14px;background:rgba(255,255,255,.94);color:var(--ink)}
+.dots{display:flex;justify-content:center;gap:6px;margin-top:8px}
+.dots i{width:7px;height:7px;border-radius:9px;background:#BCD3D0;transition:width 300ms var(--ease),background-color 200ms ease}
+.dots i.on{width:22px;background:var(--tifd)}
+.band{margin:30px 0 0;height:320px;position:relative;overflow:hidden}
+.band img{position:absolute;left:0;right:0;width:100%;height:440px;object-fit:cover}
+.band .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,34,32,.9) 12%,rgba(6,34,32,.25) 62%,rgba(6,34,32,.08));display:flex;flex-direction:column;justify-content:flex-end;padding:22px;color:#fff}
 .band .big{font-family:var(--disp);font-size:4.4rem;font-weight:800;line-height:.9;color:var(--goldb);letter-spacing:-.04em}
 .band .big small{font-size:1.2rem;color:#fff;letter-spacing:0;margin-left:6px}
 .band h3{font-size:1.5rem;margin-top:10px}
-.band p{opacity:.9;font-size:.95rem;margin-top:4px}
+.band p{opacity:.92;font-size:.95rem;margin-top:4px;max-width:34ch}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin:14px 20px 0;border-radius:var(--r);background:var(--card);box-shadow:var(--sh);overflow:hidden}
+.stats div{padding:14px 8px;text-align:center}
+.stats div+div{border-left:1px solid var(--line)}
+.stats b{display:block;font-family:var(--disp);font-size:1.3rem;font-weight:800;color:var(--tifd)}
+.stats span{font-size:.75rem;color:var(--soft);font-weight:700}
+.pop{display:flex;flex-wrap:wrap;gap:8px;padding:0 20px}
+.pop button{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 14px 0 10px;border-radius:14px;background:var(--card);box-shadow:var(--sh);font-weight:800;font-size:.88rem}
+.pop i{font-style:normal;font-size:.7rem;font-weight:800;border-radius:7px;padding:3px 6px}
+.i-rm{background:var(--rml);color:var(--rmi)}.i-tc{background:var(--tifl);color:#085B57}
+.spec{display:flex;gap:10px;overflow-x:auto;padding:2px 20px 8px;scrollbar-width:none;scroll-snap-type:x mandatory}
+.spec::-webkit-scrollbar{display:none}
+.spec button{flex:none;width:168px;scroll-snap-align:start;border-radius:var(--r);padding:16px;text-align:left;min-height:170px;display:flex;flex-direction:column;justify-content:space-between}
+.spec b{font-family:var(--disp);font-size:1.08rem;font-weight:700;line-height:1.15;display:block}
+.spec div span{font-size:.8rem;opacity:.85;margin-top:4px;display:block}
 .convs{display:flex;gap:10px;overflow-x:auto;padding:4px 20px 8px;scrollbar-width:none}
 .convs::-webkit-scrollbar{display:none}
 .conv{flex:none;width:96px;height:64px;border-radius:16px;background:var(--card);box-shadow:var(--sh);display:grid;place-items:center;padding:10px}
 .conv img{max-height:36px;object-fit:contain}
+.faq{margin:0 20px}
+.fq+.fq{border-top:1px solid var(--line)}
+.fq>button{display:flex;align-items:center;gap:12px;width:100%;padding:16px;font-weight:800;font-size:.98rem;min-height:56px}
+.fq>button svg{margin-left:auto;transition:transform 250ms var(--ease)}
+.fq.on>button svg{transform:rotate(45deg)}
+.fq .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows 300ms var(--ease)}
+.fq.on .a{grid-template-rows:1fr}
+.fq .a>div{overflow:hidden}
+.fq .a p{padding:0 16px 16px;color:var(--soft);font-size:.94rem}
+.refer{margin:22px 20px 0;border-radius:var(--r-lg);background:var(--goldl);padding:20px;display:flex;gap:16px;align-items:center}
+.refer b{font-family:var(--disp);font-size:1.2rem;display:block;line-height:1.15}
+.refer p{font-size:.88rem;color:#5F4A1A;margin-top:4px}
 .tips{margin:0 20px}
 .tip{display:flex;gap:14px;align-items:center;padding:12px;width:100%;text-align:left}
 .tip+.tip{border-top:1px solid var(--line)}
-.tip .th{width:64px;height:64px;border-radius:16px;overflow:hidden;flex:none;display:grid;place-items:center}
+.tip .th{width:64px;height:64px;border-radius:16px;overflow:hidden;flex:none}
+.tip .th img{width:100%;height:100%;object-fit:cover}
 .tip b{font-weight:800;font-size:.98rem;display:block;line-height:1.25}
-.tip span{font-size:.82rem;color:var(--soft)}
-.foot{margin:28px 20px 0;font-size:.8rem;color:var(--faint);text-align:center}
+.tip>div span{font-size:.82rem;color:var(--soft)}
+.tip>svg{margin-left:auto}
+.footer{margin:34px 20px 0;padding:20px;border-radius:var(--r-lg);background:var(--graf);color:#DDEBEA}
+.footer .lg{display:flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:800;font-size:1.2rem;color:#fff}
+.footer .lg i{font-style:normal;color:var(--goldb)}
+.footer p{font-size:.85rem;opacity:.8;margin-top:10px}
+.footer .loc{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)}
+.footer .loc b{color:#fff;display:block}
 
-/* ---------- nav ---------- */
-.nav{position:absolute;left:0;right:0;bottom:0;z-index:var(--z-nav);background:var(--card);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:8px 6px calc(8px + env(safe-area-inset-bottom));transition:transform 300ms var(--ease)}
-.nav.hide{transform:translateY(110%)}
-.nav button{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.72rem;font-weight:800;color:#8C7E74;min-height:56px;justify-content:center;position:relative}
-.nav button[aria-current=page]{color:var(--tifd)}
-.nav .ind{position:absolute;top:-1px;left:0;width:20%;display:flex;justify-content:center;transition:transform 350ms var(--ease);pointer-events:none}
-.nav .ind i{width:34px;height:3px;border-radius:0 0 3px 3px;background:var(--goldb)}
-.nav .mid{width:58px;height:58px;border-radius:20px;background:var(--gold);display:grid;place-items:center;margin-top:-14px;box-shadow:0 10px 20px -10px rgba(160,118,28,.8)}
+/* ---------- nav (grafite) ---------- */
+.nav{position:absolute;left:0;right:0;bottom:0;z-index:var(--z-nav);background:var(--graf);border-radius:26px 26px 0 0;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:12px 8px calc(12px + env(safe-area-inset-bottom));transition:transform 300ms var(--ease);box-shadow:0 -10px 30px -18px rgba(0,0,0,.5)}
+.nav.hide{transform:translateY(115%)}
+.nav .it{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:.72rem;font-weight:800;color:rgba(255,255,255,.66);height:62px;border-radius:20px;margin:0 3px;position:relative;z-index:1;transition:color 200ms ease}
+.nav .it[aria-current=page]{color:#fff}
+.nav .blk{position:absolute;left:8px;top:12px;height:62px;width:calc((100% - 16px)/5);padding:0 3px;transition:transform 380ms var(--ease),opacity 200ms ease;pointer-events:none}
+.nav .blk i{display:block;height:100%;border-radius:20px;background:linear-gradient(150deg,#12A6A1,#0B6F6B);box-shadow:0 10px 18px -10px rgba(10,186,181,.7)}
+.nav .blk.off{opacity:0}
+.nav .mid{width:58px;height:58px;border-radius:20px;background:var(--gold);display:grid;place-items:center;margin:0 auto;box-shadow:0 10px 20px -10px rgba(160,118,28,.9)}
 
-/* ---------- sheet / dialog / toast ---------- */
-.scrim{position:absolute;inset:0;background:rgba(30,22,18,.42);z-index:var(--z-sheet);opacity:0;transition:opacity 260ms ease;pointer-events:none}
+/* ---------- sheet / dialog / toast / lightbox ---------- */
+.scrim{position:absolute;inset:0;background:rgba(10,24,23,.45);z-index:var(--z-sheet);opacity:0;transition:opacity 260ms ease;pointer-events:none}
 .scrim.on{opacity:1;pointer-events:auto}
-.sheet{position:absolute;left:0;right:0;bottom:0;z-index:calc(var(--z-sheet) + 1);background:var(--bg);border-radius:28px 28px 0 0;max-height:88%;overflow-y:auto;transform:translateY(105%);transition:transform 420ms var(--drawer);padding:8px 20px calc(24px + env(safe-area-inset-bottom));touch-action:pan-y}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:calc(var(--z-sheet) + 1);background:var(--bg);border-radius:28px 28px 0 0;max-height:90%;overflow-y:auto;transform:translateY(105%);transition:transform 420ms var(--drawer);padding:8px 20px calc(24px + env(safe-area-inset-bottom));touch-action:pan-y}
 .sheet.on{transform:translateY(0)}
-.grab{width:44px;height:5px;border-radius:9px;background:#D9CBBB;margin:6px auto 14px}
+.grab{width:44px;height:5px;border-radius:9px;background:#BCD3D0;margin:6px auto 14px}
 .dlg{position:absolute;left:20px;right:20px;top:50%;z-index:calc(var(--z-sheet) + 2);background:var(--bg);border-radius:26px;padding:22px;transform:translateY(-50%) scale(.96);opacity:0;pointer-events:none;transition:transform 220ms var(--ease),opacity 180ms ease}
 .dlg.on{transform:translateY(-50%) scale(1);opacity:1;pointer-events:auto}
 .dlg h3{font-size:1.3rem}.dlg p{color:var(--soft);margin-top:8px}
 .dlg .b{display:flex;gap:10px;margin-top:18px}.dlg .b .btn{flex:1}
-.toast{position:absolute;left:50%;bottom:calc(98px + env(safe-area-inset-bottom));z-index:var(--z-toast);transform:translate(-50%,20px);opacity:0;background:var(--ink);color:#fff;border-radius:16px;padding:13px 18px;font-weight:700;font-size:.92rem;display:flex;gap:10px;align-items:center;transition:transform 300ms var(--ease),opacity 200ms ease;width:max-content;max-width:calc(100% - 40px);pointer-events:none}
+.toast{position:absolute;left:50%;bottom:calc(104px + env(safe-area-inset-bottom));z-index:var(--z-toast);transform:translate(-50%,20px);opacity:0;background:var(--graf);color:#fff;border-radius:16px;padding:13px 18px;font-weight:700;font-size:.92rem;display:flex;gap:10px;align-items:center;transition:transform 300ms var(--ease),opacity 200ms ease;width:max-content;max-width:calc(100% - 40px);pointer-events:none}
 .toast.on{transform:translate(-50%,0);opacity:1}
+.lb{position:absolute;inset:0;z-index:var(--z-lb);background:#050C0C;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 260ms ease}
+.lb.on{opacity:1;pointer-events:auto}
+.lb .tr{flex:1;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.lb .tr::-webkit-scrollbar{display:none}
+.lb .tr img{flex:none;width:100%;height:100%;object-fit:contain;scroll-snap-align:center}
+.lb .hd{display:flex;justify-content:space-between;align-items:center;padding:calc(14px + env(safe-area-inset-top)) 16px 10px;color:#fff;font-weight:800}
+.lb .x{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.14);display:grid;place-items:center}
 
 /* ---------- agendar ---------- */
-.steps{height:6px;border-radius:99px;background:var(--bg2);margin:6px 20px 0;overflow:hidden}
+.steps{height:6px;border-radius:99px;background:var(--bg2);margin:2px 20px 0;overflow:hidden}
 .steps i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--tifd),var(--tif));border-radius:99px;transform-origin:left;transition:transform 450ms var(--ease)}
 .stepn{margin:14px 20px 0;font-size:.85rem;font-weight:800;color:var(--gold)}
-.opt{display:flex;align-items:center;gap:14px;width:100%;padding:16px;border-radius:20px;background:var(--card);box-shadow:var(--sh);text-align:left;border:2px solid transparent;transition:border-color 160ms ease,transform 160ms var(--ease)}
-.opt[aria-pressed=true]{border-color:var(--tifd);background:color-mix(in srgb,var(--tifl) 45%,#fff)}
-.opt .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;flex:none}
+.opt{display:flex;align-items:center;gap:14px;width:100%;padding:16px;border-radius:20px;background:var(--card);box-shadow:var(--sh);text-align:left;border:2px solid transparent}
+.opt[aria-pressed=true]{border-color:var(--tifd);background:color-mix(in srgb,var(--tifl) 40%,#fff)}
+.opt .oi{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;flex:none}
 .opt b{font-weight:800;font-size:1.05rem;display:block}
 .opt>div span,.opt .tx span{font-size:.87rem;color:var(--soft)}
-.opt .rad{margin-left:auto;width:24px;height:24px;border-radius:50%;border:2px solid #CDBBA9;display:grid;place-items:center;flex:none}
+.rad{margin-left:auto;width:24px;height:24px;border-radius:50%;border:2px solid #A9C1BE;display:grid;place-items:center;flex:none}
 .opt[aria-pressed=true] .rad{border-color:var(--tifd);background:var(--tifd)}
 .opts{display:grid;gap:10px;margin:18px 20px 0}
 .big-opt{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 20px 0}
-.big-opt .opt{flex-direction:column;align-items:flex-start;min-height:200px;padding:0;overflow:hidden}
-.big-opt .opt .im{height:110px;width:100%}
+.big-opt .opt{flex-direction:column;align-items:flex-start;min-height:210px;padding:0;overflow:hidden}
+.big-opt .opt .im{height:118px;width:100%;overflow:hidden}
 .big-opt .opt .im img{width:100%;height:100%;object-fit:cover}
 .big-opt .opt .tx{padding:12px 14px 14px}
+.pedido{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 20px 0}
+.pedido label{border-radius:22px;padding:16px 14px;min-height:128px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;position:relative;overflow:hidden}
+.pedido label b{font-weight:800;font-size:.98rem;line-height:1.2}
+.pedido .pc1{background:var(--graf);color:#fff}
+.pedido .pc2{background:var(--card);box-shadow:var(--sh)}
+.pedido input{position:absolute;width:1px;height:1px;opacity:0}
+.pedido label:focus-within{outline:3px solid var(--tif);outline-offset:2px}
+.manual{margin:16px 20px 0;display:flex;align-items:center;gap:10px;color:var(--soft);font-size:.88rem;font-weight:700;text-align:center}
+.manual::before,.manual::after{content:"";flex:1;height:1px;background:var(--line)}
+.mods{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 20px 0}
+.mod{border-radius:22px;padding:14px;min-height:118px;display:flex;flex-direction:column;justify-content:space-between;text-align:left;border:2px solid transparent}
+.mod b{font-family:var(--disp);font-weight:800;font-size:1.06rem;line-height:1.1;display:block}
+.mod div span{font-size:.78rem;font-weight:700;display:block;margin-top:3px}
+.mod.rm{background:var(--rml);color:var(--rmi)}
+.mod.tc{background:var(--tifl);color:#085B57}
+.mod[aria-pressed=true].rm{border-color:var(--rm)}
+.mod[aria-pressed=true].tc{border-color:var(--tifd)}
+.exs{margin:12px 20px 0;overflow:hidden}
+.ex{display:flex;align-items:center;gap:12px;padding:13px 14px;width:100%;text-align:left;min-height:56px}
+.ex+.ex{border-top:1px solid var(--line)}
+.ex .mk{width:8px;height:8px;border-radius:50%;flex:none}
+.ex b{font-weight:700;font-size:.93rem;line-height:1.3;flex:1}
+.ex code{font-family:var(--font);font-size:.82rem;color:#22302F;font-weight:600;font-variant-numeric:tabular-nums}
+.ex .ck{width:22px;height:22px;border-radius:7px;border:1.5px solid #A9C1BE;display:grid;place-items:center;flex:none}
+.ex[aria-pressed=true]{background:color-mix(in srgb,var(--tifl) 35%,#fff)}
+.ex[aria-pressed=true] .ck{background:var(--tifd);border-color:var(--tifd)}
+.selbar{margin:12px 20px 0;display:flex;flex-wrap:wrap;gap:8px}
+.selbar button{display:flex;align-items:center;gap:6px;background:var(--graf);color:#fff;border-radius:99px;padding:8px 12px;font-weight:700;font-size:.82rem;min-height:40px}
+.ocr{margin:16px 20px 0;border-radius:24px;overflow:hidden;position:relative;background:#0E1A19;box-shadow:var(--sh)}
+.ocr img{width:100%;height:240px;object-fit:cover;opacity:.7}
+.ocr .scan{position:absolute;left:0;right:0;height:60px;top:0;background:linear-gradient(to bottom,rgba(10,186,181,0),rgba(10,186,181,.45));border-bottom:2px solid var(--tif);animation:scan 1.6s var(--ease-io) infinite alternate}
+@keyframes scan{from{transform:translateY(-60px)}to{transform:translateY(240px)}}
+.ocr .st{position:absolute;left:14px;right:14px;bottom:14px;background:rgba(255,255,255,.96);border-radius:16px;padding:12px 14px;font-weight:800;font-size:.9rem}
+.ocr .st .prog{margin-top:8px}
+.ocr .st .prog i{background:var(--tifd)}
+.found{margin:14px 20px 0;padding:14px 16px;border-radius:20px;background:var(--okl);display:flex;gap:14px;align-items:center}
+.found img{width:64px;height:84px;border-radius:12px;object-fit:cover;flex:none}
+.found b{color:var(--ok);display:block}
 .days{display:flex;gap:8px;overflow-x:auto;padding:4px 20px 6px;scrollbar-width:none}
 .days::-webkit-scrollbar{display:none}
-.day{flex:none;width:66px;height:84px;border-radius:20px;background:var(--card);box-shadow:var(--sh);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:2px solid transparent}
+.day{flex:none;width:66px;height:84px;border-radius:20px;background:var(--card);box-shadow:var(--sh);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
 .day small{font-size:.72rem;font-weight:800;color:var(--soft);text-transform:uppercase}
 .day b{font-family:var(--disp);font-size:1.5rem;font-weight:700}
-.day[aria-pressed=true]{background:var(--deep);color:#fff;border-color:var(--deep)}
+.day[aria-pressed=true]{background:var(--deep);color:#fff}
 .day[aria-pressed=true] small{color:var(--goldb)}
 .day[disabled]{opacity:.35}
 .per{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 20px 0}
 .per .opt{flex-direction:column;align-items:center;text-align:center;gap:4px;padding:14px 8px}
-.drop{margin:18px 20px 0;border:2px dashed #CDBBA9;border-radius:24px;padding:26px 18px;text-align:center;background:color-mix(in srgb,var(--card) 70%,transparent);display:block;cursor:pointer}
-.drop b{display:block;font-weight:800;font-size:1.05rem;margin-top:10px}
-.drop span{font-size:.88rem;color:var(--soft)}
-.prev{margin:18px 20px 0;border-radius:22px;overflow:hidden;position:relative;background:var(--card);box-shadow:var(--sh)}
-.prev img{width:100%;max-height:260px;object-fit:cover}
-.prev .x{position:absolute;top:10px;right:10px}
+.price{margin:16px 20px 0;padding:16px;border-radius:22px;background:var(--graf);color:#fff}
+.price .v{font-family:var(--disp);font-size:2rem;font-weight:800;color:var(--goldb);font-variant-numeric:tabular-nums}
+.price small{display:block;opacity:.78;font-size:.8rem}
+.tg{display:flex;align-items:center;gap:12px;margin-top:12px;padding:12px;border-radius:16px;background:rgba(255,255,255,.08);width:100%;text-align:left;color:#fff}
+.tg b{display:block;font-weight:800}.tg div span{font-size:.82rem;opacity:.8}
+.sw{margin-left:auto;width:52px;height:32px;border-radius:99px;background:#9DB6B3;position:relative;flex:none;transition:background-color 200ms ease}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:transform 250ms var(--ease)}
+[aria-checked=true] .sw{background:var(--tif)}
+[aria-checked=true] .sw::after{transform:translateX(20px)}
 .sumr{margin:18px 20px 0}
-.sumr .row b{font-size:.98rem}
-.foot-act{position:sticky;bottom:0;padding:14px 20px calc(16px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 70%,transparent);margin-top:20px;display:flex;gap:10px}
-.okmark{width:120px;height:120px;margin:40px auto 0;border-radius:50%;background:var(--tifl);display:grid;place-items:center}
+.foot-act{position:sticky;bottom:0;padding:14px 20px calc(16px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 72%,transparent);margin-top:22px;display:flex;gap:10px;z-index:4}
+.okmark{width:120px;height:120px;margin:40px auto 0;border-radius:50%;background:var(--tifl);display:grid;place-items:center;animation:pop 500ms var(--ease) both}
 .okmark path{stroke-dasharray:60;stroke-dashoffset:60;animation:draw 600ms var(--ease) 200ms forwards}
-.okmark{animation:pop 500ms var(--ease) both}
 @keyframes draw{to{stroke-dashoffset:0}}
 @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:none;opacity:1}}
+.pix{margin:18px 20px 0;padding:20px;text-align:center}
+.pix .qr{width:200px;height:200px;margin:14px auto 0}
+.copy{display:flex;gap:8px;margin-top:14px}
+.copy input{flex:1;min-width:0;height:48px;border-radius:14px;border:1.5px solid var(--line);padding:0 12px;font-size:.82rem;color:var(--soft);background:var(--bg)}
 
 /* ---------- agenda ---------- */
 .ap{margin:14px 20px 0;padding:16px}
@@ -266,14 +373,14 @@ p{text-wrap:pretty}
 .ap .s{font-size:.87rem;color:var(--soft)}
 .tl{display:grid;grid-template-columns:repeat(4,1fr);margin:16px 0 4px;position:relative}
 .tl::before{content:"";position:absolute;left:12.5%;right:12.5%;top:9px;height:3px;background:var(--line);border-radius:3px}
-.tl .fill{position:absolute;left:12.5%;top:9px;height:3px;background:var(--tifd);border-radius:3px;transform-origin:left;transition:transform 600ms var(--ease)}
+.tl .fill{position:absolute;left:12.5%;width:75%;top:9px;height:3px;background:var(--tifd);border-radius:3px;transform-origin:left;transition:transform 600ms var(--ease)}
 .tl div{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:.72rem;font-weight:800;color:var(--faint);text-align:center}
 .tl div i{width:21px;height:21px;border-radius:50%;background:var(--card);border:3px solid var(--line);display:block}
 .tl div.on{color:var(--ink)}.tl div.on i{border-color:var(--tifd);background:var(--tifd)}
-.ap .acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-.ap .acts .btn{height:44px;font-size:.9rem;padding:0 16px;flex:1}
+.ap .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.ap .acts .btn{height:46px;font-size:.9rem;padding:0 12px}
 .empty{margin:40px 20px 0;text-align:center}
-.empty .e{width:96px;height:96px;margin:0 auto;border-radius:30px;background:var(--goldl);display:grid;place-items:center}
+.empty .e{width:96px;height:96px;margin:0 auto;border-radius:30px;background:var(--tifl);display:grid;place-items:center}
 .empty h3{margin-top:16px;font-size:1.25rem}
 .empty p{color:var(--soft);margin:6px auto 18px;max-width:30ch}
 
@@ -282,45 +389,36 @@ p{text-wrap:pretty}
 .flip .in{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform 700ms var(--ease-io)}
 .flip.on .in{transform:rotateY(180deg)}
 .face{position:absolute;inset:0;border-radius:26px;backface-visibility:hidden;-webkit-backface-visibility:hidden;padding:20px;overflow:hidden;color:#fff}
-.face.f{background:linear-gradient(140deg,#13A8A3 0%,#0E8F8A 45%,#0B5F5C 100%)}
-.face.b{background:#FFFDF8;color:var(--ink);transform:rotateY(180deg);display:flex;gap:18px;align-items:center;box-shadow:inset 0 0 0 2px var(--goldl)}
+.face.f{background:linear-gradient(140deg,#13A8A3 0%,#0B6F6B 50%,#0A4F4C 100%)}
+.face.b{background:#FFFFFF;color:var(--ink);transform:rotateY(180deg);display:flex;gap:18px;align-items:center;box-shadow:inset 0 0 0 2px var(--goldl)}
 .face .ring{position:absolute;right:-70px;top:-80px;width:250px;height:250px;border-radius:50%;border:30px solid rgba(201,164,78,.38)}
 .face .brand{display:flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:800;font-size:1.1rem}
 .face .nm{position:absolute;left:20px;bottom:50px;font-family:var(--disp);font-size:1.45rem;font-weight:700}
-.face .pl{position:absolute;left:20px;bottom:22px;font-size:.85rem;font-weight:700;opacity:.9}
-.face .tg{position:absolute;right:20px;top:20px;background:var(--goldb);color:#2B2320;font-weight:800;font-size:.75rem;border-radius:99px;padding:5px 10px}
+.face .pl{position:absolute;left:20px;bottom:22px;font-size:.85rem;font-weight:700;opacity:.92}
+.face .tgc{position:absolute;right:20px;top:20px;background:var(--goldb);color:#1A2928;font-weight:800;font-size:.75rem;border-radius:99px;padding:5px 10px}
 .face .chipc{position:absolute;right:22px;bottom:22px;width:44px;height:34px;border-radius:8px;background:linear-gradient(135deg,#F3D27A,#C9A227)}
 .qr{width:120px;height:120px;border-radius:16px;background:#fff;padding:8px;box-shadow:inset 0 0 0 1px var(--line);flex:none}
 .hint{text-align:center;color:var(--faint);font-size:.8rem;margin-top:10px;font-weight:700}
 .mem{display:flex;align-items:center;gap:14px;padding:14px 16px;min-height:72px;width:100%;text-align:left}
 .mem+.mem{border-top:1px solid var(--line)}
 .mem b{font-weight:800;display:block}.mem>div span{font-size:.86rem;color:var(--soft)}
+.mem>svg{margin-left:auto}
 
 /* ---------- guia ---------- */
 .gtabs{display:flex;gap:8px;padding:14px 20px 0;overflow-x:auto;scrollbar-width:none}
 .gtabs::-webkit-scrollbar{display:none}
 .gtab{height:44px;padding:0 18px;border-radius:99px;font-weight:800;font-size:.92rem;background:var(--card);box-shadow:var(--sh);white-space:nowrap}
-.gtab[aria-selected=true]{background:var(--ink);color:#fff}
+.gtab[aria-selected=true]{background:var(--graf);color:#fff}
 .prep{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 20px 0}
 .prep .tile{min-height:170px;padding:0;overflow:hidden;background:var(--card);box-shadow:var(--sh)}
 .prep .tile .im{height:92px;overflow:hidden}
 .prep .tile .im img{width:100%;height:100%;object-fit:cover}
 .prep .tile .tx{padding:12px 14px 14px}
-.faq{margin:16px 20px 0}
-.fq{border-top:1px solid var(--line)}
-.fq:first-child{border-top:0}
-.fq button{display:flex;align-items:center;gap:12px;width:100%;padding:16px;font-weight:800;font-size:.98rem;min-height:56px}
-.fq button svg{margin-left:auto;transition:transform 250ms var(--ease)}
-.fq.on button svg{transform:rotate(45deg)}
-.fq .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows 300ms var(--ease)}
-.fq.on .a{grid-template-rows:1fr}
-.fq .a>div{overflow:hidden}
-.fq .a p{padding:0 16px 16px;color:var(--soft);font-size:.94rem}
-.art-hero{height:240px;position:relative;overflow:hidden}
-.art-hero img{width:100%;height:330px;object-fit:cover;position:absolute;top:-45px}
+.art-hero{height:250px;position:relative;overflow:hidden}
+.art-hero img{width:100%;height:340px;object-fit:cover;position:absolute}
 .art{padding:22px 20px 0;max-width:65ch}
 .art h1{font-size:1.75rem}
-.art p{margin-top:14px;font-size:1.02rem;color:#3d3430}
+.art p{margin-top:14px;font-size:1.02rem;color:#2B4442}
 html.hc .art p{color:#000}
 .check{display:flex;gap:14px;align-items:flex-start;padding:15px 16px;width:100%;text-align:left;min-height:60px}
 .check+.check{border-top:1px solid var(--line)}
@@ -328,27 +426,37 @@ html.hc .art p{color:#000}
 .check b{display:block;font-weight:800}
 .check span{font-size:.86rem;color:var(--soft)}
 .check.done b{text-decoration:line-through;text-decoration-color:var(--goldb);text-decoration-thickness:2px;color:var(--soft)}
+.yn{display:flex;gap:6px;margin-left:auto;flex:none}
+.yn button{width:58px;height:44px;border-radius:12px;background:var(--bg2);font-weight:800;font-size:.88rem;text-align:center}
+.yn button[aria-pressed=true]{background:var(--graf);color:#fff}
+.qq{display:flex;align-items:center;gap:12px;padding:14px 16px}
+.qq+.qq{border-top:1px solid var(--line)}
+.qq b{font-weight:800;font-size:.95rem;line-height:1.3}
 
 /* ---------- local ---------- */
-.lhero{height:330px;position:relative;overflow:hidden}
-.lhero img{position:absolute;left:0;top:-45px;width:100%;height:420px;object-fit:cover}
-.lhero .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,38,36,.85),rgba(10,38,36,0) 60%)}
-.lhero .tx{position:absolute;left:20px;right:20px;bottom:20px;color:#fff}
-.lhero h1{font-size:2.1rem;font-weight:800}
+.lhero{height:360px;position:relative;overflow:hidden}
+.lhero img{position:absolute;left:0;width:100%;height:470px;object-fit:cover}
+.lhero .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,34,32,.9),rgba(6,34,32,0) 62%)}
+.lhero .tx{position:absolute;left:20px;right:20px;bottom:22px;color:#fff}
+.lhero h1{font-size:2.15rem;font-weight:800}
 .lhero p{opacity:.92;margin-top:4px}
-.lhero .back{position:absolute;top:calc(16px + env(safe-area-inset-top));left:16px;z-index:2}
+.lhero .back{position:absolute;top:calc(16px + env(safe-area-inset-top));left:16px}
+.lhero .shr{left:auto;right:16px}
 .facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 20px 0}
 .fact{padding:14px;border-radius:18px;background:var(--card);box-shadow:var(--sh)}
 .fact small{font-size:.75rem;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.05em}
 .fact b{display:block;font-size:.95rem;margin-top:3px;line-height:1.3}
-.gal{display:flex;gap:10px;overflow-x:auto;padding:4px 20px 8px;scroll-snap-type:x mandatory;scrollbar-width:none}
-.gal::-webkit-scrollbar{display:none}
-.gal img{flex:none;width:240px;height:160px;border-radius:18px;object-fit:cover;scroll-snap-align:start}
-.go-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 20px 0}
+.journey{margin:0 20px;position:relative;padding-left:40px}
+.journey::before{content:"";position:absolute;left:13px;top:8px;bottom:22px;width:2px;background:linear-gradient(var(--tif),var(--goldb))}
+.jst{position:relative;padding:0 0 18px}
+.jst i{position:absolute;left:-40px;top:-2px;width:28px;height:28px;border-radius:50%;background:var(--card);box-shadow:0 0 0 2px var(--tif);display:grid;place-items:center;font-style:normal;font-weight:800;font-size:.8rem;color:var(--tifd)}
+.jst b{font-weight:800;display:block}
+.jst p{font-size:.9rem;color:var(--soft);margin-top:2px}
+.go-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 20px}
 .go-row a{height:58px;border-radius:18px;background:var(--card);box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;gap:10px;font-weight:800}
-.go-row img{width:26px;height:26px;border-radius:7px}
-.svc{display:flex;flex-wrap:wrap;gap:8px;margin:12px 20px 0}
-.svc span{background:var(--card);border-radius:99px;padding:8px 14px;font-weight:700;font-size:.88rem;box-shadow:0 1px 0 rgba(43,35,32,.06)}
+.go-row img{width:34px;height:34px;border-radius:9px;object-fit:cover}
+.svc{display:flex;flex-wrap:wrap;gap:8px;margin:0 20px}
+.svc span{background:var(--card);border-radius:99px;padding:8px 14px;font-weight:700;font-size:.88rem;box-shadow:0 0 0 1px var(--line)}
 
 /* ---------- perfil ---------- */
 .me{margin:18px 20px 0;padding:18px;display:flex;gap:14px;align-items:center}
@@ -356,13 +464,11 @@ html.hc .art p{color:#000}
 .me b{font-family:var(--disp);font-size:1.3rem;display:block}
 .grp{margin:12px 20px 0;overflow:hidden}
 .grp-t{margin:24px 20px 0;font-size:.8rem;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.06em}
-.sw{margin-left:auto;width:52px;height:32px;border-radius:99px;background:#D9CBBB;position:relative;flex:none;transition:background-color 200ms ease}
-.sw::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:transform 250ms var(--ease)}
-[aria-checked=true] .sw{background:var(--tifd)}
-[aria-checked=true] .sw::after{transform:translateX(20px)}
-.row.wr{flex-wrap:wrap}.fsz{margin-left:56px;display:flex;gap:8px;width:100%}.fsz button{flex:1;text-align:center}
-.fsz button{width:44px;height:44px;border-radius:12px;background:var(--bg2);font-weight:800}
-.fsz button[aria-pressed=true]{background:var(--ink);color:#fff}
+.row.wr{flex-wrap:wrap}
+.fsz{margin-left:56px;display:flex;gap:8px;width:100%}
+.fsz button{flex:1;height:44px;border-radius:12px;background:var(--bg2);font-weight:800;text-align:center}
+.fsz button[aria-pressed=true]{background:var(--graf);color:#fff}
+.row .sw{background:#B9CFCC}
 .mic{width:120px;height:120px;border-radius:50%;margin:20px auto;background:var(--tifd);display:grid;place-items:center;position:relative}
 .mic::before,.mic::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--tif);animation:ring 1.8s var(--ease) infinite}
 .mic::after{animation-delay:.9s}
@@ -376,9 +482,9 @@ html.hc .art p{color:#000}
 .splash .w{font-family:var(--disp);font-size:2.2rem;font-weight:800;color:var(--tifd);margin-top:12px;animation:up 600ms var(--ease) 150ms both}
 .splash .w i{font-style:normal;color:var(--gold)}
 .splash p{color:var(--soft);animation:up 600ms var(--ease) 280ms both}
-.welcome{height:46%;position:relative;overflow:hidden;border-radius:0 0 36px 36px}
+.welcome{height:44%;position:relative;overflow:hidden;border-radius:0 0 36px 36px}
 .welcome img{width:100%;height:100%;object-fit:cover}
-.welcome .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(251,244,236,1) 0%,rgba(251,244,236,0) 45%)}
+.welcome .ov{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,rgba(244,249,249,0) 45%)}
 
 html.rm *,html.rm *::before,html.rm *::after{animation-duration:1ms!important;animation-delay:0ms!important;transition-duration:1ms!important}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0ms!important;transition-duration:1ms!important}}
@@ -389,176 +495,208 @@ html.rm *,html.rm *::before,html.rm *::after{animation-duration:1ms!important;an
   <aside class="side">
     <div class="lg"><span id="sideLogo"></span><span>Vitta<i>One</i></span></div>
     <h2>Prévia do novo app</h2>
-    <p>Protótipo clicável com dados de exemplo. Nada aqui é enviado ao Supabase; o botão do WhatsApp abre uma mensagem de teste.</p>
+    <p>Protótipo clicável com dados de exemplo. Nada é gravado no Supabase; o WhatsApp abre uma mensagem real para a clínica.</p>
     <ul>
-      <li><b>Início</b>&nbsp;próximo exame, atalhos, locais e convênios</li>
-      <li><b>Agendar</b>&nbsp;em 7 passos, com foto do pedido médico</li>
-      <li><b>Agenda</b>&nbsp;com status e cancelamento</li>
-      <li><b>Família</b>&nbsp;com carteirinha digital (toque para virar)</li>
-      <li><b>Guia</b>&nbsp;preparo com checklist, dúvidas e dicas</li>
-      <li><b>Perfil</b>&nbsp;acessibilidade que funciona de verdade</li>
+      <li><b>Exames:</b> leitura do pedido médico por foto, com código TUSS</li>
+      <li><b>Particular:</b> valor de exemplo e Pix simulado</li>
+      <li><b>Dimagem e MITI:</b> parallax, carrossel e galeria</li>
+      <li><b>Família:</b> carteirinha digital (toque para virar)</li>
+      <li><b>Guia:</b> preparo, questionário de segurança e dúvidas</li>
+      <li><b>Perfil:</b> acessibilidade que funciona de verdade</li>
     </ul>
-    <p class="note">No celular, abra este link direto: a prévia ocupa a tela toda.</p>
+    <p class="note">Dica: escolha "Pedro" na tela inicial para ver o início sem agendamentos.</p>
   </aside>
   <div class="app" id="app">
-    <main id="view" tabindex="-1" aria-live="polite"></main>
+    <main id="view" tabindex="-1"></main>
     <nav class="nav" id="nav" aria-label="Navegação principal"></nav>
     <div class="scrim" id="scrim"></div>
     <section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Painel"></section>
     <div class="dlg" id="dlg" role="alertdialog" aria-modal="true"></div>
-    <div class="toast" id="toast" role="status"></div>
+    <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Fotos"></div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <div class="splash" id="splash"><div class="c"><span id="spLogo"></span><div class="w">Vitta<i>One</i></div><p>Sua saúde em um só lugar</p></div></div>
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js" defer></script>
 <script>
 /* =================== dados =================== */
 const F='../fotos/';
+const TUSS=[["41001010","Crânio ou sela túrsica ou órbitas","tc"],["41001028","Mastóides ou orelhas","tc"],["41001036","Face ou seios da face","tc"],["41001044","Articulações temporomandibulares","tc"],["41001060","Pescoço (partes moles, laringe, tireóide e faringe)","tc"],["41001079","Tórax","tc"],["41001095","Abdome total (abdome superior, pelve e retroperitônio)","tc"],["41001109","Abdome superior","tc"],["41001117","Pelve ou bacia","tc"],["41001125","Coluna cervical ou dorsal ou lombar (até 3 segmentos)","tc"],["41001133","Coluna - segmento adicional","tc"],["41001141","Articulação (esternoclavicular ou ombro ou cotovelo ou punho ou sacroilíacas ou coxofemoral ou joelho ou pé) - unilateral","tc"],["41001150","Segmentos apendiculares (braço ou antebraço ou mão ou coxa ou perna ou pé)","tc"],["41001168","Angiotomografia (crânio ou pescoço ou tórax ou abdome superior ou pelve) - arterial ou venosa","tc"],["41001176","Angiotomografia de aorta torácica","tc"],["41001184","Angiotomografia de aorta abdominal","tc"],["41001206","Reconstrução tridimensional - acrescentar ao exame de base","tc"],["41001273","Mandibula","tc"],["41001370","Angiotomografia arterial de crânio","tc"],["41001389","Angiotomografia venosa de crânio","tc"],["41001397","Angiotomografia arterial de pescoço","tc"],["41001400","Angiotomografia venosa de pescoço","tc"],["41001419","Angiotomografia arterial de tórax","tc"],["41001427","Angiotomografia venosa de tórax","tc"],["41001435","Angiotomografia arterial de abdome superior","tc"],["41001443","Angiotomografia venosa de abdome superior","tc"],["41001451","Angiotomografia arterial de pelve","tc"],["41001460","Angiotomografia venosa de pelve","tc"],["41001478","Angiotomografia arterial de membro inferior","tc"],["41001486","Angiotomografia venosa de membro inferior","tc"],["41001494","Angiotomografia arterial de membro superior","tc"],["41001508","Angiotomografia venosa de membro superior","tc"],["41001516","Angiotomografia arterial pulmonar","tc"],["41001524","Angiotomografia venosa pulmonar","tc"],["41101014","Crânio (encéfalo)","rm"],["41101022","Sela túrcica (hipófise)","rm"],["41101030","Base do crânio","rm"],["41101057","Perfusão cerebral por RM","rm"],["41101065","Espectroscopia por RM","rm"],["41101073","Órbita bilateral","rm"],["41101081","Ossos temporais bilateral","rm"],["41101090","Face (inclui seios da face)","rm"],["41101103","Articulação temporomandibular (bilateral)","rm"],["41101111","Pescoço (nasofaringe, orofaringe, laringe, traquéia, tireóide, paratireóide)","rm"],["41101120","Tórax (mediastino, pulmão, parede torácica)","rm"],["41101138","Coração - morfológico e funcional","rm"],["41101146","Coração - morfológico e funcional + perfusão + estresse","rm"],["41101154","Coração - morfológico e funcional + perfusão + viabilidade miocárdica","rm"],["41101162","Mama (unilateral)","rm"],["41101170","Abdome superior (fígado, pâncreas, baço, rins, supra-renais, retroperitônio)","rm"],["41101189","Pelve (não inclui articulações coxofemorais)","rm"],["41101219","Bolsa escrotal","rm"],["41101227","Coluna cervical ou dorsal ou lombar","rm"],["41101235","Fluxo liquórico (como complementar)","rm"],["41101243","Plexo braquial (desfiladeiro torácico) ou lombossacral (não inclui coluna cervical ou lombar)","rm"],["41101251","Membro superior unilateral (não inclui mão e articulações)","rm"],["41101260","Mão (não inclui punho)","rm"],["41101278","Bacia (articulações sacroilíacas)","rm"],["41101286","Coxa (unilateral)","rm"],["41101294","Perna (unilateral)","rm"],["41101308","Pé (antepé) - não inclui tornozelo","rm"],["41101316","Articular (por articulação)","rm"],["41101324","Angio-RM (crânio ou pescoço ou tórax ou abdome superior ou pelve) - arterial ou venosa","rm"],["41101332","Angio-RM de aorta torácica","rm"],["41101340","Angio-RM de aorta abdominal","rm"],["41101359","Hidro-RM (colângio-RM ou uro-RM ou mielo-RM ou sialo-RM ou cistografia por RM)","rm"],["41101383","Reconstrução tridimensional - acrescentar ao exame de base","rm"],["41101464","RM MULTIPARAMÉTRICA DE PROSTATA","rm"],["41101480","Rm Mama Bilateral","rm"],["41101499","Angio-RM arterial pulmonar","rm"],["41101502","Angio-RM venosa pulmonar","rm"],["41101510","Angio-RM arterial de abdome superior","rm"],["41101529","Angio-RM venosa de abdome superior","rm"],["41101537","Angio-RM arterial de crânio","rm"],["41101545","Angio-RM venosa de crânio","rm"],["41101553","Angio-RM arterial de membro inferior (unilateral)","rm"],["41101561","Angio-RM venosa de membro inferior (unilateral)","rm"],["41101570","Angio-RM arterial de membro superior (unilateral)","rm"],["41101588","Angio-RM venosa de membro superior (unilateral)","rm"],["41101596","Angio-RM arterial de pelve","rm"],["41101600","Angio-RM venosa de pelve","rm"],["41101618","Angio-RM arterial de pescoço","rm"],["41101626","Angio-RM venosa de pescoço","rm"]];
 const LOCAIS={
-  dimagem:{id:'dimagem',n:'Dimagem Unineuro',k:'Exames de imagem',b:'Lapa',e:'R. Brig. Gavião Peixoto, 177 – Lapa, São Paulo',hr:'Seg a sex 7h–19h · Sáb 8h–13h',tel:'(11) 3834-9460',wa:'551138349460',lat:-23.525588,lng:-46.711835,
-    d:'Clínica de diagnóstico por imagem há 30 anos, vizinha do Hospital Albert Sabin. Ressonância magnética e tomografia com laudo assinado por especialistas.',
-    capa:F+'dm-rm-hd.jpg',gal:[F+'dm-fachada-hd.jpg',F+'dm-recepcao-hd.jpg',F+'dm-rm2-hd.jpg',F+'dim-tc.jpg'],svc:['Ressonância magnética','Tomografia','Angio-RM','Angiotomografia','Mais de 30 convênios']},
-  miti:{id:'miti',n:'MITI Consultórios',k:'Consultas e terapias',b:'Av. Paulista',e:'Av. Paulista, 2073 – Conjunto Nacional, Horsa II, 1º andar',hr:'Seg a sex 8h–21h',tel:'(11) 94296-6767',wa:'5511942966767',lat:-23.5614,lng:-46.6558,
-    d:'Consultórios e coworking para profissionais da saúde dentro do Conjunto Nacional, a poucos passos do metrô Consolação.',
-    capa:F+'9002-4-hd.jpg',gal:[F+'9002-1-hd.jpg',F+'9002-2-hd.jpg',F+'9002-5-hd.jpg',F+'9002-6-hd.jpg',F+'9002-3-hd.jpg'],svc:['Psicologia','Neuropsicologia','Fisioterapia em performance','Terapias integrativas']}
+  dimagem:{id:'dimagem',n:'Dimagem Unineuro',k:'Exames de imagem',b:'Lapa',e:'R. Brig. Gavião Peixoto, 177 – Lapa, São Paulo',hr:'Seg a sex 7h–19h · Sáb 8h–13h',wa:'551138349460',lat:-23.525588,lng:-46.711835,
+    d:'Clínica de diagnóstico por imagem há 30 anos, vizinha do Hospital Albert Sabin. Ressonância magnética e tomografia com laudo assinado por especialistas, para SUS, convênio e particular.',
+    capa:F+'dm-rm-hd.jpg',gal:[F+'dm-fachada-hd.jpg',F+'dm-recepcao-hd.jpg',F+'dm-rm2-hd.jpg',F+'dim-tc.jpg',F+'dm-rm-hd.jpg'],svc:['Ressonância magnética','Tomografia','Angio-RM','Angiotomografia','Mais de 30 convênios'],
+    stats:[['30','anos'],['RM e TC','modalidades'],['30+','convênios']],
+    jor:[['Envie o pedido','Pelo app, com foto. A gente confere o convênio e o preparo.'],['Confirme o horário','Pelo WhatsApp, em até 15 minutos no horário comercial.'],['Chegue 20 min antes','Recepção, cadastro e questionário de segurança.'],['Faça o exame','A equipe acompanha cada etapa; você só precisa ficar parado.'],['Receba o laudo','Avisamos pelo WhatsApp quando estiver pronto.']]},
+  miti:{id:'miti',n:'MITI Consultórios',k:'Consultas e terapias',b:'Av. Paulista',e:'Av. Paulista, 2073 – Conjunto Nacional, Horsa II, 1º andar',hr:'Seg a sex 8h–21h',wa:'5511942966767',lat:-23.5614,lng:-46.6558,
+    d:'Consultórios para profissionais da saúde dentro do Conjunto Nacional, perto do metrô Consolação. Atendimento presencial e online.',
+    capa:F+'9002-4-hd.jpg',gal:[F+'9002-1-hd.jpg',F+'9002-2-hd.jpg',F+'9002-5-hd.jpg',F+'9002-6-hd.jpg',F+'9002-3-hd.jpg',F+'9002-8-hd.jpg'],svc:['Psicologia','Neuropsicologia','Fisioterapia em performance','Terapias integrativas','Atendimento online'],
+    stats:[['4','especialidades'],['8h–21h','seg a sex'],['Online','e presencial']],
+    jor:[['Escolha o atendimento','Psicologia, neuropsicologia, fisioterapia ou terapias integrativas.'],['Presencial ou online','No Conjunto Nacional ou por vídeo, de onde você estiver.'],['Confirme pelo WhatsApp','O MITI responde com o horário e o profissional.'],['Primeira sessão','Converse sobre o que você precisa e defina o plano.']]}
 };
-const CONSULTAS=[['Psicologia','Adultos, casais e adolescentes','brain'],['Neuropsicologia','Memória, atenção e desenvolvimento','spark'],['Fisioterapia em performance','Reabilitação e esporte','activity'],['Terapias integrativas','Práticas complementares de cuidado','leaf']];
-const EXAMES=[['Ressonância magnética','Imagens detalhadas, sem radiação','rm'],['Tomografia','Imagens em cortes, rápida','tc']];
-const REGIOES=['Crânio (encéfalo)','Coluna','Joelho','Ombro','Abdome','Tórax','Pelve','Outra região'];
+const CONSULTAS=[['Psicologia','Adultos, casais e adolescentes','brain','#0B6F6B','#E6F6F5'],['Neuropsicologia','Memória, atenção e desenvolvimento','spark','#7A5A12','#FBEFDC'],['Fisioterapia em performance','Reabilitação e esporte','activity','#8E2A1C','#FBE3DF'],['Terapias integrativas','Práticas complementares de cuidado','leaf','#245E43','#E1F2E8']];
+const POP=[['41101014','Crânio'],['41101227','Coluna'],['41101316','Articulação (joelho, ombro…)'],['41101170','Abdome superior'],['41001010','Crânio'],['41001079','Tórax'],['41001125','Coluna'],['41001095','Abdome total']];
 const CONVS=['sulamerica','careplus','cassi','geap','postal','medsenior','mediservice','vivest','metrus','sbc','biovida','globalmed','medtour','medprev','next','unimed','porto','hapvida','cabesp','select'];
 const PREPARO={
   rm:{n:'Ressonância magnética',img:F+'dm-rm-hd.jpg',itens:[['Pedido médico','Leve o pedido original e um documento com foto.'],['Retire objetos de metal','Brincos, piercings, relógio, grampos e cintos ficam no armário.'],['Avise sobre implantes','Marca-passo, clipes, próteses ou stent: informe ao agendar.'],['Jejum só se pedirem','Exames com contraste podem pedir jejum de 4 horas; confirmamos no WhatsApp.'],['Chegue 20 minutos antes','Para o cadastro e o questionário de segurança.']]},
-  tc:{n:'Tomografia',img:F+'dim-tc.jpg',itens:[['Pedido médico','Leve o pedido original e um documento com foto.'],['Jejum de 4 horas se houver contraste','Água é liberada até 2 horas antes.'],['Leve exames anteriores','Ajudam o médico a comparar as imagens.'],['Avise alergias e função dos rins','Importante para o uso de contraste.'],['Chegue 20 minutos antes','Para o cadastro e o preparo.']]}
+  tc:{n:'Tomografia computadorizada',img:F+'dim-tc.jpg',itens:[['Pedido médico','Leve o pedido original e um documento com foto.'],['Jejum de 4 horas se houver contraste','Água é liberada até 2 horas antes.'],['Leve exames anteriores','Ajudam o médico a comparar as imagens.'],['Avise alergias e função dos rins','Importante para o uso de contraste.'],['Chegue 20 minutos antes','Para o cadastro e o preparo.']]}
 };
-const FAQ=[['Preciso de pedido médico?','Para exames, sim. Você pode fotografar o pedido no app ao agendar; ele chega junto da sua mensagem. Consultas no MITI não precisam de pedido.'],['A ressonância dói?','Não. O exame é indolor; o aparelho faz um barulho alto, por isso oferecemos protetor auricular. Você só precisa ficar parado.'],['Tenho claustrofobia. E agora?','Avise ao agendar. A equipe explica cada etapa, você pode ter um acompanhante por perto e o exame pode ser feito com orientação especial.'],['Em quanto tempo sai o resultado?','Em geral de 3 a 5 dias úteis. Avisamos pelo WhatsApp quando o laudo estiver pronto.'],['Quais convênios vocês aceitam?','A Dimagem atende mais de 30 convênios, como SulAmérica, Cassi, Care Plus, GEAP e MedSênior. Também há atendimento particular.'],['Posso agendar para outra pessoa?','Sim. Cadastre seus familiares em Família e escolha para quem é o agendamento.']];
-const DICAS=[{id:'barulho',t:'Por que a ressonância faz barulho?',k:'3 min de leitura',img:F+'dm-rm2-hd.jpg',p:['O som vem das bobinas do aparelho, que ligam e desligam muito rápido para formar as imagens. É um barulho normal e não indica nenhum problema.','Usamos protetor auricular em todos os exames. Se ajudar, respire devagar e conte as séries de sons: cada uma dura de 2 a 6 minutos.','Ficar parado é a parte mais importante. Quanto mais quieto, mais nítidas ficam as imagens e menos chance de repetir uma sequência.']},
-  {id:'contraste',t:'Contraste: quando ele é usado?',k:'4 min de leitura',img:F+'dim-rm.jpg',p:['O contraste é um líquido aplicado na veia que realça vasos e alguns tecidos. Ele só é usado quando o médico pede.','Antes, perguntamos sobre alergias e sobre a função dos rins. Se preciso, pedimos um exame de creatinina recente.','Depois do exame, beba bastante água ao longo do dia.']},
+const QS=['Você usa marca-passo ou desfibrilador?','Tem implante, clipe, prótese ou stent de metal?','Fez cirurgia nos últimos 3 meses?','Tem medo de lugares fechados?','Pode estar grávida?','Já teve alergia a contraste?'];
+const FAQ=[['Preciso de pedido médico?','Para exames, sim. Fotografe o pedido no app: ele lê o nome e o código do exame e preenche tudo para você. Consultas no MITI não precisam de pedido.'],['A ressonância dói?','Não. O exame é indolor; o aparelho faz um barulho alto, por isso oferecemos protetor auricular. Você só precisa ficar parado.'],['Tenho claustrofobia. E agora?','Avise ao agendar e no questionário de segurança. A equipe explica cada etapa e pode combinar um acompanhamento especial.'],['Em quanto tempo sai o resultado?','Em geral de 3 a 5 dias úteis. Avisamos pelo WhatsApp quando o laudo estiver pronto.'],['Quais convênios vocês aceitam?','A Dimagem atende mais de 30 convênios, como SulAmérica, Cassi, Care Plus, GEAP e MedSênior. Também há atendimento particular.'],['Posso agendar para outra pessoa?','Sim. Cadastre seus familiares em Família e escolha para quem é o agendamento.']];
+const DICAS=[{id:'barulho',t:'Por que a ressonância faz barulho?',k:'3 min de leitura',img:F+'dm-rm2-hd.jpg',p:['O som vem das bobinas do aparelho, que ligam e desligam muito rápido para formar as imagens. É um barulho normal e não indica nenhum problema.','Usamos protetor auricular em todos os exames. Se ajudar, respire devagar e conte as séries de sons: cada uma dura de 2 a 6 minutos.','Ficar parado é a parte mais importante. Quanto mais quieto, mais nítidas as imagens e menor a chance de repetir uma sequência.']},
+  {id:'contraste',t:'Contraste: quando ele é usado?',k:'4 min de leitura',img:F+'dim-tc.jpg',p:['O contraste é um líquido aplicado na veia que realça vasos e alguns tecidos. Ele só é usado quando o médico pede.','Antes, perguntamos sobre alergias e sobre a função dos rins. Se preciso, pedimos um exame de creatinina recente.','Depois do exame, beba bastante água ao longo do dia.']},
   {id:'ansiedade',t:'5 dicas para um exame tranquilo',k:'2 min de leitura',img:F+'9002-1-hd.jpg',p:['Chegue com antecedência para não correr.','Use roupas confortáveis e sem metal.','Leve uma música na cabeça ou um mantra: ajuda a passar o tempo.','Converse com a equipe: perguntar é sempre bem-vindo.','Leve um acompanhante se isso te deixar mais seguro.']}];
 
 /* =================== estado =================== */
-const LS={get(k,d){try{const v=localStorage.getItem('vo_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('vo_'+k,JSON.stringify(v))}catch(e){}}};
-const COR=['#0ABAB5','#A0761C','#0E8F8A','#C0623A','#5C7F6A'];
+const LS={get(k,d){try{const v=localStorage.getItem('vo2_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('vo2_'+k,JSON.stringify(v))}catch(e){}}};
+const COR=['#0ABAB5','#A0761C','#0B6F6B','#C2412D','#4E7A68'];
+function offset(n){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+n);return d.toISOString()}
 const S={
   user:LS.get('user',null),
   fam:LS.get('fam',[{id:'eu',n:'Gabriel Santana',p:'Titular',c:'Particular'},{id:'ana',n:'Ana Santana',p:'Mãe',c:'MedSênior'},{id:'pedro',n:'Pedro Santana',p:'Irmão',c:'Particular'}]),
   who:'eu',
   ag:LS.get('ag',[
-    {id:1,tipo:'exame',item:'Ressonância magnética · Joelho',loc:'dimagem',who:'eu',d:offset(2),per:'Manhã',hora:'9h30',st:2},
-    {id:2,tipo:'consulta',item:'Fisioterapia em performance',loc:'miti',who:'ana',d:offset(9),per:'Tarde',hora:'15h00',st:1},
-    {id:3,tipo:'exame',item:'Tomografia · Crânio',loc:'dimagem',who:'eu',d:offset(-40),per:'Manhã',hora:'8h00',st:4}
-  ]),
+    {id:1,tipo:'exame',mod:'rm',item:'RM · Joelho',loc:'dimagem',who:'eu',d:offset(2),hora:'9h30',st:2},
+    {id:2,tipo:'consulta',item:'Fisioterapia em performance',loc:'miti',who:'ana',d:offset(9),hora:'15h00',st:1},
+    {id:3,tipo:'exame',mod:'tc',item:'TC · Crânio',loc:'dimagem',who:'eu',d:offset(-40),hora:'8h00',st:4}]),
   chk:LS.get('chk',{rm:[0],tc:[]}),
+  qs:LS.get('qs',{}),
   prefs:LS.get('prefs',{fs:1,hc:false,easy:false,rm:false,lemb1:true,lemb0:true}),
-  stack:[],view:'inicio',params:{},
-  flow:null
+  stack:[],view:'inicio',params:{},flow:null
 };
-function offset(n){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+n);return d.toISOString()}
-const save=()=>{LS.set('fam',S.fam);LS.set('ag',S.ag);LS.set('chk',S.chk);LS.set('prefs',S.prefs);LS.set('user',S.user)};
+const save=()=>{LS.set('fam',S.fam);LS.set('ag',S.ag);LS.set('chk',S.chk);LS.set('prefs',S.prefs);LS.set('user',S.user);LS.set('qs',S.qs)};
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
 const DS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],MS=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'],MF=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'],DF=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
 const pnome=()=>(S.user?.nome||'Gabriel').split(' ')[0];
 const ini=n=>n.trim()[0].toUpperCase();
 const famBy=id=>S.fam.find(f=>f.id===id)||S.fam[0];
 const famCor=id=>COR[Math.max(0,S.fam.findIndex(f=>f.id===id))%COR.length];
+const ex=code=>TUSS.find(t=>t[0]===code);
+const ALIAS={'41101316':'joelho ombro cotovelo punho quadril tornozelo pe mao articulacao','41001141':'joelho ombro cotovelo punho quadril tornozelo pe articulacao','41101227':'lombar cervical dorsal toracica coluna','41001125':'lombar cervical dorsal toracica coluna','41101014':'cerebro cabeca encefalo','41001010':'cerebro cabeca','41101170':'figado pancreas rins','41001095':'barriga abdome','41001079':'pulmao torax'};
+const kw=e=>norm(e[1]+' '+e[0]+' '+(ALIAS[e[0]]||''));
+const MODN={rm:'Ressonância magnética',tc:'Tomografia computadorizada'};
+const curto=n=>n.split(/[(,]| ou /)[0].trim();
 
 /* =================== ícones =================== */
 const P={
-home:'<path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2z"/>',
-cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+home:'<path d="M3 10.5 12 3l9 7.5V20a1.5 1.5 0 0 1-1.5 1.5H15v-6h-6v6H4.5A1.5 1.5 0 0 1 3 20z"/>',
+cal:'<rect x="3" y="4.5" width="18" height="17" rx="3"/><path d="M16 2.5v4M8 2.5v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 17.5h.01M12 17.5h.01"/>',
 plus:'<path d="M12 5v14M5 12h14"/>',
-users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>',
-user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
-book:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
-search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
-bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/>',
-check:'<path d="M20 6L9 17l-5-5"/>',
-checkbox:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
-nav:'<path d="M3 11l19-9-9 19-2-8-8-2z"/>',
+users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20.5a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.6a6.5 6.5 0 0 1 3 5.9"/>',
+user:'<circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>',
+book:'<path d="M3 4.5h6a3 3 0 0 1 3 3V21a2.5 2.5 0 0 0-2.5-2.5H3zM21 4.5h-6a3 3 0 0 0-3 3V21a2.5 2.5 0 0 1 2.5-2.5H21z"/>',
+search:'<circle cx="11" cy="11" r="7"/><path d="m20.5 20.5-4.2-4.2"/>',
+bell:'<path d="M6 9a6 6 0 0 1 12 0c0 6.5 2.5 8.5 2.5 8.5h-17S6 15.5 6 9"/><path d="M10 21a2.2 2.2 0 0 0 4 0"/>',
+check:'<path d="M20 6 9 17l-5-5"/>',
+checkbox:'<rect x="3" y="3" width="18" height="18" rx="4"/><path d="m8 12 3 3 5-6"/>',
+nav:'<path d="M3 11 21 3l-8 18-2-8z"/>',
 left:'<path d="M15 18l-6-6 6-6"/>',right:'<path d="M9 18l6-6-6-6"/>',
-x:'<path d="M18 6L6 18M6 6l12 12"/>',
-steth:'<path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/>',
-scan:'<path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="4"/>',
-file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/>',
-card:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/>',
-camera:'<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',
-pin:'<path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
-clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
-phone:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
-mic:'<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/>',
-eye:'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
-type:'<path d="M4 7V4h16v3M9 20h6M12 4v16"/>',
-contrast:'<circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/>',
-motion:'<path d="M5 12h14M12 5l7 7-7 7"/>',
-shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
-img:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>',
-logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
-help:'<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/>',
-brain:'<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.54"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.54"/>',
+x:'<path d="M18 6 6 18M6 6l12 12"/>',
+steth:'<path d="M6 3H5a1 1 0 0 0-1 1v5a5 5 0 0 0 10 0V4a1 1 0 0 0-1-1h-1"/><path d="M9 14v1.5a5.5 5.5 0 0 0 11 0V13"/><circle cx="20" cy="11" r="2"/>',
+scan:'<path d="M3 8V5.5A2.5 2.5 0 0 1 5.5 3H8M16 3h2.5A2.5 2.5 0 0 1 21 5.5V8M21 16v2.5a2.5 2.5 0 0 1-2.5 2.5H16M8 21H5.5A2.5 2.5 0 0 1 3 18.5V16"/><circle cx="12" cy="12" r="4"/>',
+file:'<path d="M14 2.5H6.5A2.5 2.5 0 0 0 4 5v14a2.5 2.5 0 0 0 2.5 2.5h11A2.5 2.5 0 0 0 20 19V8.5z"/><path d="M14 2.5v6h6M8.5 13h7M8.5 17h5"/>',
+card:'<rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 10h19M6.5 15h4"/>',
+camera:'<path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h2l1.6-2.4h5.8L16.5 6h2A2.5 2.5 0 0 1 21 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/><circle cx="12" cy="12.5" r="3.6"/>',
+gallery:'<rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="9" cy="9" r="1.8"/><path d="m21 15.5-4.5-4.5L6 21"/>',
+pin:'<path d="M12 21.5s-7.5-6.2-7.5-12a7.5 7.5 0 0 1 15 0c0 5.8-7.5 12-7.5 12z"/><circle cx="12" cy="9.5" r="2.7"/>',
+clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/>',
+mic:'<rect x="9" y="2.5" width="6" height="11.5" rx="3"/><path d="M5 10.5v1a7 7 0 0 0 14 0v-1M12 18.5v3"/>',
+eye:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+type:'<path d="M4 7V4.5h16V7M9 20h6M12 4.5V20"/>',
+contrast:'<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/>',
+motion:'<path d="M4 12h12M12 6l6 6-6 6"/><path d="M4 7h3M4 17h3"/>',
+shield:'<path d="M12 21.5s7.5-3.6 7.5-9.5V5.5L12 2.5l-7.5 3V12c0 5.9 7.5 9.5 7.5 9.5z"/><path d="m9 12 2 2 4-4"/>',
+img:'<rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="9" cy="9" r="1.8"/><path d="m21 15.5-4.5-4.5L6 21"/>',
+logout:'<path d="M9.5 21H6a2.5 2.5 0 0 1-2.5-2.5v-13A2.5 2.5 0 0 1 6 3h3.5M16 17l5-5-5-5M21 12H9.5"/>',
+help:'<circle cx="12" cy="12" r="9.5"/><path d="M9.3 9a2.8 2.8 0 0 1 5.4 1c0 1.9-2.7 2.6-2.7 2.6M12 17h.01"/>',
+brain:'<path d="M9.5 2.5A2.5 2.5 0 0 1 12 5v14.5a2.5 2.5 0 0 1-5 .4 2.5 2.5 0 0 1-3-3 3 3 0 0 1-.3-5.5A2.5 2.5 0 0 1 5 7.2a2.5 2.5 0 0 1 4.5-4.7"/><path d="M14.5 2.5A2.5 2.5 0 0 0 12 5v14.5a2.5 2.5 0 0 0 5 .4 2.5 2.5 0 0 0 3-3 3 3 0 0 0 .3-5.5A2.5 2.5 0 0 0 19 7.2a2.5 2.5 0 0 0-4.5-4.7"/>',
 spark:'<path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3"/>',
-activity:'<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+activity:'<path d="M22 12h-4l-3 8.5L9 3.5 6 12H2"/>',
 leaf:'<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.5 5.1-6.1"/>',
-rm:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M3 18h18"/>',
-tc:'<circle cx="12" cy="11" r="8"/><circle cx="12" cy="11" r="3"/><path d="M5 21h14"/>',
+rm:'<rect x="2.5" y="4" width="19" height="13" rx="6.5"/><circle cx="12" cy="10.5" r="3.5"/><path d="M5 20.5h14"/>',
+tc:'<circle cx="12" cy="10" r="7.5"/><circle cx="12" cy="10" r="3"/><path d="M4 21h16M12 17.5V21"/>',
 sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
-sunset:'<path d="M17 18a5 5 0 0 0-10 0M12 9V2M4.2 10.2l1.4 1.4M1 18h2M21 18h2M18.4 11.6l1.4-1.4M23 22H1M16 5l-4 4-4-4"/>',
-moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+sunset:'<path d="M17 18a5 5 0 0 0-10 0M12 9V2.5M4.2 10.2l1.4 1.4M1.5 18h2M20.5 18h2M18.4 11.6l1.4-1.4M22.5 21.5h-21M15.5 5.5 12 9 8.5 5.5"/>',
 heart:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.6 1-1.1a5.5 5.5 0 0 0 0-7.7z"/>',
-trash:'<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>',
-refresh:'<path d="M21 2v6h-6M3 22v-6h6"/><path d="M3.5 9a9 9 0 0 1 15-3.4L21 8M20.5 15a9 9 0 0 1-15 3.4L3 16"/>',
-share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>',
+refresh:'<path d="M20.5 3v5.5H15M3.5 21v-5.5H9"/><path d="M4 9.5a8.5 8.5 0 0 1 14.6-3.3L20.5 8.5M20 14.5a8.5 8.5 0 0 1-14.6 3.3L3.5 15.5"/>',
+share:'<circle cx="18" cy="5" r="2.8"/><circle cx="6" cy="12" r="2.8"/><circle cx="18" cy="19" r="2.8"/><path d="m8.5 13.4 7 4.2M15.5 6.4l-7 4.2"/>',
+pix:'<path d="M12 2.5 21.5 12 12 21.5 2.5 12z"/><path d="m8 12 4-4 4 4-4 4z"/>',
+copy:'<rect x="8.5" y="8.5" width="12.5" height="12.5" rx="2.5"/><path d="M15.5 8.5V5.5A2.5 2.5 0 0 0 13 3H5.5A2.5 2.5 0 0 0 3 5.5V13a2.5 2.5 0 0 0 2.5 2.5h3"/>',
+gift:'<rect x="3" y="8" width="18" height="5" rx="1.5"/><path d="M5 13v7.5h14V13M12 8v12.5M12 8S10.5 3 7.5 3.8C5 4.5 6.3 8 12 8zM12 8s1.5-5 4.5-4.2C19 4.5 17.7 8 12 8z"/>',
+expand:'<path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>',
 };
-const I=(n,s=22,c='currentColor',w=2)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]||''}</svg>`;
-const WA=(s=24)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><path fill="#25D366" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/><path fill="#fff" d="M9.2 7.3c-.2-.5-.4-.5-.6-.5h-.5c-.2 0-.5.1-.7.3-.3.3-.9.9-.9 2.2s.9 2.5 1 2.7c.2.2 1.8 2.8 4.4 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.6.1-.3-.1-1.1-.4-2-1.3-.8-.7-1.3-1.5-1.4-1.8-.2-.3 0-.4.1-.5l.4-.5.3-.5v-.5z"/></svg>`;
+const I=(n,s=22,c='currentColor',w=1.9)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]||''}</svg>`;
+const WA=(s=24,bg='#25D366',fg='#fff')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><path fill="${bg}" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/><path fill="${fg}" d="M9.2 7.3c-.2-.5-.4-.5-.6-.5h-.5c-.2 0-.5.1-.7.3-.3.3-.9.9-.9 2.2s.9 2.5 1 2.7c.2.2 1.8 2.8 4.4 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.6.1-.3-.1-1.1-.4-2-1.3-.8-.7-1.3-1.5-1.4-1.8-.2-.3 0-.4.1-.5l.4-.5.3-.5v-.5z"/></svg>`;
 const LOGO=(s=40)=>`<svg width="${s}" height="${s}" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lga${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F3D27A"/><stop offset="1" stop-color="#C9A227"/></linearGradient><linearGradient id="lgb${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0ABAB5"/><stop offset="1" stop-color="#0B6E6B"/></linearGradient></defs><path d="M32 56C22 48 10 32 12 12c12 2 22 12 22 26" fill="url(#lga${s})"/><path d="M32 56c10-8 22-24 20-44-12 2-22 12-22 26" fill="url(#lgb${s})"/><circle cx="32" cy="24" r="6" fill="#fff" stroke="#0E4D45" stroke-width="1.5"/></svg>`;
-const QR=(seed)=>{let h=0;for(const c of seed)h=(h*31+c.charCodeAt(0))>>>0;const n=21;let r='';const fin=(x,y)=>`<path d="M${x} ${y}h7v7h-7zM${x+1} ${y+1}v5h5v-5zM${x+2} ${y+2}h3v3h-3z" fill-rule="evenodd"/>`;r+=fin(0,0)+fin(14,0)+fin(0,14);for(let y=0;y<n;y++)for(let x=0;x<n;x++){if((x<8&&y<8)||(x>12&&y<8)||(x<8&&y>12))continue;h=(h*1103515245+12345)>>>0;if((h>>16)&1)r+=`<rect x="${x}" y="${y}" width="1" height="1"/>`}return `<svg viewBox="0 0 21 21" width="100%" height="100%" shape-rendering="crispEdges" fill="#2B2320" aria-label="QR code da carteirinha">${r}</svg>`};
+const QR=(seed)=>{let h=0;for(const c of seed)h=(h*31+c.charCodeAt(0))>>>0;const n=21;let r='';const fin=(x,y)=>`<path d="M${x} ${y}h7v7h-7zM${x+1} ${y+1}v5h5v-5zM${x+2} ${y+2}h3v3h-3z" fill-rule="evenodd"/>`;r+=fin(0,0)+fin(14,0)+fin(0,14);for(let y=0;y<n;y++)for(let x=0;x<n;x++){if((x<8&&y<8)||(x>12&&y<8)||(x<8&&y>12))continue;h=(h*1103515245+12345)>>>0;if((h>>16)&1)r+=`<rect x="${x}" y="${y}" width="1" height="1"/>`}return `<svg viewBox="0 0 21 21" width="100%" height="100%" shape-rendering="crispEdges" fill="#13302F" role="img" aria-label="QR code">${r}</svg>`};
 
-/* =================== navegação =================== */
+/* =================== navegação com histórico =================== */
 const TABS=['inicio','agenda','agendar','familia','perfil'];
 const TABN=[['inicio','Início','home'],['agenda','Agenda','cal'],['agendar','Agendar','plus'],['familia','Família','users'],['perfil','Perfil','user']];
-let parallax=null;
+const NONAV=['agendar','local','artigo','preparo','sucesso','entrar','busca','convenios','pix','questionario'];
+let parallax=[];
+function hpush(){try{history.pushState({vo:Date.now()},'')}catch(e){}}
 function go(v,params={},opts={}){
-  if(!opts.replace&&!opts.back) S.stack.push({v:S.view,p:S.params,y:$('scr')?.scrollTop||0});
-  if(TABS.includes(v)&&!opts.keep) S.stack=[];
-  S.view=v;S.params=params;render(opts.back?'back':'fwd');
+  closeAll();
+  if(!opts.replace) S.stack.push({v:S.view,p:S.params,y:$('scr')?.scrollTop||0,f:S.flow?JSON.parse(JSON.stringify(S.flow)):null});
+  if(TABS.includes(v)&&v!=='agendar') S.stack=[];
+  S.view=v;S.params=params;
+  if(!opts.replace)hpush();
+  render('fwd');
 }
-function back(){const s=S.stack.pop();if(!s){go('inicio',{}, {back:true});return}S.view=s.v;S.params=s.p;render('back',s.y)}
+function goBack(){history.back()}
+function doBack(){
+  if(closeAll())return;
+  if(S.view==='agendar'&&S.flow&&S.flow.step>0){S.flow.step--;render('back');return}
+  const s=S.stack.pop();
+  if(!s){if(S.view!=='inicio'){S.view='inicio';S.params={};S.flow=null;render('back')}return}
+  if(S.view==='agendar'&&s.v!=='agendar')S.flow=null;
+  S.view=s.v;S.params=s.p;if(s.f)S.flow=s.f;render('back',s.y);
+}
+window.addEventListener('popstate',()=>doBack());
 function render(dir='fwd',y=0){
-  parallax=null;
   const v=VIEWS[S.view]||VIEWS.inicio;
-  const out=v(S.params);
-  const nonav=['agendar','local','artigo','preparo','sucesso','entrar','busca'].includes(S.view);
-  $('view').innerHTML=`<div class="screen ${nonav?'nonav':''} ${dir==='none'?'still':'enter'} ${dir==='back'?'back':''}" id="scr">${out}</div>`;
+  const nonav=NONAV.includes(S.view);
+  $('view').innerHTML=`<div class="screen ${nonav?'nonav':''} ${dir==='none'?'still':'enter'} ${dir==='back'?'rev':''}" id="scr">${v(S.params)}</div>`;
   $('nav').classList.toggle('hide',nonav);
   renderNav();
   const scr=$('scr');if(y)scr.scrollTop=y;
   scr.addEventListener('scroll',onScroll,{passive:true});
   bindAfter();
-  try{$('view').focus({preventScroll:true})}catch(e){}
+  if(dir!=='none')try{$('view').focus({preventScroll:true})}catch(e){}
 }
 function renderNav(){
-  const at=TABS.includes(S.view)?S.view:(S.stack[0]?.v&&TABS.includes(S.stack[0].v)?S.stack[0].v:'inicio');
-  const ix=TABS.indexOf(at);
-  $('nav').innerHTML=`<div class="ind" style="transform:translateX(${ix*100}%)"><i></i></div>`+TABN.map(([k,l,ic])=>k==='agendar'
-    ?`<button data-go="agendar" aria-label="Agendar consulta ou exame"><span class="mid press">${I('plus',27,'#fff',2.6)}</span></button>`
-    :`<button data-go="${k}" ${k===at?'aria-current="page"':''} class="press">${I(ic,23)}${l}</button>`).join('');
+  const at=TABS.includes(S.view)?S.view:'inicio';const ix=TABS.indexOf(at);
+  const nav=$('nav');
+  if(!nav.firstChild){nav.innerHTML=`<span class="blk" id="blk"><i></i></span>`+TABN.map(([k,l,ic])=>k==='agendar'
+    ?`<button class="press" data-go="agendar" aria-label="Agendar consulta ou exame"><span class="mid">${I('plus',27,'#fff',2.5)}</span></button>`
+    :`<button class="it press" data-go="${k}">${I(ic,23,'currentColor',2)}${l}</button>`).join('')}
+  nav.querySelectorAll('.it').forEach(b=>{b.dataset.go===S.view?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current')});
+  const blk=$('blk');blk.style.transform=`translateX(${ix*100}%)`;blk.classList.toggle('off',!TABS.includes(S.view)||S.view==='agendar');
 }
-function onScroll(e){
-  if(!parallax||S.prefs.rm||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  const y=e.target.scrollTop;
-  requestAnimationFrame(()=>parallax.forEach(([el,k,base])=>{const r=el.parentElement.getBoundingClientRect(),vr=$('app').getBoundingClientRect();const c=(r.top-vr.top)-vr.height/2+r.height/2;const t=Math.max(-base,Math.min(base,-c*k));el.style.transform=`translate3d(0,${t.toFixed(1)}px,0)`}));
+function rmOn(){return S.prefs.rm||matchMedia('(prefers-reduced-motion: reduce)').matches}
+function onScroll(){
+  if(!parallax.length||rmOn())return;
+  requestAnimationFrame(()=>{const vr=$('app').getBoundingClientRect();parallax.forEach(([el,k,sl])=>{const r=el.parentElement.getBoundingClientRect();const c=(r.top-vr.top)+r.height/2-vr.height/2;const t=Math.max(-sl,Math.min(sl,-c*k));el.style.transform=`translate3d(0,${t.toFixed(1)}px,0)`})});
 }
 function setParallax(){
   parallax=[...document.querySelectorAll('[data-px]')].map(el=>{const box=el.parentElement.offsetHeight,h=el.offsetHeight||box,sl=Math.max(0,(h-box)/2);el.style.top=(-sl)+'px';return [el,+el.dataset.px,sl]});
-  if(parallax.length)onScroll({target:$('scr')});
+  onScroll();
 }
 
 /* =================== componentes =================== */
-const sec=(t,act,go)=>`<div class="sec"><h2>${t}</h2>${act?`<button data-go="${go}">${act}</button>`:''}</div>`;
-const barTop=(t,right='')=>`<div class="bar"><button class="back press" data-back aria-label="Voltar">${I('left',22)}</button><h1>${t}</h1><div style="margin-left:auto">${right}</div></div>`;
+const sec=(t,act,go,p,sub)=>`<div class="sec"><div><h2>${t}</h2>${sub?`<p>${sub}</p>`:''}</div>${act?`<button data-go="${go}" ${p?`data-p='${p}'`:''}>${act}</button>`:''}</div>`;
+const barTop=(t,right='')=>`<div class="bar"><button class="back press" data-back aria-label="Voltar">${I('left',22,'currentColor',2.2)}</button><h1>${t}</h1><div style="margin-left:auto">${right}</div></div>`;
 const fmtD=iso=>{const d=new Date(iso);return {dia:d.getDate(),mes:MS[d.getMonth()],sem:DS[d.getDay()]}};
-const proximos=()=>S.ag.filter(a=>new Date(a.d)>=new Date(new Date().toDateString())&&a.st<4&&a.st>=0).sort((a,b)=>new Date(a.d)-new Date(b.d));
+const hoje=()=>new Date(new Date().toDateString());
+const ativos=()=>S.ag.filter(a=>new Date(a.d)>=hoje()&&a.st<3&&a.st>=0).sort((a,b)=>new Date(a.d)-new Date(b.d));
 const STN=['Enviado','Em análise','Confirmado','Realizado','Laudo pronto'];
+const waRow=(t='Falar no WhatsApp',s='Resposta em até 15 min no horário comercial',loc='')=>`<button class="wa-row press" data-act="wa" ${loc?`data-loc="${loc}"`:''}>${WA(30,'#fff','#1FA855')}<div style="text-align:left"><b>${t}</b><span>${s}</span></div>${I('right',22,'#fff',2.2)}</button>`;
+const carousel=(id,items)=>`<div class="car" id="${id}">${items}</div><div class="dots" data-dots="${id}" aria-hidden="true"></div>`;
+const prepK=a=>a.mod||(/^TC|Tomo/.test(a.item)?'tc':'rm');
 
 /* =================== telas =================== */
 const VIEWS={};
@@ -570,151 +708,216 @@ VIEWS.entrar=()=>`
   <h1 class="h-xl" style="margin-top:14px">Consultas e exames, marcados em minutos.</h1>
   <p class="sub">Crie seu cadastro uma vez e agende para você e sua família.</p>
   <form id="cad" novalidate>
-    <div class="field" id="f-n"><label for="nome">Nome completo</label><input id="nome" autocomplete="name" placeholder="Como está no documento" value="${esc(S.user?.nome||'')}"><div class="err">Escreva nome e sobrenome.</div></div>
+    <div class="field" id="f-n"><label for="nome">Nome completo</label><input id="nome" autocomplete="name" placeholder="Como está no documento"><div class="err">Escreva nome e sobrenome.</div></div>
     <div class="field" id="f-c"><label for="cel">Celular com WhatsApp</label><input id="cel" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000"><div class="err">Confira o celular: DDD e 9 dígitos.</div></div>
     <div class="field" id="f-v"><label for="conv">Convênio</label><select id="conv"><option value="">Escolha</option><option>Particular</option>${['SulAmérica','Care Plus','Cassi','GEAP Saúde','MedSênior','Mediservice','Postal Saúde','Vivest','Outro convênio'].map(c=>`<option>${c}</option>`).join('')}</select><div class="err">Escolha um convênio ou Particular.</div></div>
     <button class="btn gold full press" style="margin-top:22px" type="submit">Criar cadastro</button>
     <button class="btn line full press" style="margin-top:10px" type="button" data-act="demo">Ver com dados de exemplo</button>
   </form>
-  <p class="foot" style="margin-top:16px">Ao continuar você concorda com os Termos de Uso e a Política de Privacidade.</p>
+  <p class="sub" style="margin:16px 0 0;font-size:.8rem;text-align:center">Ao continuar você concorda com os Termos de Uso e a Política de Privacidade.</p>
 </div>`;
 
 VIEWS.inicio=()=>{
-  const now=new Date();const nx=proximos()[0];
+  const now=new Date();
   const fam=S.fam.map(f=>`<button class="chip press" data-who="${f.id}" aria-pressed="${S.who===f.id}"><i style="background:${famCor(f.id)}">${ini(f.n)}</i>${f.id==='eu'?'Eu':esc(f.n.split(' ')[0])}</button>`).join('');
-  const nxv=S.ag.filter(a=>a.who===S.who&&a.st<3&&new Date(a.d)>=new Date(now.toDateString())).sort((a,b)=>new Date(a.d)-new Date(b.d))[0];
-  let nxt;
-  if(nxv){const d=fmtD(nxv.d),L=LOCAIS[nxv.loc];
-    nxt=`<div class="next"><div class="g"><div class="dt"><small>${d.mes}</small><b class="tab">${d.dia}</b><small>${d.sem}</small></div><div class="tag">Próximo · ${STN[nxv.st].toLowerCase()}</div><div class="tt">${esc(nxv.item)}</div><div class="s">${nxv.hora} · ${L.n}, ${L.b}</div></div>
-    <div class="acts">${nxv.tipo==='exame'?`<button class="a1 press" data-go="preparo" data-p='{"k":"${nxv.item.startsWith('Tomo')?'tc':'rm'}"}'>${I('checkbox',18)}Ver preparo</button>`:`<button class="a1 press" data-go="agenda">${I('cal',18)}Ver detalhes</button>`}<button class="a2 press" data-act="rota" data-loc="${nxv.loc}">${I('nav',18)}Como chegar</button></div></div>`}
-  else nxt=`<div class="next"><div class="tag">Nada marcado para ${S.who==='eu'?'você':esc(famBy(S.who).n.split(' ')[0])}</div><div class="tt" style="margin-top:4px;font-size:1.25rem">Que tal marcar o próximo cuidado?</div><div class="acts"><button class="a1 press" data-go="agendar">${I('plus',18)}Agendar agora</button></div></div>`;
+  const nx=ativos().filter(a=>a.who===S.who)[0];
+  const quem=S.who==='eu'?'você':esc(famBy(S.who).n.split(' ')[0]);
+  let dark;
+  if(nx){const d=fmtD(nx.d),L=LOCAIS[nx.loc];
+    dark=`<div class="dark next"><div class="g"><div class="dt"><small>${d.mes}</small><b class="tab">${d.dia}</b><small>${d.sem}</small></div><div class="tag">Próximo · ${STN[nx.st].toLowerCase()}</div><div class="tt">${esc(nx.item)}</div><div class="s">${nx.hora} · ${L.n}, ${L.b}</div></div>
+    <div class="acts">${nx.tipo==='exame'?`<button class="a1 press" data-go="preparo" data-p='{"k":"${prepK(nx)}"}'>${I('checkbox',18,'currentColor',2)}Ver preparo</button>`:`<button class="a1 press" data-go="agenda">${I('cal',18)}Detalhes</button>`}<button class="a2 press" data-act="rota" data-loc="${nx.loc}">${I('nav',18)}Como chegar</button></div></div>`}
+  else dark=`<div class="dark"><div class="tag">Nada marcado para ${quem}</div><div style="font-family:var(--disp);font-size:1.3rem;font-weight:700;margin-top:2px">O que vamos agendar?</div>
+    <div class="cubes">
+      <div class="cube c1"><svg class="bgic" width="110" height="110" viewBox="0 0 24 24" fill="none" stroke="#0B6F6B" stroke-width="1.2">${P.steth}</svg><span class="ci">${I('steth',24,'#0B6F6B')}</span><b>Consultas</b><span>Terapias no MITI</span>
+        <div class="two-b"><button class="press" data-act="novo" data-tipo="consulta" data-modo="Presencial">Presencial${I('right',16,'currentColor',2.4)}</button><button class="press" data-act="novo" data-tipo="consulta" data-modo="Online">Online${I('right',16,'currentColor',2.4)}</button></div></div>
+      <div class="cube c2"><svg class="bgic" width="110" height="110" viewBox="0 0 24 24" fill="none" stroke="#A0761C" stroke-width="1.2">${P.rm}</svg><span class="ci">${I('scan',24,'#A0761C')}</span><b>Exames</b><span>Imagem na Dimagem</span>
+        <div class="two-b"><button class="press" data-act="novo" data-tipo="exame" data-mod="rm">Ressonância${I('right',16,'currentColor',2.4)}</button><button class="press" data-act="novo" data-tipo="exame" data-mod="tc">Tomografia${I('right',16,'currentColor',2.4)}</button></div></div>
+    </div></div>`;
   const pk=S.chk.rm.length;
+  const dimSlides=[['dm-fachada-hd.jpg','Ao lado do Hospital Albert Sabin','Fácil de chegar, na Lapa'],['dm-recepcao-hd.jpg','Recepção acolhedora','Cadastro rápido e equipe atenta'],['dm-rm2-hd.jpg','Ressonância magnética','Imagens detalhadas, sem radiação'],['dim-tc.jpg','Tomografia computadorizada','Exame rápido, laudo por especialistas']];
   return `
 <div class="top stg"><div class="av" style="background:var(--tif)">${ini(pnome())}</div><div class="hello"><b>Oi, ${esc(pnome())}</b><span>${DF[now.getDay()]}, ${now.getDate()} de ${MF[now.getMonth()]}</span></div>
-<div style="margin-left:auto;display:flex;gap:8px"><button class="ibtn press" data-act="notif" aria-label="Lembretes">${I('bell',21)}<span class="dot"></span></button><button class="ibtn press" data-act="wa" aria-label="Falar no WhatsApp">${WA(23)}</button></div></div>
+<button class="ibtn press" style="margin-left:auto" data-act="notif" aria-label="Lembretes">${I('bell',21)}<span class="dot"></span></button></div>
 <button class="search press" data-go="busca">${I('search',20)}Buscar exame, terapia ou local</button>
-<div class="chips" role="group" aria-label="Para quem">${fam}<button class="chip add press" data-act="addfam" aria-label="Adicionar familiar">${I('plus',18,'#9C8775',2.4)}</button></div>
-${nxt}
+${waRow()}
+<div class="chips" role="group" aria-label="Para quem">${fam}<button class="chip add press" data-act="addfam" aria-label="Adicionar familiar">${I('plus',18,'#7E9592',2.4)}</button></div>
+${dark}
 <div class="quick">
-  <button class="press" data-act="novo" data-tipo="consulta"><span class="q">${I('steth',26,'var(--tifd)',1.9)}</span>Consulta</button>
-  <button class="press" data-act="novo" data-tipo="exame"><span class="q">${I('scan',26,'var(--tifd)',1.9)}</span>Exame</button>
-  <button class="press" data-act="novo" data-tipo="exame" data-pedido="1"><span class="q">${I('camera',26,'var(--gold)',1.9)}</span>Enviar pedido</button>
-  <button class="press" data-go="familia" data-p='{"flip":1}'><span class="q">${I('card',26,'var(--gold)',1.9)}</span>Carteirinha</button>
+  <button class="press" data-act="novo" data-tipo="exame"><span class="q" style="--qc:var(--goldl)">${I('camera',26,'var(--gold)')}</span>Foto do pedido</button>
+  <button class="press" data-go="familia" data-p='{"flip":1}'><span class="q">${I('card',26,'var(--tifd)')}</span>Carteirinha</button>
+  <button class="press" data-go="preparo" data-p='{"k":"rm"}'><span class="q">${I('checkbox',26,'var(--tifd)')}</span>Preparo</button>
+  <button class="press" data-go="questionario"><span class="q" style="--qc:var(--rml)">${I('shield',26,'var(--rm)')}</span>Segurança RM</button>
 </div>
-<div class="hero"><svg class="blob" id="blob" viewBox="0 0 200 200"><path fill="rgba(255,255,255,.15)" d="M44 -58C56 -47 63 -30 66 -12 69 6 68 25 58 38 48 51 30 58 11 63-9 68-30 70-46 61-62 51-72 31-74 11-75-9-68-30-55-42-42-55-21-60-1-59 19-58 33-70 44-58Z" transform="translate(100 100)"/></svg>
+${sec('Como funciona','','','','Do pedido ao laudo, sem fila no telefone')}
+<div class="how">${[['camera','Fotografe o pedido','O app lê o exame e o código TUSS e preenche tudo.'],['cal','Escolha dia e período','Para você ou alguém da família, com convênio ou particular.'],['wa','Confirme no WhatsApp','A clínica responde com o horário em até 15 minutos.'],['file','Receba o laudo','Avisamos quando estiver pronto.']].map((s,i)=>`<div class="st"><span class="n">${i+1}</span><span class="ic">${s[0]==='wa'?WA(22):I(s[0],22,'var(--tifd)')}</span><b>${s[1]}</b><p>${s[2]}</p></div>`).join('')}</div>
+<div class="hero"><svg class="blob" id="blob" viewBox="0 0 200 200"><path fill="rgba(255,255,255,.13)" d="M44 -58C56 -47 63 -30 66 -12 69 6 68 25 58 38 48 51 30 58 11 63-9 68-30 70-46 61-62 51-72 31-74 11-75-9-68-30-55-42-42-55-21-60-1-59 19-58 33-70 44-58Z" transform="translate(100 100)"/></svg>
   <h2>Vamos cuidar de você e da sua família?</h2><p>Terapias no MITI e exames na Dimagem, marcados em minutos.</p>
-  <div class="b"><button class="btn gold press" data-go="agendar">Marcar agora</button><button class="btn b2 press" data-act="wa">Falar conosco</button></div><span class="gl"></span></div>
+  <button class="btn gold press" style="margin-top:18px" data-go="agendar">Marcar agora</button></div>
 <div class="two">
   <button class="tile t1 lift" data-go="preparo" data-p='{"k":"rm"}'><div><b>Preparo da ressonância</b><span>${pk} de ${PREPARO.rm.itens.length} itens prontos</span></div><div><div class="chk">${PREPARO.rm.itens.slice(0,2).map((it,i)=>`<div><span class="bx ${S.chk.rm.includes(i)?'on':''}">${S.chk.rm.includes(i)?I('check',12,'#fff',4):''}</span>${it[0]}</div>`).join('')}</div><div class="prog"><i style="transform:scaleX(${pk/PREPARO.rm.itens.length})"></i></div></div></button>
-  <button class="tile t2 lift" data-go="guia"><div><b>Guia de saúde</b><span>Preparos, dúvidas e dicas para o seu exame</span></div>${I('book',36,'#8A6516',1.8)}</button>
+  <button class="tile t2 lift" data-go="guia"><div><b>Guia de saúde</b><span>Preparos, dúvidas e dicas para o seu exame</span></div>${I('book',36,'#8A6516',1.7)}</button>
 </div>
-${sec('Onde atendemos','Ver no mapa','guia')}
-<div class="hs" id="hs">${Object.values(LOCAIS).map(L=>`<button class="place zoom lift" data-go="local" data-p='{"id":"${L.id}"}'><div class="im"><img data-hx src="${L.capa}" alt="${L.n}" loading="lazy"><span class="pill">${L.k}</span></div><div class="tx"><b>${L.n}</b><span>${L.b} · ${L.hr.split('·')[0]}</span></div></button>`).join('')}</div>
-<div class="band"><img data-px="0.18" src="${F}dm-fachada-hd.jpg" alt="Fachada da Dimagem Unineuro, ao lado do Hospital Albert Sabin" loading="lazy"><div class="ov"><div class="big">30<small>anos</small></div><h3>Saúde igual para todos</h3><p>A Dimagem Unineuro faz ressonância e tomografia na Lapa para SUS, convênio e particular.</p></div></div>
+${sec('Exames mais procurados','Ver todos','agendar','','Toque e já começamos o agendamento')}
+<div class="pop">${POP.map(([c,l])=>{const e=ex(c);return e?`<button class="press" data-act="novo" data-tipo="exame" data-code="${c}"><i class="i-${e[2]}">${e[2]==='rm'?'RM':'TC'}</i>${esc(l)}</button>`:''}).join('')}</div>
+${sec('Conheça a Dimagem','Ver mais','local','{"id":"dimagem"}','Ressonância e tomografia na Lapa')}
+${carousel('carD',dimSlides.map(s=>`<button class="slide zoom" data-go="local" data-p='{"id":"dimagem"}'><img data-hx src="${F}${s[0]}" alt="" loading="lazy"><span class="pill">Dimagem Unineuro</span><div class="ov"><b>${s[1]}</b><span>${s[2]}</span></div></button>`).join(''))}
+<div class="band"><img data-px="0.2" src="${F}dm-rm-hd.jpg" alt="Sala de ressonância da Dimagem Unineuro" loading="lazy"><div class="ov"><div class="big">30<small>anos</small></div><h3>Saúde igual para todos</h3><p>Exames de imagem na Lapa para SUS, convênio e particular.</p></div></div>
+<div class="stats">${LOCAIS.dimagem.stats.map(s=>`<div><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div>
+${sec('Conheça o MITI','Ver mais','local','{"id":"miti"}','Terapias no Conjunto Nacional, Av. Paulista')}
+<div class="spec">${CONSULTAS.map(c=>`<button class="press lift" style="background:${c[4]};color:${c[3]}" data-act="novo" data-tipo="consulta" data-item="${c[0]}"><span class="ic" style="background:#fff">${I(c[2],22,c[3])}</span><div><b>${c[0]}</b><span>${c[1]}</span></div></button>`).join('')}</div>
+${carousel('carM',LOCAIS.miti.gal.slice(0,4).map((g,i)=>`<button class="slide zoom" data-go="local" data-p='{"id":"miti"}'><img data-hx src="${g}" alt="" loading="lazy"><span class="pill">MITI Consultórios</span><div class="ov"><b>${['Recepção no 1º andar','Salas acolhedoras','Espaço para terapias','Atendimento presencial'][i]}</b><span>Conjunto Nacional · Av. Paulista</span></div></button>`).join(''))}
 ${sec('Convênios aceitos','Ver todos','convenios')}
 <div class="convs">${CONVS.slice(0,10).map(c=>`<div class="conv"><img src="${F}conv/${c}.png" alt="${c}" loading="lazy"></div>`).join('')}</div>
-${sec('Para ler antes do exame','Ver guia','guia')}
-<div class="card tips">${DICAS.map(d=>`<button class="tip press" data-go="artigo" data-p='{"id":"${d.id}"}'><span class="th"><img src="${d.img}" alt="" style="width:100%;height:100%;object-fit:cover"></span><div><b>${d.t}</b><span>${d.k}</span></div>${I('right',20,'var(--faint)')}</button>`).join('')}</div>
-<p class="foot">VittaOne · Dimagem Unineuro e MITI Consultórios<br>Prévia de design com dados de exemplo</p>`;
+${sec('Perguntas rápidas','Ver todas','guia','{"t":"faq"}')}
+<div class="card faq">${FAQ.slice(0,3).map(q=>`<div class="fq"><button data-act="faq" aria-expanded="false">${esc(q[0])}${I('plus',20,'var(--gold)',2.4)}</button><div class="a"><div><p>${esc(q[1])}</p></div></div></div>`).join('')}</div>
+<div class="refer"><div style="flex:1"><b>Cuide de quem você ama</b><p>Envie o VittaOne para um familiar e agendem juntos.</p><button class="btn gold press" style="margin-top:12px;height:46px" data-act="indicar">${I('share',18,'#fff')}Indicar o app</button></div>${I('gift',56,'#A0761C',1.4)}</div>
+${sec('Para ler antes do exame','Ver guia','guia','{"t":"dicas"}')}
+<div class="card tips">${DICAS.map(d=>`<button class="tip press" data-go="artigo" data-p='{"id":"${d.id}"}'><span class="th"><img src="${d.img}" alt=""></span><div><b>${d.t}</b><span>${d.k}</span></div>${I('right',20,'var(--faint)')}</button>`).join('')}</div>
+<footer class="footer"><div class="lg">${LOGO(26)}Vitta<i>One</i></div><p>Sua saúde em um só lugar. Prévia de design com dados de exemplo.</p>
+${Object.values(LOCAIS).map(L=>`<div class="loc"><b>${L.n}</b><p style="margin-top:2px">${L.e}<br>${L.hr}</p></div>`).join('')}</footer>`;
 };
 
 VIEWS.busca=()=>`${barTop('Buscar')}
-<div class="pg"><div class="field" style="margin-top:6px"><label for="q" style="position:absolute;left:-9999px">Buscar</label><input id="q" placeholder="Ex.: joelho, psicologia, tomografia" autocomplete="off"></div></div>
+<div class="pg"><div class="field" style="margin-top:4px"><label for="q" class="sr">Buscar</label><input id="q" placeholder="Ex.: joelho, psicologia, 41101" autocomplete="off"></div></div>
 <div id="qres" class="pg" style="margin-top:12px"></div>`;
 function buscar(t){
-  t=(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
-  const n=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
-  const items=[...CONSULTAS.map(c=>({t:c[0],s:'Consulta no MITI',a:`data-act="novo" data-tipo="consulta"`,ic:'steth'})),...EXAMES.map(e=>({t:e[0],s:'Exame na Dimagem',a:`data-act="novo" data-tipo="exame"`,ic:'scan'})),...REGIOES.slice(0,7).map(r=>({t:'Ressonância de '+r.toLowerCase(),s:'Exame na Dimagem',a:`data-act="novo" data-tipo="exame"`,ic:'rm'})),...Object.values(LOCAIS).map(L=>({t:L.n,s:L.b,a:`data-go="local" data-p='{"id":"${L.id}"}'`,ic:'pin'})),...DICAS.map(d=>({t:d.t,s:'Guia de saúde',a:`data-go="artigo" data-p='{"id":"${d.id}"}'`,ic:'book'}))];
-  const r=t?items.filter(i=>t.split(/\s+/).every(w=>n(i.t+' '+i.s).includes(w))):items.slice(0,6);
+  const w=norm(t||'').split(/\s+/).filter(Boolean);
+  const items=[...CONSULTAS.map(c=>({t:c[0],s:'Consulta no MITI',a:`data-act="novo" data-tipo="consulta" data-item="${c[0]}"`,ic:'steth'})),...TUSS.map(e=>({t:e[1],s:(e[2]==='rm'?'Ressonância':'Tomografia')+' · TUSS '+e[0],a:`data-act="novo" data-tipo="exame" data-code="${e[0]}"`,ic:e[2],code:e[0]})),...Object.values(LOCAIS).map(L=>({t:L.n,s:L.b,a:`data-go="local" data-p='{"id":"${L.id}"}'`,ic:'pin'})),...DICAS.map(d=>({t:d.t,s:'Guia de saúde',a:`data-go="artigo" data-p='{"id":"${d.id}"}'`,ic:'book'}))];
+  const syn=x=>x.replace(/^ressonancia$/,'rm').replace(/^tomografia$/,'tomografia');
+  const r=(w.length?items.filter(i=>{const h=norm(i.t+' '+i.s+(i.ic==='rm'?' ressonancia rm':i.ic==='tc'?' tomografia tc':'')+(i.code?' '+(ALIAS[i.code]||''):''));return w.every(x=>h.includes(x)||h.includes(syn(x)))}):items.filter(i=>i.ic==='steth'||i.ic==='pin')).slice(0,30);
   $('qres').innerHTML=r.length?`<div class="card">${r.map(i=>`<button class="row press" ${i.a}><span class="ic">${I(i.ic,20,'var(--tifd)')}</span><div><b>${esc(i.t)}</b><span>${esc(i.s)}</span></div>${I('right',20,'var(--faint)')}</button>`).join('')}</div>`
-  :`<div class="empty"><div class="e">${I('search',40,'var(--gold)',1.8)}</div><h3>Nada encontrado</h3><p>Tente outra palavra, ou fale com a gente pelo WhatsApp.</p><button class="btn wa press" data-act="wa">${WA(20)}Falar no WhatsApp</button></div>`;
+  :`<div class="empty"><div class="e">${I('search',40,'var(--tifd)',1.8)}</div><h3>Nada encontrado</h3><p>Tente outra palavra, ou fale com a gente pelo WhatsApp.</p><button class="btn wa press" data-act="wa">${WA(20,'#fff','#1FA855')}Falar no WhatsApp</button></div>`;
 }
 
-/* ---------- agendar (passo a passo) ---------- */
-function novoFlow(tipo,pedido){S.flow={step:tipo?1:0,tipo:tipo||null,item:null,reg:null,who:S.who,pag:famBy(S.who).c==='Particular'?'Particular':'Convênio',dia:null,per:null,foto:null,obs:'',focoPedido:!!pedido}}
-const STEPS=['O que você precisa?','Qual?','Para quem?','Como vai pagar?','Quando prefere?','Pedido médico','Confira e envie'];
+/* ---------- agendar ---------- */
+function novoFlow(o={}){const tipo=o.tipo||null;const w=o.who||S.who;S.flow={step:tipo?1:0,tipo,exs:o.code?[o.code]:[],mod:o.mod||(o.code?ex(o.code)?.[2]:null),q:'',item:o.item||null,modo:o.modo||'Presencial',who:w,pag:famBy(w).c==='Particular'?'Particular':'Convênio',pix:false,dia:null,per:null,foto:null,ocr:null}}
+const STEPS={exame:['O que você precisa?','Qual exame?','Para quem?','Como vai pagar?','Quando prefere?','Confira e envie'],consulta:['O que você precisa?','Qual atendimento?','Para quem?','Como vai pagar?','Quando prefere?','Confira e envie']};
+function exList(){const f=S.flow;const w=norm(f.q).split(/\s+/).filter(Boolean);
+  const L=TUSS.filter(e=>(!f.mod||e[2]===f.mod)&&w.every(x=>kw(e).includes(x)));
+  return L.length?L.map(e=>{const on=f.exs.includes(e[0]);return `<button class="ex press" data-act="exsel" data-code="${e[0]}" aria-pressed="${on}"><span class="mk" style="background:${e[2]==='rm'?'var(--rm)':'var(--tif)'}"></span><b>${esc(e[1])}</b><code>${e[0]}</code><span class="ck">${on?I('check',14,'#fff',3.5):''}</span></button>`}).join('')
+  :`<div class="row"><div><b>Nenhum exame com esse nome</b><span>Tente outra palavra ou envie a foto do pedido.</span></div></div>`}
 VIEWS.agendar=()=>{
   if(!S.flow)novoFlow();
-  const f=S.flow,st=f.step,tot=f.tipo==='consulta'?6:7;
-  const realStep=f.tipo==='consulta'&&st>=5?st+1:st;
-  const head=`<div class="bar"><button class="back press" data-act="fprev" aria-label="Voltar">${I(st===0?'x':'left',22)}</button><h1>Agendar</h1></div>
+  const f=S.flow,st=f.step,T=STEPS[f.tipo||'exame'],tot=T.length;
+  const head=`<div class="bar"><button class="back press" data-back aria-label="${st===0?'Fechar':'Voltar'}">${I(st===0?'x':'left',22,'currentColor',2.2)}</button><h1>Agendar</h1></div>
   <div class="steps"><i style="transform:scaleX(${(st+1)/tot})"></i></div><div class="stepn">Passo ${st+1} de ${tot}</div>`;
   let body='',ok=true;
-  const t=STEPS[realStep];
-  if(realStep===0){body=`<div class="pg"><h2 class="h-l" style="margin-top:4px">${t}</h2></div>
+  if(st===0){body=`<div class="pg"><h2 class="h-l">${T[0]}</h2></div>
     <div class="big-opt">
-    <button class="opt press" data-f="tipo" data-v="consulta" aria-pressed="${f.tipo==='consulta'}"><div class="im"><img src="${F}9002-6-hd.jpg" alt=""></div><div class="tx"><b>Consulta ou terapia</b><span>No MITI, Av. Paulista</span></div></button>
-    <button class="opt press" data-f="tipo" data-v="exame" aria-pressed="${f.tipo==='exame'}"><div class="im"><img src="${F}dm-rm-hd.jpg" alt=""></div><div class="tx"><b>Exame de imagem</b><span>Na Dimagem, Lapa</span></div></button></div>`;ok=!!f.tipo}
-  if(realStep===1){
-    if(f.tipo==='consulta')body=`<div class="pg"><h2 class="h-l">Qual atendimento?</h2><p class="sub">Profissionais do MITI Consultórios</p></div><div class="opts">${CONSULTAS.map(c=>`<button class="opt press" data-f="item" data-v="${c[0]}" aria-pressed="${f.item===c[0]}"><span class="ic" style="background:var(--tifl)">${I(c[2],24,'var(--tifd)')}</span><div><b>${c[0]}</b><span>${c[1]}</span></div><span class="rad">${f.item===c[0]?I('check',14,'#fff',3.5):''}</span></button>`).join('')}</div>`;
-    else body=`<div class="pg"><h2 class="h-l">Qual exame?</h2></div><div class="opts">${EXAMES.map(c=>`<button class="opt press" data-f="item" data-v="${c[0]}" aria-pressed="${f.item===c[0]}"><span class="ic" style="background:var(--goldl)">${I(c[2],24,'var(--gold)')}</span><div><b>${c[0]}</b><span>${c[1]}</span></div><span class="rad">${f.item===c[0]?I('check',14,'#fff',3.5):''}</span></button>`).join('')}</div>
-      ${f.item?`<div class="pg" style="margin-top:22px"><h3 style="font-size:1.1rem">Região do corpo</h3><p class="sub">Se não souber, escolha "Outra região": a gente confere pelo pedido.</p></div><div class="chips" style="flex-wrap:wrap">${REGIOES.map(r=>`<button class="chip press" style="padding:0 16px" data-f="reg" data-v="${r}" aria-pressed="${f.reg===r}">${r}</button>`).join('')}</div>`:''}`;
-    ok=f.tipo==='consulta'?!!f.item:!!(f.item&&f.reg)}
-  if(realStep===2){body=`<div class="pg"><h2 class="h-l">${t}</h2></div><div class="opts">${S.fam.map(m=>`<button class="opt press" data-f="who" data-v="${m.id}" aria-pressed="${f.who===m.id}"><span class="av" style="background:${famCor(m.id)};width:48px;height:48px">${ini(m.n)}</span><div><b>${esc(m.n)}</b><span>${m.p} · ${esc(m.c)}</span></div><span class="rad">${f.who===m.id?I('check',14,'#fff',3.5):''}</span></button>`).join('')}
-    <button class="opt press" data-act="addfam" style="box-shadow:none;border:2px dashed #CDBBA9;background:transparent"><span class="ic" style="background:var(--goldl)">${I('plus',22,'var(--gold)')}</span><div><b>Adicionar familiar</b><span>Leva menos de 1 minuto</span></div></button></div>`}
-  if(realStep===3){const c=famBy(f.who).c;body=`<div class="pg"><h2 class="h-l">${t}</h2></div><div class="opts">
-    <button class="opt press" data-f="pag" data-v="Convênio" aria-pressed="${f.pag==='Convênio'}"><span class="ic" style="background:var(--tifl)">${I('shield',24,'var(--tifd)')}</span><div><b>Convênio</b><span>${c==='Particular'?'Informe o plano na mensagem':esc(c)}</span></div><span class="rad">${f.pag==='Convênio'?I('check',14,'#fff',3.5):''}</span></button>
-    <button class="opt press" data-f="pag" data-v="Particular" aria-pressed="${f.pag==='Particular'}"><span class="ic" style="background:var(--goldl)">${I('card',24,'var(--gold)')}</span><div><b>Particular</b><span>Enviamos o valor pelo WhatsApp</span></div><span class="rad">${f.pag==='Particular'?I('check',14,'#fff',3.5):''}</span></button></div>
-    ${f.tipo==='exame'?`<div class="pg" style="margin-top:18px"><div class="card" style="padding:14px 16px;display:flex;gap:12px;align-items:center">${I('shield',22,'var(--gold)')}<span style="font-size:.9rem;color:var(--soft)">A Dimagem atende <b style="color:var(--ink)">mais de 30 convênios</b>. Se o seu não estiver na lista, a gente te avisa.</span></div></div>`:''}`}
-  if(realStep===4){const L=LOCAIS[f.tipo==='consulta'?'miti':'dimagem'];const ds=[];for(let i=1;ds.length<12;i++){const d=new Date();d.setDate(d.getDate()+i);ds.push(d)}
-    const pers=f.tipo==='consulta'?[['Manhã','8h–12h','sun'],['Tarde','12h–18h','sunset'],['Noite','18h–21h','moon']]:[['Manhã','7h–12h','sun'],['Tarde','12h–19h','sunset'],['Sem preferência','Qualquer horário','clock']];
-    body=`<div class="pg"><h2 class="h-l">${t}</h2><p class="sub">${L.n} · ${L.hr}</p></div>
+    <button class="opt press" data-f="tipo" data-v="consulta" aria-pressed="${f.tipo==='consulta'}"><div class="im"><img src="${F}9002-6-hd.jpg" alt=""></div><div class="tx"><b>Consulta ou terapia</b><span>No MITI, presencial ou online</span></div></button>
+    <button class="opt press" data-f="tipo" data-v="exame" aria-pressed="${f.tipo==='exame'}"><div class="im"><img src="${F}dm-rm-hd.jpg" alt=""></div><div class="tx"><b>Exame de imagem</b><span>Ressonância ou tomografia na Dimagem</span></div></button></div>`;ok=!!f.tipo}
+  if(st===1&&f.tipo==='consulta'){body=`<div class="pg"><h2 class="h-l">${T[1]}</h2><p class="sub">Profissionais do MITI Consultórios</p></div>
+    <div class="seg" role="tablist" style="margin-top:14px"><span class="knob" style="transform:translateX(${f.modo==='Online'?100:0}%)"></span><button role="tab" aria-selected="${f.modo!=='Online'}" data-f="modo" data-v="Presencial">Presencial</button><button role="tab" aria-selected="${f.modo==='Online'}" data-f="modo" data-v="Online">Online (vídeo)</button></div>
+    <div class="opts">${CONSULTAS.map(c=>`<button class="opt press" data-f="item" data-v="${c[0]}" aria-pressed="${f.item===c[0]}"><span class="oi" style="background:${c[4]}">${I(c[2],24,c[3])}</span><div><b>${c[0]}</b><span>${c[1]}</span></div><span class="rad">${f.item===c[0]?I('check',14,'#fff',3.5):''}</span></button>`).join('')}</div>`;ok=!!f.item}
+  if(st===1&&f.tipo!=='consulta'){
+    const sel=f.exs.map(c=>ex(c)).filter(Boolean);
+    body=`<div class="pg"><h2 class="h-l">${T[1]}</h2><p class="sub">Envie o pedido médico e o app preenche o exame para você.</p></div>
+    ${f.ocr?ocrBox():`<div class="pedido">
+      <label class="pc1 press" for="fcam">${I('camera',30,'#fff',1.7)}<b>Tirar foto do pedido médico</b><input id="fcam" type="file" accept="image/*" capture="environment"></label>
+      <label class="pc2 press" for="fgal">${I('gallery',30,'var(--tifd)',1.7)}<b>Escolher pedido médico na galeria</b><input id="fgal" type="file" accept="image/*"></label></div>`}
+    <div class="manual">Não tem o pedido? Escolha manualmente</div>
+    <div class="mods">
+      <button class="mod rm press" data-act="mod" data-v="rm" aria-pressed="${f.mod==='rm'}">${I('rm',28,'var(--rm)',1.7)}<div><b>Ressonância Magnética</b><span>${TUSS.filter(e=>e[2]==='rm').length} exames</span></div></button>
+      <button class="mod tc press" data-act="mod" data-v="tc" aria-pressed="${f.mod==='tc'}">${I('tc',28,'var(--tifd)',1.7)}<div><b>Tomografia Computadorizada</b><span>${TUSS.filter(e=>e[2]==='tc').length} exames</span></div></button></div>
+    ${sel.length?`<div class="selbar" aria-label="Exames escolhidos">${sel.map(e=>`<button class="press" data-act="exsel" data-code="${e[0]}" aria-label="Remover ${esc(e[1])}">${esc(curto(e[1]))}${I('x',14,'#fff',2.6)}</button>`).join('')}</div>`:''}
+    <div class="pg"><div class="field" style="margin-top:12px"><label for="qex" class="sr">Pesquisar exame</label><input id="qex" placeholder="Pesquisar por nome ou código TUSS" value="${esc(f.q)}" autocomplete="off"></div></div>
+    <div class="card exs" id="exs">${exList()}</div>`;ok=f.exs.length>0}
+  if(st===2){body=`<div class="pg"><h2 class="h-l">${T[2]}</h2></div><div class="opts">${S.fam.map(m=>`<button class="opt press" data-f="who" data-v="${m.id}" aria-pressed="${f.who===m.id}"><span class="av" style="background:${famCor(m.id)};width:48px;height:48px">${ini(m.n)}</span><div><b>${esc(m.n)}</b><span>${m.p} · ${esc(m.c)}</span></div><span class="rad">${f.who===m.id?I('check',14,'#fff',3.5):''}</span></button>`).join('')}
+    <button class="opt press" data-act="addfam" style="box-shadow:none;border:2px dashed #A9C1BE;background:transparent"><span class="oi" style="background:var(--goldl)">${I('plus',22,'var(--gold)',2.2)}</span><div><b>Adicionar familiar</b><span>Leva menos de 1 minuto</span></div></button></div>`}
+  if(st===3){const c=famBy(f.who).c;body=`<div class="pg"><h2 class="h-l">${T[3]}</h2></div><div class="opts">
+    <button class="opt press" data-f="pag" data-v="Convênio" aria-pressed="${f.pag==='Convênio'}"><span class="oi" style="background:var(--tifl)">${I('shield',24,'var(--tifd)')}</span><div><b>Convênio</b><span>${c==='Particular'?'Informe o plano na mensagem':esc(c)}</span></div><span class="rad">${f.pag==='Convênio'?I('check',14,'#fff',3.5):''}</span></button>
+    <button class="opt press" data-f="pag" data-v="Particular" aria-pressed="${f.pag==='Particular'}"><span class="oi" style="background:var(--goldl)">${I('card',24,'var(--gold)')}</span><div><b>Particular</b><span>Veja o valor e pague adiantado</span></div><span class="rad">${f.pag==='Particular'?I('check',14,'#fff',3.5):''}</span></button></div>
+    ${f.pag==='Particular'?`<div class="price"><small>Valor estimado (exemplo)</small><div class="v">${brl(valor())}</div><small>${f.tipo==='consulta'?'Por sessão':f.exs.length+' exame(s)'} · o valor final é confirmado pela clínica</small>
+      <button class="tg press" role="switch" aria-checked="${f.pix}" data-act="pixtg">${I('pix',26,'#0ABAB5',1.8)}<div><b>Pagar adiantado por Pix</b><span>Garante a vaga e agiliza a recepção</span></div><span class="sw"></span></button></div>`
+    :f.tipo==='exame'?`<div class="pg" style="margin-top:16px"><div class="card" style="padding:14px 16px;display:flex;gap:12px;align-items:center">${I('shield',22,'var(--gold)')}<span style="font-size:.9rem;color:var(--soft)">A Dimagem atende <b style="color:var(--ink)">mais de 30 convênios</b>. Se o seu não estiver na lista, a gente te avisa.</span></div></div>`:''}`}
+  if(st===4){const L=LOCAIS[f.tipo==='consulta'?'miti':'dimagem'];const ds=[];for(let i=1;ds.length<14;i++){const d=new Date();d.setDate(d.getDate()+i);ds.push(d)}
+    const pers=f.tipo==='consulta'?[['Manhã','8h–12h','sun'],['Tarde','12h–18h','sunset'],['Noite','18h–21h','clock']]:[['Manhã','7h–12h','sun'],['Tarde','12h–19h','sunset'],['Tanto faz','Qualquer horário','clock']];
+    body=`<div class="pg"><h2 class="h-l">${T[4]}</h2><p class="sub">${f.tipo==='consulta'&&f.modo==='Online'?'Online · '+LOCAIS.miti.hr:L.n+' · '+L.hr}</p></div>
     <div class="sec" style="margin-top:18px"><h2 style="font-size:1.05rem">Dia</h2></div>
     <div class="days">${ds.map(d=>{const iso=d.toDateString();const fech=d.getDay()===0||(f.tipo==='consulta'&&d.getDay()===6);return `<button class="day press" data-f="dia" data-v="${iso}" aria-pressed="${f.dia===iso}" ${fech?'disabled aria-label="Fechado"':''}><small>${DS[d.getDay()]}</small><b class="tab">${d.getDate()}</b><small>${MS[d.getMonth()]}</small></button>`}).join('')}</div>
     <div class="sec" style="margin-top:18px"><h2 style="font-size:1.05rem">Período</h2></div>
-    <div class="per">${pers.map(p=>`<button class="opt press" data-f="per" data-v="${p[0]}" aria-pressed="${f.per===p[0]}">${I(p[2],24,'var(--gold)')}<b style="font-size:.95rem">${p[0]}</b><span style="font-size:.78rem">${p[1]}</span></button>`).join('')}</div>
-    <div class="pg" style="margin-top:16px"><p class="sub">${I('clock',16,'var(--tifd)')} </p><p class="sub" style="margin-top:-18px;padding-left:24px">O horário exato é confirmado pelo WhatsApp em até 15 minutos no horário comercial.</p></div>`;ok=!!(f.dia&&f.per)}
-  if(realStep===5){body=`<div class="pg"><h2 class="h-l">${t}</h2><p class="sub">Fotografe o pedido: ele vai junto do seu agendamento e agiliza a confirmação.</p></div>
-    ${f.foto?`<div class="prev"><img src="${f.foto}" alt="Foto do pedido médico"><button class="ibtn x press" data-act="rmfoto" aria-label="Remover foto">${I('trash',20,'var(--warn)')}</button></div><div class="pg"><p class="sub" style="text-align:center">${I('check',16,'var(--ok)')} </p><p class="sub" style="text-align:center;margin-top:-20px">Pedido anexado. Confira se o texto está legível.</p></div>`
-    :`<label class="drop press" for="foto">${I('camera',40,'var(--tifd)',1.7)}<b>Tirar foto do pedido</b><span>ou escolher da galeria</span><input id="foto" type="file" accept="image/*" capture="environment" hidden></label>
-     <div class="pg"><div class="card" style="margin-top:14px;padding:14px 16px;font-size:.9rem;color:var(--soft)"><b style="color:var(--ink)">Dicas para a foto:</b> papel inteiro na tela, boa luz, sem reflexo. A imagem fica guardada com segurança e só a clínica acessa.</div></div>`}`}
-  if(realStep===6){const L=LOCAIS[f.tipo==='consulta'?'miti':'dimagem'];const d=new Date(f.dia);const m=famBy(f.who);
-    body=`<div class="pg"><h2 class="h-l">${t}</h2></div><div class="card sumr">
-    <div class="row"><span class="ic">${I(f.tipo==='consulta'?'steth':'scan',20,'var(--tifd)')}</span><div><span>${f.tipo==='consulta'?'Atendimento':'Exame'}</span><b>${esc(f.item)}${f.reg?' · '+esc(f.reg):''}</b></div></div>
-    <div class="row"><span class="ic">${I('pin',20,'var(--tifd)')}</span><div><span>Local</span><b>${L.n} · ${L.b}</b></div></div>
+    <div class="per">${pers.map(p=>`<button class="opt press" data-f="per" data-v="${p[0]}" aria-pressed="${f.per===p[0]}">${I(p[2],24,'var(--gold)')}<b style="font-size:.95rem">${p[0]}</b><span style="font-size:.78rem;color:var(--soft)">${p[1]}</span></button>`).join('')}</div>
+    <div class="pg"><div class="card" style="margin-top:16px;padding:14px 16px;display:flex;gap:12px;align-items:center">${I('clock',22,'var(--tifd)')}<span style="font-size:.9rem;color:var(--soft)">O horário exato é confirmado pelo WhatsApp em até 15 minutos no horário comercial.</span></div></div>`;ok=!!(f.dia&&f.per)}
+  if(st===5){const L=LOCAIS[f.tipo==='consulta'?'miti':'dimagem'];const d=new Date(f.dia);const m=famBy(f.who);
+    body=`<div class="pg"><h2 class="h-l">${T[5]}</h2></div><div class="card sumr">
+    ${f.tipo==='consulta'?`<div class="row"><span class="ic">${I('steth',20,'var(--tifd)')}</span><div><span>Atendimento</span><b>${esc(f.item)} · ${f.modo}</b></div></div>`
+      :f.exs.map(c=>{const e=ex(c);return `<div class="row"><span class="ic" style="background:${e[2]==='rm'?'var(--rml)':'var(--tifl)'}">${I(e[2],20,e[2]==='rm'?'var(--rm)':'var(--tifd)')}</span><div><span>${MODN[e[2]]} · TUSS ${e[0]}</span><b>${esc(e[1])}</b></div></div>`}).join('')}
+    <div class="row"><span class="ic">${I('pin',20,'var(--tifd)')}</span><div><span>Local</span><b>${f.modo==='Online'&&f.tipo==='consulta'?'Online, por vídeo':L.n+' · '+L.b}</b></div></div>
     <div class="row"><span class="ic">${I('user',20,'var(--tifd)')}</span><div><span>Paciente</span><b>${esc(m.n)}</b></div></div>
     <div class="row"><span class="ic">${I('cal',20,'var(--tifd)')}</span><div><span>Preferência</span><b>${DF[d.getDay()]}, ${d.getDate()} de ${MF[d.getMonth()]} · ${f.per}</b></div></div>
-    <div class="row"><span class="ic">${I('shield',20,'var(--tifd)')}</span><div><span>Pagamento</span><b>${f.pag==='Convênio'?esc(m.c==='Particular'?'Convênio':m.c):'Particular'}</b></div></div>
-    ${f.tipo==='exame'?`<div class="row"><span class="ic">${I('file',20,'var(--tifd)')}</span><div><span>Pedido médico</span><b>${f.foto?'Foto anexada':'Vou enviar depois'}</b></div></div>`:''}
-    </div><div class="pg"><p class="sub" style="margin-top:14px">Ao tocar em enviar, o WhatsApp abre com a mensagem pronta para ${L.n}.</p></div>`}
-  const last=realStep===6;
-  const foot=`<div class="foot-act">${realStep===5&&!f.foto?`<button class="btn line press" data-act="fnext" style="flex:1">Enviar depois</button>`:''}<button class="btn ${last?'wa':'gold'} press" data-act="${last?'enviar':'fnext'}" style="flex:${realStep===5&&!f.foto?1.3:1};width:100%" ${ok?'':'disabled'}>${last?WA(20)+'Enviar pelo WhatsApp':'Continuar'}</button></div>`;
-  return head+`<div class="stg">${body}</div>`+foot;
+    <div class="row"><span class="ic">${I('card',20,'var(--tifd)')}</span><div><span>Pagamento</span><b>${f.pag==='Convênio'?esc(m.c==='Particular'?'Convênio':m.c):'Particular · '+brl(valor())+(f.pix?' · Pix adiantado':'')}</b></div></div>
+    ${f.tipo==='exame'?`<div class="row"><span class="ic">${I('file',20,'var(--tifd)')}</span><div><span>Pedido médico</span><b>${f.foto?'Foto anexada':'Vou levar no dia'}</b></div></div>`:''}
+    </div><div class="pg"><p class="sub" style="margin-top:14px">${f.pix?'Primeiro você paga o Pix; depois o WhatsApp abre com a mensagem pronta.':'Ao tocar em enviar, o WhatsApp abre com a mensagem pronta para '+L.n+'.'}</p></div>`}
+  const last=st===tot-1;
+  const foot=`<div class="foot-act"><button class="btn ${last?(f.pix?'gold':'wa'):'gold'} full press" data-act="${last?'enviar':'fnext'}" ${ok?'':'disabled'}>${last?(f.pix?I('pix',20,'#fff')+'Pagar com Pix':WA(20,'#fff','#1FA855')+'Enviar pelo WhatsApp'):'Continuar'+(st===1&&f.tipo==='exame'&&f.exs.length?` (${f.exs.length})`:'')}</button></div>`;
+  return head+`<div class="${st===1&&f.tipo==='exame'?'':'stg'}">${body}</div>`+foot;
 };
+const brl=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+function valor(){const f=S.flow;if(f.tipo==='consulta')return 180;return f.exs.reduce((s,c)=>s+(ex(c)?.[2]==='rm'?650:420),0)||0}
+function ocrBox(){const o=S.flow.ocr;
+  if(o.st==='lendo')return `<div class="ocr"><img src="${S.flow.foto}" alt="Pedido médico enviado"><span class="scan"></span><div class="st">Lendo seu pedido… <span class="tab" id="ocrp">${o.p||0}%</span><div class="prog"><i id="ocrb" style="transform:scaleX(${(o.p||0)/100})"></i></div></div></div>`;
+  return `<div class="found" style="${o.hits.length?'':'background:var(--warnl)'}"><img src="${S.flow.foto}" alt="Pedido médico enviado"><div style="flex:1">${o.hits.length?`<b>Encontramos ${o.hits.length} exame(s) no pedido</b><p class="sub" style="margin-top:4px">Já marcamos na lista. Confira e ajuste se precisar.</p>`:`<b style="color:var(--warn)">Não conseguimos ler o exame</b><p class="sub" style="margin-top:4px">A foto ficou anexada. Escolha o exame na lista abaixo.</p>`}
+  <button class="btn line press" style="margin-top:8px;height:40px;font-size:.85rem;padding:0 14px" data-act="ocrnovo">${I('camera',16)}Outra foto</button></div></div>`}
+function lerPedido(file){
+  const f=S.flow;const r=new FileReader();
+  r.onload=async()=>{f.foto=r.result;f.ocr={st:'lendo',p:0};render('none',$('scr').scrollTop);
+    try{
+      if(!window.Tesseract)throw new Error('ocr indisponível');
+      const res=await Tesseract.recognize(f.foto,'por',{logger:m=>{if(m.status==='recognizing text'){f.ocr.p=Math.round(m.progress*100);const p=$('ocrp'),b=$('ocrb');if(p)p.textContent=f.ocr.p+'%';if(b)b.style.transform=`scaleX(${m.progress})`}}});
+      const hits=casar(res.data.text);f.ocr={st:'ok',hits,txt:res.data.text};hits.forEach(c=>{if(!f.exs.includes(c))f.exs.push(c)});if(hits[0])f.mod=ex(hits[0])[2];
+    }catch(e){f.ocr={st:'ok',hits:[]}}
+    if(S.view==='agendar')render('none',$('scr').scrollTop);
+  };r.readAsDataURL(file)}
+function casar(txt){
+  const t=' '+norm(txt).replace(/\s+/g,' ')+' ';const hits=new Set();
+  (t.match(/\d[\d.\s-]{6,11}\d/g)||[]).forEach(m=>{const d=m.replace(/\D/g,'');if(ex(d))hits.add(d)});
+  if(hits.size)return [...hits];
+  const mod=/resson|rnm| rm |angio-?rm|magnetica/.test(t)?'rm':/tomogra| tc |angiotomo|computadorizada/.test(t)?'tc':null;
+  const stop=['unilateral','bilateral','arterial','venosa','segmento','adicional','como','complementar'];
+  const cand=TUSS.filter(e=>!mod||e[2]===mod).map(e=>{const ws=[...new Set(norm(e[1]).split(/[^a-z]+/).filter(w=>w.length>=4&&!stop.includes(w)))];let n=ws.filter(w=>t.includes(w)).length;let sc=ws.length?n/ws.length:0;const al=(ALIAS[e[0]]||'').split(' ').filter(w=>w.length>=4&&t.includes(' '+w));if(al.length){n+=al.length;sc=Math.max(sc,.9)}return [e[0],sc,n]}).filter(x=>x[2]>0&&x[1]>=.5).sort((a,b)=>b[2]-a[2]||b[1]-a[1]);
+  return cand.filter(c=>c[2]>=cand[0][2]*.75).slice(0,2).map(c=>c[0]);
+}
+VIEWS.pix=()=>{const f=S.flow;const v=brl(valor());const code='00020126580014br.gov.bcb.pix0136vittaone-previa-'+(f.dia||'').replace(/\W/g,'').slice(0,8)+'5204000053039865802BR5925VITTAONE PREVIA6009SAO PAULO';return `${barTop('Pagamento por Pix')}
+<div class="card pix"><span class="pill p-gold">Simulação · nenhum valor é cobrado</span><div class="h-xl tab" style="margin-top:12px">${v}</div><p class="sub">${f.tipo==='consulta'?esc(f.item):f.exs.length+' exame(s) na Dimagem'}</p>
+<div class="qr">${QR(code)}</div><p class="sub">Abra o app do seu banco e escaneie, ou copie o código.</p>
+<div class="copy"><input id="pixc" value="${code}" readonly aria-label="Código Pix copia e cola"><button class="btn tif press" style="height:48px;padding:0 16px" data-act="copiar">${I('copy',18,'#fff')}Copiar</button></div>
+<p class="sub" style="margin-top:12px;display:flex;gap:6px;justify-content:center;align-items:center">${I('clock',16,'var(--gold)')}Código válido por 30 minutos</p></div>
+<div class="foot-act"><button class="btn wa full press" data-act="pago">${WA(20,'#fff','#1FA855')}Já paguei · enviar pelo WhatsApp</button></div>`};
 VIEWS.sucesso=()=>{const a=S.ag[S.ag.length-1];const L=LOCAIS[a.loc];return `
 <div class="pg" style="text-align:center;padding-top:40px">
 <div class="okmark"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--tifd)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
 <h1 class="h-xl" style="margin-top:22px">Pedido enviado!</h1>
 <p class="sub" style="max-width:30ch;margin:10px auto 0">A ${L.n} responde pelo WhatsApp em até 15 minutos, no horário comercial, com o horário confirmado.</p>
 <div class="card" style="margin-top:22px;text-align:left"><div class="row"><span class="ic">${I('bell',20,'var(--tifd)')}</span><div><b>Lembrete ativado</b><span>Avisamos 1 dia antes e no dia do atendimento.</span></div></div>
-${a.tipo==='exame'?`<button class="row press" data-go="preparo" data-p='{"k":"${a.item.startsWith('Tomo')?'tc':'rm'}"}'><span class="ic" style="background:var(--goldl)">${I('checkbox',20,'var(--gold)')}</span><div><b>Veja o preparo do exame</b><span>Checklist com o que fazer antes</span></div>${I('right',20,'var(--faint)')}</button>`:''}</div>
+${a.tipo==='exame'?`<button class="row press" data-go="preparo" data-p='{"k":"${prepK(a)}"}'><span class="ic" style="background:var(--goldl)">${I('checkbox',20,'var(--gold)')}</span><div><b>Veja o preparo do exame</b><span>Checklist com o que fazer antes</span></div>${I('right',20,'var(--faint)')}</button>
+${prepK(a)==='rm'?`<button class="row press" data-go="questionario"><span class="ic" style="background:var(--rml)">${I('shield',20,'var(--rm)')}</span><div><b>Responda o questionário de segurança</b><span>Leva 1 minuto e agiliza a recepção</span></div>${I('right',20,'var(--faint)')}</button>`:''}`:''}</div>
 <button class="btn gold full press" style="margin-top:22px" data-go="agenda">Ver na minha agenda</button>
 <button class="btn line full press" style="margin-top:10px" data-go="inicio">Voltar ao início</button></div>`};
 
 /* ---------- agenda ---------- */
-VIEWS.agenda=(p)=>{const tab=p.tab||'prox';const hoje=new Date(new Date().toDateString());
-  const prox=S.ag.filter(a=>new Date(a.d)>=hoje&&a.st<3&&a.st>=0).sort((a,b)=>new Date(a.d)-new Date(b.d));
-  const ant=S.ag.filter(a=>new Date(a.d)<hoje||a.st>=3||a.st<0).sort((a,b)=>new Date(b.d)-new Date(a.d));
+VIEWS.agenda=(p)=>{const tab=p.tab||'prox';
+  const prox=ativos();
+  const ant=S.ag.filter(a=>new Date(a.d)<hoje()||a.st>=3||a.st<0).sort((a,b)=>new Date(b.d)-new Date(a.d));
   const L=tab==='prox'?prox:ant;
-  const card=a=>{const d=fmtD(a.d),Lc=LOCAIS[a.loc],m=famBy(a.who);const stp=Math.min(a.st,4);const tl=a.st<0?'':`<div class="tl"><span class="fill" style="width:75%;transform:scaleX(${Math.min(stp,3)/3})"></span>${['Enviado','Confirmado','Realizado','Laudo'].map((s,i)=>`<div class="${[0,2,3,4][i]<=a.st?'on':''}"><i></i>${s}</div>`).join('')}</div>`;
+  const card=a=>{const d=fmtD(a.d),Lc=LOCAIS[a.loc],m=famBy(a.who);const fillN=a.st>=4?3:a.st>=3?2:a.st>=2?1:0;const tl=a.st<0?'':`<div class="tl"><span class="fill" style="transform:scaleX(${fillN/3})"></span>${['Enviado','Confirmado','Realizado','Laudo'].map((s,i)=>`<div class="${[0,2,3,4][i]<=a.st?'on':''}"><i></i>${s}</div>`).join('')}</div>`;
     return `<article class="card ap"><div class="hd"><div class="dt"><small>${d.mes}</small><b class="tab">${d.dia}</b><small>${d.sem}</small></div><div style="flex:1;min-width:0"><span class="pill ${a.st<0?'p-warn':a.st>=4?'p-gold':a.st>=2?'p-ok':'p-tif'}">${a.st<0?'Cancelado':STN[a.st]}</span><b class="t" style="margin-top:6px">${esc(a.item)}</b><div class="s">${a.hora} · ${Lc.n}</div><div class="s">Para ${a.who==='eu'?'você':esc(m.n.split(' ')[0])}</div></div></div>${tl}
-    <div class="acts">${tab==='prox'?`${a.tipo==='exame'?`<button class="btn ghost press" data-go="preparo" data-p='{"k":"${a.item.startsWith('Tomo')?'tc':'rm'}"}'>${I('checkbox',18)}Preparo</button>`:''}<button class="btn ghost press" data-act="rota" data-loc="${a.loc}">${I('nav',18)}Rota</button><button class="btn ghost press" data-act="remarcar" data-id="${a.id}">${I('refresh',18)}Remarcar</button><button class="btn line press" data-act="cancelar" data-id="${a.id}" style="color:var(--warn)">Cancelar</button>`
-    :a.st>=4?`<button class="btn tif press" data-act="laudo">${I('file',18,'#fff')}Ver laudo</button><button class="btn ghost press" data-act="avaliar" data-id="${a.id}">${I('heart',18)}Avaliar</button>`:`<button class="btn ghost press" data-act="novo" data-tipo="${a.tipo}">${I('refresh',18)}Marcar de novo</button>`}</div></article>`};
+    <div class="acts">${tab==='prox'?`${a.tipo==='exame'?`<button class="btn ghost press" data-go="preparo" data-p='{"k":"${prepK(a)}"}'>${I('checkbox',18)}Preparo</button>`:`<button class="btn ghost press" data-go="local" data-p='{"id":"${a.loc}"}'>${I('pin',18)}Local</button>`}<button class="btn ghost press" data-act="rota" data-loc="${a.loc}">${I('nav',18)}Rota</button><button class="btn ghost press" data-act="remarcar" data-id="${a.id}">${I('refresh',18)}Remarcar</button><button class="btn line press" data-act="cancelar" data-id="${a.id}" style="color:var(--warn)">Cancelar</button>`
+    :a.st>=4?`<button class="btn tif press" data-act="laudo">${I('file',18,'#fff')}Ver laudo</button><button class="btn ghost press" data-act="avaliar">${I('heart',18)}Avaliar</button>`:`<button class="btn ghost press" style="grid-column:1/-1" data-act="novo" data-tipo="${a.tipo}">${I('refresh',18)}Marcar de novo</button>`}</div></article>`};
   return `<div class="top"><h1 class="h-xl">Agenda</h1><button class="ibtn press" style="margin-left:auto" data-go="agendar" aria-label="Novo agendamento">${I('plus',22,'var(--gold)',2.4)}</button></div>
   <div class="seg" role="tablist"><span class="knob" style="transform:translateX(${tab==='prox'?0:100}%)"></span><button role="tab" aria-selected="${tab==='prox'}" data-go="agenda" data-p='{"tab":"prox"}'>Próximos (${prox.length})</button><button role="tab" aria-selected="${tab==='ant'}" data-go="agenda" data-p='{"tab":"ant"}'>Anteriores (${ant.length})</button></div>
-  <div class="stg">${L.length?L.map(card).join(''):`<div class="empty"><div class="e">${I('cal',42,'var(--gold)',1.8)}</div><h3>${tab==='prox'?'Nenhum agendamento':'Nada por aqui ainda'}</h3><p>${tab==='prox'?'Seus próximos exames e consultas aparecem aqui, com preparo e rota.':'Depois do atendimento, ele fica guardado aqui com o laudo.'}</p><button class="btn gold press" data-go="agendar">Agendar agora</button></div>`}</div>`;
+  <div class="stg">${L.length?L.map(card).join(''):`<div class="empty"><div class="e">${I('cal',42,'var(--tifd)',1.7)}</div><h3>${tab==='prox'?'Nenhum agendamento':'Nada por aqui ainda'}</h3><p>${tab==='prox'?'Seus próximos exames e consultas aparecem aqui, com preparo e rota.':'Depois do atendimento, ele fica guardado aqui com o laudo.'}</p><button class="btn gold press" data-go="agendar">Agendar agora</button></div>`}</div>`;
 };
 
 /* ---------- família ---------- */
-VIEWS.familia=(p)=>{const sel=S.params.m||'eu';const m=famBy(sel);return `
+VIEWS.familia=(p)=>{const sel=p.m||'eu';const m=famBy(sel);return `
 <div class="top"><h1 class="h-xl">Família</h1></div>
 <div class="chips">${S.fam.map(f=>`<button class="chip press" data-go="familia" data-p='{"m":"${f.id}"}' aria-pressed="${f.id===sel}"><i style="background:${famCor(f.id)}">${ini(f.n)}</i>${f.id==='eu'?'Eu':esc(f.n.split(' ')[0])}</button>`).join('')}</div>
 <div class="flip ${p.flip?'on':''}" id="flip" role="button" tabindex="0" aria-label="Carteirinha de ${esc(m.n)}. Toque para virar."><div class="in">
-  <div class="face f"><span class="ring"></span><div class="brand">${LOGO(26)}VittaOne</div><span class="tg">${esc(m.c)}</span><div class="nm">${esc(m.n)}</div><div class="pl">Carteirinha digital · ${m.p}</div><span class="chipc"></span></div>
+  <div class="face f"><span class="ring"></span><div class="brand">${LOGO(26)}VittaOne</div><span class="tgc">${esc(m.c)}</span><div class="nm">${esc(m.n)}</div><div class="pl">Carteirinha digital · ${m.p}</div><span class="chipc"></span></div>
   <div class="face b"><div class="qr">${QR(m.n+m.c)}</div><div><b style="font-family:var(--disp);font-size:1.15rem">${esc(m.n)}</b><p style="color:var(--soft);font-size:.86rem;margin-top:4px">Mostre este código na recepção da Dimagem ou do MITI para agilizar o atendimento.</p><p class="tab" style="font-weight:800;margin-top:8px;font-size:.85rem">Nº VO-${(Math.abs([...m.n].reduce((h,c)=>h*31+c.charCodeAt(0)|0,7))%900000+100000)}</p></div></div>
 </div></div>
 <p class="hint">Toque no cartão para ver o QR code</p>
-<div class="pg" style="display:flex;gap:10px;margin-top:14px"><button class="btn ghost press" style="flex:1" data-act="wallet">${I('share',18)}Compartilhar</button><button class="btn gold press" style="flex:1" data-act="novo" data-who="${m.id}">${I('plus',18,'#fff')}Agendar</button></div>
+<div class="pg" style="display:flex;gap:10px;margin-top:14px"><button class="btn ghost press" style="flex:1" data-act="indicar">${I('share',18)}Compartilhar</button><button class="btn gold press" style="flex:1" data-act="novo" data-who="${m.id}">${I('plus',18,'#fff',2.2)}Agendar</button></div>
 ${sec('Pessoas na sua conta')}
 <div class="card" style="margin:0 20px">${S.fam.map(f=>`<button class="mem press" data-go="familia" data-p='{"m":"${f.id}"}'><span class="av" style="background:${famCor(f.id)}">${ini(f.n)}</span><div><b>${esc(f.n)}</b><span>${f.p} · ${esc(f.c)} · ${S.ag.filter(a=>a.who===f.id&&a.st<3&&a.st>=0).length} agendado(s)</span></div>${I('right',20,'var(--faint)')}</button>`).join('')}
 <button class="mem press" data-act="addfam"><span class="av" style="background:var(--goldl)">${I('plus',22,'var(--gold)',2.4)}</span><div><b>Adicionar familiar</b><span>Filhos, pais, cônjuge ou quem você cuida</span></div></button></div>
@@ -724,43 +927,54 @@ ${sec('Pessoas na sua conta')}
 VIEWS.guia=(p)=>{const t=p.t||'prep';const tabs=[['prep','Preparo'],['faq','Dúvidas'],['dicas','Dicas'],['locais','Locais']];
   let body='';
   if(t==='prep')body=`<div class="prep stg">${Object.entries(PREPARO).map(([k,v])=>`<button class="tile lift zoom" data-go="preparo" data-p='{"k":"${k}"}'><div class="im"><img src="${v.img}" alt=""></div><div class="tx"><b>${v.n}</b><span>${S.chk[k].length} de ${v.itens.length} prontos</span><div class="prog"><i style="transform:scaleX(${S.chk[k].length/v.itens.length})"></i></div></div></button>`).join('')}</div>
-  <div class="pg"><div class="card" style="margin-top:14px;padding:16px;display:flex;gap:12px">${I('help',24,'var(--gold)')}<p style="font-size:.92rem;color:var(--soft)">Cada exame pode ter um preparo diferente. Confirmamos tudo pelo WhatsApp depois que você envia o pedido médico.</p></div></div>`;
-  if(t==='faq')body=`<div class="card faq stg">${FAQ.map((q,i)=>`<div class="fq" id="fq${i}"><button data-act="faq" data-i="${i}" aria-expanded="false">${esc(q[0])}${I('plus',20,'var(--gold)',2.4)}</button><div class="a"><div><p>${esc(q[1])}</p></div></div></div>`).join('')}</div>`;
+  <div class="card" style="margin:12px 20px 0"><button class="row press" data-go="questionario"><span class="ic" style="background:var(--rml)">${I('shield',20,'var(--rm)')}</span><div><b>Questionário de segurança da ressonância</b><span>${Object.keys(S.qs).length} de ${QS.length} respondidas</span></div>${I('right',20,'var(--faint)')}</button></div>`;
+  if(t==='faq')body=`<div class="card faq stg" style="margin-top:16px">${FAQ.map(q=>`<div class="fq"><button data-act="faq" aria-expanded="false">${esc(q[0])}${I('plus',20,'var(--gold)',2.4)}</button><div class="a"><div><p>${esc(q[1])}</p></div></div></div>`).join('')}</div>`;
   if(t==='dicas')body=`<div class="stg" style="margin-top:6px">${DICAS.map(d=>`<button class="card lift zoom" style="display:block;margin:12px 20px 0;overflow:hidden;width:calc(100% - 40px);text-align:left" data-go="artigo" data-p='{"id":"${d.id}"}'><div style="height:150px;overflow:hidden"><img src="${d.img}" alt="" style="width:100%;height:100%;object-fit:cover"></div><div style="padding:14px 16px"><b style="font-family:var(--disp);font-size:1.15rem">${d.t}</b><p class="sub" style="margin-top:2px">${d.k}</p></div></button>`).join('')}</div>`;
   if(t==='locais')body=`<div class="stg">${Object.values(LOCAIS).map(L=>`<button class="card lift zoom" style="display:block;margin:12px 20px 0;overflow:hidden;width:calc(100% - 40px);text-align:left" data-go="local" data-p='{"id":"${L.id}"}'><div style="height:170px;overflow:hidden"><img src="${L.capa}" alt="" style="width:100%;height:100%;object-fit:cover"></div><div style="padding:14px 16px"><b style="font-family:var(--disp);font-size:1.2rem">${L.n}</b><p class="sub" style="margin-top:2px">${L.k} · ${L.b}</p></div></button>`).join('')}</div>`;
   return `<div class="top"><h1 class="h-xl">Guia de saúde</h1></div><p class="sub" style="padding:0 20px">Tudo para chegar tranquilo ao seu exame.</p>
   <div class="gtabs" role="tablist">${tabs.map(([k,l])=>`<button class="gtab press" role="tab" aria-selected="${k===t}" data-go="guia" data-p='{"t":"${k}"}'>${l}</button>`).join('')}</div>${body}`;
 };
 VIEWS.preparo=(p)=>{const k=p.k||'rm',v=PREPARO[k];const n=S.chk[k].length;return `
-<div class="lhero" style="height:250px"><img data-px="0.25" src="${v.img}" alt=""><div class="ov"></div><button class="back press" data-back aria-label="Voltar">${I('left',22)}</button><div class="tx"><p style="font-weight:800;color:var(--goldb)">Preparo</p><h1 style="font-size:1.9rem">${v.n}</h1></div></div>
+<div class="lhero" style="height:260px"><img data-px="0.25" src="${v.img}" alt=""><div class="ov"></div><button class="back press" data-back aria-label="Voltar">${I('left',22,'currentColor',2.2)}</button><div class="tx"><p style="font-weight:800;color:var(--goldb)">Preparo</p><h1 style="font-size:1.9rem">${v.n}</h1></div></div>
 <div class="pg" style="margin-top:16px"><div style="display:flex;justify-content:space-between;align-items:baseline"><b id="pcount" class="tab">${n} de ${v.itens.length} prontos</b><span class="sub" style="margin:0">Toque para marcar</span></div><div class="prog"><i id="pbar" style="transform:scaleX(${n/v.itens.length})"></i></div></div>
 <div class="card" style="margin:16px 20px 0">${v.itens.map((it,i)=>{const on=S.chk[k].includes(i);return `<button class="check ${on?'done':''}" data-act="chk" data-k="${k}" data-i="${i}" role="checkbox" aria-checked="${on}"><span class="bx ${on?'on':''}">${on?I('check',15,'#fff',3.5):''}</span><div><b>${it[0]}</b><span>${it[1]}</span></div></button>`}).join('')}</div>
-<div class="pg" style="margin-top:18px"><button class="btn wa full press" data-act="wa">${WA(20)}Tirar dúvida no WhatsApp</button></div>`};
+${k==='rm'?`<div class="card" style="margin:12px 20px 0"><button class="row press" data-go="questionario"><span class="ic" style="background:var(--rml)">${I('shield',20,'var(--rm)')}</span><div><b>Questionário de segurança</b><span>Responda em casa e ganhe tempo na recepção</span></div>${I('right',20,'var(--faint)')}</button></div>`:''}
+${waRow('Tirar dúvida no WhatsApp','A equipe da Dimagem responde','dimagem')}`};
+VIEWS.questionario=()=>{const n=Object.keys(S.qs).length;return `${barTop('Segurança da ressonância')}
+<div class="pg"><p class="sub">Responda antes do exame. As respostas vão junto com o seu agendamento e só a equipe da clínica vê.</p></div>
+<div class="card" style="margin:16px 20px 0">${QS.map((q,i)=>`<div class="qq"><b>${q}</b><div class="yn" role="group" aria-label="${esc(q)}"><button class="press" data-act="qs" data-i="${i}" data-v="s" aria-pressed="${S.qs[i]==='s'}">Sim</button><button class="press" data-act="qs" data-i="${i}" data-v="n" aria-pressed="${S.qs[i]==='n'}">Não</button></div></div>`).join('')}</div>
+<div class="pg"><p class="sub" style="margin-top:12px;font-size:.85rem">Respondeu "sim" em algo? Tudo bem: a equipe vai te orientar antes do exame.</p></div>
+<div class="foot-act"><button class="btn gold full press" data-act="qsok" ${n<QS.length?'disabled':''}>Salvar respostas (${n}/${QS.length})</button></div>`};
 VIEWS.artigo=(p)=>{const d=DICAS.find(x=>x.id===p.id)||DICAS[0];return `
-<div class="art-hero"><img data-px="0.22" src="${d.img}" alt=""><button class="back press" data-back aria-label="Voltar" style="position:absolute;top:calc(16px + env(safe-area-inset-top));left:16px">${I('left',22)}</button></div>
+<div class="art-hero"><img data-px="0.22" src="${d.img}" alt=""><button class="back press" data-back aria-label="Voltar" style="position:absolute;top:calc(16px + env(safe-area-inset-top));left:16px">${I('left',22,'currentColor',2.2)}</button></div>
 <article class="art"><span class="pill p-gold">${d.k}</span><h1 style="margin-top:12px">${d.t}</h1>${d.p.map(x=>`<p>${x}</p>`).join('')}</article>
-<div class="pg" style="margin-top:22px"><div class="card" style="padding:16px"><b>Ficou com dúvida?</b><p class="sub">Nossa equipe responde pelo WhatsApp.</p><button class="btn wa press" style="margin-top:12px" data-act="wa">${WA(20)}Falar no WhatsApp</button></div></div>`};
+${waRow('Ficou com dúvida?','Nossa equipe responde pelo WhatsApp')}`};
 
 /* ---------- local ---------- */
 VIEWS.local=(p)=>{const L=LOCAIS[p.id]||LOCAIS.dimagem;return `
-<div class="lhero"><img data-px="0.3" src="${L.capa}" alt="${L.n}"><div class="ov"></div><button class="back press" data-back aria-label="Voltar">${I('left',22)}</button><div class="tx"><span class="pill" style="background:var(--goldb);color:#2B2320">${L.k}</span><h1 style="margin-top:8px">${L.n}</h1><p>${L.b}</p></div></div>
+<div class="lhero"><img data-px="0.3" src="${L.capa}" alt="${L.n}"><div class="ov"></div><button class="back press" data-back aria-label="Voltar">${I('left',22,'currentColor',2.2)}</button><button class="back shr press" data-act="indicar" aria-label="Compartilhar">${I('share',20)}</button><div class="tx"><span class="pill" style="background:var(--goldb);color:#1A2928">${L.k}</span><h1 style="margin-top:8px">${L.n}</h1><p>${L.b}</p></div></div>
+<div class="stats">${L.stats.map(s=>`<div><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div>
 <div class="pg"><p style="margin-top:16px;color:var(--soft)">${L.d}</p></div>
+${sec('Fotos','','','','Arraste para o lado · toque para ampliar')}
+${carousel('carL',L.gal.map((g,i)=>`<button class="slide zoom" style="height:220px" data-act="lb" data-i="${i}" data-loc="${L.id}" aria-label="Ampliar foto ${i+1}"><img data-hx src="${g}" alt="Foto de ${L.n}" loading="lazy"><span class="pill">${i+1} de ${L.gal.length}</span><div class="ov" style="background:none;align-items:flex-end">${I('expand',22,'#fff',2)}</div></button>`).join(''))}
+${sec('O que você encontra')}
+<div class="svc">${L.svc.map(s=>`<span>${s}</span>`).join('')}</div>
+${sec('Como é o atendimento')}
+<div class="journey">${L.jor.map((j,i)=>`<div class="jst"><i>${i+1}</i><b>${j[0]}</b><p>${j[1]}</p></div>`).join('')}</div>
 <div class="facts"><div class="fact"><small>Endereço</small><b>${L.e}</b></div><div class="fact"><small>Horário</small><b>${L.hr}</b></div></div>
 ${sec('Como chegar')}
-<div class="go-row" style="margin-top:0"><a class="press lift" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${L.lat},${L.lng}"><img src="../img/gmaps.png" alt="">Google Maps</a><a class="press lift" target="_blank" rel="noopener" href="https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=${L.lat}&dropoff[longitude]=${L.lng}&dropoff[nickname]=${encodeURIComponent(L.n)}"><img src="../img/uber.png" alt="">Uber</a></div>
-${sec('O que você encontra')}
-<div class="svc" style="margin-top:0">${L.svc.map(s=>`<span>${s}</span>`).join('')}</div>
-${sec('Fotos')}
-<div class="gal">${L.gal.map(g=>`<img src="${g}" alt="Foto de ${L.n}" loading="lazy">`).join('')}</div>
-<div class="foot-act"><button class="btn line press" data-act="wa" data-loc="${L.id}" style="flex:1">${WA(20)}WhatsApp</button><button class="btn gold press" style="flex:1.3" data-act="novo" data-tipo="${L.id==='miti'?'consulta':'exame'}">Agendar aqui</button></div>`};
+<div class="go-row"><a class="press lift" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${L.lat},${L.lng}"><img src="../img/gmaps.png" alt="">Google Maps</a><a class="press lift" target="_blank" rel="noopener" href="https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=${L.lat}&dropoff[longitude]=${L.lng}&dropoff[nickname]=${encodeURIComponent(L.n)}"><img src="../img/uber.png" alt="">Uber</a></div>
+${waRow('Falar com o '+(L.id==='miti'?'MITI':'a Dimagem').replace('o a','a'),'Resposta em até 15 min no horário comercial',L.id)}
+<div class="foot-act"><button class="btn gold full press" data-act="novo" data-tipo="${L.id==='miti'?'consulta':'exame'}">${L.id==='miti'?'Agendar consulta aqui':'Agendar exame aqui'}</button></div>`};
 
-VIEWS.convenios=()=>`${barTop('Convênios')}<div class="pg"><p class="sub">Aceitos na Dimagem Unineuro para ressonância e tomografia. Lista de novembro de 2026; confirme o seu ao agendar.</p></div>
+VIEWS.convenios=()=>`${barTop('Convênios')}<div class="pg"><p class="sub">Aceitos na Dimagem Unineuro para ressonância e tomografia. Confirme o seu ao agendar.</p></div>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px 20px 0" class="stg">${CONVS.map(c=>`<div class="conv" style="width:auto;height:78px"><img src="${F}conv/${c}.png" alt="${c}"></div>`).join('')}</div>
-<div class="pg"><div class="card" style="margin-top:16px;padding:16px"><b>Não achou o seu?</b><p class="sub">Há mais convênios aceitos. Pergunte pelo WhatsApp.</p><button class="btn wa press" style="margin-top:12px" data-act="wa">${WA(20)}Perguntar</button></div></div>`;
+${waRow('Não achou o seu?','Pergunte pelo WhatsApp: há mais convênios aceitos','dimagem')}`;
 
 /* ---------- perfil ---------- */
 VIEWS.perfil=()=>{const p=S.prefs,u=S.user||{nome:'Gabriel Santana',cel:'(11) 90000-0000',conv:'Particular'};
   const tg=(k,ic,t,s)=>`<button class="row press" role="switch" aria-checked="${!!p[k]}" data-act="pref" data-k="${k}"><span class="ic">${I(ic,20,'var(--tifd)')}</span><div><b>${t}</b><span>${s}</span></div><span class="sw"></span></button>`;
+  const li=(a,ic,t,s,extra='')=>`<button class="row press" ${a}><span class="ic" ${extra}>${ic}</span><div><b>${t}</b>${s?`<span>${s}</span>`:''}</div>${I('right',20,'var(--faint)')}</button>`;
   return `<div class="top"><h1 class="h-xl">Perfil</h1></div>
 <div class="card me"><div class="av" style="background:var(--tif)">${ini(u.nome)}</div><div><b>${esc(u.nome)}</b><span class="sub tab" style="margin:0">${esc(u.cel)} · ${esc(u.conv)}</span></div></div>
 <div class="grp-t">Acessibilidade</div>
@@ -769,114 +983,138 @@ VIEWS.perfil=()=>{const p=S.prefs,u=S.user||{nome:'Gabriel Santana',cel:'(11) 90
   ${tg('hc','contrast','Alto contraste','Cores mais fortes e texto preto')}
   ${tg('easy','eye','Letra de leitura fácil','Fonte Atkinson Hyperlegible')}
   ${tg('rm','motion','Reduzir animações','Sem movimento nem parallax')}
-  <button class="row press" data-act="voz"><span class="ic">${I('mic',20,'var(--tifd)')}</span><div><b>Buscar por voz</b><span>Diga o exame ou a terapia</span></div>${I('right',20,'var(--faint)')}</button>
+  ${li('data-act="voz"',I('mic',20,'var(--tifd)'),'Buscar por voz','Diga o exame ou a terapia')}
 </div>
 <div class="grp-t">Lembretes</div>
 <div class="card grp">${tg('lemb1','bell','1 dia antes','Preparo e horário pelo WhatsApp')}${tg('lemb0','clock','No dia do atendimento','Com rota até o local')}</div>
 <div class="grp-t">Conta</div>
 <div class="card grp">
-  <button class="row press" data-act="dados"><span class="ic">${I('user',20,'var(--tifd)')}</span><div><b>Meus dados</b><span>Nome, celular e convênio</span></div>${I('right',20,'var(--faint)')}</button>
-  <button class="row press" data-go="familia"><span class="ic">${I('users',20,'var(--tifd)')}</span><div><b>Família</b><span>${S.fam.length} pessoas na conta</span></div>${I('right',20,'var(--faint)')}</button>
-  <button class="row press" data-go="convenios"><span class="ic">${I('shield',20,'var(--tifd)')}</span><div><b>Convênios aceitos</b><span>Lista da Dimagem</span></div>${I('right',20,'var(--faint)')}</button>
+  ${li('data-act="dados"',I('user',20,'var(--tifd)'),'Meus dados','Nome, celular e convênio')}
+  ${li('data-go="familia"',I('users',20,'var(--tifd)'),'Família',S.fam.length+' pessoas na conta')}
+  ${li('data-go="questionario"',I('shield',20,'var(--rm)'),'Questionário de segurança','Para exames de ressonância','style="background:var(--rml)"')}
+  ${li('data-go="convenios"',I('card',20,'var(--tifd)'),'Convênios aceitos','Lista da Dimagem')}
 </div>
+${waRow()}
 <div class="grp-t">Ajuda e privacidade</div>
 <div class="card grp">
-  <button class="row press" data-act="wa"><span class="ic" style="background:#DDF5E5">${WA(20)}</span><div><b>Falar no WhatsApp</b><span>Resposta em até 15 min no horário comercial</span></div>${I('right',20,'var(--faint)')}</button>
-  <button class="row press" data-go="guia" data-p='{"t":"faq"}'><span class="ic">${I('help',20,'var(--tifd)')}</span><div><b>Dúvidas frequentes</b></div>${I('right',20,'var(--faint)')}</button>
-  <button class="row press" data-act="toast" data-msg="Termos de Uso: rascunho em revisão jurídica"><span class="ic">${I('file',20,'var(--tifd)')}</span><div><b>Termos de Uso e Privacidade</b></div>${I('right',20,'var(--faint)')}</button>
-  <button class="row press" data-act="toast" data-msg="Pedido de remoção de foto enviado para análise"><span class="ic">${I('img',20,'var(--tifd)')}</span><div><b>Pedir remoção de foto</b><span>Para estabelecimentos</span></div>${I('right',20,'var(--faint)')}</button>
+  ${li(`data-go="guia" data-p='{"t":"faq"}'`,I('help',20,'var(--tifd)'),'Dúvidas frequentes','')}
+  ${li('data-act="toast" data-msg="Termos de Uso: rascunho em revisão jurídica"',I('file',20,'var(--tifd)'),'Termos de Uso e Privacidade','')}
+  ${li('data-act="toast" data-msg="Pedido de remoção de foto enviado para análise"',I('img',20,'var(--tifd)'),'Pedir remoção de foto','Para estabelecimentos')}
 </div>
 <div class="pg" style="margin-top:18px"><button class="btn line full press" data-act="sair" style="color:var(--warn)">${I('logout',18)}Sair da conta</button></div>
-<p class="foot">VittaOne · prévia v11 · design “Areia quente”</p>`};
+<p class="sub" style="text-align:center;font-size:.8rem;margin-top:16px">VittaOne · prévia v12 · Branco clínico</p>`};
 
-/* =================== sheet / dialog / toast =================== */
+/* =================== sheet / dialog / toast / lightbox =================== */
 let tT;
-function toast(msg){const t=$('toast');t.innerHTML=I('check',18,'var(--goldb)',3)+esc(msg);t.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('on'),2600)}
-function openSheet(html){const sh=$('sheet');sh.innerHTML=`<div class="grab" aria-hidden="true"></div>`+html;sh.style.transform='';$('scrim').classList.add('on');sh.classList.add('on');setTimeout(()=>sh.querySelector('input,button:not(.grab)')?.focus?.({preventScroll:true}),300);bindSheetDrag()}
-function closeSheet(){const sh=$('sheet');sh.style.transform='';sh.classList.remove('on');$('scrim').classList.remove('on');$('dlg').classList.remove('on')}
+function toast(msg){const t=$('toast');t.innerHTML=I('check',18,'var(--tif)',3)+esc(msg);t.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('on'),2600)}
+const sheetOpen=()=>$('sheet').classList.contains('on')||$('dlg').classList.contains('on')||$('lb').classList.contains('on');
+function openSheet(html){const sh=$('sheet');sh.innerHTML=`<div class="grab" aria-hidden="true"></div>`+html;sh.style.transform='';$('scrim').classList.add('on');sh.classList.add('on');hpush();bindSheetDrag();setTimeout(()=>sh.querySelector('input,button')?.focus?.({preventScroll:true}),320)}
+function closeAll(){const was=sheetOpen();const sh=$('sheet');sh.style.transform='';sh.classList.remove('on');$('scrim').classList.remove('on');$('dlg').classList.remove('on');$('lb').classList.remove('on');return was}
+function closeSheet(){if(sheetOpen())history.back()}
 function bindSheetDrag(){const sh=$('sheet');let y0=0,dy=0,t0=0,drag=false;
-  sh.onpointerdown=e=>{if(sh.scrollTop>0||e.target.closest('input,select,textarea'))return;drag=true;y0=e.clientY;t0=Date.now();dy=0;sh.style.transition='none';sh.setPointerCapture(e.pointerId)};
-  sh.onpointermove=e=>{if(!drag)return;dy=e.clientY-y0;const d=dy<0?dy*.2:dy;sh.style.transform=`translateY(${d}px)`};
+  sh.onpointerdown=e=>{if(sh.scrollTop>0||e.target.closest('input,select,textarea,button'))return;drag=true;y0=e.clientY;t0=Date.now();dy=0;sh.style.transition='none';sh.setPointerCapture(e.pointerId)};
+  sh.onpointermove=e=>{if(!drag)return;dy=e.clientY-y0;sh.style.transform=`translateY(${dy<0?dy*.2:dy}px)`};
   sh.onpointerup=()=>{if(!drag)return;drag=false;sh.style.transition='';const v=Math.abs(dy)/(Date.now()-t0);if(dy>120||(dy>10&&v>.11))closeSheet();else sh.style.transform=''};}
-function dialog(t,txt,okL,onOk,danger){const d=$('dlg');d.innerHTML=`<h3>${t}</h3><p>${txt}</p><div class="b"><button class="btn line press" data-act="dlgno">Voltar</button><button class="btn ${danger?'':'gold'} press" data-act="dlgok" style="${danger?'background:var(--warn);color:#fff':''}">${okL}</button></div>`;d.classList.add('on');$('scrim').classList.add('on');d._ok=onOk;setTimeout(()=>d.querySelector('[data-act=dlgno]').focus(),50)}
-function waMsg(txt,loc='dimagem'){const L=LOCAIS[loc];window.open(`https://wa.me/${L.wa}?text=${encodeURIComponent(txt)}`,'_blank','noopener')}
+function dialog(t,txt,okL,onOk,danger){const d=$('dlg');d.innerHTML=`<h3>${t}</h3><p>${txt}</p><div class="b"><button class="btn line press" data-act="dlgno">Voltar</button><button class="btn ${danger?'':'gold'} press" data-act="dlgok" style="${danger?'background:var(--warn);color:#fff':''}">${okL}</button></div>`;d.classList.add('on');$('scrim').classList.add('on');hpush();d._ok=onOk;setTimeout(()=>d.querySelector('[data-act=dlgno]').focus(),50)}
+function lightbox(loc,i){const L=LOCAIS[loc];const lb=$('lb');lb.innerHTML=`<div class="hd"><span id="lbn" class="tab">${i+1} de ${L.gal.length}</span><button class="x press" data-act="lbx" aria-label="Fechar">${I('x',22,'#fff',2.4)}</button></div><div class="tr" id="lbt">${L.gal.map(g=>`<img src="${g}" alt="Foto de ${L.n}">`).join('')}</div>`;lb.classList.add('on');hpush();const tr=$('lbt');requestAnimationFrame(()=>tr.scrollLeft=i*tr.clientWidth);tr.onscroll=()=>{$('lbn').textContent=`${Math.round(tr.scrollLeft/tr.clientWidth)+1} de ${L.gal.length}`}}
+function waMsg(txt,loc='dimagem'){window.open(`https://wa.me/${LOCAIS[loc].wa}?text=${encodeURIComponent(txt)}`,'_blank','noopener')}
+function finalizar(){const f=S.flow,m=famBy(f.who),loc=f.tipo==='consulta'?'miti':'dimagem',d=new Date(f.dia);
+  const itens=f.tipo==='consulta'?`• Atendimento: ${f.item} (${f.modo})`:f.exs.map(c=>{const e=ex(c);return `• ${MODN[e[2]]}: ${e[1]} (TUSS ${e[0]})`}).join('\n');
+  const txt=`Olá! Gostaria de agendar pelo app VittaOne:\n${itens}\n• Paciente: ${m.n}\n• Preferência: ${DF[d.getDay()]}, ${d.getDate()}/${d.getMonth()+1} (${f.per})\n• Pagamento: ${f.pag==='Convênio'?(m.c==='Particular'?'Convênio':m.c):'Particular'+(f.pix?' (Pix adiantado)':'')}${f.tipo==='exame'?'\n• Pedido médico: '+(f.foto?'foto anexada no app':'levo no dia'):''}`;
+  const first=f.tipo==='consulta'?f.item:(()=>{const e=ex(f.exs[0]);return (e[2]==='rm'?'RM':'TC')+' · '+curto(e[1])+(f.exs.length>1?` +${f.exs.length-1}`:'')})();
+  S.ag.push({id:Date.now(),tipo:f.tipo,mod:f.tipo==='exame'?ex(f.exs[0])[2]:null,item:first,loc,who:f.who,d:new Date(f.dia).toISOString(),hora:f.per,st:0});save();
+  waMsg(txt,loc);S.flow=null;S.stack=[];S.view='sucesso';S.params={};try{history.replaceState({vo:Date.now()},'')}catch(e){}render('fwd')}
 
 /* =================== eventos =================== */
 document.addEventListener('click',e=>{
   const el=e.target.closest('[data-go],[data-back],[data-act],[data-f],[data-who]');if(!el)return;
-  if(el.dataset.back!==undefined){back();return}
+  if(el.dataset.back!==undefined){goBack();return}
   if(el.dataset.who&&!el.dataset.act){S.who=el.dataset.who;render('none',$('scr').scrollTop);return}
-  if(el.dataset.go){let p={};try{p=JSON.parse(el.dataset.p||'{}')}catch(_){};if(el.dataset.go==='agendar'){novoFlow()}
-    const same=el.dataset.go===S.view&&['agenda','guia','familia'].includes(S.view);
-    if(same){S.params=p;render('none',$('scr').scrollTop);return}
-    closeSheet();go(el.dataset.go,p);return}
-  if(el.dataset.f){const f=S.flow;f[el.dataset.f]=el.dataset.v;if(el.dataset.f==='tipo'){f.item=null;f.reg=null}if(el.dataset.f==='item')f.reg=f.tipo==='consulta'?'':f.reg;if(el.dataset.f==='who')f.pag=famBy(f.who).c==='Particular'?'Particular':'Convênio';const y=$('scr').scrollTop;render('none',y);return}
+  if(el.dataset.go){let p={};try{p=JSON.parse(el.dataset.p||'{}')}catch(_){}
+    if(el.dataset.go==='agendar'){if(S.view==='agendar')return;novoFlow()}
+    if(el.dataset.go===S.view&&['agenda','guia','familia'].includes(S.view)){S.params=p;render('none',$('scr').scrollTop);return}
+    if(el.dataset.go===S.view&&TABS.includes(S.view)){$('scr').scrollTo({top:0,behavior:rmOn()?'auto':'smooth'});return}
+    go(el.dataset.go,p);return}
+  if(el.dataset.f){const f=S.flow,k=el.dataset.f,v=el.dataset.v;f[k]=v;
+    if(k==='tipo'){f.exs=[];f.item=null;f.mod=null;f.step=1;hpush();render('fwd');return}
+    if(k==='who')f.pag=famBy(v).c==='Particular'?'Particular':'Convênio';
+    if(k==='pag'&&v!=='Particular')f.pix=false;
+    render('none',$('scr').scrollTop);return}
   const a=el.dataset.act;
   const A={
-    demo(){S.user={nome:'Gabriel Santana',cel:'(11) 90000-0000',conv:'Particular'};save();go('inicio')},
-    novo(){novoFlow(el.dataset.tipo,el.dataset.pedido);if(el.dataset.who)S.flow.who=el.dataset.who;closeSheet();go('agendar')},
-    fnext(){const f=S.flow;const tot=f.tipo==='consulta'?6:7;if(f.step<tot-1){f.step++;render('fwd')}},
-    fprev(){const f=S.flow;if(f.step>0){f.step--;render('back')}else{S.flow=null;back()}},
-    rmfoto(){S.flow.foto=null;render('none')},
-    enviar(){const f=S.flow,m=famBy(f.who),loc=f.tipo==='consulta'?'miti':'dimagem',d=new Date(f.dia);
-      const txt=`Olá! Gostaria de agendar pelo app VittaOne:\n• ${f.tipo==='consulta'?'Atendimento':'Exame'}: ${f.item}${f.reg?' – '+f.reg:''}\n• Paciente: ${m.n}\n• Preferência: ${DF[d.getDay()]}, ${d.getDate()}/${d.getMonth()+1} (${f.per})\n• Pagamento: ${f.pag==='Convênio'?(m.c==='Particular'?'Convênio':m.c):'Particular'}${f.tipo==='exame'?'\n• Pedido médico: '+(f.foto?'anexado no app':'envio depois'):''}`;
-      S.ag.push({id:Date.now(),tipo:f.tipo,item:f.item+(f.reg?' · '+f.reg:''),loc,who:f.who,d:new Date(f.dia).toISOString(),per:f.per,hora:f.per==='Manhã'?'Manhã':f.per==='Tarde'?'Tarde':f.per,st:0});save();S.flow=null;
-      waMsg(txt,loc);S.stack=[];go('sucesso',{}, {replace:true})},
+    demo(){S.user={nome:'Gabriel Santana',cel:'(11) 90000-0000',conv:'Particular'};save();S.stack=[];S.view='inicio';render('fwd')},
+    novo(){novoFlow({tipo:el.dataset.tipo,mod:el.dataset.mod,code:el.dataset.code,item:el.dataset.item,modo:el.dataset.modo,who:el.dataset.who});if(S.view==='agendar'){render('fwd');return}go('agendar')},
+    fnext(){S.flow.step++;hpush();render('fwd')},
+    mod(){const v=el.dataset.v;S.flow.mod=S.flow.mod===v?null:v;render('none',$('scr').scrollTop)},
+    exsel(){const c=el.dataset.code,L=S.flow.exs,i=L.indexOf(c);i<0?L.push(c):L.splice(i,1);render('none',$('scr').scrollTop)},
+    ocrnovo(){S.flow.ocr=null;S.flow.foto=null;render('none',$('scr').scrollTop)},
+    pixtg(){S.flow.pix=!S.flow.pix;render('none',$('scr').scrollTop)},
+    enviar(){if(S.flow.pix){go('pix');return}finalizar()},
+    pago(){finalizar()},
+    copiar(){const i=$('pixc');try{navigator.clipboard.writeText(i.value)}catch(_){i.select()}toast('Código Pix copiado')},
     rota(){const L=LOCAIS[el.dataset.loc];openSheet(`<h2 class="h-l">Como chegar</h2><p class="sub">${L.n} · ${L.e}</p><div class="go-row" style="margin:16px 0 0"><a class="press" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${L.lat},${L.lng}"><img src="../img/gmaps.png" alt="">Google Maps</a><a class="press" target="_blank" rel="noopener" href="https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=${L.lat}&dropoff[longitude]=${L.lng}"><img src="../img/uber.png" alt="">Uber</a></div><button class="btn line full press" style="margin-top:12px" data-go="local" data-p='{"id":"${L.id}"}'>Ver detalhes do local</button>`)},
-    wa(){const loc=el.dataset.loc||'dimagem';waMsg('Olá! Vim pelo app VittaOne e gostaria de tirar uma dúvida.',loc)},
-    notif(){openSheet(`<h2 class="h-l">Lembretes</h2><div class="card" style="margin-top:14px">${proximos().slice(0,3).map(a=>{const d=fmtD(a.d);return `<div class="row"><span class="ic" style="background:var(--goldl)">${I('bell',20,'var(--gold)')}</span><div><b>${esc(a.item)}</b><span>${d.sem}, ${d.dia} ${d.mes} · ${a.hora} · ${LOCAIS[a.loc].n}</span></div></div>`}).join('')||'<div class="row"><span>Nenhum lembrete agora.</span></div>'}</div><button class="btn line full press" style="margin-top:14px" data-go="perfil">Ajustar lembretes</button>`)},
+    wa(){waMsg('Olá! Vim pelo app VittaOne e gostaria de tirar uma dúvida.',el.dataset.loc||'dimagem')},
+    notif(){openSheet(`<h2 class="h-l">Lembretes</h2><div class="card" style="margin-top:14px">${ativos().slice(0,3).map(a=>{const d=fmtD(a.d);return `<div class="row"><span class="ic" style="background:var(--goldl)">${I('bell',20,'var(--gold)')}</span><div><b>${esc(a.item)}</b><span>${d.sem}, ${d.dia} ${d.mes} · ${a.hora} · ${LOCAIS[a.loc].n}</span></div></div>`}).join('')||'<div class="row"><div><b>Nenhum lembrete agora</b></div></div>'}</div><button class="btn line full press" style="margin-top:14px" data-go="perfil">Ajustar lembretes</button>`)},
     addfam(){openSheet(`<h2 class="h-l">Adicionar familiar</h2><p class="sub">Para agendar e acompanhar quem você cuida.</p><form id="famf" novalidate>
       <div class="field" id="ff-n"><label for="fn">Nome completo</label><input id="fn" autocomplete="off"><div class="err">Escreva nome e sobrenome.</div></div>
       <div class="field"><label for="fp">Parentesco</label><select id="fp">${['Filho(a)','Mãe','Pai','Cônjuge','Irmão(ã)','Avó/Avô','Outro'].map(x=>`<option>${x}</option>`).join('')}</select></div>
       <div class="field"><label for="fc">Convênio</label><select id="fc"><option>Particular</option>${['SulAmérica','Care Plus','Cassi','GEAP Saúde','MedSênior','Mediservice','Postal Saúde','Vivest'].map(c=>`<option>${c}</option>`).join('')}</select></div>
       <button class="btn gold full press" style="margin-top:20px" type="submit">Adicionar</button></form>`);
-      $('famf').onsubmit=ev=>{ev.preventDefault();const n=$('fn').value.trim();if(n.split(/\s+/).length<2){$('ff-n').classList.add('bad');$('fn').focus();return}const id='f'+Date.now();S.fam.push({id,n,p:$('fp').value,c:$('fc').value});save();closeSheet();if(S.flow){S.flow.who=id}render('none',$('scr').scrollTop);toast(n.split(' ')[0]+' agora está na sua família')}},
-    cancelar(){const id=+el.dataset.id;dialog('Cancelar este agendamento?','A clínica será avisada pelo WhatsApp. Você pode marcar de novo quando quiser.','Sim, cancelar',()=>{const x=S.ag.find(a=>a.id===id);x.st=-1;save();render('none');toast('Agendamento cancelado')},true)},
+      $('famf').onsubmit=ev=>{ev.preventDefault();const n=$('fn').value.trim();if(n.split(/\s+/).length<2){$('ff-n').classList.add('bad');$('fn').focus();return}const id='f'+Date.now();S.fam.push({id,n,p:$('fp').value,c:$('fc').value});save();if(S.flow)S.flow.who=id;closeSheet();setTimeout(()=>{render('none',$('scr').scrollTop);toast(n.split(' ')[0]+' agora está na sua família')},60)}},
+    cancelar(){const id=+el.dataset.id;dialog('Cancelar este agendamento?','A clínica será avisada pelo WhatsApp. Você pode marcar de novo quando quiser.','Sim, cancelar',()=>{S.ag.find(a=>a.id===id).st=-1;save();render('none',$('scr').scrollTop);toast('Agendamento cancelado')},true)},
     remarcar(){const x=S.ag.find(a=>a.id===+el.dataset.id);dialog('Remarcar pelo WhatsApp?','Abrimos a conversa com a clínica para escolher um novo horário.','Abrir WhatsApp',()=>waMsg(`Olá! Preciso remarcar: ${x.item} (${new Date(x.d).toLocaleDateString('pt-BR')}).`,x.loc))},
-    dlgok(){const d=$('dlg');closeSheet();d._ok&&d._ok()},dlgno(){closeSheet()},
+    dlgok(){const fn=$('dlg')._ok;closeSheet();setTimeout(()=>fn&&fn(),60)},dlgno(){closeSheet()},
     laudo(){toast('O laudo abre no portal da Dimagem')},
     avaliar(){openSheet(`<h2 class="h-l">Como foi o atendimento?</h2><p class="sub">Sua nota chega direto à equipe.</p><div style="display:flex;gap:8px;justify-content:center;margin:20px 0" id="stars">${[1,2,3,4,5].map(i=>`<button class="press" data-act="star" data-v="${i}" aria-label="${i} estrela(s)" style="width:52px;height:52px;border-radius:16px;background:var(--card);box-shadow:var(--sh);display:grid;place-items:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linejoin="round"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></button>`).join('')}</div><button class="btn gold full press" data-act="toast" data-msg="Obrigado pela avaliação!">Enviar avaliação</button>`)},
     star(){const v=+el.dataset.v;$('stars').querySelectorAll('svg').forEach((s,i)=>s.setAttribute('fill',i<v?'var(--goldb)':'none'))},
     toast(){closeSheet();toast(el.dataset.msg)},
-    wallet(){toast('Carteirinha pronta para compartilhar')},
+    indicar(){const t='Conheça o VittaOne: consultas no MITI e exames na Dimagem, marcados em minutos.';if(navigator.share){navigator.share({title:'VittaOne',text:t,url:location.href}).catch(()=>{})}else window.open('https://wa.me/?text='+encodeURIComponent(t+' '+location.href),'_blank','noopener')},
     faq(){const w=el.parentElement,on=!w.classList.contains('on');w.classList.toggle('on',on);el.setAttribute('aria-expanded',on)},
     chk(){const k=el.dataset.k,i=+el.dataset.i;const L=S.chk[k];const ix=L.indexOf(i);ix<0?L.push(i):L.splice(ix,1);save();
       const on=ix<0;el.classList.toggle('done',on);el.setAttribute('aria-checked',on);const bx=el.querySelector('.bx');bx.classList.toggle('on',on);bx.innerHTML=on?I('check',15,'#fff',3.5):'';
       const n=L.length,t=PREPARO[k].itens.length;$('pcount').textContent=`${n} de ${t} prontos`;$('pbar').style.transform=`scaleX(${n/t})`;if(n===t)toast('Tudo pronto para o exame!')},
+    qs(){S.qs[el.dataset.i]=el.dataset.v;save();render('none',$('scr').scrollTop)},
+    qsok(){toast('Respostas salvas e enviadas com o agendamento');goBack()},
+    lb(){lightbox(el.dataset.loc,+el.dataset.i)},lbx(){closeSheet()},
     pref(){const k=el.dataset.k;S.prefs[k]=!S.prefs[k];save();applyPrefs();el.setAttribute('aria-checked',S.prefs[k])},
     fs(){S.prefs.fs=+el.dataset.v;save();applyPrefs();render('none',$('scr').scrollTop)},
-    voz(){openSheet(`<h2 class="h-l" style="text-align:center">Pode falar</h2><p class="sub" style="text-align:center">Ex.: “ressonância do joelho”</p><div class="mic">${I('mic',46,'#fff',2)}</div><button class="btn line full press" data-act="vozok">Simular: “ressonância do joelho”</button>`)},
-    vozok(){closeSheet();go('busca');setTimeout(()=>{$('q').value='ressonancia joelho';buscar('ressonancia joelho')},60)},
+    voz(){openSheet(`<h2 class="h-l" style="text-align:center">Pode falar</h2><p class="sub" style="text-align:center">Ex.: “ressonância do joelho”</p><div class="mic">${I('mic',46,'#fff',2)}</div><button class="btn line full press" data-act="vozok">Simular: “ressonância joelho”</button>`)},
+    vozok(){closeSheet();setTimeout(()=>{go('busca');setTimeout(()=>{$('q').value='ressonância joelho';buscar('ressonancia joelho')},80)},80)},
     dados(){toast('Edição de dados: disponível no app final')},
-    sair(){dialog('Sair da conta?','Seus dados continuam salvos. Para entrar de novo, use o mesmo celular.','Sair',()=>{S.user=null;save();S.stack=[];go('entrar')},true)}
+    sair(){dialog('Sair da conta?','Seus dados continuam salvos. Para entrar de novo, use o mesmo celular.','Sair',()=>{S.user=null;save();S.stack=[];S.view='entrar';render('fwd')},true)}
   };
   A[a]&&A[a]();
 });
 $('scrim').addEventListener('click',closeSheet);
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet();if((e.key==='Enter'||e.key===' ')&&e.target.id==='flip'){e.preventDefault();e.target.classList.toggle('on')}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&sheetOpen())closeSheet();if((e.key==='Enter'||e.key===' ')&&e.target.id==='flip'){e.preventDefault();e.target.classList.toggle('on')}});
+function bindDots(){document.querySelectorAll('[data-dots]').forEach(d=>{const car=$(d.dataset.dots);if(!car||!car.children.length)return;const n=car.children.length;d.innerHTML=Array.from({length:n},(_,i)=>`<i class="${i?'':'on'}"></i>`).join('');
+  const upd=()=>{const w=car.children[0].offsetWidth+12;const ix=Math.min(n-1,Math.round(car.scrollLeft/w));d.querySelectorAll('i').forEach((x,i)=>x.classList.toggle('on',i===ix));
+    if(rmOn())return;const h=car.getBoundingClientRect();car.querySelectorAll('[data-hx]').forEach(im=>{const r=im.parentElement.getBoundingClientRect();im.style.transform=`translate3d(${(-(r.left-h.left)/h.width*30).toFixed(1)}px,0,0)`})};
+  car.addEventListener('scroll',()=>requestAnimationFrame(upd),{passive:true})})}
 function bindAfter(){
   const fl=$('flip');if(fl)fl.onclick=()=>fl.classList.toggle('on');
-  const q=$('q');if(q){q.oninput=()=>buscar(q.value);buscar('');setTimeout(()=>q.focus(),250)}
-  const fo=$('foto');if(fo)fo.onchange=()=>{const file=fo.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{S.flow.foto=r.result;render('none')};r.readAsDataURL(file)};
-  const cad=$('cad');if(cad)cad.onsubmit=ev=>{ev.preventDefault();let bad=false;
+  const q=$('q');if(q){q.oninput=()=>buscar(q.value);buscar('');setTimeout(()=>q.focus({preventScroll:true}),250)}
+  const qx=$('qex');if(qx){qx.oninput=()=>{S.flow.q=qx.value;$('exs').innerHTML=exList()}}
+  ['fcam','fgal'].forEach(id=>{const i=$(id);if(i)i.onchange=()=>{if(i.files[0])lerPedido(i.files[0])}});
+  const cad=$('cad');if(cad)cad.onsubmit=ev=>{ev.preventDefault();
     const n=$('nome').value.trim(),c=$('cel').value.replace(/\D/g,''),v=$('conv').value;
-    $('f-n').classList.toggle('bad',n.split(/\s+/).length<2);$('f-c').classList.toggle('bad',c.length!==11);$('f-v').classList.toggle('bad',!v);
-    bad=n.split(/\s+/).length<2||c.length!==11||!v;if(bad){cad.querySelector('.bad input,.bad select').focus();return}
-    S.user={nome:n,cel:`(${c.slice(0,2)}) ${c.slice(2,7)}-${c.slice(7)}`,conv:v};S.fam[0]={id:'eu',n,p:'Titular',c:v};save();go('inicio');toast('Cadastro criado. Bem-vindo(a), '+n.split(' ')[0]+'!')};
+    const bn=n.split(/\s+/).length<2,bc=c.length!==11,bv=!v;
+    $('f-n').classList.toggle('bad',bn);$('f-c').classList.toggle('bad',bc);$('f-v').classList.toggle('bad',bv);
+    if(bn||bc||bv){cad.querySelector('.bad input,.bad select').focus();return}
+    S.user={nome:n,cel:`(${c.slice(0,2)}) ${c.slice(2,7)}-${c.slice(7)}`,conv:v};S.fam[0]={id:'eu',n,p:'Titular',c:v};save();S.stack=[];S.view='inicio';render('fwd');toast('Cadastro criado. Bem-vindo(a), '+n.split(' ')[0]+'!')};
   const cel=$('cel');if(cel)cel.oninput=()=>{let d=cel.value.replace(/\D/g,'').slice(0,11);cel.value=d.length>7?`(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`:d.length>2?`(${d.slice(0,2)}) ${d.slice(2)}`:d};
-  const hs=$('hs');if(hs)hs.addEventListener('scroll',()=>{if(S.prefs.rm)return;hs.querySelectorAll('[data-hx]').forEach(im=>{const r=im.parentElement.getBoundingClientRect(),h=hs.getBoundingClientRect();const c=(r.left-h.left)/h.width;im.style.transform=`translate3d(${(-c*28).toFixed(1)}px,0,0)`})},{passive:true});
-  const blob=$('blob');if(blob&&!S.prefs.rm){$('scr').addEventListener('scroll',e=>{blob.style.transform=`translate3d(0,${e.target.scrollTop*.15}px,0) rotate(${e.target.scrollTop*.05}deg)`},{passive:true})}
-  setParallax();
+  const blob=$('blob');if(blob&&!rmOn())$('scr').addEventListener('scroll',e=>{blob.style.transform=`translate3d(0,${e.target.scrollTop*.12}px,0) rotate(${e.target.scrollTop*.04}deg)`},{passive:true});
+  bindDots();requestAnimationFrame(setParallax);
 }
 function applyPrefs(){const p=S.prefs,h=document.documentElement;h.style.setProperty('--fs',p.fs);h.classList.toggle('hc',!!p.hc);h.classList.toggle('easy',!!p.easy);h.classList.toggle('rm',!!p.rm)}
 
 /* =================== início =================== */
 $('sideLogo').innerHTML=LOGO(34);$('spLogo').innerHTML=LOGO(84);
 applyPrefs();
+try{history.replaceState({vo:0},'');history.pushState({vo:1},'')}catch(e){}
 S.view=S.user?'inicio':'entrar';render();
 setTimeout(()=>$('splash').classList.add('out'),S.prefs.rm?100:1300);
 setTimeout(()=>$('splash').remove(),1900);
-window.addEventListener('popstate',()=>{});
 </script>
 </body>
 </html>
