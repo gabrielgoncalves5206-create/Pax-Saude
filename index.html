@@ -724,7 +724,7 @@ const CARTAO={"sulamerica": {"bg": "background:#fff", "svg": "<svg viewBox=\"0 0
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'9.4',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'9.5',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -2336,20 +2336,20 @@ function cardProf(p,f){const on=f.prof===p.n,pend='<i class="pf-pend">a confirma
  const pag=f.pag==='part'?'Vitta Particular':f.conv&&f.conv!=='nd'?((CONV.find(x=>x.id===f.conv)||{}).n||'Pro Bono'):'Pro Bono';
  return `<article class="pf ${on?'on':''}"><div class="pf-top"><span class="pf-av" aria-hidden="true">${iniciais(p.n)}</span><div class="pf-id"><b>${esc(p.n)}</b><span>${p.esp?esc(p.esp):esc(f.esp)+' '+pend}</span><small>${p.reg?esc(p.reg):'Registro '+pend}</small></div></div>
  <ul class="pf-ls"><li><span>Formação</span><b>${p.sub?esc(p.sub):pend}</b></li><li><span>Atende</span><b>${p.pub?esc(p.pub):pend}</b></li><li><span>Modalidade</span><b>${p.mod?esc(p.mod):'Presencial no MITI'}</b></li><li><span>No MITI</span><b>${esc(p.dias)} · ${esc(p.tur)}</b></li><li><span>Pagamento</span><b>${esc(pag)}</b></li></ul>
- <button class="btn ${on?'pri':'sec'} pf-bt" data-act="fprof" data-v="${esc(p.n)}">${on?'Escolhido':'Escolher'}</button></article>`}
+ </article>`}
 const _fx94=VIEWS.fluxo;VIEWS.fluxo=function(){const f=S.fx;
  if(f&&f.tipo==='consulta'&&f.step===3&&(PROF_ON||PROF_PREVIA)){const l=profsDe(f.esp);if(l.length){
   const h=_fx94.call(this);const i=h.indexOf('<h2 class="h2">');const top=i>0?h.slice(0,i):'';
-  return top+`<h2 class="h2">Escolha o profissional <span class="tit-esp">· ${esc(f.esp)}</span></h2>${PROF_PREVIA&&!PROF_ON?'<div class="info"><span><b>Prévia.</b> Lista desligada no app até os profissionais autorizarem. Especialidade e registro a confirmar com o MITI.</span></div>':''}
-  <p class="sm mut">${l.length} profissiona${l.length>1?'is':'l'} atendendo no MITI · Conjunto Nacional</p><div class="pfs">${l.map(p=>cardProf(p,f)).join('')}</div>
-  <button class="btn pri big" data-act="fprox" ${f.prof?'':'disabled'}>Continuar</button><button class="lnk" data-act="fprofx" style="margin-top:.8rem">Sem preferência de profissional</button></section>`}}
+  return top+`<h2 class="h2">Profissionais <span class="tit-esp">· ${esc(f.esp)}</span></h2>${PROF_PREVIA&&!PROF_ON?'<div class="info"><span><b>Prévia.</b> Lista desligada no app até os profissionais autorizarem. Especialidade e registro a confirmar com o MITI.</span></div>':''}
+  <p class="sm mut">${l.length} profissiona${l.length>1?'is':'l'} atendendo no MITI. A clínica indica o horário disponível ao confirmar.</p><div class="pfs">${l.map(p=>cardProf(p,f)).join('')}</div>
+  <button class="btn pri big" data-act="fprox">Continuar</button></section>`}}
  return _fx94.call(this)};
 /* v8 pulava o passo 3 da consulta; com a lista ativa ele vira "Escolha o profissional" */
 const _r94=VIEWS.fluxo;
 document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');const f=S.fx;if(!t||!f)return;const a=t.dataset.act;
  if(a==='fprof'){f.prof=t.dataset.v;render()}
  else if(a==='fprofx'){f.prof='Sem preferência';f.step=4;render();scrollTo(0,0)}},true);
-const _m94=msgFluxo;msgFluxo=function(f,l){let m=_m94(f,l);if(f.tipo==='consulta'&&f.prof)m=m.replace(/(Celular: [^\n]*\n)/,`$1Profissional: ${f.prof}\n`);return m};
+const _m94=msgFluxo;msgFluxo=function(f,l){let m=_m94(f,l);if(0)m=m.replace(/(Celular: [^\n]*\n)/,`$1Profissional: ${f.prof}\n`);return m};
 /* ============ INÍCIO ============ */
 (function(){try{history.replaceState({pax:'base'},'')}catch(e){}const v=location.hash.slice(1);S.view=['buscar','agenda','perfil','novo'].includes(v)?v:'inicio';S.navAt=S.view;render(true);gpsAuto(true)})();
 
