@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0E4D45">
+<meta name="theme-color" content="#8EDDD6">
 <meta name="description" content="VittaOne: encontre consultas e exames em São Paulo, veja como chegar e agende pelo WhatsApp.">
 <title>VittaOne</title>
 <link rel="manifest" href="manifest.webmanifest">
@@ -604,6 +604,27 @@ body.modo-apr .nav,body.modo-apr .top,body.modo-apr header,body.modo-apr .fab{di
 @keyframes spLoad{from{width:0}to{width:100%}}
 @media (prefers-reduced-motion:reduce){.sp-lg,.sp-nm,.sp-sl,.sp-bar i{animation:none}.sp-bar i{width:100%}}
 .ja-cad{display:flex;flex-direction:column;gap:.5rem;margin-top:1rem}
+
+/* ---------- v10.1: layout A · Tiffany + dourado escuro ---------- */
+:root{--tf:#8EDDD6;--tf2:#B5EAE5;--pt:#0E4D45;--dr:#8A6A1E;--dr2:#6F5416;--ar:#F5EBCF;--tfl:#DDF4F1}
+@media (max-width:899px){.top{background:var(--tf)}}
+.top{color:var(--pt)}.top .iconbtn{color:var(--pt)}.top .iconbtn svg *{stroke:var(--pt)}
+.brand{color:var(--pt)}.brand b{color:var(--pt)}.brand span{color:var(--dr)}
+.hero{background:linear-gradient(180deg,var(--tf) 0%,var(--tf2) 100%);color:var(--pt)}
+.hero .hello,.hero .hello small{color:var(--pt)}
+.ref{background:rgba(255,255,255,.55);border-color:rgba(14,77,69,.14);color:var(--pt)}
+.ref-ic{background:var(--dr);color:#fff}.ref-ic svg *{stroke:#fff}
+.ref-bt{background:var(--dr);color:#fff}
+.hero .ref-msg{color:var(--pt);opacity:.85}
+.cubo2.co{background:var(--tfl);color:var(--pt);border:1px solid #B9E6E0;box-shadow:0 10px 22px rgba(14,77,69,.10)}
+.cubo2.ex{background:var(--ar);color:var(--dr2);border:1px solid #E9D9AE;box-shadow:0 10px 22px rgba(138,106,30,.12)}
+.cubo2 .c2-ic{background:#fff;box-shadow:0 4px 10px rgba(14,77,69,.08)}
+.cubo2.co .c2-ic svg *{stroke:var(--pt)}.cubo2.ex .c2-ic svg *{stroke:var(--dr)}
+.cubo2.co .c2-big *{stroke:var(--pt)}.cubo2.ex .c2-big *{stroke:var(--dr)}
+.cubo2.co .c2-pill{background:var(--pt);color:#fff}.cubo2.ex .c2-pill{background:var(--dr);color:#fff}
+.navball{background:var(--dr)}.navball svg *{stroke:#fff}
+@media (max-width:899px){.nav .mid .plus svg *{stroke:#E9C46A}}
+.btn.pri{background:var(--dr)}.btn.pri:hover{background:var(--dr2)}
 </style>
 </head>
 <body>
