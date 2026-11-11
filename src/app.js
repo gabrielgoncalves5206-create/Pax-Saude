@@ -6,7 +6,7 @@
    ===================================================================== */
 const CFG={
  mapillary:'MLY|28963648059968063|2604d9bc5dd187e793f457ba123af6c0', /* token público do Mapillary (MLY|...). Também pode ser colado em Menu › Fontes e créditos */
- empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'9.8',dataRef:'nov/2026'
+ empresa:'[Nome da empresa]',email:'[e-mail de contato]',versao:'9.9',dataRef:'nov/2026'
 };
 
 /* ============ ESTADO ============ */
@@ -1222,7 +1222,10 @@ function msgFluxo(f,link){const u=S.user||{},c=CONV.find(x=>x.id===f.conv),ex=f.
  return `Olá! Vim pelo app VittaOne e gostaria de agendar ${ex?'um exame':'uma consulta de '+f.esp}.\n\nPaciente: ${u.nome||''}\nCelular: ${u.cel||''}\nPagamento: ${pag}\n${ex?(link?'Pedido médico (foto): '+link:'Exame: '+f.exame)+'\n':''}Preferência: ${pref}\n\nQuais horários vocês têm?`}
 async function enviarFluxo(){const f=S.fx,m=$('fmsg'),b=document.querySelector('[data-act=fenviar]');const ex=f.tipo==='exame',loc=ex?DIM():MITI();let link='';
  if(b)b.disabled=true;
- if(f.foto){m.textContent='Enviando a foto do pedido…';try{const j=await rpc('pax_pedido_enviar',{p_img:f.foto});if(!j||!j.ok)throw 0;link=(/^https?:/.test(location.protocol)?location.origin+location.pathname.replace(/index\.html$/,''):'https://gabrielgoncalves5206-create.github.io/Pax-Saude/')+'#p='+j.id}catch(e){m.style.color='#B3261E';m.textContent='Não consegui enviar a foto agora. Verifique a internet e tente de novo.';if(b)b.disabled=false;return}}
+ {const u=S.user||{},c=CONV.find(x=>x.id===f.conv);const reg={tipo:f.tipo,nome:u.nome||'',telefone:u.cel||'',local:loc.n||loc.id,itens:ex?((f.exames||[]).join('; ')||'Conforme pedido médico'):f.esp,pagamento:f.pag==='part'?'Vitta Particular':'Pro Bono'+(c?' · '+c.n:''),forma:f.pag==='part'?(f.forma==='adiant'?'adiantamento':'no local'):'',convenio_lido:f.convLido||'',preferencia:f.turno?`${{manha:'Manhã',tarde:'Tarde',noite:'Noite'}[f.turno]}, ${f.semana==='esta'?'esta semana':'próxima semana'}`:'',img:f.foto||''};
+ if(f.foto)m.textContent='Enviando a foto do pedido…';
+ try{const j=await rpc('pax_pedido_registrar',{p:reg});if(!j||!j.ok)throw 0;if(f.foto)link=(/^https:/.test(location.protocol)?location.origin+'/':'https://vittaone-app.vercel.app/')+'#p='+j.id}
+ catch(e){if(f.foto){m.style.color='#B3261E';m.textContent='Não consegui enviar a foto agora. Verifique a internet e tente de novo.';if(b)b.disabled=false;return}}}
  const ped={id:Date.now().toString(36),tipo:f.tipo,loc:loc.id,item:ex?((f.exames||[]).join(', ')||'Exame conforme pedido médico'):f.esp,pag:f.pag==='part'?'Vitta Particular':(CONV.find(x=>x.id===f.conv)||{}).n||'',pref:`${{manha:'Manhã',tarde:'Tarde',noite:'Noite'}[f.turno]}, ${f.semana==='esta'?'esta semana':'próxima semana'}`,st:'pend',criado:Date.now()};
  S.peds.unshift(ped);salvaPeds();location.href=waUrl(loc,msgFluxo(f,link));S.fx=null;S.enviado=ped.id;setTimeout(()=>ir('enviado'),400)}
 VIEWS.enviado=function(){const p=S.peds.find(x=>x.id===S.enviado)||S.peds[0];if(!p)return vInicio();const ex=p.tipo==='exame';
@@ -1353,7 +1356,7 @@ VIEWS.fluxo=function(){const f=S.fx;if(!f||f.tipo!=='exame'||f.step!==1)return _
   <button class="btn pri big" data-act="fprox" ${f.foto?'':'disabled'}>Continuar</button>${f.foto?'':'<button class="lnk" data-act="fsemfoto" style="margin-top:.8rem">Não tenho o pedido agora</button>'}</section>`};
 
 /* resumo com a lista de exames */
-const _msg71=msgFluxo;msgFluxo=function(f,link){f.exame=(f.exames||[]).join('; ');return _msg71(f,link).replace(/Pedido médico \(foto\): (\S+)\n/,(m,l)=>`Exame(s): ${f.exame||'conforme pedido'}\nPedido médico (foto): ${l}\n`)};
+const _msg71=msgFluxo;msgFluxo=function(f,link){f.exame=(f.exames||[]).join('; ');let m=_msg71(f,link).replace(/Pedido médico \(foto\): (\S+)\n/,()=>`Exame(s): ${f.exame||'conforme pedido'}\n`);if(link)m=m.replace(/\nQuais horários vocês têm\?$/,`\nPedido Médico:\nLink: ${link}\n\nQuais horários vocês têm?`);return m};
 
 document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act,f=S.fx;
  if(a==='faixa-x'){LS.set('faixaX',1);const el=document.querySelector('.faixa');if(el)el.remove()}
