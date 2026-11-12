@@ -593,6 +593,7 @@ html.hc .art p{color:#000}
 .cu button>div{flex:1;min-width:0}
 .cu .ix{width:56px;height:56px;border-radius:17px;display:grid;place-items:center;flex:none}
 .cu b{font-family:var(--disp);font-size:1.08rem;display:block}.cu span.s{font-size:.84rem;color:var(--soft);display:block;margin-top:2px;text-wrap:pretty}
+.mcv2{flex:none;width:78px}.mcv2 .ct{border-radius:8px;box-shadow:0 4px 10px -6px rgba(0,0,0,.5)}.mcv2 .ct-f{display:none}
 .mcv{flex:none;width:52px;height:34px;border-radius:7px;position:relative;overflow:hidden;box-shadow:0 4px 10px -6px rgba(0,0,0,.5)}
 .mcv i{position:absolute;left:6px;top:7px;width:10px;height:8px;border-radius:2px;background:#E9C873}
 .mcv u{position:absolute;left:0;right:0;bottom:6px;height:4px;text-decoration:none}
@@ -612,6 +613,9 @@ html.hc .art p{color:#000}
 .artnav button{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--deep);color:#fff;box-shadow:var(--sh)}
 .artnav button:disabled{opacity:.3}
 .artnav span{font-size:.85rem;color:var(--soft);font-weight:700;text-align:center;font-variant-numeric:tabular-nums}
+.resumo{display:flex;flex-wrap:wrap;gap:6px;margin:10px 20px 0}
+.resumo span{font-size:.8rem;font-weight:800;padding:6px 10px;border-radius:99px;background:var(--tifl);color:var(--tifd)}
+.resumo span.r0{display:block;width:100%;background:none;color:var(--deep);padding:0;font-family:var(--disp);font-size:1.4rem;line-height:1.15;text-wrap:balance}
 .go-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 20px}
 .go-row a{height:58px;border-radius:18px;background:var(--card);box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;gap:10px;font-weight:800}
 .go-row img{width:34px;height:34px;border-radius:9px;object-fit:cover}
@@ -741,6 +745,7 @@ const DICAS2=[
 {id:'gestante',t:'Gestantes e exames de imagem',k:'Exames · 2 min',img:F+'9002-1-hd.jpg',p:['Sempre informe se está grávida ou se há chance de estar, mesmo que não tenha certeza.','A tomografia, por usar radiação, costuma ser evitada na gestação e só é feita quando realmente necessária.','A ressonância pode ser indicada em situações específicas. A decisão é do médico que acompanha a gestação.']}
 ];
 DICAS.push(...DICAS2);
+{const w=Math.floor((Date.now()/864e5+4)/7)%DICAS.length;DICAS.push(...DICAS.splice(0,w))}
 
 const ESPTX={
 'Cardiologia':['Cuida do coração e dos vasos sanguíneos: pressão alta, arritmias, colesterol alto, insuficiência cardíaca e prevenção do infarto.','A consulta avalia sintomas como falta de ar, palpitação, inchaço nas pernas e dor no peito, e pode pedir exames como eletrocardiograma e ecocardiograma.','Ajuda a controlar os fatores de risco antes que causem problemas e acompanha quem já tem doença no coração.','Indicada também para avaliação antes de começar atividade física intensa ou antes de cirurgias.'],
@@ -932,7 +937,7 @@ function cartaoProBono(c,m){const u=S.user||{};return `<div class="pb"><svg clas
  <div class="pb-in"><div class="pb-top"><span class="pb-lg">${LOGO(20)}VittaOne</span><span class="pb-tag">PRO BONO</span></div>
  <svg class="pb-chip" width="40" height="30" viewBox="0 0 44 34" aria-hidden="true"><rect width="44" height="34" rx="7" fill="#E9C46A"/><path d="M0 12h14M0 22h14M30 12h14M30 22h14M14 0v34M30 0v34" stroke="#B8860B" stroke-width="1.5"/></svg>
  <div class="pb-bot"><span class="pb-s">BENEFICIÁRIO</span><b class="pb-n">${esc((m?m.n:u.nome||'Paciente').toUpperCase())}</b>
- <div class="pb-row"><span><span class="pb-s">CELULAR</span><b class="tab">${telMask(u.cel)}</b></span><span><span class="pb-s">CONVÊNIO</span><b>${esc(c?c.n:'Escolha abaixo')}</b></span></div></div></div></div>`}
+ <div class="pb-row"><span><span class="pb-s">CELULAR</span><b class="tab">${telMask(u.cel)}</b></span><span><span class="pb-s">ATENDIMENTO</span><b>Sem custo</b></span></div></div></div></div>`}
 function aberto(L){const d=new Date(),h=d.getHours()+d.getMinutes()/60,w=d.getDay();if(L.id==='miti')return w>=1&&w<=5&&h>=8&&h<21;return (w>=1&&w<=5&&h>=7&&h<19)||(w===6&&h>=8&&h<13)}
 function cardLocal(L){const ab=aberto(L);return `<article class="loc"><button class="im zoom" style="display:block;width:100%" data-go="local" data-p='{"id":"${L.id}"}'><img src="${L.id==='miti'?F+'9002-1-hd.jpg':F+'dm-fachada-hd.jpg'}" alt="${L.n}" loading="lazy"><span class="k">${L.id==='miti'?'Clínica':'Diagnóstico por imagem'}</span></button>
  <div class="tx"><div class="chips2"><span class="pill ${ab?'st-open':'st-closed'}">${ab?'Aberto agora':'Fechado agora'}</span><span class="pill p-gold">Preço sob consulta</span></div><b class="nm">${L.n}</b><span class="bb">${I('pin',16,'var(--tifd)')}${L.b}</span>
@@ -1068,11 +1073,18 @@ function exList(){const f=S.flow;const w=norm(f.q).split(/\s+/).filter(Boolean);
   const L=TUSS.filter(e=>(!f.mod||e[2]===f.mod)&&w.every(x=>kw(e).includes(x)));
   return L.length?L.map(e=>{const on=f.exs.includes(e[0]);return `<button class="ex press" data-act="exsel" data-code="${e[0]}" aria-pressed="${on}"><span class="mk" style="background:${e[2]==='rm'?'var(--rm)':'var(--tif)'}"></span><b>${esc(exLabel(e))}</b><code>${e[0]}</code><span class="ck">${on?I('check',14,'#fff',3.5):''}</span></button>`}).join('')
   :`<div class="row"><div><b>Nenhum exame com esse nome</b><span>Tente outra palavra ou envie a foto do pedido.</span></div></div>`}
+function resumoFlow(f){if(!f||f.step<1||!f.tipo)return '';const p=[];if(f.step===1)return `<div class="resumo"><span class="r0">${f.tipo==='consulta'?'Consulta ou terapia':'Exame de imagem'}</span></div>`;
+  if(f.tipo==='consulta')p.push('Consulta '+(f.modo||'Presencial')+(f.item?' - '+f.item:''));
+  else{const e=(f.exs||[]).map(c=>ex(c)).filter(Boolean);p.push(e.length?exLabel(e[0])+(e.length>1?' + '+(e.length-1)+(e.length>2?' exames':' exame'):''):(f.foto?'Exame conforme pedido médico':'Exame'))}
+  if(f.step>=3&&f.who)p.push('Para '+famBy(f.who).n.split(' ')[0]);
+  if(f.step>=4&&f.pag)p.push(f.pag==='Particular'?'Vitta Particular':'Pro Bono');
+  if(f.step>=5&&f.dia){const d=new Date(f.dia);p.push(DS[d.getDay()]+', '+d.getDate()+' '+MS[d.getMonth()]+(f.per?' · '+f.per:''))}
+  return `<div class="resumo" aria-label="O que você escolheu">${p.map((x,i)=>`<span class="${i?'':'r0'}">${esc(x)}</span>`).join('')}</div>`}
 VIEWS.agendar=()=>{
   if(!S.flow)novoFlow();
   const f=S.flow,st=f.step,T=STEPS[f.tipo||'exame'],tot=T.length;
   const head=`<div class="bar"><button class="back press" data-back aria-label="${st===(f.start||0)?'Fechar':'Voltar'}">${I(st===(f.start||0)?'x':'left',22,'currentColor',2.2)}</button><h1>Agendar</h1></div>
-  <div class="steps"><i style="transform:scaleX(${(st+1)/tot})"></i></div><div class="stepn">Passo ${st+1} de ${tot}</div>`;
+  <div class="steps"><i style="transform:scaleX(${(st+1)/tot})"></i></div><div class="stepn">Passo ${st+1} de ${tot}</div>${resumoFlow(f)}`;
   let body='',ok=true;
   if(st===0){body=`<div class="pg"><h2 class="h-l">${T[0]}</h2></div>
     <div class="big-opt">
@@ -1097,17 +1109,15 @@ VIEWS.agendar=()=>{
     <div class="card exs" id="exs">${exList()}</div>`;ok=f.exs.length>0}
   if(st===2){body=`<div class="pg"><h2 class="h-l">${T[2]}</h2></div><div class="opts">${S.fam.map(m=>`<button class="opt press" data-f="who" data-v="${m.id}" aria-pressed="${f.who===m.id}"><span class="av" style="background:${famCor(m.id)};width:48px;height:48px">${ini(m.n)}</span><div><b>${esc(m.n)}</b><span>${m.p} · ${esc(m.c)}</span></div><span class="rad">${f.who===m.id?I('check',14,'#fff',3.5):''}</span></button>`).join('')}
     <button class="opt press" data-act="addfam" style="box-shadow:none;border:2px dashed #A9C1BE;background:transparent"><span class="oi" style="background:var(--goldl)">${I('plus',22,'var(--gold)',2.2)}</span><div><b>Adicionar familiar</b><span>Leva menos de 1 minuto</span></div></button></div>`}
-  if(st===3){const m=famBy(f.who);if(f.pag==='Convênio'&&!f.conv)f.conv=convBy(m.c)?.id||null;const cAt=convBy(f.conv);
+  if(st===3){const m=famBy(f.who);const cAt=null;
     body=`<div class="pg"><h2 class="h-l">${T[3]}</h2></div>
     <div class="pg" style="margin-top:14px">${f.pag==='Particular'?`<div class="ct" style="background:linear-gradient(135deg,#0B6E6B,#0ABAB5)"><svg viewBox="0 0 400 252"><text x="32" y="96" font-family="Arial" font-weight="900" font-size="40" fill="#fff">VittaOne</text><text x="34" y="140" font-family="Arial" font-weight="700" font-size="30" fill="#E9C46A">Particular</text><text x="34" y="180" font-family="Arial" font-size="17" fill="#E0F5F4">Valor confirmado no atendimento</text></svg></div>`:cartaoProBono(cAt,m)}</div>
     <div class="opts" style="grid-template-columns:1fr 1fr">
-    <button class="opt press" data-f="pag" data-v="Convênio" aria-pressed="${f.pag==='Convênio'}"><div><b>Pro Bono</b><span>${cAt?esc(cAt.n):'Pelo seu convênio'}</span></div><span class="rad">${f.pag==='Convênio'?I('check',14,'#fff',3.5):''}</span></button>
+    <button class="opt press" data-f="pag" data-v="Convênio" aria-pressed="${f.pag==='Convênio'}"><div><b>Pro Bono</b><span>Sem custo para você</span></div><span class="rad">${f.pag==='Convênio'?I('check',14,'#fff',3.5):''}</span></button>
     <button class="opt press" data-f="pag" data-v="Particular" aria-pressed="${f.pag==='Particular'}"><div><b>Vitta Particular</b><span>Pague adiantado</span></div><span class="rad">${f.pag==='Particular'?I('check',14,'#fff',3.5):''}</span></button></div>
     ${f.pag==='Particular'?`<div class="price"><small>Valor estimado (exemplo)</small><div class="v">${brl(valor())}</div><small>${f.tipo==='consulta'?'Por consulta':f.exs.length+' exame(s)'} · o valor final é confirmado pela clínica</small>
       <button class="tg press" role="switch" aria-checked="${f.pix}" data-act="pixtg">${I('pix',26,'#0ABAB5',1.8)}<div><b>Pagar adiantado por Pix</b><span>Garante a vaga e agiliza a recepção</span></div><span class="sw"></span></button></div>`
-    :`<div class="pg" style="margin-top:12px"><button class="btn line full press" data-act="cvabre">${f.troca?'Fechar lista':cAt?'Trocar convênio':'Escolher convênio'}</button></div>
-      ${f.troca?`<div class="pg"><div class="field" style="margin-top:10px"><label for="qcv" class="sr">Buscar convênio</label><input id="qcv" placeholder="Buscar convênio" autocomplete="off"></div></div><div class="card cvpick" id="cvpl">${cvLista('')}</div>`:''}
-      ${f.tipo==='exame'?`<div class="pg" style="margin-top:12px"><p class="sub" style="font-size:.88rem">A Dimagem atende ${CONV.length} convênios. Se o seu não estiver na lista, a gente te avisa pelo WhatsApp.</p></div>`:''}`}`;ok=f.pag==='Particular'||!!f.conv}
+    :`<div class="pg" style="margin-top:12px"><p class="sub" style="font-size:.88rem">No Pro Bono você não precisa escolher convênio. A clínica confirma os detalhes pelo WhatsApp.</p></div>`}`;ok=!!f.pag}
   if(st===4){const L=LOCAIS[f.tipo==='consulta'?'miti':'dimagem'];const ds=[];for(let i=1;ds.length<14;i++){const d=new Date();d.setDate(d.getDate()+i);ds.push(d)}
     const pers=f.tipo==='consulta'?[['Manhã','8h–12h','sun'],['Tarde','12h–18h','sunset'],['Noite','18h–21h','clock']]:[['Manhã','7h–12h','sun'],['Tarde','12h–19h','sunset'],['Tanto faz','Qualquer horário','clock']];
     body=`<div class="pg"><h2 class="h-l">${T[4]}</h2><p class="sub">${f.tipo==='consulta'&&f.modo==='Online'?'Online · '+LOCAIS.miti.hr:L.n+' · '+L.hr}</p></div>
@@ -1123,7 +1133,7 @@ VIEWS.agendar=()=>{
     <div class="row"><span class="ic">${I('pin',20,'var(--tifd)')}</span><div><span>Local</span><b>${f.modo==='Online'&&f.tipo==='consulta'?'Online, por vídeo':L.n+' · '+L.b}</b></div></div>
     <div class="row"><span class="ic">${I('user',20,'var(--tifd)')}</span><div><span>Paciente</span><b>${esc(m.n)}</b></div></div>
     <div class="row"><span class="ic">${I('cal',20,'var(--tifd)')}</span><div><span>Preferência</span><b>${DF[d.getDay()]}, ${d.getDate()} de ${MF[d.getMonth()]} · ${f.per}</b></div></div>
-    <div class="row"><span class="ic">${I('card',20,'var(--tifd)')}</span><div><span>Pagamento</span><b>${f.pag==='Convênio'?'Pro Bono · '+esc(convBy(f.conv)?.n||'Convênio'):'Vitta Particular · '+brl(valor())+(f.pix?' · Pix adiantado':'')}</b></div></div>
+    <div class="row"><span class="ic">${I('card',20,'var(--tifd)')}</span><div><span>Pagamento</span><b>${f.pag==='Convênio'?'Pro Bono':'Vitta Particular · '+brl(valor())+(f.pix?' · Pix adiantado':'')}</b></div></div>
     ${f.tipo==='exame'?`<div class="row"><span class="ic">${I('file',20,'var(--tifd)')}</span><div><span>Pedido médico</span><b>${f.foto?'Foto anexada':'Vou levar no dia'}</b></div></div>`:''}
     </div><div class="pg"><p class="sub" style="margin-top:14px">${f.pix?'Primeiro você paga o Pix; depois o WhatsApp abre com a mensagem pronta.':'Ao tocar em enviar, o WhatsApp abre com a mensagem pronta para '+L.n+'.'}</p></div>`}
   const last=st===tot-1;
@@ -1227,12 +1237,12 @@ VIEWS.questionario=()=>{const n=Object.keys(S.qs).length;return `${barTop('Segur
 VIEWS.artigo=(p)=>{const d=DICAS.find(x=>x.id===p.id)||DICAS[0];return `
 <div class="art-hero"><img data-px="0.22" src="${d.img}" alt=""><button class="back press" data-back aria-label="Voltar" style="position:absolute;top:calc(16px + env(safe-area-inset-top));left:16px">${I('left',22,'currentColor',2.2)}</button></div>
 <article class="art"><span class="pill p-gold">${d.k}</span><h1 style="margin-top:12px">${d.t}</h1>${d.p.map(x=>`<p>${x}</p>`).join('')}</article>
-${(()=>{const i=DICAS.indexOf(d);return `<nav class="artnav" aria-label="Outras dicas"><button class="press" data-act="artnav" data-i="${i-1}" ${i<=0?'disabled':''} aria-label="Dica anterior">${I('left',24,'#fff',2.4)}</button><span>Dica ${i+1} de ${DICAS.length}</span><button class="press" data-act="artnav" data-i="${i+1}" ${i>=DICAS.length-1?'disabled':''} aria-label="Próxima dica">${I('right',24,'#fff',2.4)}</button></nav>`})()}
-${waRow('Ficou com dúvida?','Nossa equipe responde pelo WhatsApp')}`};
+${(()=>{const i=DICAS.indexOf(d);return `<nav class="artnav" aria-label="Outras dicas"><button class="press" data-act="artnav" data-i="${i-1}" ${i<=0?'disabled':''} aria-label="Dica anterior">${I('left',24,'#fff',2.4)}</button><span>${i===0?'Dica da semana<br>':''}${i+1} de ${DICAS.length}</span><button class="press" data-act="artnav" data-i="${i+1}" ${i>=DICAS.length-1?'disabled':''} aria-label="Próxima dica">${I('right',24,'#fff',2.4)}</button></nav>`})()}
+`};
 
-function DSEM(){const w=Math.floor((Date.now()/864e5+4)/7);return DICAS[w%DICAS.length]}
+function DSEM(){return DICAS[0]}
 function convSis(s){return convBy(s[1])||{bg:'#0B6F6B',ac:'#C9A44E'}}
-function MCV(s){const c=convSis(s);return `<span class="mcv" style="background:${c.bg}" aria-hidden="true"><i></i><u style="background:${c.ac}"></u></span>`}
+function MCV(s){const c=convBy(s[1]);return c?`<span class="mcv2" aria-hidden="true">${arteConv(c)}</span>`:''}
 function sisLab(code,n){return (code.startsWith('4110')?'RM · ':code.startsWith('4100')?'TC · ':'')+n}
 VIEWS.curio=(p)=>{
   if(p.t==='resp')return `${barTop('Responsabilidades')}
@@ -1325,7 +1335,7 @@ async function finalizar(){const f=S.flow,m=famBy(f.who),loc=f.tipo==='consulta'
       const j=await rpc('pax_pedido_registrar',{p:reg});if(!j||!j.ok)throw 0;link='https://vittaone-app.vercel.app/#p='+j.id}
     catch(e){if(btn){btn.disabled=false;btn.innerHTML='Tentar enviar de novo'}toast('Não consegui enviar a foto. Verifique a internet e tente de novo.');return}}
   const itens=f.tipo==='consulta'?`• Atendimento: ${f.item} (${f.modo})`:f.exs.map(c=>{const e=ex(c);return `• ${exLabel(e)} (TUSS ${e[0]})`}).join('\n');
-  const txt=`Olá! Gostaria de agendar pelo app VittaOne:\n${itens}\n• Paciente: ${m.n}\n• Preferência: ${DF[d.getDay()]}, ${d.getDate()}/${d.getMonth()+1} (${f.per})\n• Atendimento: ${f.pag==='Convênio'?'Pro Bono · Convênio '+(convBy(f.conv)?.n||''):'Vitta Particular'+(f.pix?' (Pix adiantado)':'')}${f.tipo==='exame'?'\n• Pedido médico'+(link?' (foto): '+link:': levo no dia'):''}`;
+  const txt=`Olá! Gostaria de agendar pelo app VittaOne:\n${itens}\n• Paciente: ${m.n}\n• Preferência: ${DF[d.getDay()]}, ${d.getDate()}/${d.getMonth()+1} (${f.per})\n• Atendimento: ${f.pag==='Convênio'?'Pro Bono':'Vitta Particular'+(f.pix?' (Pix adiantado)':'')}${f.tipo==='exame'?'\n• Pedido médico'+(link?' (foto): '+link:': levo no dia'):''}`;
   const first=f.tipo==='consulta'?f.item:(()=>{const e=ex(f.exs[0]);return (e[2]==='rm'?'RM':'TC')+' · '+curto(e[1])+(f.exs.length>1?` +${f.exs.length-1}`:'')})();
   S.ag.push({id:Date.now(),tipo:f.tipo,mod:f.tipo==='exame'?ex(f.exs[0])[2]:null,item:first,loc,who:f.who,d:new Date(f.dia).toISOString(),hora:f.per,st:0});save();
   S.lastLink=link;waMsg(txt,loc);S.flow=null;S.stack=[];S.view='sucesso';S.params={};try{history.replaceState({vo:Date.now()},'')}catch(e){}render('fwd')}
@@ -1395,7 +1405,7 @@ document.addEventListener('click',e=>{
     cvabre(){S.flow.troca=!S.flow.troca;render('none',$('scr').scrollTop)},
     cvsel(){S.flow.conv=el.dataset.k;S.flow.troca=false;render('none',$('scr').scrollTop)},
     artnav(){const i=+el.dataset.i;if(!DICAS[i])return;const cur=DICAS.findIndex(x=>x.id===S.params.id);S.params={id:DICAS[i].id};render(i<cur?'back':'fwd',0)},
-    sisex(){const s=SIS[+el.dataset.i];openSheet(`<div style="display:flex;align-items:center;gap:12px">${MCV(s)}<div><h2 class="h-l">${esc(s[0])}</h2><p class="sub">${s[2].length?s[2].length+' exames cadastrados na Dimagem':'Tabela em atualização no sistema'}</p></div></div><div class="card" style="margin-top:12px">${s[2].length?s[2].map(([k,n])=>`<div class="ex"><b>${esc(sisLab(k,n))}</b><code>${k}</code></div>`).join(''):'<div class="row"><div><b>Ainda sem exames cadastrados</b><span>Pergunte pelo WhatsApp quais exames estão cobertos.</span></div></div>'}</div><button class="btn gold full press" style="margin-top:14px" data-act="novo" data-tipo="exame">Agendar exame</button>`)},
+    sisex(){const s=SIS[+el.dataset.i];openSheet(`${convBy(s[1])?arteConv(convBy(s[1])):''}<div style="margin-top:14px"><div><h2 class="h-l">${esc(s[0])}</h2><p class="sub">${s[2].length?s[2].length+' exames cadastrados na Dimagem':'Tabela em atualização no sistema'}</p></div></div><div class="card" style="margin-top:12px">${s[2].length?s[2].map(([k,n])=>`<div class="ex"><b>${esc(sisLab(k,n))}</b><code>${k}</code></div>`).join(''):'<div class="row"><div><b>Ainda sem exames cadastrados</b><span>Pergunte pelo WhatsApp quais exames estão cobertos.</span></div></div>'}</div><button class="btn gold full press" style="margin-top:14px" data-act="novo" data-tipo="exame">Agendar exame</button>`)},
     convex(){const c=convBy(el.dataset.k);const L=c.ex.map(([k,n])=>{const t=ex(k);return t?exLabel(t):((/RESSON/i.test(n)?'RM · ':/TOMOG/i.test(n)?'TC · ':'')+n)});openSheet(`${arteConv(c)}<h2 class="h-l" style="margin-top:14px">${esc(c.n)}</h2><p class="sub">${c.pac?'Pacote de Ressonância e Tomografia':c.ex.length?c.ex.length+' exames credenciados na Dimagem':'A lista de exames é confirmada pela clínica'}</p><div class="card" style="margin-top:12px">${c.ex.length?c.ex.map(([k],i)=>`<div class="ex"><b>${esc(L[i])}</b><code>${k}</code></div>`).join(''):'<div class="row"><div><b>Lista enviada pela clínica</b><span>Pergunte pelo WhatsApp quais exames estão incluídos.</span></div></div>'}</div><button class="btn gold full press" style="margin-top:14px" data-act="novo" data-tipo="exame">Agendar exame com ${esc(c.n)}</button>`)},
     pg(){const car=$(el.dataset.id);const w=car.children[0].offsetWidth+12;car.scrollBy({left:w*+el.dataset.d,behavior:rmOn()?'auto':'smooth'})},
     enviar(){if(S.flow.pix){go('pix');return}finalizar()},
