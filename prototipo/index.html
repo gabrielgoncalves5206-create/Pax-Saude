@@ -593,6 +593,7 @@ html.hc .art p{color:#000}
 .cu button>div{flex:1;min-width:0}
 .cu .ix{width:56px;height:56px;border-radius:17px;display:grid;place-items:center;flex:none}
 .cu b{font-family:var(--disp);font-size:1.08rem;display:block}.cu span.s{font-size:.84rem;color:var(--soft);display:block;margin-top:2px;text-wrap:pretty}
+.inst{display:flex;align-items:center;gap:12px;width:calc(100% - 24px);margin:18px 12px 24px;padding:14px;border-radius:18px;background:var(--deep);color:#fff;text-align:left;box-shadow:var(--sh)}.inst img{width:44px;height:44px;border-radius:12px;flex:none}.inst div{flex:1;min-width:0}.inst b{display:block;font-family:var(--disp);font-size:1rem}.inst span{font-size:.8rem;opacity:.85}
 .mcv2{flex:none;width:78px}.mcv2 .ct{border-radius:8px;box-shadow:0 4px 10px -6px rgba(0,0,0,.5)}.mcv2 .ct-f{display:none}
 .mcv{flex:none;width:52px;height:34px;border-radius:7px;position:relative;overflow:hidden;box-shadow:0 4px 10px -6px rgba(0,0,0,.5)}
 .mcv i{position:absolute;left:6px;top:7px;width:10px;height:8px;border-radius:2px;background:#E9C873}
@@ -653,6 +654,7 @@ html.hc .art p{color:#000}
 html.rm *,html.rm *::before,html.rm *::after{animation-duration:1ms!important;animation-delay:0ms!important;transition-duration:1ms!important}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0ms!important;transition-duration:1ms!important}}
 </style>
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="../apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes">
 </head>
 <body>
 <div class="stage">
@@ -1356,7 +1358,12 @@ function drawerHTML(){const u=S.user||{nome:'Gabriel Santana',cel:'',conv:'Parti
   <div class="dr-t">Locais e convênios</div>
   ${L('local',I('pin',20,'var(--tifd)'),'Dimagem Unineuro','{"id":"dimagem"}')}${L('local',I('pin',20,'var(--tifd)'),'MITI Consultórios','{"id":"miti"}')}${L('convenios',I('card',20,'var(--tifd)'),'Convênios aceitos')}${L('curio',I('file',20,'var(--tifd)'),'Exames e códigos por convênio','{"t":"conv"}')}${L('curio',I('shield',20,'var(--tifd)'),'Responsabilidades','{"t":"resp"}')}${L('curio',I('steth',20,'var(--tifd)'),'Especialidades do MITI','{"t":"esp"}')}
   <div class="dr-t">Conta e ajuda</div>
-  ${L('perfil',I('user',20,'var(--tifd)'),'Perfil e acessibilidade')}${L('',WA(20),'Falar no WhatsApp','','wa')}${L('',I('file',20,'var(--tifd)'),'Termos e privacidade','','termos')}${L('',I('img',20,'var(--tifd)'),'Pedir remoção de foto','','remfoto')}${L('',I('logout',20,'var(--warn)'),'Sair da conta','','sair')}`}
+  ${L('perfil',I('user',20,'var(--tifd)'),'Perfil e acessibilidade')}${L('',WA(20),'Falar no WhatsApp','','wa')}${L('',I('file',20,'var(--tifd)'),'Termos e privacidade','','termos')}${L('',I('img',20,'var(--tifd)'),'Pedir remoção de foto','','remfoto')}${L('',I('logout',20,'var(--warn)'),'Sair da conta','','sair')}
+  <button class="inst press" data-act="instalar"><img src="../icon-192.png" alt=""><div><b>Instalar o app VittaOne</b><span>${standalone()?'O app já está instalado neste celular':'Abra direto da tela inicial, sem navegador'}</span></div>${I('right',20,'#fff')}</button>`}
+function standalone(){return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();S.bip=e});
+addEventListener('appinstalled',()=>{S.bip=null;toast('VittaOne instalado na tela inicial')});
+try{if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('../sw.js')}catch(e){}
 function openDrawer(){$('drawer').innerHTML=drawerHTML();$('scrim').classList.add('on');$('drawer').classList.add('on');S.drw=true;hpush();setTimeout(()=>$('drawer').querySelector('button')?.focus({preventScroll:true}),300)}
 const CONVN=()=>['Particular',...CONV.map(c=>c.n)];
 function editarPessoa(id){const f=famBy(id),eu=id==='eu',u=S.user||{nome:f.n,cel:'',conv:f.c};
@@ -1406,6 +1413,10 @@ document.addEventListener('click',e=>{
     cvsel(){S.flow.conv=el.dataset.k;S.flow.troca=false;render('none',$('scr').scrollTop)},
     artnav(){const i=+el.dataset.i;if(!DICAS[i])return;const cur=DICAS.findIndex(x=>x.id===S.params.id);S.params={id:DICAS[i].id};render(i<cur?'back':'fwd',0)},
     sisex(){const s=SIS[+el.dataset.i];openSheet(`${convBy(s[1])?arteConv(convBy(s[1])):''}<div style="margin-top:14px"><div><h2 class="h-l">${esc(s[0])}</h2><p class="sub">${s[2].length?s[2].length+' exames cadastrados na Dimagem':'Tabela em atualização no sistema'}</p></div></div><div class="card" style="margin-top:12px">${s[2].length?s[2].map(([k,n])=>`<div class="ex"><b>${esc(sisLab(k,n))}</b><code>${k}</code></div>`).join(''):'<div class="row"><div><b>Ainda sem exames cadastrados</b><span>Pergunte pelo WhatsApp quais exames estão cobertos.</span></div></div>'}</div><button class="btn gold full press" style="margin-top:14px" data-act="novo" data-tipo="exame">Agendar exame</button>`)},
+    async instalar(){if(standalone()){toast('O VittaOne já está instalado neste celular');return}
+      if(S.bip){const e=S.bip;S.bip=null;e.prompt();try{await e.userChoice}catch(x){}return}
+      const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+      openSheet(`<h2 class="h-l">Instalar o VittaOne</h2><p class="sub">Leva 10 segundos. O app fica na tela inicial, como os outros.</p><div class="card" style="margin-top:14px">${(ios?[['1','Toque no botão Compartilhar, o quadrado com a seta para cima, na barra do Safari.'],['2','Role e toque em “Adicionar à Tela de Início”.'],['3','Toque em “Adicionar”. Pronto!']]:[['1','Toque nos três pontinhos ⋮ no canto do navegador.'],['2','Toque em “Instalar app” ou “Adicionar à tela inicial”.'],['3','Confirme em “Instalar”. Pronto!']]).map(s=>`<div class="row"><span class="ic" style="font-weight:800;color:var(--tifd)">${s[0]}</span><div><b style="font-weight:600">${s[1]}</b></div></div>`).join('')}</div><button class="btn gold full press" style="margin-top:14px" data-act="fechar">Entendi</button>`)},
     convex(){const c=convBy(el.dataset.k);const L=c.ex.map(([k,n])=>{const t=ex(k);return t?exLabel(t):((/RESSON/i.test(n)?'RM · ':/TOMOG/i.test(n)?'TC · ':'')+n)});openSheet(`${arteConv(c)}<h2 class="h-l" style="margin-top:14px">${esc(c.n)}</h2><p class="sub">${c.pac?'Pacote de Ressonância e Tomografia':c.ex.length?c.ex.length+' exames credenciados na Dimagem':'A lista de exames é confirmada pela clínica'}</p><div class="card" style="margin-top:12px">${c.ex.length?c.ex.map(([k],i)=>`<div class="ex"><b>${esc(L[i])}</b><code>${k}</code></div>`).join(''):'<div class="row"><div><b>Lista enviada pela clínica</b><span>Pergunte pelo WhatsApp quais exames estão incluídos.</span></div></div>'}</div><button class="btn gold full press" style="margin-top:14px" data-act="novo" data-tipo="exame">Agendar exame com ${esc(c.n)}</button>`)},
     pg(){const car=$(el.dataset.id);const w=car.children[0].offsetWidth+12;car.scrollBy({left:w*+el.dataset.d,behavior:rmOn()?'auto':'smooth'})},
     enviar(){if(S.flow.pix){go('pix');return}finalizar()},
