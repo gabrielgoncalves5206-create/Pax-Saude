@@ -306,6 +306,16 @@ p{text-wrap:pretty}
 .cc .cc-ver{margin-top:auto;align-self:flex-start;background:#fff;color:var(--ink);border-radius:99px;padding:10px 16px;font-weight:800;font-size:.86rem}
 .cc .ring{position:absolute;right:-50px;top:-50px;width:160px;height:160px;border-radius:50%;border:24px solid rgba(255,255,255,.08)}
 
+/* faixa escura do topo */
+.hband{background:linear-gradient(165deg,#0B6F6B 0%,#0A5E5B 55%,#084B48 100%);border-radius:0 0 30px 30px;padding-bottom:18px;position:relative;overflow:hidden;color:#fff}
+.hband::before{content:"";position:absolute;right:-60px;top:-70px;width:220px;height:220px;border-radius:50%;border:28px solid rgba(201,164,78,.18)}
+.hband>*{position:relative}
+.hband .hello span{color:rgba(255,255,255,.8)}
+.hband .av{box-shadow:0 0 0 3px rgba(255,255,255,.25)}
+.hband .ibtn{background:#fff}
+.hband .chip{background:rgba(255,255,255,.12);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.hband .chip[aria-pressed=true]{background:#fff;color:var(--ink)}
+.hband .chip.add{border-color:rgba(255,255,255,.45);color:#fff}
 /* fundo vivo areia + branco clínico */
 .app{background:linear-gradient(125deg,#F4F9F9 0%,#FBF4EC 28%,#F4F9F9 52%,#FBF1E6 76%,#F4F9F9 100%);background-size:320% 320%;animation:bgmove 26s ease-in-out infinite alternate}
 @keyframes bgmove{0%{background-position:0% 30%}50%{background-position:100% 60%}100%{background-position:40% 100%}}
@@ -856,8 +866,7 @@ VIEWS.inicio=()=>{
   const tabs=`<div class="htabs" role="tablist"><span class="knob" style="transform:translateX(${['voce','dimagem','miti'].indexOf(tab)*100}%)"></span>${[['voce','Para você'],['dimagem','Dimagem'],['miti','MITI']].map(([k,l])=>`<button role="tab" aria-selected="${k===tab}" data-act="htab" data-v="${k}">${l}</button>`).join('')}</div>`;
   let body='',bD='',bM='';
   {const pk=S.chk.rm.length;
-    body=`<div class="chips" role="group" aria-label="Para quem">${fam}<button class="chip add press" data-act="addfam" aria-label="Adicionar familiar">${I('plus',18,'#7E9592',2.4)}</button></div>
-    ${dark}
+    body=`${dark}
     <div class="hero"><svg class="blob" id="blob" viewBox="0 0 200 200"><path fill="rgba(255,255,255,.13)" d="M44 -58C56 -47 63 -30 66 -12 69 6 68 25 58 38 48 51 30 58 11 63-9 68-30 70-46 61-62 51-72 31-74 11-75-9-68-30-55-42-42-55-21-60-1-59 19-58 33-70 44-58Z" transform="translate(100 100)"/></svg>
       <h2>Vamos cuidar de você e da sua família?</h2><p>Consultas no MITI e exames na Dimagem, marcados em minutos.</p>
       <div style="display:flex;gap:8px;margin-top:18px;flex-wrap:wrap"><button class="btn gold press" data-go="agendar">Marcar agora</button><button class="btn press" style="background:rgba(4,40,38,.32);color:#fff" data-act="wa">Falar conosco</button></div></div>
@@ -900,8 +909,9 @@ VIEWS.inicio=()=>{
     ${carousel('carM',LOCAIS.miti.gal.slice(0,4).map((g,i)=>`<button class="slide zoom" data-go="local" data-p='{"id":"miti"}'><img data-hx src="${g}" alt="" loading="lazy"><span class="pill">MITI Consultórios</span><div class="ov"><b>${['Recepção no 1º andar','Salas acolhedoras','Espaço para terapias','Atendimento presencial'][i]}</b><span>Conjunto Nacional · Av. Paulista</span></div></button>`).join(''))}
     ${sec('Onde fica')}${cardLocal(LOCAIS.miti)}`}
   return `
-<div class="top"><div class="av" style="background:var(--tif);width:52px;height:52px;font-size:1.25rem">${ini(pnome())}</div><div class="hello"><b style="font-size:1.45rem">Oi, ${esc(pnome())}</b><span>Como está se sentindo hoje?</span></div>
+<header class="hband"><div class="top"><div class="av" style="background:var(--tif);width:52px;height:52px;font-size:1.25rem">${ini(pnome())}</div><div class="hello"><b style="font-size:1.45rem">Oi, ${esc(pnome())}</b><span>Como está se sentindo hoje?</span></div>
 <button class="ibtn wa-r press" style="margin-left:auto" data-act="wa" aria-label="Falar no WhatsApp">${WA(28)}</button></div>
+<div class="chips" role="group" aria-label="Para quem">${fam}<button class="chip add press" data-act="addfam" aria-label="Adicionar familiar">${I('plus',18,'currentColor',2.4)}</button></div></header>
 ${body}
 <div class="divsec"><span>${LOGO(20)}</span>Dimagem Unineuro</div>${bD}
 <div class="divsec"><span>${LOGO(20)}</span>MITI Consultórios</div>${bM}
@@ -1158,7 +1168,7 @@ ${waRow()}
   ${li('data-act="toast" data-msg="Pedido de remoção de foto enviado para análise"',I('img',20,'var(--tifd)'),'Pedir remoção de foto','Para estabelecimentos')}
 </div>
 <div class="pg" style="margin-top:18px"><button class="btn line full press" data-act="sair" style="color:var(--warn)">${I('logout',18)}Sair da conta</button></div>
-<p class="sub" style="text-align:center;font-size:.8rem;margin-top:16px">VittaOne · prévia v15 · Branco clínico</p>`};
+<p class="sub" style="text-align:center;font-size:.8rem;margin-top:16px">VittaOne · prévia v16 · Branco clínico</p>`};
 
 /* =================== sheet / dialog / toast / lightbox =================== */
 let tT;
