@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#F4F9F9">
+<meta name="theme-color" content="#F6F7F2">
 <title>VittaOne · Prévia do novo app</title>
 <meta name="description" content="Prévia clicável do novo VittaOne: consultas no MITI e exames na Dimagem Unineuro, em um só lugar.">
 <link rel="icon" href="../icon-192.png">
@@ -306,6 +306,25 @@ p{text-wrap:pretty}
 .cc .cc-ver{margin-top:auto;align-self:flex-start;background:#fff;color:var(--ink);border-radius:99px;padding:10px 16px;font-weight:800;font-size:.86rem}
 .cc .ring{position:absolute;right:-50px;top:-50px;width:160px;height:160px;border-radius:50%;border:24px solid rgba(255,255,255,.08)}
 
+/* fundo vivo areia + branco clínico */
+.app{background:linear-gradient(125deg,#F4F9F9 0%,#FBF4EC 28%,#F4F9F9 52%,#FBF1E6 76%,#F4F9F9 100%);background-size:320% 320%;animation:bgmove 26s ease-in-out infinite alternate}
+@keyframes bgmove{0%{background-position:0% 30%}50%{background-position:100% 60%}100%{background-position:40% 100%}}
+.screen{background:transparent}
+.ibtn.wa-r{width:54px;height:54px}
+.prow{margin:14px 20px 0;display:grid;gap:10px}
+.pr{display:flex;align-items:center;gap:14px;width:100%;background:var(--card);border-radius:22px;padding:10px;box-shadow:var(--sh);text-align:left}
+.pr .pim{width:84px;height:84px;border-radius:16px;overflow:hidden;flex:none}.pr .pim img{width:100%;height:100%;object-fit:cover}
+.pr .ptx{display:flex;flex-direction:column;flex:1;min-width:0}.pr .ptx b{font-family:var(--disp);font-size:1.15rem}.pr .ptx span{font-size:.86rem;color:var(--soft)}
+.pr>svg{margin-left:auto}
+.divsec{display:flex;align-items:center;gap:10px;margin:40px 20px 0;font-family:var(--disp);font-weight:800;font-size:1.5rem}
+.divsec span{width:38px;height:38px;border-radius:12px;background:var(--card);box-shadow:var(--sh);display:grid;place-items:center}
+/* menu branco (como na imagem) */
+.nav{background:#fff!important;border-radius:0!important;border-top:1px solid var(--line);box-shadow:0 -6px 20px -16px rgba(19,48,47,.35)!important;padding:6px 8px calc(8px + env(safe-area-inset-bottom))!important}
+.nav .it{color:#8A9A97!important;height:58px}
+.nav .it[aria-current=page]{color:var(--tifd)!important}
+.nav .blk{top:0!important;height:3px!important}
+.nav .blk i{height:3px!important;width:34px;margin:0 auto;border-radius:0 0 3px 3px!important;background:var(--goldb)!important;box-shadow:none!important}
+.nav .mid{border-radius:18px!important;width:60px!important;height:60px!important}
 /* abas do início + jornada */
 .htabs{position:relative;display:grid;grid-template-columns:repeat(3,1fr);background:var(--bg2);border-radius:99px;padding:4px;margin:14px 20px 0}
 .htabs button{position:relative;z-index:1;height:44px;border-radius:99px;font-weight:800;font-size:.95rem;color:var(--soft);text-align:center;transition:color 200ms ease}
@@ -835,28 +854,31 @@ VIEWS.inicio=()=>{
     <div class="jnow"><span>Agora: <b>${JORN(nx)[passo][0]}</b></span>${I('right',18,'#fff',2.4)}</div></div>`}
   else dark=`<div class="dark"><div class="tag">Nada marcado para ${quem}</div><div style="font-family:var(--disp);font-size:1.3rem;font-weight:700;margin-top:2px">O que vamos agendar?</div>${cubes}</div>`;
   const tabs=`<div class="htabs" role="tablist"><span class="knob" style="transform:translateX(${['voce','dimagem','miti'].indexOf(tab)*100}%)"></span>${[['voce','Para você'],['dimagem','Dimagem'],['miti','MITI']].map(([k,l])=>`<button role="tab" aria-selected="${k===tab}" data-act="htab" data-v="${k}">${l}</button>`).join('')}</div>`;
-  let body='';
-  if(tab==='voce'){const pk=S.chk.rm.length;
+  let body='',bD='',bM='';
+  {const pk=S.chk.rm.length;
     body=`<div class="chips" role="group" aria-label="Para quem">${fam}<button class="chip add press" data-act="addfam" aria-label="Adicionar familiar">${I('plus',18,'#7E9592',2.4)}</button></div>
     ${dark}
-    ${nx?`<div class="hero" style="padding:18px"><h2 style="font-size:1.4rem;max-width:none">Agendar algo novo</h2><div class="two-n"><button class="press" data-act="novo" data-tipo="consulta">${I('steth',22,'var(--tifd)')}Consultas</button><button class="press" data-act="novo" data-tipo="exame">${I('file',22,'var(--gold)')}Exames</button></div></div>`:''}
+    <div class="hero"><svg class="blob" id="blob" viewBox="0 0 200 200"><path fill="rgba(255,255,255,.13)" d="M44 -58C56 -47 63 -30 66 -12 69 6 68 25 58 38 48 51 30 58 11 63-9 68-30 70-46 61-62 51-72 31-74 11-75-9-68-30-55-42-42-55-21-60-1-59 19-58 33-70 44-58Z" transform="translate(100 100)"/></svg>
+      <h2>Vamos cuidar de você e da sua família?</h2><p>Consultas no MITI e exames na Dimagem, marcados em minutos.</p>
+      <div style="display:flex;gap:8px;margin-top:18px;flex-wrap:wrap"><button class="btn gold press" data-go="agendar">Marcar agora</button><button class="btn press" style="background:rgba(4,40,38,.32);color:#fff" data-act="wa">Falar conosco</button></div></div>
+    <div class="two">
+      <button class="tile t1 lift" data-go="${nx&&nx.tipo==='exame'?'preparo':'guia'}" data-p='{"k":"${nx?prepK(nx):'rm'}"}'><div><b>Preparo da sua ${nx&&prepK(nx)==='tc'?'tomografia':'ressonância'}</b><span>${nx?(()=>{const d=fmtD(nx.d);return d.sem+', '+d.dia+' '+d.mes+' · '+nx.hora})():'Checklist antes do exame'}</span></div><div><div class="chk">${PREPARO.rm.itens.slice(0,2).map((it,i)=>`<div><span class="bx ${S.chk.rm.includes(i)?'on':''}">${S.chk.rm.includes(i)?I('check',12,'#fff',4):''}</span>${it[0]}</div>`).join('')}</div><div class="prog"><i style="transform:scaleX(${pk/PREPARO.rm.itens.length})"></i></div></div></button>
+      <button class="tile lift" style="background:var(--tifl)" data-go="artigo" data-p='{"id":"barulho"}'><div><b>Dicas da semana</b><span>Por que a ressonância faz barulho?</span></div>${I('book',40,'#A0761C',1.7)}</button></div>
+    <div class="prow">${Object.values(LOCAIS).map(L=>{const ab=aberto(L);return `<button class="pr press lift" data-go="local" data-p='{"id":"${L.id}"}'><span class="pim"><img src="${L.id==='miti'?F+'9002-1-hd.jpg':F+'dm-fachada-hd.jpg'}" alt=""></span><span class="ptx"><b>${L.id==='miti'?'MITI':'Dimagem Unineuro'}</b><span>${L.id==='miti'?'Conjunto Nacional · Av. Paulista':'Rua Brig. Gavião Peixoto · Lapa'}</span><span style="color:${ab?'var(--ok)':'var(--warn)'};font-weight:700">${ab?'Aberto agora':'Fechado agora'}</span></span>${I('right',20,'var(--faint)')}</button>`}).join('')}</div>
     <div class="quick">
       <button class="press" data-act="novo" data-tipo="exame"><span class="q" style="--qc:var(--goldl)">${I('camera',26,'var(--gold)')}</span>Foto do pedido</button>
       <button class="press" data-go="familia" data-p='{"flip":1}'><span class="q">${I('card',26,'var(--tifd)')}</span>Carteirinha</button>
-      <button class="press" data-go="agenda"><span class="q">${I('cal',26,'var(--tifd)')}</span>Agenda</button>
+      <button class="press" data-go="busca"><span class="q">${I('search',26,'var(--tifd)')}</span>Buscar</button>
       <button class="press" data-go="guia"><span class="q" style="--qc:var(--goldl)">${I('book',26,'var(--gold)')}</span>Guia</button>
     </div>
-    ${sec('Preparo e segurança')}
-    <div class="two" style="padding-top:0">
-      <button class="tile t1 lift" data-go="preparo" data-p='{"k":"rm"}'><div><b>Preparo da ressonância</b><span>${pk} de ${PREPARO.rm.itens.length} itens prontos</span></div><div class="prog"><i style="transform:scaleX(${pk/PREPARO.rm.itens.length})"></i></div></button>
-      <button class="tile lift" style="background:var(--rml)" data-go="questionario"><div><b style="color:var(--rmi)">Questionário de segurança</b><span>${Object.keys(S.qs).length} de ${QS.length} respondidas</span></div>${I('shield',34,'var(--rm)',1.7)}</button></div>
+    <div class="card" style="margin:14px 20px 0"><button class="row press" data-go="questionario"><span class="ic" style="background:var(--rml)">${I('shield',20,'var(--rm)')}</span><div><b>Questionário de segurança</b><span>${Object.keys(S.qs).length} de ${QS.length} respondidas · ressonância</span></div>${I('right',20,'var(--faint)')}</button></div>
     ${sec('Carteirinhas da família','Ver família','familia')}
     <div class="car" id="carF">${S.fam.map((f,i)=>`<button class="mcard press" data-go="familia" data-p='{"m":"${f.id}","flip":1}' style="background:${i%2?'linear-gradient(140deg,#C9A44E,#8C6418)':'linear-gradient(140deg,#13A8A3,#0A4F4C)'}"><span class="brand">${LOGO(20)}VittaOne</span><b>${esc(f.n)}</b><small>${f.p} · ${esc(f.c)}</small></button>`).join('')}</div>
     ${sec('Perguntas rápidas','Ver todas','guia','{"t":"faq"}')}
     <div class="card faq">${FAQ.slice(0,3).map(q=>`<div class="fq"><button data-act="faq" aria-expanded="false">${esc(q[0])}${I('plus',20,'var(--gold)',2.4)}</button><div class="a"><div><p>${esc(q[1])}</p></div></div></div>`).join('')}</div>
     <div class="refer"><div style="flex:1"><b>Cuide de quem você ama</b><p>Envie o VittaOne para um familiar e agendem juntos.</p><button class="btn gold press" style="margin-top:12px;height:46px" data-act="indicar">${I('share',18,'#fff')}Indicar o app</button></div>${I('gift',56,'#A0761C',1.4)}</div>`}
-  if(tab==='dimagem'){const dimSlides=[['dm-fachada-hd.jpg','Ao lado do Hospital Albert Sabin','Fácil de chegar, na Lapa'],['dm-recepcao-hd.jpg','Recepção acolhedora','Cadastro rápido e equipe atenta'],['dm-rm2-hd.jpg','Ressonância magnética','Imagens detalhadas, sem radiação'],['dim-tc.jpg','Tomografia computadorizada','Exame rápido, laudo por especialistas']];
-    body=`<div class="band" style="margin-top:16px"><img data-px="0.2" src="${F}dm-rm-hd.jpg" alt="Sala de ressonância da Dimagem Unineuro"><div class="ov"><div class="big">30<small>anos</small></div><h3>Dimagem Unineuro</h3><p>Ressonância e tomografia na Lapa para SUS, convênio e particular. Saúde igual para todos.</p></div></div>
+  {const dimSlides=[['dm-fachada-hd.jpg','Ao lado do Hospital Albert Sabin','Fácil de chegar, na Lapa'],['dm-recepcao-hd.jpg','Recepção acolhedora','Cadastro rápido e equipe atenta'],['dm-rm2-hd.jpg','Ressonância magnética','Imagens detalhadas, sem radiação'],['dim-tc.jpg','Tomografia computadorizada','Exame rápido, laudo por especialistas']];
+    bD=`<div class="band" style="margin-top:16px"><img data-px="0.2" src="${F}dm-rm-hd.jpg" alt="Sala de ressonância da Dimagem Unineuro"><div class="ov"><div class="big">30<small>anos</small></div><h3>Dimagem Unineuro</h3><p>Ressonância e tomografia na Lapa para SUS, convênio e particular. Saúde igual para todos.</p></div></div>
     <div class="stats">${LOCAIS.dimagem.stats.map(s=>`<div><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div>
     <div class="pg" style="margin-top:14px"><button class="btn gold full press" data-act="novo" data-tipo="exame">${I('file',20,'#fff')}Agendar exame</button></div>
     ${sec('Conheça a Dimagem','Apresentação','local','{"id":"dimagem"}')}
@@ -868,8 +890,8 @@ VIEWS.inicio=()=>{
     ${sec('Onde fica')}${cardLocal(LOCAIS.dimagem)}
     ${sec('Para ler antes do exame','Ver guia','guia','{"t":"dicas"}')}
     <div class="card tips">${DICAS.map(d=>`<button class="tip press" data-go="artigo" data-p='{"id":"${d.id}"}'><span class="th"><img src="${d.img}" alt=""></span><div><b>${d.t}</b><span>${d.k}</span></div>${I('right',20,'var(--faint)')}</button>`).join('')}</div>`}
-  if(tab==='miti'){
-    body=`<div class="band" style="margin-top:16px"><img data-px="0.2" src="${F}9002-4-hd.jpg" alt="Consultório do MITI"><div class="ov"><div class="big" style="font-size:3rem">14<small>especialidades</small></div><h3>MITI Consultórios</h3><p>No Conjunto Nacional, Av. Paulista. Presencial ou online.</p></div></div>
+  {
+    bM=`<div class="band" style="margin-top:16px"><img data-px="0.2" src="${F}9002-4-hd.jpg" alt="Consultório do MITI"><div class="ov"><div class="big" style="font-size:3rem">14<small>especialidades</small></div><h3>MITI Consultórios</h3><p>No Conjunto Nacional, Av. Paulista. Presencial ou online.</p></div></div>
     <div class="stats">${LOCAIS.miti.stats.map(s=>`<div><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div>
     <div class="pg" style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px"><button class="btn tif press" data-act="novo" data-tipo="consulta" data-modo="Presencial">Presencial</button><button class="btn gold press" data-act="novo" data-tipo="consulta" data-modo="Online">Online</button></div>
     ${sec('Especialidades no MITI')}
@@ -878,11 +900,11 @@ VIEWS.inicio=()=>{
     ${carousel('carM',LOCAIS.miti.gal.slice(0,4).map((g,i)=>`<button class="slide zoom" data-go="local" data-p='{"id":"miti"}'><img data-hx src="${g}" alt="" loading="lazy"><span class="pill">MITI Consultórios</span><div class="ov"><b>${['Recepção no 1º andar','Salas acolhedoras','Espaço para terapias','Atendimento presencial'][i]}</b><span>Conjunto Nacional · Av. Paulista</span></div></button>`).join(''))}
     ${sec('Onde fica')}${cardLocal(LOCAIS.miti)}`}
   return `
-<div class="top"><div class="av" style="background:var(--tif)">${ini(pnome())}</div><div class="hello"><b>Oi, ${esc(pnome())}</b><span>${DF[now.getDay()]}, ${now.getDate()} de ${MF[now.getMonth()]}</span></div>
-<button class="ibtn press" style="margin-left:auto" data-go="busca" aria-label="Buscar">${I('search',21)}</button><button class="ibtn press" data-act="notif" aria-label="Lembretes">${I('bell',21)}<span class="dot"></span></button></div>
-${waRow()}
-${tabs}
-<div class="${S.tabAnim?'stg':''}">${body}</div>
+<div class="top"><div class="av" style="background:var(--tif);width:52px;height:52px;font-size:1.25rem">${ini(pnome())}</div><div class="hello"><b style="font-size:1.45rem">Oi, ${esc(pnome())}</b><span>Como está se sentindo hoje?</span></div>
+<button class="ibtn wa-r press" style="margin-left:auto" data-act="wa" aria-label="Falar no WhatsApp">${WA(28)}</button></div>
+${body}
+<div class="divsec"><span>${LOGO(20)}</span>Dimagem Unineuro</div>${bD}
+<div class="divsec"><span>${LOGO(20)}</span>MITI Consultórios</div>${bM}
 <footer class="footer"><div class="lg">${LOGO(26)}Vitta<i>One</i></div><p>Sua saúde em um só lugar. Prévia de design com dados de exemplo.</p>
 ${Object.values(LOCAIS).map(L=>`<div class="loc2"><b>${L.n}</b><p style="margin-top:2px">${L.e}<br>${L.hr}</p></div>`).join('')}</footer>`;
 };
@@ -1136,7 +1158,7 @@ ${waRow()}
   ${li('data-act="toast" data-msg="Pedido de remoção de foto enviado para análise"',I('img',20,'var(--tifd)'),'Pedir remoção de foto','Para estabelecimentos')}
 </div>
 <div class="pg" style="margin-top:18px"><button class="btn line full press" data-act="sair" style="color:var(--warn)">${I('logout',18)}Sair da conta</button></div>
-<p class="sub" style="text-align:center;font-size:.8rem;margin-top:16px">VittaOne · prévia v12 · Branco clínico</p>`};
+<p class="sub" style="text-align:center;font-size:.8rem;margin-top:16px">VittaOne · prévia v15 · Branco clínico</p>`};
 
 /* =================== sheet / dialog / toast / lightbox =================== */
 let tT;
